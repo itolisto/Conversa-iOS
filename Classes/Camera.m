@@ -9,7 +9,7 @@
 #import "Camera.h"
 
 #import "Constants.h"
-#import <OHQBImagePicker/QBImagePicker.h>
+//#import <OHQBImagePicker/QBImagePicker.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -64,19 +64,19 @@ void PresentPhotoCamera(id target, BOOL canEdit) {
 void PresentPhotoLibrary(id target, BOOL canEdit, int max) {
     ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
     if (status == ALAuthorizationStatusAuthorized || status == ALAuthorizationStatusNotDetermined) {
-        QBImagePickerController *imagePickerController = [QBImagePickerController new];
-        imagePickerController.delegate = target;
-        imagePickerController.allowsMultipleSelection = YES;
-        imagePickerController.maximumNumberOfSelection = max;
-        imagePickerController.showsNumberOfSelectedItems = YES;
-        imagePickerController.mediaType = QBImagePickerMediaTypeImage;
-        imagePickerController.assetCollectionSubtypes = @[
-                                                          @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
-                                                          @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
-                                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
-                                                          ];
-        
-        [target presentViewController:imagePickerController animated:YES completion:NULL];
+//        QBImagePickerController *imagePickerController = [QBImagePickerController new];
+//        imagePickerController.delegate = target;
+//        imagePickerController.allowsMultipleSelection = YES;
+//        imagePickerController.maximumNumberOfSelection = max;
+//        imagePickerController.showsNumberOfSelectedItems = YES;
+//        imagePickerController.mediaType = QBImagePickerMediaTypeImage;
+//        imagePickerController.assetCollectionSubtypes = @[
+//                                                          @(PHAssetCollectionSubtypeSmartAlbumUserLibrary), // Camera Roll
+//                                                          @(PHAssetCollectionSubtypeAlbumMyPhotoStream), // My Photo Stream
+//                                                          @(PHAssetCollectionSubtypeSmartAlbumPanoramas), // Panoramas
+//                                                          ];
+//        
+//        [target presentViewController:imagePickerController animated:YES completion:NULL];
     } else {
         UIAlertController * alert =  [UIAlertController
                                       alertControllerWithTitle:nil

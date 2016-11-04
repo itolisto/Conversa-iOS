@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import Whisper
+//import Whisper
 
-@objc public class WhisperBridge: NSObject {
+@objc open class WhisperBridge: NSObject {
     
-    static public func whisper(text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: NSTimeInterval) {
+    static open func whisper(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval) {
 //        let message = Message(title: text, textColor: backgroundColor, backgroundColor: backgroundColor, images: nil)
 //        Whisper(message, to: toNavigationController)
 //        
@@ -19,8 +19,8 @@ import Whisper
 //            Silent(toNavigationController, after: silenceAfter)
 //        }
     }
-    
-    static public func shout(text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: NSTimeInterval) {
+
+    static open func shout(_ text: String, backgroundColor: UIColor, toNavigationController: UINavigationController, silenceAfter: TimeInterval) {
 //        let announcement = Announcement(title: "Your title", subtitle: "Your subtitle", image: UIImage(named: "avatar"))
 //        Shout(announcement, to: toNavigationController)
 //        
@@ -28,4 +28,5 @@ import Whisper
 //            Silent(toNavigationController, after: silenceAfter)
 //        }
     }
+
 }

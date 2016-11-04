@@ -16,7 +16,7 @@
 #import "Business.h"
 #import "Constants.h"
 #import "bCategory.h"
-#import "Appirater.h"
+//#import "Appirater.h"
 #import "YapContact.h"
 #import "SettingsKeys.h"
 #import "PopularSearch.h"
@@ -91,7 +91,7 @@
         [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
         
         if (error) {
-            DDLogError(@"Password Error: %@",error);
+//            DDLogError(@"Password Error: %@",error);
         }
         
         // Default settings
@@ -114,8 +114,8 @@
     [Buglife sharedBuglife].invocationOptions = LIFEInvocationOptionsShake;
 
     // Set Appirater settings
-    [Appirater setOpenInAppStore:NO];
-    [Appirater appLaunched:YES];
+    //[Appirater setOpenInAppStore:NO];
+    //[Appirater appLaunched:YES];
     
     Branch *branch = [Branch getInstance];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {

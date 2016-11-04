@@ -8,7 +8,7 @@
 
 
 @import Foundation;
-#import <Parse/Parse.h>
+@import Parse;
 
 @interface Account : PFUser
 

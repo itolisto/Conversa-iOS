@@ -4,7 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 # Used when using Swift libraries in a Objective-C project
 use_frameworks!
 # ignore all warnings from all pods
-# inhibit_all_warnings!
+inhibit_all_warnings!
 
 target 'Conversa' do
     # SaaS
@@ -23,7 +23,7 @@ target 'Conversa' do
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
-    pod 'OHQBImagePicker'
+    # pod 'OHQBImagePicker'
     # Report a bug; bug reports will be sent directly to your email address!
     pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
@@ -37,7 +37,7 @@ target 'Conversa' do
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
     pod 'MBProgressHUD', '~> 0.9.1'
     # For app reviews
-    pod 'Appirater'
+    # pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more
     pod 'IDMPhotoBrowser'
     # Create notifications that appear on top of or by pushing out the status bar or navigation bar

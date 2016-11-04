@@ -128,7 +128,6 @@
 		A52906171D6FE7080018D74C /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A52906181D6FE7080018D74C /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A52906191D6FE7080018D74C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
-		A529061A1D6FE7080018D74C /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A529061B1D6FE7080018D74C /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		A529061C1D6FE7080018D74C /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		A529061D1D6FE7080018D74C /* CustomBlockCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBlockCell.h; sourceTree = "<group>"; };
@@ -245,6 +244,7 @@
 		A55B5D251D53C8F300AA576A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55B5D281D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A55B5D2A1D53C8F300AA576A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5F0C8B81DCD0B5A00FDF934 /* Conversa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Conversa.entitlements; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		C1EB0991693E08B742146D18 /* Pods_Conversa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Conversa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF14DF4276BD6F9F1BAD2CB /* Pods-Conversa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conversa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Conversa/Pods-Conversa.debug.xcconfig"; sourceTree = "<group>"; };
@@ -282,16 +282,23 @@
 		A52905F61D6FE7080018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A539628E1D70B01E00D557FE /* ViewControllers */,
+				A59AF70D1DB677FF0018BCE7 /* Cells */,
+				A59AF70B1DB677A20018BCE7 /* Connection */,
+				A59AF70E1DB678300018BCE7 /* Custom */,
+				A59AF70F1DB678820018BCE7 /* Database */,
+				A59AF7101DB678CA0018BCE7 /* Media */,
+				A539628C1D70AFAC00D557FE /* MediaItems */,
+				A59AF7111DB6790E0018BCE7 /* Notification */,
 				A539628D1D70AFDD00D557FE /* Parse */,
-				A539628C1D70AFAC00D557FE /* MediaItem */,
-				A539628B1D70AF8E00D557FE /* Database */,
-				A539628F1D70B05200D557FE /* Other */,
+				A59AF70C1DB677B90018BCE7 /* Utils */,
+				A539628E1D70B01E00D557FE /* View Controllers */,
+				A539628F1D70B05200D557FE /* Views */,
+				A539628B1D70AF8E00D557FE /* YapDatabase */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		A539628B1D70AF8E00D557FE /* Database */ = {
+		A539628B1D70AF8E00D557FE /* YapDatabase */ = {
 			isa = PBXGroup;
 			children = (
 				A529067B1D6FE7080018D74C /* YapAccount.h */,
@@ -305,20 +312,22 @@
 				A52906831D6FE7080018D74C /* YapSearch.h */,
 				A52906841D6FE7080018D74C /* YapSearch.m */,
 			);
-			name = Database;
+			name = YapDatabase;
 			sourceTree = "<group>";
 		};
-		A539628C1D70AFAC00D557FE /* MediaItem */ = {
+		A539628C1D70AFAC00D557FE /* MediaItems */ = {
 			isa = PBXGroup;
 			children = (
 				A52905FF1D6FE7080018D74C /* AudioMediaItem.h */,
 				A52906001D6FE7080018D74C /* AudioMediaItem.m */,
+				A529063D1D6FE7080018D74C /* Incoming.h */,
+				A529063E1D6FE7080018D74C /* Incoming.m */,
 				A52906561D6FE7080018D74C /* PhotoMediaItem.h */,
 				A52906571D6FE7080018D74C /* PhotoMediaItem.m */,
 				A52906781D6FE7080018D74C /* VideoMediaItem.h */,
 				A52906791D6FE7080018D74C /* VideoMediaItem.m */,
 			);
-			name = MediaItem;
+			name = MediaItems;
 			sourceTree = "<group>";
 		};
 		A539628D1D70AFDD00D557FE /* Parse */ = {
@@ -334,13 +343,19 @@
 				A52906081D6FE7080018D74C /* BusinessCategory.m */,
 				A52906251D6FE7080018D74C /* Customer.h */,
 				A52906261D6FE7080018D74C /* Customer.m */,
+				A52906481D6FE7080018D74C /* Message.h */,
+				A52906491D6FE7080018D74C /* Message.m */,
+				A52906581D6FE7080018D74C /* PopularSearch.h */,
+				A52906591D6FE7080018D74C /* PopularSearch.m */,
 			);
 			name = Parse;
 			sourceTree = "<group>";
 		};
-		A539628E1D70B01E00D557FE /* ViewControllers */ = {
+		A539628E1D70B01E00D557FE /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A52906401D6FE7080018D74C /* LoginHandler.h */,
+				A52906411D6FE7080018D74C /* LoginHandler.m */,
 				A52905F71D6FE7080018D74C /* AboutViewController.h */,
 				A52905F81D6FE7080018D74C /* AboutViewController.m */,
 				A52905FB1D6FE7080018D74C /* AccountSettingsViewController.h */,
@@ -386,88 +401,23 @@
 				A52906711D6FE7080018D74C /* TagsViewController.m */,
 				A52906731D6FE7080018D74C /* TutorialViewController.swift */,
 			);
-			name = ViewControllers;
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
-		A539628F1D70B05200D557FE /* Other */ = {
+		A539628F1D70B05200D557FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A52905FD1D6FE7080018D74C /* Audio.h */,
-				A52905FE1D6FE7080018D74C /* Audio.m */,
-				A52906091D6FE7080018D74C /* Camera.h */,
-				A529060A1D6FE7080018D74C /* Camera.m */,
-				A529060B1D6FE7080018D74C /* CAPSPageMenu.h */,
-				A529060C1D6FE7080018D74C /* CAPSPageMenu.m */,
-				A52906151D6FE7080018D74C /* Colors.h */,
-				A52906161D6FE7080018D74C /* Colors.m */,
-				A53962901D70B83900D557FE /* OneSignalController.h */,
-				A53962911D70B83900D557FE /* OneSignalController.m */,
-				A53962931D70B83900D557FE /* OneSignalService.h */,
-				A53962921D70B83900D557FE /* OneSignalService.m */,
-				A52906171D6FE7080018D74C /* Constants.h */,
-				A52906181D6FE7080018D74C /* Constants.m */,
-				A529061A1D6FE7080018D74C /* Conversa-Bridging-Header.h */,
-				A529061D1D6FE7080018D74C /* CustomBlockCell.h */,
-				A529061E1D6FE7080018D74C /* CustomBlockCell.m */,
-				A529061F1D6FE7080018D74C /* CustomCategoryCell.h */,
-				A52906201D6FE7080018D74C /* CustomCategoryCell.m */,
-				A52906211D6FE7080018D74C /* CustomChatButton.h */,
-				A52906221D6FE7080018D74C /* CustomChatButton.m */,
-				A52906231D6FE7080018D74C /* CustomChatCell.h */,
-				A52906241D6FE7080018D74C /* CustomChatCell.m */,
-				A52906271D6FE7080018D74C /* CustomHeaderProfileCell.h */,
-				A52906281D6FE7080018D74C /* CustomHeaderProfileCell.m */,
-				A52906291D6FE7080018D74C /* CustomInfoCell.h */,
-				A529062A1D6FE7080018D74C /* CustomInfoCell.m */,
-				A529062B1D6FE7080018D74C /* CustomPFLoadingView.h */,
-				A529062C1D6FE7080018D74C /* CustomPFLoadingView.m */,
-				A52906311D6FE7080018D74C /* CustomSearchCell.h */,
-				A52906321D6FE7080018D74C /* CustomSearchCell.m */,
 				A52906331D6FE7080018D74C /* CustomSearchCell.xib */,
-				A52906341D6FE7080018D74C /* CustomAblyRealtime.h */,
-				A52906351D6FE7080018D74C /* CustomAblyRealtime.m */,
-				A52906361D6FE7080018D74C /* DatabaseManager.h */,
-				A52906371D6FE7080018D74C /* DatabaseManager.m */,
-				A52906381D6FE7080018D74C /* DatabaseView.h */,
-				A52906391D6FE7080018D74C /* DatabaseView.m */,
 				A529063A1D6FE7080018D74C /* DOFavoriteButton.swift */,
-				A529063B1D6FE7080018D74C /* Image.h */,
-				A529063C1D6FE7080018D74C /* Image.m */,
-				A529063D1D6FE7080018D74C /* Incoming.h */,
-				A529063E1D6FE7080018D74C /* Incoming.m */,
-				A529063F1D6FE7080018D74C /* Log.h */,
-				A52906401D6FE7080018D74C /* LoginHandler.h */,
-				A52906411D6FE7080018D74C /* LoginHandler.m */,
 				A52906441D6FE7080018D74C /* Main.storyboard */,
 				A52906451D6FE7080018D74C /* MapView.h */,
 				A52906461D6FE7080018D74C /* MapView.m */,
 				A52906471D6FE7080018D74C /* MapView.xib */,
-				A52906481D6FE7080018D74C /* Message.h */,
-				A52906491D6FE7080018D74C /* Message.m */,
-				A529064A1D6FE7080018D74C /* NetworkUtilities.h */,
-				A529064B1D6FE7080018D74C /* NetworkUtilities.m */,
-				A529064C1D6FE7080018D74C /* NotificationPermissions.h */,
-				A529064D1D6FE7080018D74C /* NotificationPermissions.m */,
-				A52906501D6FE7080018D74C /* NSFileManager+Conversa.h */,
-				A52906511D6FE7080018D74C /* NSFileManager+Conversa.m */,
-				A52906521D6FE7080018D74C /* NSNumber+Conversa.h */,
-				A52906531D6FE7080018D74C /* NSNumber+Conversa.m */,
-				A52906541D6FE7080018D74C /* PFSearchQueue.h */,
-				A52906551D6FE7080018D74C /* PFSearchQueue.m */,
-				A52906581D6FE7080018D74C /* PopularSearch.h */,
-				A52906591D6FE7080018D74C /* PopularSearch.m */,
 				A529065C1D6FE7080018D74C /* PopularViewController.xib */,
 				A52906631D6FE7080018D74C /* RecentViewController.xib */,
-				A529066A1D6FE7080018D74C /* SettingsKeys.h */,
-				A529066B1D6FE7080018D74C /* SettingsKeys.m */,
 				A52906721D6FE7080018D74C /* TagsViewController.xib */,
-				A52906741D6FE7080018D74C /* Utilities.h */,
-				A52906751D6FE7080018D74C /* Utilities.m */,
-				A52906761D6FE7080018D74C /* Video.h */,
-				A52906771D6FE7080018D74C /* Video.m */,
-				A529067A1D6FE7080018D74C /* WhisperBridge.swift */,
 			);
-			name = Other;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		A55B5D0A1D53C8F300AA576A = {
@@ -492,6 +442,7 @@
 		A55B5D151D53C8F300AA576A /* Conversa */ = {
 			isa = PBXGroup;
 			children = (
+				A5F0C8B81DCD0B5A00FDF934 /* Conversa.entitlements */,
 				A55B5D191D53C8F300AA576A /* AppDelegate.h */,
 				A55B5D1A1D53C8F300AA576A /* AppDelegate.m */,
 				A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */,
@@ -512,6 +463,111 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A59AF70B1DB677A20018BCE7 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				A52906341D6FE7080018D74C /* CustomAblyRealtime.h */,
+				A52906351D6FE7080018D74C /* CustomAblyRealtime.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
+		A59AF70C1DB677B90018BCE7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A52906151D6FE7080018D74C /* Colors.h */,
+				A52906161D6FE7080018D74C /* Colors.m */,
+				A52906171D6FE7080018D74C /* Constants.h */,
+				A52906181D6FE7080018D74C /* Constants.m */,
+				A529063F1D6FE7080018D74C /* Log.h */,
+				A529064A1D6FE7080018D74C /* NetworkUtilities.h */,
+				A529064B1D6FE7080018D74C /* NetworkUtilities.m */,
+				A529066A1D6FE7080018D74C /* SettingsKeys.h */,
+				A529066B1D6FE7080018D74C /* SettingsKeys.m */,
+				A52906741D6FE7080018D74C /* Utilities.h */,
+				A52906751D6FE7080018D74C /* Utilities.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		A59AF70D1DB677FF0018BCE7 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				A529061D1D6FE7080018D74C /* CustomBlockCell.h */,
+				A529061E1D6FE7080018D74C /* CustomBlockCell.m */,
+				A529061F1D6FE7080018D74C /* CustomCategoryCell.h */,
+				A52906201D6FE7080018D74C /* CustomCategoryCell.m */,
+				A52906211D6FE7080018D74C /* CustomChatButton.h */,
+				A52906221D6FE7080018D74C /* CustomChatButton.m */,
+				A52906231D6FE7080018D74C /* CustomChatCell.h */,
+				A52906241D6FE7080018D74C /* CustomChatCell.m */,
+				A52906271D6FE7080018D74C /* CustomHeaderProfileCell.h */,
+				A52906281D6FE7080018D74C /* CustomHeaderProfileCell.m */,
+				A52906291D6FE7080018D74C /* CustomInfoCell.h */,
+				A529062A1D6FE7080018D74C /* CustomInfoCell.m */,
+				A52906311D6FE7080018D74C /* CustomSearchCell.h */,
+				A52906321D6FE7080018D74C /* CustomSearchCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		A59AF70E1DB678300018BCE7 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				A529060B1D6FE7080018D74C /* CAPSPageMenu.h */,
+				A529060C1D6FE7080018D74C /* CAPSPageMenu.m */,
+				A529062B1D6FE7080018D74C /* CustomPFLoadingView.h */,
+				A529062C1D6FE7080018D74C /* CustomPFLoadingView.m */,
+				A52906501D6FE7080018D74C /* NSFileManager+Conversa.h */,
+				A52906511D6FE7080018D74C /* NSFileManager+Conversa.m */,
+				A52906521D6FE7080018D74C /* NSNumber+Conversa.h */,
+				A52906531D6FE7080018D74C /* NSNumber+Conversa.m */,
+				A52906541D6FE7080018D74C /* PFSearchQueue.h */,
+				A52906551D6FE7080018D74C /* PFSearchQueue.m */,
+			);
+			name = Custom;
+			sourceTree = "<group>";
+		};
+		A59AF70F1DB678820018BCE7 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A52906361D6FE7080018D74C /* DatabaseManager.h */,
+				A52906371D6FE7080018D74C /* DatabaseManager.m */,
+				A52906381D6FE7080018D74C /* DatabaseView.h */,
+				A52906391D6FE7080018D74C /* DatabaseView.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		A59AF7101DB678CA0018BCE7 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				A52905FD1D6FE7080018D74C /* Audio.h */,
+				A52905FE1D6FE7080018D74C /* Audio.m */,
+				A52906091D6FE7080018D74C /* Camera.h */,
+				A529060A1D6FE7080018D74C /* Camera.m */,
+				A529063B1D6FE7080018D74C /* Image.h */,
+				A529063C1D6FE7080018D74C /* Image.m */,
+				A52906761D6FE7080018D74C /* Video.h */,
+				A52906771D6FE7080018D74C /* Video.m */,
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
+		A59AF7111DB6790E0018BCE7 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				A529064C1D6FE7080018D74C /* NotificationPermissions.h */,
+				A529064D1D6FE7080018D74C /* NotificationPermissions.m */,
+				A53962901D70B83900D557FE /* OneSignalController.h */,
+				A53962911D70B83900D557FE /* OneSignalController.m */,
+				A53962931D70B83900D557FE /* OneSignalService.h */,
+				A53962921D70B83900D557FE /* OneSignalService.m */,
+				A529067A1D6FE7080018D74C /* WhisperBridge.swift */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -519,12 +575,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A55B5D2D1D53C8F300AA576A /* Build configuration list for PBXNativeTarget "Conversa" */;
 			buildPhases = (
-				07013FF37B7EDD479B0D9131 /* Check Pods Manifest.lock */,
+				07013FF37B7EDD479B0D9131 /* [CP] Check Pods Manifest.lock */,
 				A55B5D0F1D53C8F300AA576A /* Sources */,
 				A55B5D101D53C8F300AA576A /* Frameworks */,
 				A55B5D111D53C8F300AA576A /* Resources */,
-				4896BEC5257F347E664EAFD7 /* Embed Pods Frameworks */,
-				CA47D9CC57967D9C50FB242A /* Copy Pods Resources */,
+				4896BEC5257F347E664EAFD7 /* [CP] Embed Pods Frameworks */,
+				CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -547,8 +603,12 @@
 					A55B5D121D53C8F300AA576A = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = K5WP7YH5E4;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Keychain = {
 								enabled = 1;
 							};
 						};
@@ -593,29 +653,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		07013FF37B7EDD479B0D9131 /* Check Pods Manifest.lock */ = {
+		07013FF37B7EDD479B0D9131 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		4896BEC5257F347E664EAFD7 /* Embed Pods Frameworks */ = {
+		4896BEC5257F347E664EAFD7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,14 +683,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Conversa/Pods-Conversa-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CA47D9CC57967D9C50FB242A /* Copy Pods Resources */ = {
+		CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -830,12 +890,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Conversa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\" \"${PODS_ROOT}/Headers/Public/SinchRTC\"";
 			};
 			name = Debug;
@@ -846,12 +908,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Conversa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\" \"${PODS_ROOT}/Headers/Public/SinchRTC\"";
 			};
 			name = Release;
