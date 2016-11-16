@@ -19,7 +19,7 @@
 // Header
 @property (weak, nonatomic) IBOutlet DOFavoriteButton *chatButton;
 @property (weak, nonatomic) IBOutlet DOFavoriteButton *favoriteButton;
-@property (weak, nonatomic) IBOutlet PFImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *businessNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *conversaIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followerNumberLabel;

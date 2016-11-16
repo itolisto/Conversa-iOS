@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
+//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -48,9 +49,21 @@
     self.navigationController.view.backgroundColor = [UIColor clearColor];
 }
 
-- (void) viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardWillShow:)
+//                                                 name:UIKeyboardWillShowNotification
+//                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardWillHide:)
+//                                                 name:UIKeyboardWillHideNotification
+//                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +71,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) dismissKeyboard {
+- (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
 
@@ -78,7 +91,7 @@
     
 }
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
     if (textField == self.usernameTextField)
@@ -89,9 +102,34 @@
     return YES;
 }
 
+#pragma mark - Scroll view -
+
+- (void)keyboardWillShow:(NSNotification*)notification {
+    //UIKeyboardFrameEndUserInfoKey
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    CGRect rect = self.view.frame;
+    rect.size.height -= keyboardSize.height;
+
+    if (!CGRectContainsPoint(rect, self.view.frame.origin)) {
+        CGPoint scrollPoint = CGPointMake(0.0, self.view.frame.origin.y - (keyboardSize.height - self.view.frame.size.height));
+//        [self.scrollView setContentOffset:scrollPoint animated:NO];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
 #pragma mark - Login Methods -
 
-- (BOOL) validForm {
+- (BOOL)validForm {
     MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
     hudError.mode = MBProgressHUDModeText;
     [self.view addSubview:hudError];
@@ -101,22 +139,22 @@
             [hudError removeFromSuperview];
             return YES;
         } else {
-            hudError.labelText = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError show:YES];
-            [hudError hide:YES afterDelay:1.7];
+            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
             [self.passwordTextField becomeFirstResponder];
         }
     } else {
-        hudError.labelText = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError show:YES];
-        [hudError hide:YES afterDelay:1.7];
+        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
         [self.usernameTextField becomeFirstResponder];
     }
     
     return NO;
 }
 
-- (void) doLogin {
+- (void)doLogin {
     if([self validForm]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
@@ -127,14 +165,14 @@
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
             if (error) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self showErrorMessage];
             } else {                
                 [Account logInWithUsernameInBackground:((Account *)object).username
                                               password:self.passwordTextField.text
                                                  block:^(PFUser * _Nullable user, NSError * _Nullable error)
                 {
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     
                     if(user) {
                         // Successful login
@@ -149,7 +187,7 @@
     }
 }
 
-- (void) showErrorMessage {
+- (void)showErrorMessage {
     UIAlertController * view = [UIAlertController
                                 alertControllerWithTitle:nil
                                 message:NSLocalizedString(@"sign_failed_message", nil)

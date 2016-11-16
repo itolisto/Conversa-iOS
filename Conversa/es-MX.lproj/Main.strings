@@ -1,0 +1,324 @@
+
+/* Class = "UIButton"; normalTitle = "REGISTRATE"; ObjectID = "09a-9x-h4F"; */
+"09a-9x-h4F.normalTitle" = "REGISTRATE";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "0do-qj-2V2"; */
+"0do-qj-2V2.footerTitle" = "Vista previa de texto dentro de mensaje";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "3Zi-ag-N5n"; */
+"3Zi-ag-N5n.text" = "Email";
+
+/* Class = "UILabel"; text = "conversaId"; ObjectID = "3hK-YI-Mj8"; */
+"3hK-YI-Mj8.text" = "conversaId";
+
+/* Class = "UITabBarItem"; title = "Chats"; ObjectID = "3p4-4v-vme"; */
+"3p4-4v-vme.title" = "Chats";
+
+/* Class = "UILabel"; text = "Acerca de y Soporte"; ObjectID = "4Cg-eG-d5C"; */
+"4Cg-eG-d5C.text" = "Acerca de y Soporte";
+
+/* Class = "UILabel"; text = "Y POLITICAS DE PRIVACIDAD"; ObjectID = "54T-bb-wOM"; */
+"54T-bb-wOM.text" = "Y POLITICAS DE PRIVACIDAD";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "5SV-z7-dKk"; */
+"5SV-z7-dKk.text" = "0";
+
+/* Class = "UILabel"; text = "todos tus mensajes aquí"; ObjectID = "6Mo-JR-ZZq"; */
+"6Mo-JR-ZZq.text" = "todos tus mensajes aquí";
+
+/* Class = "UINavigationItem"; title = "Chats"; ObjectID = "6PW-zo-r0X"; */
+"6PW-zo-r0X.title" = "Chats";
+
+/* Class = "UILabel"; text = "Nombre"; ObjectID = "6pR-z2-ImA"; */
+"6pR-z2-ImA.text" = "Nombre";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe una notificación push"; ObjectID = "7P6-S4-62J"; */
+"7P6-S4-62J.footerTitle" = "Sonido cuando se recibe una notificación push";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones en segundo plano"; ObjectID = "7P6-S4-62J"; */
+"7P6-S4-62J.headerTitle" = "Notificaciones en segundo plano";
+
+/* Class = "UILabel"; text = "Business name"; ObjectID = "7tP-5W-dSO"; */
+"7tP-5W-dSO.text" = "Business name";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe una notificación push"; ObjectID = "86q-Ni-V5X"; */
+"86q-Ni-V5X.footerTitle" = "Sonido cuando se recibe una notificación push";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones en segundo plano"; ObjectID = "86q-Ni-V5X"; */
+"86q-Ni-V5X.headerTitle" = "Notificaciones en segundo plano";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "8c7-kG-Dro"; */
+"8c7-kG-Dro.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "9lN-PX-MEf"; */
+"9lN-PX-MEf.text" = "Mostrar vista previa";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "9oc-zP-Avg"; */
+"9oc-zP-Avg.footerTitle" = "Vista previa de texto dentro de mensaje";
+
+/* Class = "UITextField"; placeholder = "Nombre para mostrar"; ObjectID = "9ur-p1-iMb"; */
+"9ur-p1-iMb.placeholder" = "Nombre para mostrar";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "Aee-P8-1HZ"; */
+"Aee-P8-1HZ.text" = "Sonido";
+
+/* Class = "UISearchBar"; placeholder = "Busca en tus chats"; ObjectID = "Bd3-bU-iPS"; */
+"Bd3-bU-iPS.placeholder" = "Busca en tus chats";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "Bej-Jt-nRm"; */
+"Bej-Jt-nRm.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "BUSCANDO REGISTRAR TU NEGOCIO"; ObjectID = "DMN-O9-mrI"; */
+"DMN-O9-mrI.text" = "BUSCANDO REGISTRAR TU NEGOCIO";
+
+/* Class = "UITextField"; placeholder = "CONTRASEÑA"; ObjectID = "DT1-xB-KJ6"; */
+"DT1-xB-KJ6.placeholder" = "CONTRASEÑA";
+
+/* Class = "UITextField"; placeholder = "EMAIL"; ObjectID = "EE9-3h-K2J"; */
+"EE9-3h-K2J.placeholder" = "EMAIL";
+
+/* Class = "UILabel"; text = "Sonido al enviar"; ObjectID = "Eaz-u0-vtu"; */
+"Eaz-u0-vtu.text" = "Sonido al enviar";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "Ffi-mj-PoF"; */
+"Ffi-mj-PoF.text" = "Sonido";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "Fg1-1V-fvA"; */
+"Fg1-1V-fvA.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "@ConversaId"; ObjectID = "FoA-mI-a0C"; */
+"FoA-mI-a0C.text" = "@ConversaId";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de notificación push"; ObjectID = "Fro-So-Rcc"; */
+"Fro-So-Rcc.footerTitle" = "Vista previa de texto dentro de notificación push";
+
+/* Class = "UISearchBar"; placeholder = "Search"; ObjectID = "G4i-oV-6qv"; */
+"G4i-oV-6qv.placeholder" = "Search";
+
+/* Class = "UILabel"; text = "Lectura"; ObjectID = "G5B-gj-r5t"; */
+"G5B-gj-r5t.text" = "Lectura";
+
+/* Class = "UILabel"; text = "Business name"; ObjectID = "GE9-MA-gZr"; */
+"GE9-MA-gZr.text" = "Business name";
+
+/* Class = "UITextField"; placeholder = "Nombre de usuario"; ObjectID = "HNU-Mq-Dgq"; */
+"HNU-Mq-Dgq.placeholder" = "Nombre de usuario";
+
+/* Class = "UITextField"; placeholder = "CONTRASEÑA"; ObjectID = "Hw7-YE-rHu"; */
+"Hw7-YE-rHu.placeholder" = "CONTRASEÑA";
+
+/* Class = "UILabel"; text = "HABLA CON NEGOCIOS."; ObjectID = "I0M-QP-amh"; */
+"I0M-QP-amh.text" = "HABLA CON NEGOCIOS.";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "I7P-j9-mJL"; */
+"I7P-j9-mJL.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "IQ1-X2-WVl"; */
+"IQ1-X2-WVl.text" = "Sonido";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "IQ4-5t-cdV"; */
+"IQ4-5t-cdV.text" = "Sonido";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de notificación push"; ObjectID = "Jpw-G9-KhF"; */
+"Jpw-G9-KhF.footerTitle" = "Vista previa de texto dentro de notificación push";
+
+/* Class = "UILabel"; text = "Bloquear"; ObjectID = "L9l-jB-Hd0"; */
+"L9l-jB-Hd0.text" = "Bloquear";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe un mensaje"; ObjectID = "LYr-ig-kCl"; */
+"LYr-ig-kCl.footerTitle" = "Sonido cuando se recibe un mensaje";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones In-App"; ObjectID = "LYr-ig-kCl"; */
+"LYr-ig-kCl.headerTitle" = "Notificaciones In-App";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "M0d-WO-zvX"; */
+"M0d-WO-zvX.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "MQn-w5-xh4"; */
+"MQn-w5-xh4.text" = "Description";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "MWN-gx-gCV"; */
+"MWN-gx-gCV.placeholder" = "Email";
+
+/* Class = "UIButton"; normalTitle = "Contáctanos"; ObjectID = "Ml2-dq-VB1"; */
+"Ml2-dq-VB1.normalTitle" = "Contáctanos";
+
+/* Class = "UILabel"; text = "Calidad"; ObjectID = "Mx3-UE-CN3"; */
+"Mx3-UE-CN3.text" = "Calidad";
+
+/* Class = "UINavigationItem"; title = "Perfil"; ObjectID = "NOY-oa-4ID"; */
+"NOY-oa-4ID.title" = "Perfil";
+
+/* Class = "UILabel"; text = "12/12/2015"; ObjectID = "ONd-WX-P48"; */
+"ONd-WX-P48.text" = "12/12/2015";
+
+/* Class = "UILabel"; text = "Contraseña"; ObjectID = "OSn-Dg-yUW"; */
+"OSn-Dg-yUW.text" = "Contraseña";
+
+/* Class = "UITextField"; placeholder = "Cambiar contraseña"; ObjectID = "PFn-Qx-dlW"; */
+"PFn-Qx-dlW.placeholder" = "Cambiar contraseña";
+
+/* Class = "UILabel"; text = "Category name"; ObjectID = "QTF-CF-YAH"; */
+"QTF-CF-YAH.text" = "Category name";
+
+/* Class = "UITableViewSection"; footerTitle = "Enviar imágenes con mejor calidad consume más datos"; ObjectID = "QnM-u4-o0n"; */
+"QnM-u4-o0n.footerTitle" = "Enviar imágenes con mejor calidad consume más datos";
+
+/* Class = "UITableViewSection"; headerTitle = "Mensajes"; ObjectID = "QnM-u4-o0n"; */
+"QnM-u4-o0n.headerTitle" = "Mensajes";
+
+/* Class = "UIButton"; normalTitle = "PRESIONA AQUI"; ObjectID = "R6F-HJ-gSt"; */
+"R6F-HJ-gSt.normalTitle" = "PRESIONA AQUI";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "REF-1z-mAp"; */
+"REF-1z-mAp.text" = "Title";
+
+/* Class = "UITableViewSection"; footerTitle = "Enviar confirmación de lectura a cualquier negocio"; ObjectID = "S6R-7b-p36"; */
+"S6R-7b-p36.footerTitle" = "Enviar confirmación de lectura a cualquier negocio";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe un mensaje"; ObjectID = "S9P-RI-3v7"; */
+"S9P-RI-3v7.footerTitle" = "Sonido cuando se recibe un mensaje";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones In-App"; ObjectID = "S9P-RI-3v7"; */
+"S9P-RI-3v7.headerTitle" = "Notificaciones In-App";
+
+/* Class = "UILabel"; text = "Cuando comiences a chatear, veras"; ObjectID = "Sb9-Ly-eQ6"; */
+"Sb9-Ly-eQ6.text" = "Cuando comiences a chatear, veras";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe un mensaje"; ObjectID = "TIO-Fs-dDp"; */
+"TIO-Fs-dDp.footerTitle" = "Sonido cuando se recibe un mensaje";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones In-App"; ObjectID = "TIO-Fs-dDp"; */
+"TIO-Fs-dDp.headerTitle" = "Notificaciones In-App";
+
+/* Class = "UIButton"; normalTitle = "Olvidaste tu contraseña?"; ObjectID = "V4x-FB-FDR"; */
+"V4x-FB-FDR.normalTitle" = "Olvidaste tu contraseña?";
+
+/* Class = "UILabel"; text = "Cerrar sesión"; ObjectID = "VPq-Vp-kni"; */
+"VPq-Vp-kni.text" = "Cerrar sesión";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "XWR-1t-yiQ"; */
+"XWR-1t-yiQ.footerTitle" = "Vista previa de texto dentro de mensaje";
+
+/* Class = "UILabel"; text = "Chats"; ObjectID = "ZRq-EV-zJi"; */
+"ZRq-EV-zJi.text" = "Chats";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "c92-NY-MZ0"; */
+"c92-NY-MZ0.normalTitle" = "Send";
+
+/* Class = "UILabel"; text = "Last message"; ObjectID = "drl-Nr-oa0"; */
+"drl-Nr-oa0.text" = "Last message";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de notificación push"; ObjectID = "e5j-sB-oxu"; */
+"e5j-sB-oxu.footerTitle" = "Vista previa de texto dentro de notificación push";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "elg-Jj-ayp"; */
+"elg-Jj-ayp.text" = "Mostrar vista previa";
+
+/* Class = "UIButton"; normalTitle = "Iniciar"; ObjectID = "fCY-VX-Yay"; */
+"fCY-VX-Yay.normalTitle" = "Iniciar";
+
+/* Class = "UILabel"; text = "Notificaciones"; ObjectID = "fET-6t-KuR"; */
+"fET-6t-KuR.text" = "Notificaciones";
+
+/* Class = "UILabel"; text = "Usuario"; ObjectID = "fr7-vW-W0b"; */
+"fr7-vW-W0b.text" = "Usuario";
+
+/* Class = "UITableViewSection"; footerTitle = "Lista de negocios bloqueados"; ObjectID = "g3X-qX-5cc"; */
+"g3X-qX-5cc.footerTitle" = "Lista de negocios bloqueados";
+
+/* Class = "UITableViewSection"; headerTitle = "Privacidad"; ObjectID = "g3X-qX-5cc"; */
+"g3X-qX-5cc.headerTitle" = "Privacidad";
+
+/* Class = "UIButton"; normalTitle = "Registrar"; ObjectID = "g4N-Nr-HNH"; */
+"g4N-Nr-HNH.normalTitle" = "Registrar";
+
+/* Class = "UITableViewController"; title = "Ajustes"; ObjectID = "gTc-e1-FX5"; */
+"gTc-e1-FX5.title" = "Ajustes";
+
+/* Class = "UILabel"; text = "Calidad de imagen"; ObjectID = "gYJ-8r-cqc"; */
+"gYJ-8r-cqc.text" = "Calidad de imagen";
+
+/* Class = "UIButton"; normalTitle = "Ingresar"; ObjectID = "hbP-GS-sVT"; */
+"hbP-GS-sVT.normalTitle" = "Ingresar";
+
+/* Class = "UITabBarItem"; title = "Búsqueda"; ObjectID = "hcs-Dq-e2P"; */
+"hcs-Dq-e2P.title" = "Búsqueda";
+
+/* Class = "UILabel"; text = "Limpiar búsquedas recientes"; ObjectID = "huG-z4-OOb"; */
+"huG-z4-OOb.text" = "Limpiar búsquedas recientes";
+
+/* Class = "UINavigationController"; title = "Categorias"; ObjectID = "hud-jr-mmH"; */
+"hud-jr-mmH.title" = "Categorias";
+
+/* Class = "UITextField"; placeholder = "NOMBRE DE USUARIO"; ObjectID = "iVz-oZ-Q6j"; */
+"iVz-oZ-Q6j.placeholder" = "NOMBRE DE USUARIO";
+
+/* Class = "UILabel"; text = "Business info"; ObjectID = "j1O-GP-65c"; */
+"j1O-GP-65c.text" = "Business info";
+
+/* Class = "UILabel"; text = "Cuenta"; ObjectID = "kWK-tt-6T3"; */
+"kWK-tt-6T3.text" = "Cuenta";
+
+/* Class = "UITableViewSection"; headerTitle = "Cuenta"; ObjectID = "kjn-Bf-HhR"; */
+"kjn-Bf-HhR.headerTitle" = "Cuenta";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "lIr-2C-DAy"; */
+"lIr-2C-DAy.footerTitle" = "Vista previa de texto dentro de mensaje";
+
+/* Class = "UINavigationItem"; title = "Ajustes"; ObjectID = "lYY-4a-s54"; */
+"lYY-4a-s54.title" = "Ajustes";
+
+/* Class = "UILabel"; text = "Sonido al recibir"; ObjectID = "ngt-vT-AeQ"; */
+"ngt-vT-AeQ.text" = "Sonido al recibir";
+
+/* Class = "UIButton"; normalTitle = "Ayuda / FAQ"; ObjectID = "oMY-fC-VDx"; */
+"oMY-fC-VDx.normalTitle" = "Ayuda / FAQ";
+
+/* Class = "UITextField"; placeholder = "E-MAIL"; ObjectID = "pdA-PE-GLW"; */
+"pdA-PE-GLW.placeholder" = "E-MAIL";
+
+/* Class = "UILabel"; text = "Mostrar vista previa"; ObjectID = "qVh-Iz-99C"; */
+"qVh-Iz-99C.text" = "Mostrar vista previa";
+
+/* Class = "UILabel"; text = "¿Te gusta Conversa? Comparte (:"; ObjectID = "r8f-GH-inT"; */
+"r8f-GH-inT.text" = "¿Te gusta Conversa? Comparte (:";
+
+/* Class = "UILabel"; text = "No tienes una cuenta"; ObjectID = "rZi-hK-ClA"; */
+"rZi-hK-ClA.text" = "No tienes una cuenta";
+
+/* Class = "UILabel"; text = "SIMPLE. RAPIDO. EFECTIVO."; ObjectID = "rlN-hG-Ymw"; */
+"rlN-hG-Ymw.text" = "SIMPLE. RAPIDO. EFECTIVO.";
+
+/* Class = "UILabel"; text = "2 contacts"; ObjectID = "sJr-P4-G2Y"; */
+"sJr-P4-G2Y.text" = "2 contacts";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "tfu-xo-EdS"; */
+"tfu-xo-EdS.text" = "Sonido";
+
+/* Class = "UITableViewSection"; footerTitle = "Sonido cuando se recibe una notificación push"; ObjectID = "vDS-gI-Qqd"; */
+"vDS-gI-Qqd.footerTitle" = "Sonido cuando se recibe una notificación push";
+
+/* Class = "UITableViewSection"; headerTitle = "Notificaciones en segundo plano"; ObjectID = "vDS-gI-Qqd"; */
+"vDS-gI-Qqd.headerTitle" = "Notificaciones en segundo plano";
+
+/* Class = "UILabel"; text = "Seguidores"; ObjectID = "vro-2A-9DY"; */
+"vro-2A-9DY.text" = "Seguidores";
+
+/* Class = "UITabBarItem"; title = "Ajustes"; ObjectID = "wKg-Ff-zyz"; */
+"wKg-Ff-zyz.title" = "Ajustes";
+
+/* Class = "UITableViewSection"; footerTitle = "Vista previa de texto dentro de mensaje"; ObjectID = "xYb-mt-6on"; */
+"xYb-mt-6on.footerTitle" = "Vista previa de texto dentro de mensaje";
+
+/* Class = "UILabel"; text = "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc."; ObjectID = "xjt-tk-AOl"; */
+"xjt-tk-AOl.text" = "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc.";
+
+/* Class = "UILabel"; text = "username"; ObjectID = "yYx-tt-hRg"; */
+"yYx-tt-hRg.text" = "username";
+
+/* Class = "UILabel"; text = "Sonido"; ObjectID = "yZI-vC-VU8"; */
+"yZI-vC-VU8.text" = "Sonido";
+
+/* Class = "UILabel"; text = "AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TERMINOS"; ObjectID = "ycc-Y9-Iyf"; */
+"ycc-Y9-Iyf.text" = "AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TERMINOS";

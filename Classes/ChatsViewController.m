@@ -27,12 +27,13 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
 
+#import "Conversa-Swift.h"
+
 @interface ChatsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noMessagesLine1;
-@property (weak, nonatomic) IBOutlet UILabel *noMessagesLine2;
 @property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) NSMutableArray *filteredCategories;
 @property (nonatomic, strong) NSTimer *cellUpdateTimer;
@@ -81,8 +82,6 @@
     
     self.noMessagesLine1.adjustsFontSizeToFitWidth = YES;
     self.noMessagesLine1.minimumScaleFactor = 1;
-    self.noMessagesLine2.adjustsFontSizeToFitWidth = YES;
-    self.noMessagesLine2.minimumScaleFactor = 1;
     
     // Load initial data
     self.searchMode = NO;
@@ -134,6 +133,10 @@
     UIView *v = [[UIView alloc] init];
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
+
+    if ([[SettingsKeys getCustomerId] length] == 0) {
+        [self addCustomerDataJob];
+    }
 }
 
 - (void)dealloc
@@ -165,6 +168,10 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
+
+//    [WhisperBridge shout:@"Hola chavita" subtitle:@"Marica" backgroundColor:[UIColor clearColor] toNavigationController:self.navigationController image:nil silenceAfter:1.8 action:^{
+//        DDLogError(@"Chavita Iglesias presiono esto");
+//    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -439,6 +446,10 @@
 
 #pragma mark - Navigation Method -
 
+- (IBAction)startBrowsingPressed:(UIButton *)sender {
+    [self.tabBarController setSelectedIndex:1];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"FromChatsToChat"]) {
         YapContact *bs = ((CustomChatCell*)sender).business;
@@ -447,6 +458,13 @@
         // Pass any objects to the view controller here, like...
         [destinationViewController initWithBuddy:bs];
     }
+}
+
+#pragma mark - Job Methods -
+
+- (void)addCustomerDataJob
+{
+    [[EDQueue sharedInstance] enqueueWithData:nil forTask:@"getCustomerData"];
 }
 
 #pragma mark - Action Methods -

@@ -7,6 +7,7 @@
 //
 
 @import UIKit;
+#import "EDQueue.h"
 #import "CustomAblyRealtime.h"
 
 @interface ChatsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConversationListener>

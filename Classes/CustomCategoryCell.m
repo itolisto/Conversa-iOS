@@ -8,28 +8,25 @@
 
 #import "CustomCategoryCell.h"
 
-#import "bCategory.h"
+#import "nCategory.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface CustomCategoryCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet PFImageView *avatar;
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;
 
 @end
 
 @implementation CustomCategoryCell
 
-- (void)configureCellWith:(bCategory *)category {
+- (void)configureCellWith:(nCategory *)category {
     self.category = category;
-    
-    if (category.thumbnail) {
-        self.avatar.file = category.thumbnail;
-    } else {
-        self.avatar.image = [UIImage imageNamed:@"business_default_light"];
-    }
-    
+
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:[category getAvatarUrl]]
+                 placeholderImage:[UIImage imageNamed:@"business_default_light"]];
+
     self.nameLabel.text = [category getCategoryName];
-    [self.avatar loadInBackground];
 }
 
 + (NSString *)reuseIdentifier {

@@ -53,7 +53,6 @@
         // Function to be called when a notification is received.
         OSNotificationPayload* payload = notification.payload;
 
-
         NSString* messageTitle = @"OneSignal Example";
         NSString* fullMessage = [payload.body copy];
 

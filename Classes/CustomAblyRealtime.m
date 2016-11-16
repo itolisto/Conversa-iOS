@@ -46,11 +46,12 @@
 }
 
 - (void)initAbly {
-    ARTClientOptions *options = [[ARTClientOptions alloc] init];
-    options.key = @"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_";
-    options.logLevel = ARTLogLevelError;
-    options.clientId = [[NSUUID UUID] UUIDString];
-    self.ably = [[ARTRealtime alloc] initWithOptions:options];
+    ARTClientOptions *artoptions = [[ARTClientOptions alloc] init];
+    artoptions.key = @"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_";
+    artoptions.logLevel = ARTLogLevelError;
+    artoptions.echoMessages = NO;
+    //artoptions = [[NSUUID UUID] UUIDString];
+    self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
@@ -98,7 +99,8 @@
     if (self.ably == nil) {
         return;
     }
-    
+
+    [self.ably close];
 }
 
 - (void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
@@ -155,24 +157,29 @@
 
 - (void)onMessage:(ARTMessage *) messages {
     DDLogError(@"onMessage: message received --> %@", messages.description);
-
-
-//    try {
-//        additionalData = new JSONObject(messages.data.toString());
-//    } catch (JSONException e) {
-//        Logger.error(TAG, "onMessageReceived additionalData fail to parse-> " + e.getMessage());
-//        return;
-//    }
-//
-//    Log.e("NotifOpenedHandler", "Full additionalData:\n" + additionalData.toString());
-//
-//    switch (additionalData.optInt("appAction", 0)) {
-//        case 1:
-//            Intent msgIntent = new Intent(context, CustomMessageService.class);
-//            msgIntent.putExtra("data", additionalData.toString());
-//            context.startService(msgIntent);
-//            break;
-//    }
+    NSError *error;
+    id object = [NSJSONSerialization JSONObjectWithData:[messages.data dataUsingEncoding:NSUTF8StringEncoding]
+                                                options:0
+                                                  error:&error];
+    if (error) {
+        // Error
+    } else {
+        if ([object isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *results = object;
+            DDLogError(@"onMessage: message received --> %@", [results allKeys]);
+            if ([results valueForKey:@"appAction"]) {
+                int action = [results valueForKey:@"appAction"];
+                switch (action) {
+                    case 1: {
+                        //            Intent msgIntent = new Intent(context, CustomMessageService.class);
+                        //            msgIntent.putExtra("data", additionalData.toString());
+                        //            context.startService(msgIntent);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (void)onPresenceMessage:(ARTPresenceMessage *)messages {

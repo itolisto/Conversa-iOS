@@ -1,10 +1,10 @@
-platform :ios, '8.4'
+platform :ios, '9.0'
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Used when using Swift libraries in a Objective-C project
 use_frameworks!
 # ignore all warnings from all pods
-# inhibit_all_warnings!
+inhibit_all_warnings!
 
 target 'Conversa' do
     # SaaS
@@ -13,7 +13,7 @@ target 'Conversa' do
     # PushNotifications Service
     pod 'OneSignal'
     # Ably Realtime Client Library
-    pod 'AblyRealtime'
+    pod 'Ably'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher'
     # Google Maps for iOS
@@ -21,7 +21,7 @@ target 'Conversa' do
     # For latest release in cocoapods
     pod 'JSQMessagesViewController'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
-    pod 'Whisper'
+    pod 'Whisper', '3.1.1'
     # A clone of UIImagePickerController with multiple selection support.
     pod 'OHQBImagePicker'
     # Report a bug; bug reports will be sent directly to your email address!
@@ -35,7 +35,7 @@ target 'Conversa' do
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
-    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'MBProgressHUD', '~> 1.0.0'
     # For app reviews
     pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more
@@ -51,4 +51,12 @@ target 'Conversa' do
     pod 'Mantle', '~> 2.0'
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView'
+    # Allows rapid creation of smart data models.
+    pod 'JSONModel'
+    # This library provides an async image downloader with cache support
+    pod 'SDWebImage', '~>3.8'
+    # The easiest way to add a UIActivityView to your SDWebImage view
+    pod 'UIActivityIndicator-for-SDWebImage'
+    # A persistent background job queue for iOS.
+    pod 'EDQueue'
 end

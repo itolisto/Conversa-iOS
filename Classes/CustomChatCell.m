@@ -23,7 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *conversationLabel;
-@property (weak, nonatomic) IBOutlet PFImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *unreadMessage;
 
 @end

@@ -24,9 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.emailTextField.placeholder = NSLocalizedString(@"email", nil);
-    [self.sendPasswordButton setTitle:NSLocalizedString(@"send_password_button", nil) forState:UIControlStateNormal];
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];

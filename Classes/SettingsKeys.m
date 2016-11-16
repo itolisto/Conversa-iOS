@@ -12,10 +12,10 @@
 
 // General
 NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
-NSString *firstCategoriesLoad  = @"firstCategoriesLoad";
 NSString *notificationsCheck   = @"notificationsCheck";
 
 // Account settings
+NSString *customerObjectId  = @"customerObjectId";
 NSString *readReceiptsSwitch  = @"readReceiptsSwitch";
 
 // Notifications settings
@@ -48,17 +48,6 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     return [defaults boolForKey:tutorialAlreadyShown];
 }
 
-+ (void)setCategoriesLoad:(NSInteger)page {
-    NSUserDefaults *defaults = [self getDefaults];
-    [defaults setInteger:page forKey:firstCategoriesLoad];
-    [defaults synchronize];
-}
-
-+ (NSInteger)getCategoriesLoad {
-    NSUserDefaults *defaults = [self getDefaults];
-    return [defaults integerForKey:firstCategoriesLoad];;
-}
-
 + (void)setNotificationsCheck:(BOOL)state {
     NSUserDefaults *defaults = [self getDefaults];
     [defaults setBool:state forKey:notificationsCheck];
@@ -71,6 +60,17 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 }
 
 #pragma mark - Account settings -
++ (void)setCustomerId:(NSString*)objectId {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:objectId forKey:customerObjectId];
+    [defaults synchronize];
+}
+
++ (NSString*)getCustomerId {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerObjectId];
+}
+
 + (void)setAccountReadSetting:(BOOL) state {
     NSUserDefaults *defaults = [self getDefaults];
     [defaults setBool:state forKey:readReceiptsSwitch];

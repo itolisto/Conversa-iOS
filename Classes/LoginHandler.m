@@ -33,7 +33,7 @@
     [SettingsKeys setMessageSoundIncoming:YES value:YES];
     [SettingsKeys setMessageSoundIncoming:NO value:YES];
     [SettingsKeys setTutorialShownSetting:YES];
-    [SettingsKeys setCategoriesLoad:NO];
+    //[SettingsKeys setCategoriesLoad:NO];
     // Go to
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];

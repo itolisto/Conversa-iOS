@@ -11,6 +11,7 @@
 #import "Log.h"
 #import "Constants.h"
 #import "bCategory.h"
+#import "ParseValidation.h"
 #import "CustomSearchCell.h"
 #import "BusinessCategory.h"
 #import "ProfileViewController.h"
@@ -65,7 +66,7 @@
     [query orderByAscending:kBusinessCategoryRelevanceKey];
     [query addAscendingOrder:kBusinessCategoryPositionKey];
     
-    [query setLimit:15];
+    [query setLimit:25];
     
     return query;
 }
@@ -89,6 +90,14 @@
     [cell configureCellWith:bs.business];
     
     return cell;
+}
+
+- (void)objectsDidLoad:(NSError *)error {
+    if (error) {
+        [ParseValidation validateError:error controller:self];
+    }
+
+    [super objectsDidLoad:error];
 }
 
 #pragma mark - UITableViewDelegate Methods -

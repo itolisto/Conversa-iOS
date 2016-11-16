@@ -12,8 +12,5 @@
 @interface bCategory : PFObject<PFSubclassing>
 
 + (NSString *)parseClassName;
-- (NSString *)getCategoryName;
-
-@property (nonatomic, strong) PFFile   *thumbnail;
 
 @end

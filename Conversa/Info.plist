@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>files.parsetfss.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -27,16 +42,36 @@
 			<string>io.branch.sdk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ConversaApp</string>
+				<string>conversaapp</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>branch_key</key>
+	<dict>
+		<key>test</key>
+		<string>key_test_jlh0fVE5OwrAI8P2yVGwRagmttb6Hahk</string>
+	</dict>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
 		<string>617c5ff8d2055123134c25a4b496d078123ef1da</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Answers</string>
+			</dict>
+		</array>
 	</dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
@@ -65,10 +100,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>branch_key</key>
-	<dict>
-		<key>test</key>
-		<string>key_test_jlh0fVE5OwrAI8P2yVGwRagmttb6Hahk</string>
-	</dict>
 </dict>
 </plist>

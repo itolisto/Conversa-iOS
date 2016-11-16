@@ -15,11 +15,11 @@
 #import "Customer.h"
 #import "Business.h"
 #import "Constants.h"
-#import "bCategory.h"
 #import "Appirater.h"
 #import "YapContact.h"
 #import "SettingsKeys.h"
 #import "PopularSearch.h"
+#import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "BusinessCategory.h"
 #import "OneSignalService.h"
@@ -44,7 +44,7 @@
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
     
     // Set Fabric
-    [Fabric with:@[[Crashlytics class]]];
+    [Fabric with:@[[Answers class], [Crashlytics class]]];
     
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -59,14 +59,8 @@
     [Message registerSubclass];
     [Business registerSubclass];
     [Customer registerSubclass];
-    [bCategory registerSubclass];
     [PopularSearch registerSubclass];
     [BusinessCategory registerSubclass];
-    [PFImageView class];
-    
-    // [Optional] Power your app with Local Datastore. For more info, go to
-    // https://parse.com/docs/ios/guide#local-datastore
-    [Parse enableLocalDatastore];
     
     // Initialize Parse.
     [Parse setApplicationId:@"39H1RFC1jalMV3cv8pmDGPRh93Bga1mB4dyxbLwl"
@@ -170,6 +164,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[EDQueue sharedInstance] stop];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -183,13 +178,13 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[EDQueue sharedInstance] setDelegate:self];
+    [[EDQueue sharedInstance] start];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
-#pragma mark - Sinch methods -
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 
@@ -215,6 +210,53 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
     return handledByBranch;
+}
+
+#pragma mark - EDQueueDelegate method -
+
+- (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
+}
+
+- (void)queue:(EDQueue *)queue processJob:(NSDictionary *)job completion:(void (^)(EDQueueResult))block
+{
+    @try {
+        if ([[job objectForKey:@"task"] isEqualToString:@"getCustomerData"]) {
+            NSError *error;
+            NSString *objectId = [PFCloud callFunction:@"getCustomerId" withParameters:@{} error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
+            } else {
+                [SettingsKeys setCustomerId:objectId];
+                block(EDQueueResultSuccess);
+            }
+        } else {
+            block(EDQueueResultCritical);
+        }
+    }
+    @catch (NSException *exception) {
+        block(EDQueueResultCritical);
+    }
 }
 
 @end
