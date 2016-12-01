@@ -48,8 +48,6 @@
 @property (nonatomic, strong) YapDatabaseViewMappings *searchMappings;
 @property (nonatomic, strong) YapDatabaseViewMappings *unreadConversationsMappings;
 
-@property(nonatomic) BOOL visible;
-
 @end
 
 @implementation ChatsViewController
@@ -61,6 +59,8 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+
+    [CustomAblyRealtime sharedInstance].delegate = self;
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
@@ -124,18 +124,22 @@
                                                  name:UPDATE_CHATS_NOTIFICATION_NAME
                                                object:nil];
     
-    // Register for push notifications and send tags
-    [[CustomAblyRealtime sharedInstance] initAbly];
-    [[OneSignalService sharedInstance] registerForPushNotifications];
-    [[OneSignalService sharedInstance] startTags];
-    
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
 
+    // Register notifications
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(receivedNotification:) name:@"EDQueueJobDidSucceed" object:nil];
+
     if ([[SettingsKeys getCustomerId] length] == 0) {
         [self addCustomerDataJob];
+    } else {
+        // Register for push notifications and send tags
+        [[CustomAblyRealtime sharedInstance] initAbly];
+        [[OneSignalService sharedInstance] registerForPushNotifications];
+        [[OneSignalService sharedInstance] startTags];
     }
 }
 
@@ -144,6 +148,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:YapDatabaseModifiedNotification object:[DatabaseManager sharedInstance].database];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UPDATE_CELL_NOTIFICATION_NAME object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UPDATE_CHATS_NOTIFICATION_NAME object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -151,7 +156,7 @@
     [super viewWillAppear:animated];
     [CustomAblyRealtime sharedInstance].delegate = self;
     [self updateBadge];
-    self.navigationController.navigationBar.barTintColor = [Colors greenColor];
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
     
     if (self.reloadData) {
         [self.tableView reloadData];
@@ -162,24 +167,30 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.visible = true;    
     self.cellUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
                                                             target:self
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
-
-//    [WhisperBridge shout:@"Hola chavita" subtitle:@"Marica" backgroundColor:[UIColor clearColor] toNavigationController:self.navigationController image:nil silenceAfter:1.8 action:^{
-//        DDLogError(@"Chavita Iglesias presiono esto");
-//    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    self.visible = false;
     [self.cellUpdateTimer invalidate];
     self.cellUpdateTimer = nil;
+}
+
+- (void)receivedNotification:(NSNotification *)notification
+{
+    NSDictionary *job = [notification valueForKey:@"object"];
+
+    if ([[job objectForKey:@"task"] isEqualToString:@"getCustomerData"]) {
+        // Register for push notifications and send tags
+        [[CustomAblyRealtime sharedInstance] initAbly];
+        [[OneSignalService sharedInstance] registerForPushNotifications];
+        [[OneSignalService sharedInstance] startTags];
+    }
 }
 
 #pragma mark - UITableViewDelegate Methods -
@@ -231,7 +242,7 @@
     if (self.searchMappings && self.searchMode) {
         return [self.searchMappings numberOfItemsInSection:section];
     } else {
-        if (self.mappings && [self.mappings numberOfItemsInSection:section]) {
+        if (self.mappings && [self.mappings numberOfItemsInSection:section] > 0) {
             self.emptyView.hidden = YES;
             return [self.mappings numberOfItemsInSection:section];
         } else {
@@ -287,16 +298,14 @@
 #pragma mark - ConversationListener Methods -
 
 - (void) messageReceived:(NSDictionary *)message {
-//    [PubNubController processMessage:message userState:NO setView:NO];
-//    NSArray * indexPathsArray = [self.tableView indexPathsForVisibleRows];
-//    
-//    for(NSIndexPath *indexPath in indexPathsArray) {
-//        CustomChatCell * cell = (CustomChatCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-//        if ([cell.business.uniqueId isEqualToString:message.from]) {
-//            [cell updateLastMessage:NO];
-//            break;
-//        }
-//    }
+    [WhisperBridge shout:@"Chava"
+                subtitle:[message objectForKey:@"message"]
+         backgroundColor:[UIColor clearColor]
+  toNavigationController:self.navigationController
+                   image:nil silenceAfter:1.8 action:^
+    {
+        DDLogError(@"Chavita Iglesias presiono esto");
+    }];
 }
 
 - (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
@@ -337,18 +346,6 @@
             [self.unreadConversationsMappings updateWithTransaction:transaction];
         }];
         return; // Already processed commit
-    }
-
-    // If the view isn't visible, we might decide to skip the UI animation stuff.
-    if (!self.visible) {
-        // Since we moved our databaseConnection to a new commit,
-        // we need to update the mappings too.
-        [self.databaseConnection asyncReadWithBlock:^(YapDatabaseReadTransaction *transaction) {
-            [self.mappings updateWithTransaction:transaction];
-            [self.searchMappings updateWithTransaction:transaction];
-            [self.unreadConversationsMappings updateWithTransaction:transaction];
-        }];
-        return;
     }
 
     NSArray *rowChanges = nil;
@@ -398,6 +395,7 @@
                     break;
                 }
                 case YapDatabaseViewChangeUpdate : {
+                    [self.tableView reloadRowsAtIndexPaths:@[rowChange.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                     break;
                 }
             }

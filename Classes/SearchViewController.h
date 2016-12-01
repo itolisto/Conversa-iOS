@@ -7,11 +7,9 @@
 //
 
 @import UIKit;
-#import "CAPSPageMenu.h"
 
-@interface SearchViewController : UIViewController  <CAPSPageMenuDelegate>
+#import "EDQueue.h"
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) UISearchController *searchController;
+@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

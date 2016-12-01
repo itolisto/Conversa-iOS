@@ -13,6 +13,6 @@
 @interface CustomCategoryCell : PFTableViewCell
 
 @property (weak, nonatomic) nCategory *category;
-- (void)configureCellWith:(nCategory *)category;
+- (void)configureCellWith:(nCategory *)category hideView:(bool)hideView;
 
 @end

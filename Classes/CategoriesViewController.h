@@ -7,6 +7,7 @@
 //
 
 @import UIKit;
+@import Parse;
 
 @interface CategoriesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 

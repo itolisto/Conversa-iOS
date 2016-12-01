@@ -250,6 +250,41 @@
                 [SettingsKeys setCustomerId:objectId];
                 block(EDQueueResultSuccess);
             }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"favorite"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            if (data) {
+                if ([data objectForKey:@"favorite"]) {
+                    [PFCloud callFunctionInBackground:@"favorite"
+                                       withParameters:@{@"business": [data objectForKey:@"business"],
+                                                        @"favorite": @YES}
+                                                block:^(NSNumber * _Nullable object, NSError * _Nullable error)
+                    {
+                        if (error) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [ParseValidation validateError:error controller:[self topViewController]];
+                            });
+                            block(EDQueueResultCritical);
+                        } else {
+                            block(EDQueueResultSuccess);
+                        }
+                    }];
+                } else {
+                    [PFCloud callFunctionInBackground:@"favorite"
+                                       withParameters:@{@"business": [data objectForKey:@"business"]}
+                                                block:^(NSNumber * _Nullable object, NSError * _Nullable error)
+                     {
+                         if (error) {
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 [ParseValidation validateError:error controller:[self topViewController]];
+                             });
+                             block(EDQueueResultCritical);
+                         } else {
+                             block(EDQueueResultSuccess);
+                         }
+                     }];
+                }
+            }
         } else {
             block(EDQueueResultCritical);
         }

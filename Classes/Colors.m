@@ -20,6 +20,26 @@
     return [UIColor colorWithRed:55.0f/255.0f green:255.0f/255.0f blue:119.0f/255.0f alpha:1.0];
 }
 
++ (UIColor *) greenNavbarColor {
+    // green: #37FF77
+    return [UIColor colorWithRed:55.0f/255.0f green:255.0f/255.0f blue:119.0f/255.0f alpha:1.0];
+}
+
++ (UIColor *) whiteNavbarColor {
+    // white: #F7F7F7
+    return [UIColor colorWithRed:249.0f/255.0f green:249.0f/255.0f blue:249.0f/255.0f alpha:1.0];
+}
+
++ (UIColor *) outgoingColor {
+    // green: #69F0AE
+    return [UIColor colorWithRed:105.0f/255.0f green:240.0f/255.0f blue:174.0f/255.0f alpha:1.0];
+}
+
++ (UIColor *) incomingColor {
+    // green: #F0F0F0
+    return [UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0];
+}
+
 + (UIColor *) greenSearchAnimationColor {
     // green: #7BFFA5
     return [UIColor colorWithRed:123.0f/255.0f green:255.0f/255.0f blue:165.0f/255.0f alpha:1.0];

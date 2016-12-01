@@ -17,7 +17,6 @@
 #import "SearchViewController.h"
 #import "CategoryViewController.h"
 #import "CustomCategoryHeaderCell.h"
-#import <Parse/Parse.h>
 
 #import "nHeaderTitle.h"
 #import "nCategory.h"
@@ -39,10 +38,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.searchView.hidden    = YES;
+    self.searchView.hidden = YES;
     self.page = 0;
 
-    self.tableView.delegate   = self;
+    self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
     self._mutableObjects = [NSMutableArray arrayWithCapacity:29];
@@ -98,11 +97,11 @@
 - (void)loadObjects {
     NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
 
-    if (![language isEqualToString:@"es"]) {
-        language = @"en"; // Set to default language if is not spanish
+    if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
+        language = @"en"; // Set to default language
     }
 
-    DDLogError(@"%@", language);
+    DDLogError(@"Category after --> %@", language);
 
     [PFCloud callFunctionInBackground:@"getCategories"
                        withParameters:@{@"language": language}
@@ -235,8 +234,18 @@
             cell = [[CustomCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
 
+        bool hide = NO;
+
         // Configure the cell
-        [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category];
+        if (indexPath.row + 1 < [[self objects] count]) {
+            NSObject *ct = (NSObject *)[self objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row + 1 inSection:0]];
+
+            if ([ct isKindOfClass:[nHeaderTitle class]]) {
+                hide = YES;
+            }
+        }
+
+        [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category hideView:hide];
 
         if ([cell isKindOfClass:[PFTableViewCell class]] &&
             !tableView.dragging &&
@@ -322,6 +331,10 @@
         self.navigationController.navigationBar.barTintColor = [Colors greenColor];
         self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
         [self.view sendSubviewToBack:self.searchView];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
+                                                            object:nil
+                                                          userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: @""}];
     }
     [searchBar setShowsCancelButton:NO animated:YES];
 }

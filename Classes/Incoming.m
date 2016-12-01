@@ -16,6 +16,7 @@
 #import "Utilities.h"
 #import "Constants.h"
 #import "YapMessage.h"
+#import "SettingsKeys.h"
 #import "AudioMediaItem.h"
 #import "PhotoMediaItem.h"
 #import "VideoMediaItem.h"
@@ -32,18 +33,18 @@
 - (JSQMessage *)create:(YapMessage *)item {
     JSQMessage *message;
     
-    if (item.messageType == kMessageTypeText)     message = [self createTextMessage:item];
-    if (item.messageType == kMessageTypeVideo)	  message = [self createVideoMessage:item];
-    if (item.messageType == kMessageTypeImage)    message = [self createPictureMessage:item];
-    if (item.messageType == kMessageTypeAudio)	  message = [self createAudioMessage:item];
+    if (item.messageType == kMessageTypeText) message = [self createTextMessage:item];
+    if (item.messageType == kMessageTypeVideo) message = [self createVideoMessage:item];
+    if (item.messageType == kMessageTypeImage) message = [self createPictureMessage:item];
+    if (item.messageType == kMessageTypeAudio) message = [self createAudioMessage:item];
     if (item.messageType == kMessageTypeLocation) message = [self createLocationMessage:item];
     
     return message;
 }
 
 - (JSQMessage *)createTextMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -57,8 +58,8 @@
 }
 
 - (JSQMessage *)createVideoMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -106,8 +107,8 @@
 }
 
 - (JSQMessage *)createPictureMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -150,8 +151,8 @@
 }
 
 - (JSQMessage *)createAudioMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -193,8 +194,8 @@
 }
 
 - (JSQMessage *)createLocationMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";

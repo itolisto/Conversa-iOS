@@ -37,7 +37,7 @@
     
     if (firstSearch) {
         // Object already exists. Update
-        firstSearch.avatar     = self.avatar;
+        firstSearch.avatarUrl = self.avatarUrl;
         firstSearch.searchDate = self.searchDate;
         [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
         {
@@ -58,7 +58,7 @@
                  {
                      if (firstSearch && ([firstSearch.searchDate compare:((YapSearch*)object).searchDate] == NSOrderedDescending)) {
                          if ([firstSearch.uniqueId isEqualToString:self.uniqueId]) {
-                             firstSearch.avatar = self.avatar;
+                             firstSearch.avatarUrl = self.avatarUrl;
                              *stop = YES;
                          } else {
                              firstSearch = (YapSearch *)object;

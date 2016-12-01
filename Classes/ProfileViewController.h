@@ -9,9 +9,9 @@
 @import UIKit;
 @class Business;
 
-@interface ProfileViewController : UITableViewController
+@interface ProfileViewController : UIViewController
 
 @property(strong, nonatomic) Business *business;
-@property(assign, nonatomic) BOOL enable;
+@property(assign, nonatomic) bool enable;
 
 @end

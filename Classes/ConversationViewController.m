@@ -31,7 +31,6 @@
 #import "Camera.h"
 #import "Colors.h"
 #import "MapView.h"
-#import "Account.h"
 #import "Message.h"
 #import "Incoming.h"
 #import "Business.h"
@@ -47,11 +46,13 @@
 #import "ProfileViewController.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+
 #import <MapKit/MapKit.h>
-#import <PureLayout/PureLayout.h>
 #import <CoreLocation/CoreLocation.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
+
+#import "Conversa-Swift.h"
 
 #define kYapDatabaseRangeLength    25
 #define kYapDatabaseRangeMaxLength 300
@@ -92,14 +93,19 @@
     [super viewDidLoad];
     
     self.messages = [[NSMutableArray alloc] init];
+
+    [CustomAblyRealtime sharedInstance].delegate = self;
     
     // Bar tint
     self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
     
     // JSQMessagesController variables setup
-    self.senderId = MESSAGE_FROM_SENDERID;
-    self.senderDisplayName = MESSAGE_FROM_SENDERDISPLAYNAME;
-    
+    self.senderId = ([[SettingsKeys getCustomerId] length] == 0) ? @"" : [SettingsKeys getCustomerId];
+    self.senderDisplayName = @"user";
+
+    /**
+     *  Set up message accessory button delegate and configuration
+     */
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     self.automaticallyScrollsToMostRecentMessage = YES;
     
@@ -138,6 +144,10 @@
                                                object:self.inputToolbar.contentView.textView];
     // Load
     [self loadNavigationBarInformation];
+
+    if ([[SettingsKeys getCustomerId] length] == 0) {
+//        [self addCustomerDataJob];
+    }
 }
 
 - (void)dealloc {
@@ -147,8 +157,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor blueColor];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -203,7 +213,7 @@
         UIImage *image = [[NSFileManager defaultManager] loadImageFromCache:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]];
         
         if (!image) {
-            image = [UIImage imageNamed:@"business_default_light"];
+            image = [UIImage imageNamed:@"ic_business_default_light"];
         }
         
         // When finished call back on the main thread:
@@ -273,10 +283,10 @@
     }];
     
     if (set) {
-        [self loadData];
-        [self initializeCollectionViewLayout];
         self.page = 0;
         [self updateRangeOptionsForPage:self.page];
+        [self loadData];
+        [self initializeCollectionViewLayout];
     }
 }
 
@@ -323,8 +333,11 @@
 
 - (void)initializeBubbles {
     JSQMessagesBubbleImageFactory *bubbleImageFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
-    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors greenColor]];
+    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoingColor]];
+    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incomingColor]];
+    // No avatars
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
 }
 
 - (void)initializeInputToolbar {
@@ -336,19 +349,15 @@
     UIButton *customLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     customLeftButton.frame = CGRectMake(0, 0, 30, 30);
-    UIImage * buttonImage = [UIImage imageNamed:@"circle-plus-large"];
+    UIImage * buttonImage = [UIImage imageNamed:@"ic_more"];
     [customLeftButton setContentMode:UIViewContentModeScaleToFill];
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
-    // No avatars
-    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
 }
 
 - (void)initializeCellMenus {
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionDelete:)];
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionCopy:)];
-    
     UIMenuItem *menuItemCopy   = [[UIMenuItem alloc] initWithTitle:@"Copiar"   action:@selector(actionCopy:)];
     UIMenuItem *menuItemDelete = [[UIMenuItem alloc] initWithTitle:@"Eliminar" action:@selector(actionDelete:)];
     [UIMenuController sharedMenuController].menuItems = @[menuItemCopy, menuItemDelete];
@@ -898,7 +907,6 @@
 - (BOOL)composerTextView:(JSQMessagesComposerTextView *)textView shouldPasteWithSender:(id)sender {
     if ([UIPasteboard generalPasteboard].image) {
         // If there's an image in the pasteboard, show view asking if the user wants to send it
-        
         return NO;
     }
     return YES;
@@ -906,21 +914,33 @@
 
 # pragma mark - ConversationListener Methods
 
-- (void) messageReceived:(NSDictionary *)message {
-    //if ([self.buddy.uniqueId isEqualToString:message.from]) {
-        //[PubNubController processMessage:message userState:self.buddy.blocked setView:YES];
-    //} else {
-        //[PubNubController processMessage:message userState:self.buddy.blocked setView:NO];
-    //}
-}
-
-- (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
-    if ([self.buddy.uniqueId isEqualToString:objectId]) {
-        self.subTitle.text = (isTyping) ? @"Escribiendo..." : self.buddy.displayName;
+- (void)messageReceived:(NSDictionary *)message {
+    if (![self.buddy.uniqueId isEqualToString:[message objectForKey:@"contactId"]]) {
+        [WhisperBridge shout:@"Hola chavita"
+                    subtitle:@"Marica"
+             backgroundColor:[UIColor clearColor]
+      toNavigationController:self.navigationController
+                       image:nil silenceAfter:1.8 action:^
+         {
+             DDLogError(@"Chavita Iglesias presiono esto");
+         }];
+    } else {
+        self.subTitle.hidden = YES;
     }
 }
 
-- (void) fromUser:(NSString*)objectId didGoOnline:(BOOL)status {
+- (void)fromUser:(NSString*)contactId userIsTyping:(BOOL)isTyping {
+    if ([self.buddy.uniqueId isEqualToString:contactId]) {
+        if (isTyping) {
+            self.subTitle.hidden = NO;
+            self.subTitle.text = @"Escribiendo...";
+        } else {
+            self.subTitle.hidden = YES;
+        }
+    }
+}
+
+- (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status {
     if ([self.buddy.uniqueId isEqualToString:objectId]) {
         NSString *title = self.subTitle.text;
         
@@ -958,16 +978,16 @@
     
     // Create object business without reference
     Business *bs = [Business objectWithoutDataWithObjectId:self.buddy.uniqueId];
-//    Account *account = [Account objectWithoutDataWithObjectId:self.buddy.uniqueId];
-//    account.displayName = self.buddy.displayName;
-//    NSData *data = UIImageJPEGRepresentation([[NSFileManager defaultManager] loadImageFromCache:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]], 1);
-//    account.avatar   = [PFFile fileWithData:data];
-    
+    NSData *data = UIImageJPEGRepresentation([[NSFileManager defaultManager] loadImageFromCache:[self.buddy.uniqueId stringByAppendingString:@"_avatar.jpg"]], 1);
+
+    if (data) {
+        bs.avatar = [PFFile fileWithData:data];
+    }
+
+    bs.displayName = self.buddy.displayName;
     bs.conversaID = self.buddy.conversaId;
-    //bs.businessInfo = account;
     
     vc.business = bs;
-    vc.enable   = NO;
     [navigationController1 setViewControllers:@[vc] animated:YES];
     [self presentViewController:navigationController1 animated:YES completion:nil];
 }
@@ -1103,6 +1123,7 @@
         [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [message saveWithTransaction:transaction];
             self.buddy.lastMessageDate = message.date;
+            //[self.buddy updateLastMessageDateWithTransaction:transaction];
             [self.buddy saveWithTransaction:transaction];
         }];
     } else {
@@ -1110,6 +1131,7 @@
         [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [message saveWithTransaction:transaction];
             self.buddy.lastMessageDate = message.date;
+            //[self.buddy updateLastMessageDateWithTransaction:transaction];
             [self.buddy saveWithTransaction:transaction];
         }];
     }
@@ -1119,7 +1141,7 @@
     {
         NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
                                            @{
-                                             @"user" : [Account currentUser].objectId,
+                                             @"user" : [SettingsKeys getCustomerId],
                                              @"business" : self.buddy.uniqueId,
                                              @"fromUser" : @"true",
                                              @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
@@ -1245,6 +1267,7 @@
     [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
         [message saveWithTransaction:transaction];
         self.buddy.lastMessageDate = message.date;
+        //[self.buddy updateLastMessageDateWithTransaction:transaction];
         [self.buddy saveWithTransaction:transaction];
     }];
     
@@ -1398,7 +1421,7 @@
                     YapMessage *message = [self messageAtIndexPath:rowChange.newIndexPath];
                     
                     if (message) {
-                        Incoming *incoming     = [[Incoming alloc] init];
+                        Incoming *incoming = [[Incoming alloc] init];
                         JSQMessage *newMessage = [incoming create:message];
                         [self.messages addObject:newMessage];
                         
@@ -1408,19 +1431,20 @@
                         isInserting = YES;
                     }
                     
-                    [self.collectionView insertItemsAtIndexPaths:@[rowChange.newIndexPath ]];
+                    [self.collectionView insertItemsAtIndexPaths:@[rowChange.newIndexPath]];
                     break;
                 }
                 case YapDatabaseViewChangeMove :
                 {
+                    [self.collectionView moveItemAtIndexPath:rowChange.indexPath toIndexPath:rowChange.newIndexPath];
                     break;
                 }
                 case YapDatabaseViewChangeUpdate :
                 {                    
                     if (shouldReloadMedia) {
                         YapMessage *message = [self messageAtIndexPath:rowChange.indexPath];
-                        Incoming *incoming  = [[Incoming alloc] init];
-                        JSQMessage *msg     = [incoming create:message];
+                        Incoming *incoming = [[Incoming alloc] init];
+                        JSQMessage *msg = [incoming create:message];
                         [self.messages replaceObjectAtIndex:rowChange.indexPath.item withObject:msg];
                     }
                     

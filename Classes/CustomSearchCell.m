@@ -24,6 +24,7 @@
     self.business = business;
 
     if (business.avatar) {
+        self.avatarUrl = [business.avatar url];
         [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[business.avatar url]]
                        placeholderImage:[UIImage imageNamed:@"ic_business_default_light"]];
     } else {
@@ -35,10 +36,21 @@
     [self.conversaIdLabel sizeToFit];
 }
 
-- (void)configureCellWith:(Business *)business withAvatar:(UIImage *)avatar {
+- (void)configureCellWith:(Business *)business withAvatar:(NSString *)avatar {
     self.business = business;
+    self.avatarUrl = avatar;
 
-    self.photoImageView.image = avatar;
+    if (avatar) {
+        if ([avatar length]) {
+            [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:avatar]
+                                   placeholderImage:[UIImage imageNamed:@"ic_business_default_light"]];
+        } else {
+            self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+        }
+    } else {
+        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+    }
+
     self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaID];
     self.displayNameLabel.text = business.displayName;
     [self.conversaIdLabel sizeToFit];

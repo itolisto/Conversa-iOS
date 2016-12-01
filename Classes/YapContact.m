@@ -117,16 +117,35 @@ const struct YapContactEdges YapContactEdges = {
     return dataChanged;
 }
 
+- (void)updateLastMessageDateWithTransaction:(YapDatabaseReadTransaction *)transaction
+{
+    __block NSDate *date = nil;
+    NSString *extensionName = YapDatabaseRelationshipName;
+    NSString *edgeName = YapMessageEdges.buddy;
+    
+    [[transaction ext:extensionName] enumerateEdgesWithName:edgeName destinationKey:self.uniqueId collection:[YapContact collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop) {
+        YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
+        if (message) {
+            if (!date) {
+                date = message.date;
+            } else {
+                date = [date laterDate:message.date];
+            }
+        }
+    }];
+    self.lastMessageDate = date;
+}
+
 - (YapMessage *)lastMessageWithTransaction:(YapDatabaseReadTransaction *)transaction {
     __block YapMessage *finalMessage = nil;
     [[transaction ext:YapDatabaseRelationshipName] enumerateEdgesWithName:YapMessageEdges.buddy destinationKey:self.uniqueId collection:[YapContact collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop)
     {
         YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
         
-        if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
+//        if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
             finalMessage = message;
-            *stop = YES;
-        }
+//            *stop = YES;
+//        }
     }];
     return [finalMessage copy];
 }
@@ -191,8 +210,13 @@ const struct YapContactEdges YapContactEdges = {
         // Update info. Maybe local data is out-of-date
         newBuddy.displayName = business.displayName;
         newBuddy.conversaId = business.conversaID;
-        newBuddy.statusMessage = business.status;
-        newBuddy.about = business.about;
+
+        @try {
+            newBuddy.about = business.about;
+        } @catch (NSException *exception) {
+            newBuddy.about = @"";
+        }
+
         [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [newBuddy saveWithTransaction:transaction];
         }];
@@ -202,8 +226,15 @@ const struct YapContactEdges YapContactEdges = {
         newBuddy.accountUniqueId = [Account currentUser].objectId;
         newBuddy.displayName = business.displayName;
         newBuddy.conversaId = business.conversaID;
-        newBuddy.statusMessage = business.status;
-        newBuddy.about = business.about;
+
+        @try {
+            newBuddy.about = business.about;
+        } @catch (NSException *exception) {
+            newBuddy.about = @"";
+        } @catch (id exception) {
+            newBuddy.about = @"";
+        }
+
         newBuddy.composingMessageString = @"";
         newBuddy.blocked = NO;
         newBuddy.mute = NO;
@@ -216,8 +247,6 @@ const struct YapContactEdges YapContactEdges = {
         } else {
             [values setObject:[NSNumber numberWithBool:NO] forKey:kNSDictionaryChangeValue];
         }
-        
-        
     }
     
     [values setObject:[newBuddy copy] forKey:kNSDictionaryBusiness];

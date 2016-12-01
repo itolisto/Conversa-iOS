@@ -49,28 +49,6 @@
     self.navigationController.view.backgroundColor = [UIColor clearColor];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(keyboardWillShow:)
-//                                                 name:UIKeyboardWillShowNotification
-//                                               object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(keyboardWillHide:)
-//                                                 name:UIKeyboardWillHideNotification
-//                                               object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
@@ -100,31 +78,6 @@
         [self doLogin];
     
     return YES;
-}
-
-#pragma mark - Scroll view -
-
-- (void)keyboardWillShow:(NSNotification*)notification {
-    //UIKeyboardFrameEndUserInfoKey
-    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
-
-//    self.scrollView.contentInset = contentInsets;
-//    self.scrollView.scrollIndicatorInsets = contentInsets;
-
-    CGRect rect = self.view.frame;
-    rect.size.height -= keyboardSize.height;
-
-    if (!CGRectContainsPoint(rect, self.view.frame.origin)) {
-        CGPoint scrollPoint = CGPointMake(0.0, self.view.frame.origin.y - (keyboardSize.height - self.view.frame.size.height));
-//        [self.scrollView setContentOffset:scrollPoint animated:NO];
-    }
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-//    self.scrollView.contentInset = contentInsets;
-//    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - Login Methods -

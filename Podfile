@@ -59,4 +59,6 @@ target 'Conversa' do
     pod 'UIActivityIndicator-for-SDWebImage'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
+    # MZFormSheetPresentationController provides an alternative to the native iOS UIModalPresentationFormSheet
+    pod 'MZFormSheetPresentationController'
 end

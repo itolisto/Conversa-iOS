@@ -18,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *verifiedImageView;
 
 @property (strong, nonatomic) Business *business;
+@property (strong, nonatomic) NSString *avatarUrl;
+
 - (void)configureCellWith:(Business *)business;
-- (void)configureCellWith:(Business *)business withAvatar:(UIImage *)avatar;
+- (void)configureCellWith:(Business *)business withAvatar:(NSString *)avatar;
 
 @end

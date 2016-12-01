@@ -15,18 +15,25 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet UIView *dividerView;
 
 @end
 
 @implementation CustomCategoryCell
 
-- (void)configureCellWith:(nCategory *)category {
+- (void)configureCellWith:(nCategory *)category hideView:(bool)hideView {
     self.category = category;
 
     [self.avatar sd_setImageWithURL:[NSURL URLWithString:[category getAvatarUrl]]
                  placeholderImage:[UIImage imageNamed:@"business_default_light"]];
 
     self.nameLabel.text = [category getCategoryName];
+
+    if (hideView) {
+        self.dividerView.hidden = YES;
+    } else {
+        self.dividerView.hidden = NO;
+    }
 }
 
 + (NSString *)reuseIdentifier {

@@ -51,6 +51,7 @@
     // Imagen redonda
     self.imageUser.layer.cornerRadius = self.imageUser.frame.size.width / 2;
     self.imageUser.clipsToBounds = YES;
+    self.imageUser.image = [UIImage imageNamed:@"ic_person"];
     // Agregar borde
     self.imageUser.layer.borderWidth = 3.0f;
     self.imageUser.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -61,8 +62,6 @@
     self.emailTextField.delegate = self;
     self.displayNameTextField.delegate = self;
     self.passwordTextField.delegate = self;
-    
-    self.imageUser.image = [UIImage imageNamed:@"person"];
 
     self.blockedContactsLabel.text = @"Cargando";
     
