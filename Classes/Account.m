@@ -8,7 +8,6 @@
 
 #import "Account.h"
 
-#import "bCategory.h"
 #import "YapAccount.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
@@ -34,7 +33,6 @@
     {
         [YapAccount deleteAccountWithTransaction:transaction];
     }];
-    [bCategory unpinAllObjectsInBackground];
     [super logOut];
 }
 

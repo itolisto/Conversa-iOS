@@ -21,7 +21,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
        
         self.pageTitles = NSArray(objects: "¿QUE ES CONVERSA?", "¿PARA QUE PUEDE SERVIR?", "ENCUENTRA", "¿QUE ES UN ID?")
         
-        self.pageImages = NSArray(objects: "Cam1", "Cam1", "Cam1", "Cam1")
+        self.pageImages = NSArray(objects: "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one")
         
         self.pageInfos = NSArray(objects: "Es como WhatsApp pero para que puedas chatear con empresas en tiempo real y GRATIS", "Consultar precios/disponibilidad de productos, información de lo que necesites, servicio al cliente, etc.", "Con quien necesites chatear buscando por el ID de la empresa o explora en las categorias", "El ID de una empresa es su nombre de usuario, ejemplo: '@tunegocio'. Puedes buscarlo con o sin el Arroba '@'.")
 

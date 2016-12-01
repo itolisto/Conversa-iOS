@@ -8,7 +8,8 @@
 
 #import "CustomCategoryCell.h"
 
-#import "bCategory.h"
+#import "nCategory.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface CustomCategoryCell ()
 

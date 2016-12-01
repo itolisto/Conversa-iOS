@@ -12,9 +12,9 @@
 
 @interface CustomSearchCell : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet PFImageView *photoImageView;
+@property (nonatomic, weak) IBOutlet UIImageView *photoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *displayNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *conversaIdLabel;
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *verifiedImageView;
 
 @property (strong, nonatomic) Business *business;

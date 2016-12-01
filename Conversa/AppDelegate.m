@@ -15,11 +15,11 @@
 #import "Customer.h"
 #import "Business.h"
 #import "Constants.h"
-#import "bCategory.h"
-//#import "Appirater.h"
+#import "Appirater.h"
 #import "YapContact.h"
 #import "SettingsKeys.h"
 #import "PopularSearch.h"
+#import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "BusinessCategory.h"
 #import "OneSignalService.h"
@@ -45,7 +45,7 @@
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
     
     // Set Fabric
-    [Fabric with:@[[Crashlytics class]]];
+    [Fabric with:@[[Answers class], [Crashlytics class]]];
     
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -60,14 +60,8 @@
     [Message registerSubclass];
     [Business registerSubclass];
     [Customer registerSubclass];
-    [bCategory registerSubclass];
     [PopularSearch registerSubclass];
     [BusinessCategory registerSubclass];
-    [PFImageView class];
-    
-    // [Optional] Power your app with Local Datastore. For more info, go to
-    // https://parse.com/docs/ios/guide#local-datastore
-    [Parse enableLocalDatastore];
     
     // Initialize Parse.
     [Parse setApplicationId:@"39H1RFC1jalMV3cv8pmDGPRh93Bga1mB4dyxbLwl"
@@ -92,7 +86,7 @@
         [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
         
         if (error) {
-//            DDLogError(@"Password Error: %@",error);
+            DDLogError(@"Password Error: %@",error);
         }
         
         // Default settings
@@ -115,8 +109,8 @@
     [Buglife sharedBuglife].invocationOptions = LIFEInvocationOptionsShake;
 
     // Set Appirater settings
-    //[Appirater setOpenInAppStore:NO];
-    //[Appirater appLaunched:YES];
+    [Appirater setOpenInAppStore:NO];
+    [Appirater appLaunched:YES];
     
     Branch *branch = [Branch getInstance];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
@@ -171,6 +165,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[EDQueue sharedInstance] stop];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -184,13 +179,13 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[EDQueue sharedInstance] setDelegate:self];
+    [[EDQueue sharedInstance] start];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
-#pragma mark - Sinch methods -
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 

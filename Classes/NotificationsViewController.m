@@ -18,8 +18,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *inAppSoundSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *previewMessageSwitch;
 
-
-
 @end
 
 @implementation NotificationsViewController

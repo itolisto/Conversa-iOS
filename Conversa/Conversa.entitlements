@@ -5,7 +5,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)ee.app.conversa</string>
-		<string>$(AppIdentifierPrefix)ee.app.conversabusiness</string>
+		<string>$(AppIdentifierPrefix)ee.app.conversamanager</string>
 	</array>
 </dict>
 </plist>

@@ -7,9 +7,7 @@
 //
 
 @import UIKit;
-//#import <OHQBImagePicker/QBImagePicker.h>
 
-@interface AccountSettingsViewController : UITableViewController <UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UITextFieldDelegate>
-//QBImagePickerControllerDelegate
+@interface AccountSettingsViewController : UITableViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @end

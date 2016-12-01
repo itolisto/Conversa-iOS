@@ -35,10 +35,8 @@ typedef NS_ENUM(NSUInteger, ConversaGender) {
 
 // General
 + (void)setTutorialShownSetting:(BOOL)state;
-+ (void)setCategoriesLoad:(NSInteger)page;
 + (void)setNotificationsCheck:(BOOL)state;
 + (BOOL)getTutorialShownSetting;
-+ (NSInteger)getCategoriesLoad;
 + (BOOL)getNotificationsCheck;
 
 // Account settings

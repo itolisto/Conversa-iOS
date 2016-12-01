@@ -33,13 +33,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.emailTextField.placeholder = NSLocalizedString(@"email", nil);
-    self.passwordTextField.placeholder = NSLocalizedString(@"password", nil);
-    [self.signUpButton setTitle:NSLocalizedString(@"send_password_button", nil) forState:UIControlStateNormal];
-    self.termsLabel.text = NSLocalizedString(@"signup_terms1_notification", nil);
-    self.termsBottomLabel.text = NSLocalizedString(@"signup_terms2_notification", nil);
-    
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
@@ -99,15 +92,15 @@
             [hudError removeFromSuperview];
             return YES;
         } else {
-            hudError.labelText = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError show:YES];
-            [hudError hide:YES afterDelay:1.7];
+            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
             [self.passwordTextField becomeFirstResponder];
         }
     } else {
-        hudError.labelText = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError show:YES];
-        [hudError hide:YES afterDelay:1.7];
+        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
         [self.emailTextField becomeFirstResponder];
     }
     
@@ -127,7 +120,7 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!error) {
                 // Register successful
                 [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];

@@ -18,36 +18,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="business_default" translatesAutoresizingMaskIntoConstraints="NO" id="sLk-uM-nAs" customClass="PFImageView">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_business_default" translatesAutoresizingMaskIntoConstraints="NO" id="sLk-uM-nAs">
                         <rect key="frame" x="15" y="15" width="45" height="45"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="2RD-L2-9vT"/>
                             <constraint firstAttribute="width" constant="45" id="73q-cv-rbd"/>
                             <constraint firstAttribute="height" constant="45" id="cJq-sH-08G"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="nPU-pi-WHX"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ifJ-LU-2i0" userLabel="Info Container View">
                         <rect key="frame" x="80" y="36.5" width="218" height="1"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="IRL-yU-QjG" firstAttribute="leading" secondItem="KcK-KU-Bcd" secondAttribute="trailing" constant="7" id="88D-23-7vh"/>
-                            <constraint firstAttribute="height" constant="40" id="BP7-pa-G50"/>
-                            <constraint firstAttribute="trailing" secondItem="IRL-yU-QjG" secondAttribute="trailing" id="D4w-uC-Km4"/>
-                            <constraint firstItem="IRL-yU-QjG" firstAttribute="top" secondItem="ifJ-LU-2i0" secondAttribute="top" id="FFP-Ag-ozW"/>
-                            <constraint firstAttribute="trailing" secondItem="IRL-yU-QjG" secondAttribute="trailing" constant="8" id="IIZ-YU-MSs"/>
-                            <constraint firstItem="KcK-KU-Bcd" firstAttribute="leading" secondItem="ifJ-LU-2i0" secondAttribute="leading" id="SqY-XW-FPk"/>
-                            <constraint firstItem="KcK-KU-Bcd" firstAttribute="top" secondItem="ifJ-LU-2i0" secondAttribute="top" id="ZZ0-nl-Sjf"/>
-                            <constraint firstAttribute="trailing" secondItem="cWO-Mw-XJO" secondAttribute="trailing" id="lxF-iu-Uyh"/>
-                            <constraint firstItem="IRL-yU-QjG" firstAttribute="height" secondItem="KcK-KU-Bcd" secondAttribute="height" id="ncP-Md-5Wz"/>
-                            <constraint firstAttribute="bottom" secondItem="cWO-Mw-XJO" secondAttribute="bottom" id="o3x-RH-Ang"/>
-                            <constraint firstItem="cWO-Mw-XJO" firstAttribute="leading" secondItem="ifJ-LU-2i0" secondAttribute="leading" id="pyR-PD-HrP"/>
+                            <constraint firstAttribute="height" constant="1" id="5Xm-p0-dHq"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="D4w-uC-Km4"/>
-                                <exclude reference="IIZ-YU-MSs"/>
-                            </mask>
-                        </variation>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Conversa Id" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KcK-KU-Bcd">
                         <rect key="frame" x="80" y="37.5" width="75.5" height="17"/>
@@ -85,19 +71,14 @@
                     <constraint firstItem="sLk-uM-nAs" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="rmJ-qe-0yO"/>
                     <constraint firstItem="sLk-uM-nAs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="7" id="uoJ-Y9-8Wi"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="xoF-YB-wFU"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <inset key="separatorInset" minX="80" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
-                <outlet property="conversaIdLabel" destination="KcK-KU-Bcd" id="Th7-VV-G6q"/>
+                <outlet property="conversaIdLabel" destination="KcK-KU-Bcd" id="Mkl-Ul-WmL"/>
+                <outlet property="displayNameLabel" destination="cWO-Mw-XJO" id="X0I-V3-aoW"/>
                 <outlet property="photoImageView" destination="sLk-uM-nAs" id="k3l-jb-HXk"/>
-                <outlet property="usernameLabel" destination="cWO-Mw-XJO" id="dI3-tS-5gm"/>
-                <outlet property="verifiedImageView" destination="IRL-yU-QjG" id="SV3-in-oEg"/>
+                <outlet property="verifiedImageView" destination="IRL-yU-QjG" id="bpL-nM-u2u"/>
             </connections>
             <point key="canvasLocation" x="241" y="341.5"/>
         </tableViewCell>

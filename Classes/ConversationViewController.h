@@ -10,12 +10,11 @@
 @class Business, YapContact, YapMessage;
 #import "CustomAblyRealtime.h"
 #import <Parse/Parse.h>
-//#import <OHQBImagePicker/QBImagePicker.h>
+#import <OHQBImagePicker/QBImagePicker.h>
 #import <JSQMessagesViewController/JSQMessages.h>
 
 @interface ConversationViewController : JSQMessagesViewController
-<JSQMessagesComposerTextViewPasteDelegate, UIImagePickerControllerDelegate, ConversationListener>
-//QBImagePickerControllerDelegate
+<JSQMessagesComposerTextViewPasteDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate, ConversationListener>
 
 @property(nonatomic, assign) BOOL checkIfAlreadyAdded;
 @property(nonatomic, strong) YapContact *buddy;

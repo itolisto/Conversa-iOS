@@ -7,10 +7,10 @@
 //
 
 @import UIKit;
+#import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @end
-

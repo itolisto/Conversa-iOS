@@ -25,6 +25,9 @@ import Whisper
     {
         let announcement = Announcement(title: text, subtitle: subtitle, image: image)
         show(shout: announcement, to: toNavigationController, completion: action)
-    }
 
+        if silenceAfter > 0.1 {
+            hide(whisperFrom: toNavigationController, after: silenceAfter)
+        }
+    }
 }

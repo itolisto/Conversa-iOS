@@ -48,11 +48,12 @@
 }
 
 - (void)initAbly {
-    ARTClientOptions *options = [[ARTClientOptions alloc] init];
-    options.key = @"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_";
-    options.logLevel = ARTLogLevelError;
-    options.clientId = [[NSUUID UUID] UUIDString];
-    self.ably = [[ARTRealtime alloc] initWithOptions:options];
+    ARTClientOptions *artoptions = [[ARTClientOptions alloc] init];
+    artoptions.key = @"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_";
+    artoptions.logLevel = ARTLogLevelError;
+    artoptions.echoMessages = NO;
+    //artoptions = [[NSUUID UUID] UUIDString];
+    self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
@@ -105,7 +106,8 @@
     if (self.ably == nil) {
         return;
     }
-    
+
+    [self.ably close];
 }
 
 - (void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
@@ -115,13 +117,13 @@
 
     switch (status.current) {
         case ARTRealtimeInitialized:
-            //DDLogError(@"onConnectionStateChgd: Initialized");
+            DDLogError(@"onConnectionStateChgd: Initialized");
             break;
         case ARTRealtimeConnecting:
-            //DDLogError(@"onConnectionStateChgd: Connecting");
+            DDLogError(@"onConnectionStateChgd: Connecting");
             break;
         case ARTRealtimeConnected:
-            //DDLogError(@"onConnectionStateChgd: Connected");
+            DDLogError(@"onConnectionStateChgd: Connected");
             if (self.firstLoad) {
                 // Subscribe to all Channels
                 [self subscribeToChannels];
@@ -139,23 +141,23 @@
             }
             break;
         case ARTRealtimeDisconnected:
-//            DDLogError(@"onConnectionStateChgd: Disconnected");
+            DDLogError(@"onConnectionStateChgd: Disconnected");
             break;
         case ARTRealtimeSuspended:
-//            DDLogError(@"onConnectionStateChgd: Suspended");
+            DDLogError(@"onConnectionStateChgd: Suspended");
             break;
         case ARTRealtimeClosing:
-//            DDLogError(@"onConnectionStateChgd: Closing");
+            DDLogError(@"onConnectionStateChgd: Closing");
             for (ARTRealtimeChannel * channel in self.ably.channels) {
                 [channel unsubscribe];
                 [[channel getPresence] unsubscribe];
             }
             break;
         case ARTRealtimeClosed:
-//            DDLogError(@"onConnectionStateChgd: Closed");
+            DDLogError(@"onConnectionStateChgd: Closed");
             break;
         case ARTRealtimeFailed:
-//            DDLogError(@"onConnectionStateChgd: Failed --> %@", status.reason);
+            DDLogError(@"onConnectionStateChgd: Failed --> %@", status.reason);
             break;
     }
 }

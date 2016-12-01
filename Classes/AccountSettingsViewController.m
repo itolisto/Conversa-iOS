@@ -24,12 +24,10 @@
 
 @interface AccountSettingsViewController ()
 
-@property (weak, nonatomic) IBOutlet PFImageView *imageUser;
+@property (weak, nonatomic) IBOutlet UIImageView *imageUser;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *displayNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UISwitch *sendReadSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *blockedContactsLabel;
 
 @property (nonatomic, assign) BOOL reload;
@@ -61,7 +59,6 @@
     self.displayNameTextField.text = [SettingsKeys getDisplayName];
     // Delegate
     self.emailTextField.delegate = self;
-    self.usernameTextField.delegate = self;
     self.displayNameTextField.delegate = self;
     self.passwordTextField.delegate = self;
 
@@ -145,13 +142,13 @@
                                          
                                          [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
                                              if (succeeded && !error) {
-                                                 hudError.labelText = @"Contraseña cambiada";
-                                                 [hudError show:YES];
-                                                 [hudError hide:YES afterDelay:1.7];
+                                                 hudError.label.text = @"Contraseña cambiada";
+                                                 [hudError showAnimated:YES];
+                                                 [hudError hideAnimated:YES afterDelay:1.7];
                                              } else {
-                                                 hudError.labelText = @"Contraseña no se ha cambiado";
-                                                 [hudError show:YES];
-                                                 [hudError hide:YES afterDelay:1.7];
+                                                 hudError.label.text = @"Contraseña no se ha cambiado";
+                                                 [hudError showAnimated:YES];
+                                                 [hudError hideAnimated:YES afterDelay:1.7];
                                              }
                                              self.passwordTextField.text = @"";
                                          }];
@@ -206,7 +203,7 @@
         if ([indexPath row] == 0) {
             [self cleanRecentSearches];
         }
-    } else if([indexPath section] == 4) {
+    } else if([indexPath section] == 3) {
         [self showLogout];
     }
     
@@ -238,92 +235,6 @@
     }
     
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-}
-
-#pragma mark - UIImagePickerControllerDelegate Method -
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = compressImage(info[UIImagePickerControllerEditedImage]);
-
-    if (image) {
-        [self processImage:UIImageJPEGRepresentation(image, 0.5)];
-    }
-
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)image:(UIImage *)image finishedSavingWithError:(NSError *) error contextInfo:(void *)contextInfo {
-    if (error) {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle: @"Error"
-                              message: @"Hubo un error al guardar la imagen"
-                              delegate: nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
-
-//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingItems:(NSArray *)items
-//{
-//    for (PHAsset *asset in items) {
-//        PHImageManager *manager = [PHImageManager defaultManager];
-//        [manager requestImageDataForAsset:asset
-//                                  options:nil
-//                            resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
-//         {
-//             if (imageData) {
-//                 [self processImage:UIImageJPEGRepresentation(compressImage([UIImage imageWithData:imageData]), 0.5)];
-//             }
-//         }];
-//    }
-//    
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//}
-//
-//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//}
-
-- (void)processImage:(NSData *)picture {
-    if (picture) {
-        PFFile *filePicture = [PFFile fileWithName:@"avatar.jpg" data:picture];
-        [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
-         {
-             if (error != nil) {
-                 UIAlertController* view = [UIAlertController
-                                            alertControllerWithTitle:nil
-                                            message:nil
-                                            preferredStyle:UIAlertControllerStyleAlert];
-                 
-                 UIAlertAction* ok = [UIAlertAction
-                                      actionWithTitle:@"Ok"
-                                      style:UIAlertActionStyleDefault
-                                      handler:^(UIAlertAction * action) {
-                                          [view dismissViewControllerAnimated:YES completion:nil];
-                                      }];
-                 [view addAction:ok];
-                 [self presentViewController:view animated:YES completion:nil];
-             } else {
-                 self.imageUser.image = [UIImage imageWithData:picture];
-                 Account *account = [Account currentUser];
-                 account[kUserAvatarKey] = filePicture;
-                 [account saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                     if (!succeeded || error) {
-                         [account saveEventually];
-                     }
-                 }];
-                 // Save to Cache Directory
-                 [[NSFileManager defaultManager] saveDataToCachesDirectory:picture
-                                                                  withName:kAccountAvatarName
-                                                              andDirectory:kMessageMediaImageLocation];
-             }
-         }];
-    }
 }
 
 #pragma mark - Action Methods -
@@ -380,61 +291,6 @@
     [view addAction:logout];
     [view addAction:cancel];
     [self presentViewController:view animated:YES completion:nil];
-}
-
-- (IBAction)avatarButtonPressed:(UIButton *)sender {
-    UIAlertController * view=   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction* viewPhotho = [UIAlertAction
-                                 actionWithTitle:@"Ver imagen"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action) {
-                                     //Do some thing here
-                                     NSArray *photos = [IDMPhoto photosWithImages:@[self.imageUser.image]];
-                                     IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:photos];
-                                     browser.displayActionButton = NO;
-                                     browser.displayArrowButton  = NO;
-                                     browser.displayCounterLabel = NO;
-                                     [self presentViewController:browser animated:YES completion:nil];
-                                 }];
-    UIAlertAction* photoLibrary = [UIAlertAction
-                                   actionWithTitle:@"Librería"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction * action) {
-                                       //Do some thing here
-                                       PresentPhotoLibrary(self, YES, 1);
-                                       [view dismissViewControllerAnimated:YES completion:nil];
-                                   }];
-    UIAlertAction* camera = [UIAlertAction
-                             actionWithTitle:@"Cámara"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 //Do some thing here
-                                 PresentPhotoCamera(self, YES);
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
-                             style:UIAlertActionStyleCancel
-                             handler:^(UIAlertAction * action) {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    
-    [view addAction:viewPhotho];
-    [view addAction:photoLibrary];
-    [view addAction:camera];
-    [view addAction:cancel];
-    [self presentViewController:view animated:YES completion:nil];
-}
-
-- (IBAction)sendReadAction:(UISwitch *)sender {
-    if (sender.on) {
-        [SettingsKeys setAccountReadSetting:YES];
-    } else {
-        [SettingsKeys setAccountReadSetting:NO];
-    }
 }
 
 @end

@@ -12,7 +12,6 @@
 
 // General
 NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
-NSString *firstCategoriesLoad  = @"firstCategoriesLoad";
 NSString *notificationsCheck   = @"notificationsCheck";
 
 // Account settings
@@ -50,17 +49,6 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 + (BOOL)getTutorialShownSetting {
     NSUserDefaults *defaults = [self getDefaults];
     return [defaults boolForKey:tutorialAlreadyShown];
-}
-
-+ (void)setCategoriesLoad:(NSInteger)page {
-    NSUserDefaults *defaults = [self getDefaults];
-    [defaults setInteger:page forKey:firstCategoriesLoad];
-    [defaults synchronize];
-}
-
-+ (NSInteger)getCategoriesLoad {
-    NSUserDefaults *defaults = [self getDefaults];
-    return [defaults integerForKey:firstCategoriesLoad];;
 }
 
 + (void)setNotificationsCheck:(BOOL)state {
@@ -128,7 +116,6 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     return [defaults integerForKey:customerGender];
 }
 
->>>>>>> Stashed changes
 + (void)setAccountReadSetting:(BOOL) state {
     NSUserDefaults *defaults = [self getDefaults];
     [defaults setBool:state forKey:readReceiptsSwitch];

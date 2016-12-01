@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "YapSearch.h"
 #import "NSFileManager+Conversa.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @implementation CustomSearchCell
 
@@ -37,7 +38,7 @@
     }
 
     self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaID];
-    self.usernameLabel.text = business.displayName;
+    self.displayNameLabel.text = business.displayName;
     [self.conversaIdLabel sizeToFit];
 }
 

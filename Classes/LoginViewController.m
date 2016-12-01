@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
+//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -68,7 +69,7 @@
     
 }
 
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     
     if (textField == self.usernameTextField)
@@ -81,7 +82,7 @@
 
 #pragma mark - Login Methods -
 
-- (BOOL) validForm {
+- (BOOL)validForm {
     MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
     hudError.mode = MBProgressHUDModeText;
     [self.view addSubview:hudError];
@@ -91,22 +92,22 @@
             [hudError removeFromSuperview];
             return YES;
         } else {
-            hudError.labelText = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError show:YES];
-            [hudError hide:YES afterDelay:1.7];
+            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
             [self.passwordTextField becomeFirstResponder];
         }
     } else {
-        hudError.labelText = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError show:YES];
-        [hudError hide:YES afterDelay:1.7];
+        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
         [self.usernameTextField becomeFirstResponder];
     }
     
     return NO;
 }
 
-- (void) doLogin {
+- (void)doLogin {
     if([self validForm]) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
@@ -117,14 +118,14 @@
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
             if (error) {
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [self showErrorMessage];
             } else {                
                 [Account logInWithUsernameInBackground:((Account *)object).username
                                               password:self.passwordTextField.text
                                                  block:^(PFUser * _Nullable user, NSError * _Nullable error)
                 {
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
                     
                     if(user) {
                         // Successful login
@@ -139,7 +140,7 @@
     }
 }
 
-- (void) showErrorMessage {
+- (void)showErrorMessage {
     UIAlertController * view = [UIAlertController
                                 alertControllerWithTitle:nil
                                 message:NSLocalizedString(@"sign_failed_message", nil)

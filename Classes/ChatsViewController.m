@@ -28,12 +28,13 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
 
+#import "Conversa-Swift.h"
+
 @interface ChatsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noMessagesLine1;
-@property (weak, nonatomic) IBOutlet UILabel *noMessagesLine2;
 @property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) NSMutableArray *filteredCategories;
 @property (nonatomic, strong) NSTimer *cellUpdateTimer;
@@ -82,8 +83,6 @@
     
     self.noMessagesLine1.adjustsFontSizeToFitWidth = YES;
     self.noMessagesLine1.minimumScaleFactor = 1;
-    self.noMessagesLine2.adjustsFontSizeToFitWidth = YES;
-    self.noMessagesLine2.minimumScaleFactor = 1;
     
     // Load initial data
     self.searchMode = NO;
@@ -443,6 +442,10 @@
 }
 
 #pragma mark - Navigation Method -
+
+- (IBAction)startBrowsingPressed:(UIButton *)sender {
+    [self.tabBarController setSelectedIndex:1];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"FromChatsToChat"]) {

@@ -11,16 +11,22 @@
 #import "Log.h"
 #import "Colors.h"
 #import "Constants.h"
-#import "bCategory.h"
 #import "SettingsKeys.h"
+#import "ParseValidation.h"
 #import "CustomCategoryCell.h"
 #import "SearchViewController.h"
 #import "CategoryViewController.h"
 #import "CustomCategoryHeaderCell.h"
 
+#import "nHeaderTitle.h"
+#import "nCategory.h"
+
 @interface CategoriesViewController ()
 
+@property (strong, nonatomic) NSMutableArray<NSObject *> *_mutableObjects;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
+// Whether we have loaded the first set of objects
+@property (nonatomic, assign) BOOL _firstLoad;
 @property (nonatomic, assign) BOOL searchMode;
 @property (nonatomic, assign) NSUInteger page;
 
@@ -66,22 +72,24 @@
     // search interface.  Obviously we don't want this to happen if
     // our search bar is inside the navigation bar.
     self.searchController.hidesNavigationBarDuringPresentation = false;
-    
+
     // Load initial data
     self.searchMode = NO;
-    
+
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
-    
+
     // Remove 1px bottom line
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init]
                                                  forBarPosition:UIBarPositionAny
                                                      barMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    
+
     self.navigationController.navigationBar.barTintColor = [Colors greenColor];
+
+    [self loadObjects];
 }
 
 #pragma mark - Data Methods -
@@ -173,35 +181,36 @@
      }];
 }
 
-- (void)objectsDidLoad:(NSError *)error {
-    [super objectsDidLoad:error];
-    if (![SettingsKeys getCategoriesLoad] && [self.objects count]) {
-        [SettingsKeys setCategoriesLoad:self.page];
-        [PFObject pinAllInBackground:self.objects];
-    }
+- (void)_refreshControlValueChanged:(UIRefreshControl *)refreshControl {
+    [self loadObjects];
 }
 
-- (PFQuery *)baseQuery {
-    PFQuery *query = [bCategory query];
-    [query selectKeys:@[@"thumbnail"]];
-    [query orderByDescending:@"relevance"];
-    [query addDescendingOrder:@"position"];
-    return ([SettingsKeys getCategoriesLoad] > 0) ? [query fromLocalDatastore] : query;
+- (NSArray<__kindof NSObject *> *)objects {
+    return __mutableObjects;
 }
 
-- (PFQuery *)queryForTable {
-    return [self baseQuery];
+- (NSObject *)objectAtIndexPath:(NSIndexPath *)indexPath {
+    return self.objects[indexPath.row];
 }
 
 #pragma mark - UITableViewDataSource Methods -
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 75.0;
+// Return the number of rows in the section.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.objects count];
 }
 
-- (PFTableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-                        object:(PFObject *)object
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSObject *category = (NSObject *)[self objectAtIndexPath:indexPath];
+
+    if ([category isKindOfClass:[nHeaderTitle class]]) {
+        return 30.0;
+    }
+
+    return 70.0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
 
@@ -239,25 +248,13 @@
         [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category hideView:hide];
     }
     
-    // Configure the cell
-    [cell configureCellWith:(bCategory *)object];
-    
     return cell;
 }
 
 #pragma mark - UITableViewDelegate Methods -
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == self.objects.count && self.paginationEnabled) {
-        self.page = self.page + 1;
-        // Load More Cell
-        if (self.page > [SettingsKeys getCategoriesLoad]) {
-            [SettingsKeys setCategoriesLoad:0];
-            [PFObject unpinAllInBackground:self.objects];
-        }
-    }
-    
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -338,7 +335,7 @@
         // Get reference to the destination view controller
         CategoryViewController *destinationViewController = [segue destinationViewController];
         CustomCategoryCell *cell = sender;
-        bCategory *bs = cell.category;
+        nCategory *bs = cell.category;
         destinationViewController.navigationItem.title = [bs getCategoryName];
         // Pass any objects to the view controller here, like...
         [destinationViewController setCategoryId:bs.objectId];
