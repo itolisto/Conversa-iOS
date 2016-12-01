@@ -16,7 +16,6 @@
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
 #import <Parse/Parse.h>
-#import <ParseUI/ParseUI.h>
 
 @interface CustomChatCell ()
 
@@ -32,13 +31,23 @@
 
 - (void)awakeFromNib {
     // Circular
+    [super awakeFromNib];
     self.avatarImageView.layer.cornerRadius = self.avatarImageView.frame.size.width / 2;
     self.unreadMessage.layer.cornerRadius   = self.unreadMessage.frame.size.width / 2;
+    self.avatarImageView.layer.masksToBounds = YES;
+    self.unreadMessage.layer.masksToBounds = YES;
 }
 
 - (void)configureCellWith:(YapContact *)business {
-    self.business = business;    
-    self.avatarImageView.image = [[NSFileManager defaultManager] loadImageFromCache:[business.uniqueId stringByAppendingString:@"_avatar.jpg"]];
+    self.business = business;
+
+    UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[business.uniqueId stringByAppendingString:@"_avatar.jpg"]];
+
+    if (!image) {
+        image = [UIImage imageNamed:@"ic_business_default_light"];
+    }
+
+    self.avatarImageView.image = image;
     self.nameLabel.text = business.displayName;
     [self updateLastMessage:NO];
 }

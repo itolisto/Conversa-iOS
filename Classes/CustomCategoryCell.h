@@ -7,12 +7,11 @@
 //
 
 @import UIKit;
-@class bCategory;
-#import <ParseUI/ParseUI.h>
+@class nCategory;
 
-@interface CustomCategoryCell : PFTableViewCell
+@interface CustomCategoryCell : UITableViewCell
 
-@property (weak, nonatomic) bCategory *category;
-- (void)configureCellWith:(bCategory *)category;
+@property (weak, nonatomic) nCategory *category;
+- (void)configureCellWith:(nCategory *)category hideView:(bool)hideView;
 
 @end

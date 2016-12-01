@@ -168,8 +168,6 @@ open class DOFavoriteButton: UIButton {
                 let path = CGMutablePath()
                 path.move(to: CGPoint(x: lineFrame.midX, y: lineFrame.midY))
                 path.addLine(to: CGPoint(x: lineFrame.origin.x + lineFrame.width / 2, y: lineFrame.origin.y))
-                //CGPathMoveToPoint(path, nil, lineFrame.midX, lineFrame.midY)
-                //CGPathAddLineToPoint(path, nil, lineFrame.origin.x + lineFrame.width / 2, lineFrame.origin.y)
                 return path
                 }()
             line.lineCap = kCALineCapRound

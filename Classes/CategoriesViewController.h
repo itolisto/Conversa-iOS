@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import "CustomPFQueryViewController.h"
+@import Parse;
 
 @interface CategoriesViewController : CustomPFQueryViewController <UISearchBarDelegate>
 

@@ -12,6 +12,10 @@
 
 + (UIColor *) yellowColor;
 + (UIColor *) greenColor;
++ (UIColor *) greenNavbarColor;
++ (UIColor *) whiteNavbarColor;
++ (UIColor *) outgoingColor;
++ (UIColor *) incomingColor;
 + (UIColor *) greenSearchAnimationColor;
 + (UIColor *) redColor;
 + (UIColor *) blackColor;

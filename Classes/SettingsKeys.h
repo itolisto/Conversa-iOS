@@ -15,11 +15,21 @@ extern NSString *firstCategoriesLoad;
 extern NSString *notificationsCheck;
 // Account settings
 extern NSString *readReceiptsSwitch;
+extern NSString *customerObjectId;
+extern NSString *customerDisplayName;
+extern NSString *customerGender;
+extern NSString *customerBirthday;
 // Notifications settings
 extern NSString *inAppSoundSwitch;
 extern NSString *inAppPreviewSwitch;
 extern NSString *soundSwitch;
 extern NSString *previewSwitch;
+
+typedef NS_ENUM(NSUInteger, ConversaGender) {
+    Female,
+    Male,
+    Unknown
+};
 
 @interface SettingsKeys : NSObject
 
@@ -32,6 +42,14 @@ extern NSString *previewSwitch;
 + (BOOL)getNotificationsCheck;
 
 // Account settings
++ (void)setCustomerId:(NSString*)objectId;
++ (NSString*)getCustomerId;
++ (void)setDisplayName:(NSString*)displayName;
++ (NSString*)getDisplayName;
++ (void)setGender:(NSUInteger)gender;
++ (ConversaGender)getGender;
++ (void)setBirthday:(NSUInteger)birthday;
++ (NSUInteger)getBirthday;
 + (void)setAccountReadSetting:(BOOL)state;
 + (BOOL)getAccountReadSetting;
 

@@ -24,9 +24,10 @@
 #import "BusinessCategory.h"
 #import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
+#import "NSFileManager+Conversa.h"
+#import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import Fabric;
-@import ParseUI;
 @import Buglife;
 @import GoogleMaps;
 @import Crashlytics;
@@ -215,6 +216,180 @@
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
     return handledByBranch;
+}
+
+#pragma mark - EDQueueDelegate method -
+
+- (UIViewController *)topViewController {
+    return [self topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+}
+
+- (UIViewController *)topViewController:(UIViewController *)rootViewController
+{
+    if (rootViewController.presentedViewController == nil) {
+        return rootViewController;
+    }
+
+    if ([rootViewController.presentedViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)rootViewController.presentedViewController;
+        UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
+        return [self topViewController:lastViewController];
+    }
+
+    UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
+    return [self topViewController:presentedViewController];
+}
+
+- (void)queue:(EDQueue *)queue processJob:(NSDictionary *)job completion:(void (^)(EDQueueResult))block
+{
+    @try {
+        if ([[job objectForKey:@"task"] isEqualToString:@"customerDataJob"]) {
+            NSError *error;
+            NSString *jsonData = [PFCloud callFunction:@"getCustomerId" withParameters:@{} error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
+            } else {
+                id object = [NSJSONSerialization JSONObjectWithData:[jsonData dataUsingEncoding:NSUTF8StringEncoding]
+                                                            options:0
+                                                              error:&error];
+                if (error) {
+                    block(EDQueueResultCritical);
+                } else {
+                    if ([object isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *results = object;
+
+                        if ([results objectForKey:@"ob"] && [results objectForKey:@"ob"] != [NSNull null]) {
+                            [SettingsKeys setCustomerId:[results objectForKey:@"ob"]];
+                        }
+
+                        if ([results objectForKey:@"dn"] && [results objectForKey:@"dn"] != [NSNull null]) {
+                            [SettingsKeys setDisplayName:[results objectForKey:@"dn"]];
+                        }
+
+                        if ([results objectForKey:@"gn"] && [results objectForKey:@"gn"] != [NSNull null]) {
+                            [SettingsKeys setGender:[[results objectForKey:@"gn"] unsignedIntegerValue]];
+                        }
+
+                        if ([results objectForKey:@"bd"] && [results objectForKey:@"bd"] != [NSNull null]) {
+                            [SettingsKeys setBirthday:[[results objectForKey:@"bd"] unsignedIntegerValue]];
+                        }
+
+                        block(EDQueueResultSuccess);
+                    } else {
+                        block(EDQueueResultCritical);
+                    }
+                }
+            }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"favoriteJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            if (data) {
+                NSError *error;
+                NSNumber *result;
+
+                if ([data objectForKey:@"favorite"]) {
+                    result = [PFCloud callFunction:@"favorite"
+                                    withParameters:@{@"business": [data objectForKey:@"business"],
+                                                     @"favorite": @YES}
+                                             error:&error];
+                } else {
+                    result = [PFCloud callFunction:@"favorite"
+                                    withParameters:@{@"business": [data objectForKey:@"business"]}
+                                             error:&error];
+                }
+
+                if (error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [ParseValidation validateError:error controller:[self topViewController]];
+                    });
+                    block(EDQueueResultCritical);
+                } else {
+                    block(EDQueueResultSuccess);
+                }
+            } else {
+                block(EDQueueResultSuccess);
+            }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadAvatarJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            if (data) {
+                NSString *businessId = [data objectForKey:@"businessId"];
+                NSString *url = [data objectForKey:@"url"];
+
+                NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+                NSURL *URL = [NSURL URLWithString:url];
+                NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+                NSURLSessionDownloadTask *downloadTask =
+                [manager downloadTaskWithRequest:request
+                                        progress:nil
+                                     destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+                {
+                    NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+                    [savePath appendString:kMessageMediaAvatarLocation];
+                    // Create if not already created
+                    [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                    // Continue with filename
+                    [savePath appendString:@"/"];
+                    // Add requested save path
+                    [savePath appendString:businessId];
+                    [savePath appendString:@"_avatar.jpg"];
+
+                    return [[NSURL alloc] initFileURLWithPath:savePath];
+                }
+                               completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+                {
+                    DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
+                    if (error) {
+                        DDLogError(@"downloadAvatarJob error: %@", error);
+                        block(EDQueueResultCritical);
+                    } else {
+                        YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+                        __block YapContact *contact = nil;
+
+                        [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                            contact = [YapContact fetchObjectWithUniqueID:businessId transaction:transaction];
+                        }];
+
+                        if (contact == nil) {
+                            // Delete file if contact not exists
+                            [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[businessId stringByAppendingString:@"_avatar.jpg"]
+                                                                          inSubDirectory:kMessageMediaImageLocation
+                                                                                   error:nil];
+                        }
+
+                        block(EDQueueResultSuccess);
+                    }
+                }];
+
+                [downloadTask resume];
+            } else {
+                block(EDQueueResultSuccess);
+            }
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadFileJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            if (data) {
+                NSString *messageId = [data objectForKey:@"messageId"];
+                NSString *url = [data objectForKey:@"url"];
+
+                block(EDQueueResultSuccess);
+            } else {
+                block(EDQueueResultSuccess);
+            }
+        } else {
+            block(EDQueueResultCritical);
+        }
+    } @catch (NSException *exception) {
+        block(EDQueueResultCritical);
+    } @catch (id exception) {
+        block(EDQueueResultCritical);
+    }
 }
 
 @end

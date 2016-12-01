@@ -35,6 +35,9 @@ NSString *const kCustomerUserInfoKey = @"userInfo";
 // Business class
 NSString *const kClassBusiness           = @"Business";
 NSString *const kBusinessBusinessInfoKey = @"businessInfo";
+NSString *const kBusinessDisplayNameKey  = @"displayName";
+NSString *const kBusinessAboutKey   = @"about";
+NSString *const kBusinessAvatarKey   = @"avatar";
 NSString *const kBusinessConversaIdKey   = @"conversaID";
 NSString *const kBusinessActiveKey       = @"active";
 NSString *const kBusinessCountryKey      = @"country";
@@ -75,6 +78,7 @@ NSString *const kPubNubMessageFromKey = @"from";
 NSString *const kPubNubMessageTypeKey = @"type";
 
 // Messages media location
+NSString *const kMessageMediaAvatarLocation = @"/avatar";
 NSString *const kMessageMediaImageLocation = @"/image";
 NSString *const kMessageMediaVideoLocation = @"/video";
 NSString *const kMessageMediaAudioLocation = @"/audio";
@@ -84,7 +88,6 @@ NSString *const kUserAvatarKey   = @"avatar";
 NSString *const kUserUsernameKey = @"username";
 NSString *const kUserEmailKey    = @"email";
 NSString *const kUserPasswordKey = @"password";
-NSString *const kUserDisplayNameKey  = @"displayName";
 NSString *const kUserTypeKey     = @"userType";
 
 // Statistics class

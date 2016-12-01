@@ -8,7 +8,7 @@
 
 @import UIKit;
 @class Business;
-#import <ParseUI/ParseUI.h>
+@class YapSearch;
 
 @interface CustomSearchCell : UITableViewCell
 
@@ -18,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *verifiedImageView;
 
 @property (strong, nonatomic) Business *business;
+@property (strong, nonatomic) YapSearch *yapbusiness;
+
 - (void)configureCellWith:(Business *)business;
-- (void)configureCellWith:(Business *)business withAvatar:(UIImage *)avatar;
+- (void)configureCellWithYap:(YapSearch *)business;
 
 @end

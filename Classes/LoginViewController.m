@@ -48,17 +48,7 @@
     self.navigationController.view.backgroundColor = [UIColor clearColor];
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void) dismissKeyboard {
+- (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
 

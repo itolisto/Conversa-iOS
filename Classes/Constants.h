@@ -35,6 +35,9 @@ extern NSString *const kCustomerUserInfoKey;
 // Business class
 extern NSString *const kClassBusiness;
 extern NSString *const kBusinessBusinessInfoKey;
+extern NSString *const kBusinessDisplayNameKey;
+extern NSString *const kBusinessAboutKey;
+extern NSString *const kBusinessAvatarKey;
 extern NSString *const kBusinessConversaIdKey;
 extern NSString *const kBusinessActiveKey;
 extern NSString *const kBusinessCountryKey;
@@ -89,6 +92,7 @@ extern NSString *const kPubNubMessageFromKey;
 extern NSString *const kPubNubMessageTypeKey;
 
 // Messages media location
+extern NSString *const kMessageMediaAvatarLocation;
 extern NSString *const kMessageMediaImageLocation;
 extern NSString *const kMessageMediaVideoLocation;
 extern NSString *const kMessageMediaAudioLocation;
@@ -97,7 +101,6 @@ extern NSString *const kMessageMediaAudioLocation;
 extern NSString *const kUserAvatarKey;
 extern NSString *const kUserUsernameKey;
 extern NSString *const kUserEmailKey;
-extern NSString *const kUserDisplayNameKey;
 extern NSString *const kUserPasswordKey;
 extern NSString *const kUserTypeKey;
 
@@ -133,8 +136,6 @@ extern NSString *const kMuteUserNotificationName;
 #define		STATUS_LOADING						1
 #define		STATUS_FAILED						2
 #define		STATUS_SUCCEED						3
-#define     MESSAGE_FROM_SENDERID               [Account currentUser].objectId
-#define     MESSAGE_FROM_SENDERDISPLAYNAME      [Account currentUser].username
 
 // Messages dictionary keys
 #define     MESSAGE_TEXT_KEY      @"text"

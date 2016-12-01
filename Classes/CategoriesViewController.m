@@ -16,7 +16,7 @@
 #import "CustomCategoryCell.h"
 #import "SearchViewController.h"
 #import "CategoryViewController.h"
-#import <Parse/Parse.h>
+#import "CustomCategoryHeaderCell.h"
 
 @interface CategoriesViewController ()
 
@@ -32,9 +32,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.searchView.hidden    = YES;
+    self.searchView.hidden = YES;
     self.page = 0;
-    
+
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+
+    self._mutableObjects = [NSMutableArray arrayWithCapacity:29];
+    self._firstLoad = YES;
+
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self
+                       action:@selector(_refreshControlValueChanged:)
+             forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+    [self.tableView addSubview:self.refreshControl];
+
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
     // dimming it out wouldn't make sense.  Should set probably only set
@@ -73,13 +86,91 @@
 
 #pragma mark - Data Methods -
 
-- (void)objectsWillLoad {
-    [super objectsWillLoad];
-    if([self.refreshControl isRefreshing]) {
-        self.page = 0;
-        [SettingsKeys setCategoriesLoad:0];
-        [PFObject unpinAllInBackground:self.objects];
+- (void)loadObjects {
+    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+
+    if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
+        language = @"en"; // Set to default language
     }
+
+    //DDLogError(@"Category after --> %@", language);
+
+    [PFCloud callFunctionInBackground:@"getCategories"
+                       withParameters:@{@"language": language}
+                                block:^(NSString *json, NSError *error)
+     {
+         if (error) {
+             [ParseValidation validateError:error controller:self];
+         }
+
+         [self._mutableObjects removeAllObjects];
+
+         NSError *jsonError;
+         NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+         NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:&jsonError];
+         //kNilOptions
+         if (jsonError || !jsonDic) {
+             // Show error
+         } else {
+             NSArray *results =[jsonDic valueForKeyPath:@"results"];
+             NSUInteger size = [results count];
+             NSMutableArray *alphabetically = nil;
+
+             for (int i = 0; i < size; i++) {
+                 NSDictionary *object = [results objectAtIndex:i];
+                 NSString *headerTitle = [object objectForKey:@"tn"];
+
+                 if (headerTitle) {
+                     nHeaderTitle *title = [[nHeaderTitle alloc] init];
+                     title.headerName = headerTitle;
+                     title.relevance = [[object objectForKey:@"re"] integerValue];
+                     [self._mutableObjects addObject:title];
+
+                     if ([object objectForKey:@"al"]) {
+                         alphabetically = [[NSMutableArray alloc] initWithCapacity:1];
+                     }
+                 } else {
+                     nCategory *category = [[nCategory alloc] init];
+                     category.objectId = [object objectForKey:@"ob"];
+                     category.avatarUrl = [object objectForKey:@"th"];
+
+                     if (alphabetically) {
+                         [alphabetically addObject:category];
+
+                         if (i + 1 < size) {
+                             object = [results objectAtIndex:i + 1];
+                             if ([object objectForKey:@"tn"]) {
+                                 NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                     NSString *first = [(nCategory*)obj1 getCategoryName];
+                                     NSString *second = [(nCategory*)obj2 getCategoryName];
+                                     return [first compare:second];
+                                 }];
+                                 [self._mutableObjects addObjectsFromArray:sortedArray];
+                                 [alphabetically removeAllObjects];
+                                 alphabetically = nil;
+                             }
+                         } else {
+                             NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                 NSString *first = [(nCategory*)obj1 getCategoryName];
+                                 NSString *second = [(nCategory*)obj2 getCategoryName];
+                                 return [first compare:second];
+                             }];
+                             [self._mutableObjects addObjectsFromArray:sortedArray];
+                             [alphabetically removeAllObjects];
+                             alphabetically = nil;
+                         }
+                     } else {
+                         [self._mutableObjects addObject:category];
+                     }
+                 }
+             }
+
+             [self.refreshControl endRefreshing];
+             [self.tableView reloadData];
+         }
+     }];
 }
 
 - (void)objectsDidLoad:(NSError *)error {
@@ -112,11 +203,40 @@
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(PFObject *)object
 {
-    static NSString *simpleTableIdentifier = @"CustomCategoryCell";
-    CustomCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[CustomCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    UITableViewCell *cell;
+
+    NSObject *category = (NSObject *)[self objectAtIndexPath:indexPath];
+
+    if ([category isKindOfClass:[nHeaderTitle class]]) {
+        static NSString *simpleTableIdentifier = @"CustomCategoryHeaderCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+
+        if (cell == nil) {
+            cell = [[CustomCategoryHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+
+        // Configure the cell
+        [((CustomCategoryHeaderCell *)cell) configureCellWith:(nHeaderTitle *)category];
+    } else {
+        static NSString *simpleTableIdentifier = @"CustomCategoryCell";
+        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+
+        if (cell == nil) {
+            cell = [[CustomCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        }
+
+        bool hide = NO;
+
+        // Configure the cell
+        if (indexPath.row + 1 < [[self objects] count]) {
+            NSObject *ct = (NSObject *)[self objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row + 1 inSection:0]];
+
+            if ([ct isKindOfClass:[nHeaderTitle class]]) {
+                hide = YES;
+            }
+        }
+
+        [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category hideView:hide];
     }
     
     // Configure the cell
@@ -203,6 +323,10 @@
         self.navigationController.navigationBar.barTintColor = [Colors greenColor];
         self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
         [self.view sendSubviewToBack:self.searchView];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
+                                                            object:nil
+                                                          userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: @""}];
     }
     [searchBar setShowsCancelButton:NO animated:YES];
 }

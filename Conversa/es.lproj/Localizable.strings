@@ -1,0 +1,48 @@
+/* 
+  Localizable.strings
+  Conversa
+
+  Created by Edgar Gomez on 11/11/16.
+  Copyright © 2016 Conversa. All rights reserved.
+*/
+"recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
+"recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
+"signup_password_length_error" = "Contraseña es requerida";
+"sign_email_not_valid_error" = "Correo electrónico es inválido";
+"signup_failed_message" = "Lo sentimos, por favor intenta registrarte de nuevo";
+"sign_failed_message" = "Correo electrónico y contraseña no encuentran una cuenta. Por favor verifica los datos";
+
+"categories_searchbar_placeholder" = "Busca por negocios, tiendas, etc";
+
+"token_session_error" = "Otro dispositivo ha iniciado sesión con esta cuenta, esta sesión ha terminado";
+
+"category" = "Categoría";
+"c0i96zRLFyw" = "Libros";
+"c1zZcJ8an9Z" = "Servicios";
+"c3b8NykTdo3" = "Juguetes";
+"c462mKRISE7" = "Electrónicos";
+"c4EsFpxgOu6" = "Servicio a domicilio";
+"c90Y0ajWUAG" = "Mascotas";
+"cDqCLGage9M" = "Belleza";
+"cFBv7AV5OGU" = "Videojuegos";
+"cJi1FwE21F8" = "Suplementos para fiesta";
+"cMHbjypaY4R" = "Ropa de hombre";
+"cQNFkAelMAd" = "Hogar y Jardín";
+"cR7LZJ3Lbj8" = "Regalos";
+"cRWcS1d4bqt" = "Bebés";
+"cSYHk42aEOz" = "Carros";
+"cTFau41aZ8E" = "Instrumentos musicales";
+"cVZg31Kxzew" = "Viajes";
+"cW0lNHTPV3v" = "Deportes y Fitness";
+"caDuBd0GuuH" = "Restaurantes";
+"caWthcdxIAJ" = "Zapatos para hombre";
+"cay9ADQjpRT" = "Muebles";
+"ccCZl1h0sXf" = "Suplementos de oficina";
+"ccGWcPxDcB7" = "Comida";
+"ccQy8YtN7j4" = "Entretenimiento";
+"cgBcgtlLRVw" = "Joyería";
+"cr4ZYMKINHp" = "Ropa de mujer";
+"cuRzYgo8krw" = "Zapatos para mujer";
+"cydPTRrUJye" = "Salud";
+"cDvl63HGh9j" = "Retailers";
+"cprn5lWuEDc" = "Online \u0026 Internet";

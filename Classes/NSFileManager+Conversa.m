@@ -55,30 +55,40 @@
 
 #pragma mark - Load Image/Video/Audio Methods -
 
-- (UIImage*)loadImageFromCache:(NSString*)filename {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
+- (UIImage*)loadAvatarFromLibrary:(NSString*)filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
                                                          NSUserDomainMask, YES);
-    NSString *cacheDirectory = [paths objectAtIndex:0];
-    NSString* path = [cacheDirectory stringByAppendingPathComponent:kMessageMediaImageLocation];
+    NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString* path = [libraryDirectory stringByAppendingPathComponent:kMessageMediaAvatarLocation];
     path = [path stringByAppendingString:@"/"];
     path = [path stringByAppendingString:filename];
     return [UIImage imageWithContentsOfFile:path];
 }
 
-- (NSString*)loadVideoFromCache:(NSString*)filename {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
+- (UIImage*)loadImageFromLibrary:(NSString*)filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
                                                          NSUserDomainMask, YES);
-    NSString *cacheDirectory = [paths objectAtIndex:0];
-    NSString* path = [cacheDirectory stringByAppendingPathComponent:kMessageMediaVideoLocation];
+    NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString* path = [libraryDirectory stringByAppendingPathComponent:kMessageMediaImageLocation];
+    path = [path stringByAppendingString:@"/"];
+    path = [path stringByAppendingString:filename];
+    return [UIImage imageWithContentsOfFile:path];
+}
+
+- (NSString*)loadVideoFromLibrary:(NSString*)filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString* path = [libraryDirectory stringByAppendingPathComponent:kMessageMediaVideoLocation];
     path = [path stringByAppendingString:@"/"];
     return [path stringByAppendingString:filename];
 }
 
-- (NSString*)loadAudioFromCache:(NSString*)filename {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
+- (NSString*)loadAudioFromLibrary:(NSString*)filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
                                                          NSUserDomainMask, YES);
-    NSString *cacheDirectory = [paths objectAtIndex:0];
-    NSString* path = [cacheDirectory stringByAppendingPathComponent:kMessageMediaAudioLocation];
+    NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString* path = [libraryDirectory stringByAppendingPathComponent:kMessageMediaAudioLocation];
     path = [path stringByAppendingString:@"/"];
     return [path stringByAppendingString:filename];
 }
@@ -156,20 +166,75 @@
     }
 }
 
-- (BOOL)deleteDataInCachesDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error {
-    NSString *path = [[self applicationCachesDirectory] absoluteString];
+- (BOOL)deleteDataInDocumentsDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error {
+    NSString *path = [[self applicationDocumentsDirectory] absoluteString];
     path = [path stringByAppendingString:sub];
     path = [path stringByAppendingString:@"/"];
     path = [path stringByAppendingString:filename];
     BOOL success = NO;
     
     if ([[NSFileManager defaultManager] isDeletableFileAtPath:path]) {
-        success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        if (error) {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        } else {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        }
+
         if (!success) {
-            NSLog(@"Error removing file at path: %@", error.localizedDescription);
+            if (error) {
+                NSLog(@"Error removing file at path: %@", error.localizedDescription);
+            }
         }
     }
     
+    return success;
+}
+
+- (BOOL)deleteDataInLibraryDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error {
+    NSString *path = [[self applicationLibraryDirectory] absoluteString];
+    path = [path stringByAppendingString:sub];
+    path = [path stringByAppendingString:@"/"];
+    path = [path stringByAppendingString:filename];
+    BOOL success = NO;
+
+    if ([[NSFileManager defaultManager] isDeletableFileAtPath:path]) {
+        if (error) {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        } else {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        }
+
+        if (!success) {
+            if (error) {
+                 NSLog(@"Error removing file at path: %@", error.localizedDescription);
+            }
+        }
+    }
+
+    return success;
+}
+
+- (BOOL)deleteDataInCachesDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error {
+    NSString *path = [[self applicationCachesDirectory] absoluteString];
+    path = [path stringByAppendingString:sub];
+    path = [path stringByAppendingString:@"/"];
+    path = [path stringByAppendingString:filename];
+    BOOL success = NO;
+
+    if ([[NSFileManager defaultManager] isDeletableFileAtPath:path]) {
+        if (error) {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+        } else {
+            success = [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+        }
+
+        if (!success) {
+            if (error) {
+                NSLog(@"Error removing file at path: %@", error.localizedDescription);
+            }
+        }
+    }
+
     return success;
 }
 
@@ -182,6 +247,7 @@
         cachesDirectory = [paths objectAtIndex:0];
 
     return [NSURL URLWithString:cachesDirectory];
+    //return [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 - (NSURL *)applicationDocumentsDirectory {

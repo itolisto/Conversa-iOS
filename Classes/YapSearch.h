@@ -12,14 +12,12 @@
 
 @interface YapSearch : YapDatabaseObject
 
-@property (nonatomic, strong) NSString *userObjectId;
 @property (nonatomic, strong) NSString *conversaId;
 @property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) NSData   *avatar;
+@property (nonatomic, strong) NSString *avatarUrl;
+@property (nonatomic, strong) NSDate *searchDate;
 
-@property (nonatomic, strong) NSDate   *searchDate;
-
-- (void)saveNew;
+- (void)saveNew:(YapDatabaseConnection*)connection;
 
 + (void)clearAllRecentSearches;
 + (NSArray*) recentSearchesWithTransaction:(YapDatabaseReadTransaction *)transaction;

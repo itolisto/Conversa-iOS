@@ -38,6 +38,26 @@ const struct YapMessageEdges YapMessageEdges = {
         self.height = 0;
         self.duration = [NSNumber numberWithInt:0];
         self.filename = @"";
+        self.remoteUrl = @"";
+        self.delivered = statusUploading;
+        self.messageType = kMessageTypeText;
+        self.transferProgress = 0;
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString*)uniqueId {
+    if (self = [super initWithUniqueId:uniqueId]) {
+        self.date = [NSDate date];
+        self.text = @"";
+        self.read = NO;
+        self.view = NO;
+        self.incoming = NO;
+        self.width = 0;
+        self.height = 0;
+        self.duration = [NSNumber numberWithInt:0];
+        self.filename = @"";
+        self.remoteUrl = @"";
         self.delivered = statusUploading;
         self.messageType = kMessageTypeText;
         self.transferProgress = 0;

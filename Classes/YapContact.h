@@ -27,9 +27,9 @@ extern const struct YapContactEdges {
 @property (nonatomic, strong) NSString *accountUniqueId; // Used to point to this account
 @property (nonatomic, strong) NSString *displayName;
 @property (nonatomic, strong) NSString *conversaId;
-@property (nonatomic, strong) NSString *statusMessage;
 @property (nonatomic, strong) NSString *about;
 @property (nonatomic, strong) NSString *composingMessageString;
+@property (nonatomic, strong) NSString *avatarThumbFileId;
 @property (nonatomic, strong) NSDate *lastMessageDate;
 @property (nonatomic, assign) BOOL blocked;
 @property (nonatomic, assign) BOOL mute;
@@ -43,6 +43,7 @@ extern const struct YapContactEdges {
 - (void)programActionInHours:(NSInteger)hours
                   isMuting:(BOOL)isMuting;
 - (NSInteger)numberOfUnreadMessagesWithTransaction:(YapDatabaseReadTransaction *)transaction;
+- (void)updateLastMessageDateWithTransaction:(YapDatabaseReadTransaction *)transaction;
 - (YapMessage *)lastMessageWithTransaction:(YapDatabaseReadTransaction *)transaction;
 - (YapAccount*)accountWithTransaction:(YapDatabaseReadTransaction *)transaction;
 - (BOOL)setAllMessagesView:(YapDatabaseReadWriteTransaction *)transaction;

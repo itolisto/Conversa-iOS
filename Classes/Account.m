@@ -28,6 +28,8 @@
 
 + (void)logOut {
     [[CustomAblyRealtime sharedInstance] logout];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [[DatabaseManager sharedInstance].newConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
     {
         [YapAccount deleteAccountWithTransaction:transaction];

@@ -13,23 +13,26 @@
 @interface CustomCategoryCell ()
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet PFImageView *avatar;
+@property (weak, nonatomic) IBOutlet UIImageView *avatar;
+@property (weak, nonatomic) IBOutlet UIView *dividerView;
 
 @end
 
 @implementation CustomCategoryCell
 
-- (void)configureCellWith:(bCategory *)category {
+- (void)configureCellWith:(nCategory *)category hideView:(bool)hideView {
     self.category = category;
-    
-    if (category.thumbnail) {
-        self.avatar.file = category.thumbnail;
-    } else {
-        self.avatar.image = [UIImage imageNamed:@"business_default_light"];
-    }
-    
+
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:[category getAvatarUrl]]
+                 placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
+
     self.nameLabel.text = [category getCategoryName];
-    [self.avatar loadInBackground];
+
+    if (hideView) {
+        self.dividerView.hidden = YES;
+    } else {
+        self.dividerView.hidden = NO;
+    }
 }
 
 + (NSString *)reuseIdentifier {

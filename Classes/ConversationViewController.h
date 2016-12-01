@@ -21,7 +21,7 @@
 @property(nonatomic, strong) YapContact *buddy;
 
 - (void)initWithBuddy:(YapContact *)buddy;
-- (void)initWithBusiness:(Business *)business;
+- (void)initWithBusiness:(Business *)business withAvatarUrl:(NSString*)url;
 - (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)value withPFFile:(PFFile *)file;
 
 @end

@@ -13,10 +13,8 @@
 
 @implementation Business
 
-@dynamic businessInfo;
 @dynamic conversaID;
 @dynamic about;
-@dynamic status;
 @dynamic displayName;
 @dynamic avatar;
 

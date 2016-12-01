@@ -9,11 +9,11 @@
 #import "OneSignalService.h"
 
 #import "Log.h"
-#import "Account.h"
 #import "Message.h"
 #import "Business.h"
 #import "YapContact.h"
 #import "YapMessage.h"
+#import "SettingsKeys.h"
 #import "DatabaseManager.h"
 #import <Parse/Parse.h>
 
@@ -88,8 +88,8 @@
 
 - (void)startTags {
     [OneSignal sendTags:@{@"UserType" : @(1),
-                          @"upbc" : [[Account currentUser] objectId],
-                          @"upvt" : [[Account currentUser] objectId]}
+                          @"upbc" : [SettingsKeys getCustomerId],
+                          @"upvt" : [SettingsKeys getCustomerId]}
                    onSuccess:^(NSDictionary *result)
      {
          NSLog(@"ONE SIGNAL SUCCESS: %@", result);

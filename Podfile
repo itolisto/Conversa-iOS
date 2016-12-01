@@ -8,7 +8,6 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     # SaaS
-    pod 'ParseUI'
     pod 'Parse'
     # PushNotifications Service
     pod 'OneSignal'
@@ -28,8 +27,6 @@ target 'Conversa' do
     pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
     pod 'Branch'
-    # PureLayout extends UIView/NSView, NSArray, and NSLayoutConstraint with a comprehensive Auto Layout API
-    pod 'PureLayout'
     # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
     pod 'TTTAttributedLabel'
     # UITextField subclass with floating labels
@@ -40,8 +37,6 @@ target 'Conversa' do
     # pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more
     pod 'IDMPhotoBrowser'
-    # Create notifications that appear on top of or by pushing out the status bar or navigation bar
-    pod 'CRToast', '~> 0.0.7'
     # Crash Log
     pod 'Fabric'
     pod 'Crashlytics'
@@ -51,4 +46,14 @@ target 'Conversa' do
     pod 'Mantle', '~> 2.0'
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView'
+    # This library provides an async image downloader with cache support
+    pod 'SDWebImage', '~>3.8'
+    # The easiest way to add a UIActivityView to your SDWebImage view
+    pod 'UIActivityIndicator-for-SDWebImage'
+    # A persistent background job queue for iOS.
+    pod 'EDQueue'
+    # MZFormSheetPresentationController provides an alternative to the native iOS UIModalPresentationFormSheet
+    pod 'MZFormSheetPresentationController'
+    # A delightful networking framework for iOS, OS X, watchOS, and tvOS
+    pod 'AFNetworking', '~> 3.0'
 end

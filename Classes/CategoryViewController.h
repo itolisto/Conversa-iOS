@@ -7,12 +7,9 @@
 //
 
 @import UIKit;
-#import <Parse/Parse.h>
-#import <Bolts/Bolts.h>
-#import <ParseUI/ParseUI.h>
-#import "CustomPFQueryTableViewController.h"
+@import Parse;
 
-@interface CategoryViewController : CustomPFQueryTableViewController
+@interface CategoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *categoryId;
 

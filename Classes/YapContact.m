@@ -30,7 +30,7 @@ const struct YapContactEdges YapContactEdges = {
 
 - (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction {
     // Remove avatar
-    [[NSFileManager defaultManager] deleteDataInCachesDirectory:[self.uniqueId stringByAppendingString:@"_avatar.jpg"] inSubDirectory:kMessageMediaImageLocation error:nil];
+    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[self.uniqueId stringByAppendingString:@"_avatar.jpg"] inSubDirectory:kMessageMediaAvatarLocation error:nil];
     [super removeWithTransaction:transaction];
 }
 
@@ -117,16 +117,35 @@ const struct YapContactEdges YapContactEdges = {
     return dataChanged;
 }
 
+- (void)updateLastMessageDateWithTransaction:(YapDatabaseReadTransaction *)transaction
+{
+    __block NSDate *date = nil;
+    NSString *extensionName = YapDatabaseRelationshipName;
+    NSString *edgeName = YapMessageEdges.buddy;
+    
+    [[transaction ext:extensionName] enumerateEdgesWithName:edgeName destinationKey:self.uniqueId collection:[YapContact collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop) {
+        YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
+        if (message) {
+            if (!date) {
+                date = message.date;
+            } else {
+                date = [date laterDate:message.date];
+            }
+        }
+    }];
+    self.lastMessageDate = date;
+}
+
 - (YapMessage *)lastMessageWithTransaction:(YapDatabaseReadTransaction *)transaction {
     __block YapMessage *finalMessage = nil;
     [[transaction ext:YapDatabaseRelationshipName] enumerateEdgesWithName:YapMessageEdges.buddy destinationKey:self.uniqueId collection:[YapContact collection] usingBlock:^(YapDatabaseRelationshipEdge *edge, BOOL *stop)
     {
         YapMessage *message = [YapMessage fetchObjectWithUniqueID:edge.sourceKey transaction:transaction];
         
-        if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
+//        if (!finalMessage || [message.date compare:finalMessage.date] == NSOrderedDescending) {
             finalMessage = message;
-            *stop = YES;
-        }
+//            *stop = YES;
+//        }
     }];
     return [finalMessage copy];
 }
@@ -181,43 +200,92 @@ const struct YapContactEdges YapContactEdges = {
     NSMutableDictionary *values = [[NSMutableDictionary alloc] init];
     __block YapContact *newBuddy = nil;
     
-    if (!save) {
-        [editingConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-            newBuddy = [transaction objectForKey:business.objectId inCollection:[YapContact collection]];
-        }];
-    }
-    
+    [editingConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+        newBuddy = [transaction objectForKey:business.objectId inCollection:[YapContact collection]];
+    }];
+
     if (newBuddy) {
+        BOOL update = NO;
         // Update info. Maybe local data is out-of-date
-        newBuddy.displayName = business.displayName;
-        newBuddy.conversaId = business.conversaID;
-        newBuddy.statusMessage = business.status;
-        newBuddy.about = business.about;
-        [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-            [newBuddy saveWithTransaction:transaction];
-        }];
+        if (![newBuddy.displayName isEqualToString:business.displayName]) {
+            newBuddy.displayName = business.displayName;
+            update = YES;
+        }
+
+        if (![newBuddy.conversaId isEqualToString:business.conversaID]) {
+            newBuddy.conversaId = business.conversaID;
+            update = YES;
+        }
+
+        @try {
+            if (business.about) {
+                if (![newBuddy.about isEqualToString:business.about]) {
+                    newBuddy.about = business.about;
+                    update = YES;
+                }
+            }
+        } @catch (NSException *ignored) {}
+          @catch (id ignored) {}
+
+        @try {
+            if (business.avatar) {
+                if (![newBuddy.avatarThumbFileId isEqualToString:[business.avatar url]]) {
+                    newBuddy.avatarThumbFileId = [business.avatar url];
+                    update = YES;
+                }
+            }
+        } @catch (NSException *ignored) {}
+          @catch (id ignored) {}
+
+        if (update) {
+            [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+                [newBuddy saveWithTransaction:transaction];
+            }];
+        }
+
         [values setObject:[NSNumber numberWithBool:YES] forKey:kNSDictionaryChangeValue];
     } else {
         newBuddy = [[YapContact alloc] initWithUniqueId:business.objectId];
         newBuddy.accountUniqueId = [Account currentUser].objectId;
         newBuddy.displayName = business.displayName;
         newBuddy.conversaId = business.conversaID;
-        newBuddy.statusMessage = business.status;
-        newBuddy.about = business.about;
+
+        @try {
+            if (business.about) {
+                newBuddy.about = business.about;
+            } else {
+                newBuddy.about = @"";
+            }
+        } @catch (NSException *exception) {
+            newBuddy.about = @"";
+        } @catch (id exception) {
+            newBuddy.about = @"";
+        }
+
+        @try {
+            if (business.avatar) {
+                newBuddy.avatarThumbFileId = [business.avatar url];
+            } else {
+                newBuddy.avatarThumbFileId = @"";
+            }
+        } @catch (NSException *exception) {
+            newBuddy.avatarThumbFileId = @"";
+        } @catch (id exception) {
+            newBuddy.avatarThumbFileId = @"";
+        }
+
         newBuddy.composingMessageString = @"";
         newBuddy.blocked = NO;
         newBuddy.mute = NO;
         
         if (save) {
-            [editingConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+            [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
                 [newBuddy saveWithTransaction:transaction];
             }];
             [values setObject:[NSNumber numberWithBool:YES] forKey:kNSDictionaryChangeValue];
         } else {
             [values setObject:[NSNumber numberWithBool:NO] forKey:kNSDictionaryChangeValue];
         }
-        
-        
     }
     
     [values setObject:[newBuddy copy] forKey:kNSDictionaryBusiness];

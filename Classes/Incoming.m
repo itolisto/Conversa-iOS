@@ -16,6 +16,7 @@
 #import "Utilities.h"
 #import "Constants.h"
 #import "YapMessage.h"
+#import "SettingsKeys.h"
 #import "AudioMediaItem.h"
 #import "PhotoMediaItem.h"
 #import "VideoMediaItem.h"
@@ -32,18 +33,18 @@
 - (JSQMessage *)create:(YapMessage *)item {
     JSQMessage *message;
     
-    if (item.messageType == kMessageTypeText)     message = [self createTextMessage:item];
-    if (item.messageType == kMessageTypeVideo)	  message = [self createVideoMessage:item];
-    if (item.messageType == kMessageTypeImage)    message = [self createPictureMessage:item];
-    if (item.messageType == kMessageTypeAudio)	  message = [self createAudioMessage:item];
+    if (item.messageType == kMessageTypeText) message = [self createTextMessage:item];
+    if (item.messageType == kMessageTypeVideo) message = [self createVideoMessage:item];
+    if (item.messageType == kMessageTypeImage) message = [self createPictureMessage:item];
+    if (item.messageType == kMessageTypeAudio) message = [self createAudioMessage:item];
     if (item.messageType == kMessageTypeLocation) message = [self createLocationMessage:item];
     
     return message;
 }
 
 - (JSQMessage *)createTextMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -57,8 +58,8 @@
 }
 
 - (JSQMessage *)createVideoMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -79,7 +80,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         // Create strong reference to the weakSelf inside the block so that it´s not released while the block is running
         
-        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromCache:[wMessage.filename stringByAppendingString:@".mp4"]];
+        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromLibrary:[wMessage.filename stringByAppendingString:@".mp4"]];
         
         UIImage *image = nil;
         if (videoData) {
@@ -106,8 +107,8 @@
 }
 
 - (JSQMessage *)createPictureMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -130,7 +131,7 @@
     __weak typeof(YapMessage) *wMessage = item;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        UIImage  *image  = [[NSFileManager defaultManager] loadImageFromCache:wMessage.filename];
+        UIImage  *image  = [[NSFileManager defaultManager] loadImageFromLibrary:wMessage.filename];
         
         // When finished call back on the main thread:
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -150,8 +151,8 @@
 }
 
 - (JSQMessage *)createAudioMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";
@@ -173,7 +174,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         typeof(YapMessage)*wStrongSelf = wMessage;
         
-        NSString *audioData = [[NSFileManager defaultManager] loadAudioFromCache:wStrongSelf.filename];
+        NSString *audioData = [[NSFileManager defaultManager] loadAudioFromLibrary:wStrongSelf.filename];
         
         // When finished call back on the main thread:
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -193,8 +194,8 @@
 }
 
 - (JSQMessage *)createLocationMessage:(YapMessage *)item {
-    NSString *name   = MESSAGE_FROM_SENDERDISPLAYNAME;
-    NSString *userId = MESSAGE_FROM_SENDERID;
+    NSString *name   = @"user";
+    NSString *userId = [SettingsKeys getCustomerId];
     
     if (item.isIncoming) {
         name   = @"business";

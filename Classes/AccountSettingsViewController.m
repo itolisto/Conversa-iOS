@@ -20,7 +20,6 @@
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
 #import <Parse/Parse.h>
-#import <ParseUI/ParseUI.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 
 @interface AccountSettingsViewController ()
@@ -53,29 +52,19 @@
     // Imagen redonda
     self.imageUser.layer.cornerRadius = self.imageUser.frame.size.width / 2;
     self.imageUser.clipsToBounds = YES;
+    self.imageUser.image = [UIImage imageNamed:@"ic_person"];
     // Agregar borde
     self.imageUser.layer.borderWidth = 3.0f;
     self.imageUser.layer.borderColor = [UIColor whiteColor].CGColor;
     // Datos iniciales
     self.emailTextField.text = [Account currentUser].email;
-    self.usernameTextField.text = [Account currentUser].username;
-    //self.displayNameTextField.text = [Account currentUser].displayName;
-    self.sendReadSwitch.on = [SettingsKeys getAccountReadSetting];
+    self.displayNameTextField.text = [SettingsKeys getDisplayName];
     // Delegate
     self.emailTextField.delegate = self;
     self.usernameTextField.delegate = self;
     self.displayNameTextField.delegate = self;
     self.passwordTextField.delegate = self;
-    
-    UIImage *avatar = [[NSFileManager defaultManager] loadImageFromCache:kAccountAvatarName];
-    if (avatar) {
-        self.imageUser.image = avatar;
-    } else {
-        self.imageUser.image = [UIImage imageNamed:@"person"];
-        //self.imageUser.file  = [Account currentUser].avatar;
-        [self.imageUser loadInBackground];
-    }
-    
+
     self.blockedContactsLabel.text = @"Cargando";
     
     self.reload = NO;

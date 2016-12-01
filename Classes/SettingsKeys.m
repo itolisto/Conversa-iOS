@@ -16,6 +16,10 @@ NSString *firstCategoriesLoad  = @"firstCategoriesLoad";
 NSString *notificationsCheck   = @"notificationsCheck";
 
 // Account settings
+NSString *customerObjectId  = @"customerObjectId";
+NSString *customerDisplayName  = @"customerDisplayName";
+NSString *customerGender  = @"customerGender";
+NSString *customerBirthday  = @"customerBirthday";
 NSString *readReceiptsSwitch  = @"readReceiptsSwitch";
 
 // Notifications settings
@@ -71,6 +75,60 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 }
 
 #pragma mark - Account settings -
++ (void)setCustomerId:(NSString*)objectId {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:objectId forKey:customerObjectId];
+    [defaults synchronize];
+}
+
++ (NSString*)getCustomerId {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerObjectId];
+}
+
++ (void)setDisplayName:(NSString*)displayName {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:displayName forKey:customerDisplayName];
+    [defaults synchronize];
+}
+
++ (NSString*)getDisplayName {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerDisplayName];
+}
+
++ (void)setGender:(NSUInteger)gender {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setInteger:gender forKey:customerGender];
+    [defaults synchronize];
+}
+
++ (ConversaGender)getGender {
+    NSUserDefaults *defaults = [self getDefaults];
+    NSUInteger gender = [defaults integerForKey:customerGender];
+
+    switch (gender) {
+        case 0:
+            return Female;
+        case 1:
+            return Male;
+        default:
+            return Unknown;
+    }
+}
+
++ (void)setBirthday:(NSUInteger)birthday {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setInteger:birthday forKey:customerBirthday];
+    [defaults synchronize];
+}
+
++ (NSUInteger)getBirthday {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults integerForKey:customerGender];
+}
+
+>>>>>>> Stashed changes
 + (void)setAccountReadSetting:(BOOL) state {
     NSUserDefaults *defaults = [self getDefaults];
     [defaults setBool:state forKey:readReceiptsSwitch];

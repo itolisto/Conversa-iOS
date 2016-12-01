@@ -14,32 +14,32 @@
 
 @implementation YapSearch
 
-- (void)saveNew {
+- (void)saveNew:(YapDatabaseConnection*)connection {
     __block NSUInteger count = 0;
     
-    [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+    [connection asyncReadWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
         count = [transaction numberOfKeysInCollection:[YapSearch collection]];
+    } completionBlock:^{
+        if (count < 8) {
+            [self checkBusinessSave:YES connection:connection];
+        } else {
+            [self checkBusinessSave:NO connection:connection];
+        }
     }];
-    
-    if (count < 8) {
-        [self checkBusinessSave:YES];
-    } else {
-        [self checkBusinessSave:NO];
-    }
 }
 
-- (void)checkBusinessSave:(BOOL)save {
+- (void)checkBusinessSave:(BOOL)save connection:(YapDatabaseConnection*)connection {
 
     __block YapSearch *firstSearch = nil;
-    [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+    [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
         firstSearch = [transaction objectForKey:self.uniqueId inCollection:[YapSearch collection]];
     }];
     
     if (firstSearch) {
         // Object already exists. Update
-        firstSearch.avatar     = self.avatar;
+        firstSearch.avatarUrl = self.avatarUrl;
         firstSearch.searchDate = self.searchDate;
-        [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
         {
             [firstSearch saveWithTransaction:transaction];
         }];
@@ -52,13 +52,13 @@
              }];
         } else {
             // Find oldest search, remove and save new one
-            [[DatabaseManager sharedInstance].newConnection asyncReadWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+            [connection asyncReadWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
                 [transaction enumerateKeysAndObjectsInCollection:[YapSearch collection]
                                                       usingBlock:^(NSString * _Nonnull key, id  _Nonnull object, BOOL * _Nonnull stop)
                  {
                      if (firstSearch && ([firstSearch.searchDate compare:((YapSearch*)object).searchDate] == NSOrderedDescending)) {
                          if ([firstSearch.uniqueId isEqualToString:self.uniqueId]) {
-                             firstSearch.avatar = self.avatar;
+                             firstSearch.avatarUrl = self.avatarUrl;
                              *stop = YES;
                          } else {
                              firstSearch = (YapSearch *)object;
@@ -71,7 +71,7 @@
                  }];
             } completionBlock:^{
                 // Recent searches count is less than 8 so we should save object immediately
-                [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
                  {
                      // Remove oldest
                      [firstSearch removeWithTransaction:transaction];
