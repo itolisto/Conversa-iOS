@@ -19,12 +19,15 @@
 #import "AppDelegate.h"
 #import "DatabaseView.h"
 #import "SettingsKeys.h"
+#import "Reachability.h"
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
 #import "OneSignalService.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
+
 #import <Parse/Parse.h>
+#import <QuartzCore/QuartzCore.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
 
@@ -33,11 +36,11 @@
 @interface ChatsViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noMessagesLine1;
-@property (strong, nonatomic) UISearchController *searchController;
+@property (weak, nonatomic) IBOutlet UIButton *startBrowsingButton;
 @property (strong, nonatomic) NSMutableArray *filteredCategories;
 @property (nonatomic, strong) NSTimer *cellUpdateTimer;
+@property (nonatomic, assign) CGPoint lastTableViewPosition;
 @property (nonatomic, assign) BOOL searchMode;
 @property (nonatomic, assign) BOOL reloadData;
 
@@ -57,11 +60,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
     [CustomAblyRealtime sharedInstance].delegate = self;
+
+    // Set Conversa logo into NavigationBar
+    UIImage* logoImage = [UIImage imageNamed:@"im_logo_text_white"];
+    UIImageView* view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    view.contentMode = UIViewContentModeScaleAspectFit;
+    view.image = logoImage;
+    self.navigationItem.titleView = view;
+
+    // Add border to Button
+    [[self.startBrowsingButton layer] setBorderWidth:1.0f];
+    [[self.startBrowsingButton layer] setBorderColor:[UIColor greenColor].CGColor];
+    [[self.startBrowsingButton layer] setCornerRadius:15.0f];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
@@ -70,7 +85,6 @@
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.showsScopeBar = NO;
     self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.placeholder = NSLocalizedString(@"Search in chats", nil);
     // Sets this view controller as presenting view controller for the search interface
     self.definesPresentationContext = YES;
     // Set SearchBar into NavigationBar
@@ -153,14 +167,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
     [CustomAblyRealtime sharedInstance].delegate = self;
     [self updateBadge];
-    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-    
+
     if (self.reloadData) {
         [self.tableView reloadData];
         self.reloadData = NO;
     }
+
+    [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.frame.size.height) animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -171,6 +187,22 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
+
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
+                               titleColor:[UIColor whiteColor]
+                          backgroundColor:[UIColor redColor]
+                   toNavigationController:self.navigationController];
+    } else {
+        [WhisperBridge hidePermanentShout:self.navigationController];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.lastTableViewPosition = self.tableView.contentOffset;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -192,7 +224,20 @@
     }
 }
 
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    if (CGPointEqualToPoint(self.lastTableViewPosition, CGPointMake(0, 0))) {
+        [self.tableView setContentOffset:CGPointMake(0, self.searchController.searchBar.frame.size.height) animated:NO];
+    } else {
+        [self.tableView setContentOffset:self.lastTableViewPosition animated:NO];
+    }
+}
+
 #pragma mark - UITableViewDelegate Methods -
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 75.0f;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -221,7 +266,7 @@
     }
     
     [cell configureCellWith:[self contactForIndexPath:indexPath]];
-    
+
     return cell;
 }
 
@@ -296,20 +341,24 @@
 
 #pragma mark - ConversationListener Methods -
 
-- (void) messageReceived:(NSDictionary *)message {
-    [WhisperBridge shout:@"Chava"
-                subtitle:[message objectForKey:@"message"]
+- (void)messageReceived:(NSString *)message from:(YapContact *)from {
+    [WhisperBridge shout:from.displayName
+                subtitle:message
          backgroundColor:[UIColor clearColor]
   toNavigationController:self.navigationController
                    image:nil silenceAfter:1.8 action:^
     {
-        DDLogError(@"Chavita Iglesias presiono esto");
+        // Get reference to the destination view controller
+        UIStoryboard *storyboard = [self storyboard];
+        ConversationViewController *viewController = (ConversationViewController*)[storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
+        // Pass any objects to the view controller here, like...
+        [viewController initWithBuddy:from];
+        [self.navigationController pushViewController:viewController animated:YES];
     }];
 }
 
-- (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
+- (void)fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
     NSArray * indexPathsArray = [self.tableView indexPathsForVisibleRows];
-    
     for(NSIndexPath *indexPath in indexPathsArray) {
         CustomChatCell * cell = (CustomChatCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         if ([cell.business.uniqueId isEqualToString:objectId]) {
@@ -328,7 +377,7 @@
     // Also grab all the notifications for all the commits that I jump.
     // If the UI is a bit backed up, I may jump multiple commits.
     NSArray *notifications = [self.databaseConnection beginLongLivedReadTransaction];
-    
+
     if (self.mappings == nil || self.searchMappings == nil || self.unreadConversationsMappings == nil) {
         [self setupMainMapping];
         [self setupSearchMapping];
@@ -522,7 +571,9 @@
 }
 
 - (NSArray *)createMoreActions:(NSIndexPath *)indexPath {
-    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Más" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
+                                                                          title:NSLocalizedString(@"chats_cell_action_title", nil)
+                                                                        handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
     {
         UIAlertController * view =  [UIAlertController
                                      alertControllerWithTitle:nil
@@ -532,8 +583,7 @@
         YapContact *contact = [self contactForIndexPath:indexPath];
         
         if (contact.mute) {
-
-            UIAlertAction* unmute  = [UIAlertAction actionWithTitle:@"No silenciar"
+            UIAlertAction* unmute  = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_unmute", nil)
                                                               style:UIAlertActionStyleDefault
                                                             handler:^(UIAlertAction * action)
                                       {
@@ -549,7 +599,7 @@
                                       }];
             [view addAction:unmute];
         } else {
-            UIAlertAction* mute  = [UIAlertAction actionWithTitle:@"Silenciar"
+            UIAlertAction* mute  = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_mute", nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action)
                                     {
@@ -557,12 +607,11 @@
                                         [view dismissViewControllerAnimated:YES completion:nil];
                                         [self selectMuteTimeToContact:[contact copy]];
                                     }];
-            
             [view addAction:mute];
         }
         
         if (contact.blocked) {
-            UIAlertAction* unblock = [UIAlertAction actionWithTitle:@"Desbloquear"
+            UIAlertAction* unblock = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_unblock", nil)
                                                               style:UIAlertActionStyleDefault
                                                             handler:^(UIAlertAction * action)
                                       {
@@ -583,7 +632,7 @@
             
             [view addAction:unblock];
         } else {
-            UIAlertAction* block = [UIAlertAction actionWithTitle:@"Bloquear"
+            UIAlertAction* block = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_block", nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action)
                                     {
@@ -605,7 +654,7 @@
             [view addAction:block];
         }
         
-        UIAlertAction* clean = [UIAlertAction actionWithTitle:@"Limpiar conversación"
+        UIAlertAction* clean = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_clear_conversation", nil)
                                                         style:UIAlertActionStyleDestructive
                                                       handler:^(UIAlertAction * action)
                                 {
@@ -621,20 +670,21 @@
                                     [view dismissViewControllerAnimated:YES completion:nil];
                                 }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
                                  }];
-                                            
         
         [view addAction:clean];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
     }];
     
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"Eliminar" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
+                                                                            title:NSLocalizedString(@"chats_cell_action_delete", nil)
+                                                                          handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
                                           {
                                               YapContact *cellBuddy = [self contactForIndexPath:indexPath];
                                               
@@ -652,7 +702,7 @@
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* one = [UIAlertAction actionWithTitle:@"12 horas"
+    UIAlertAction* one = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_twelve_hours", nil)
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                           {
@@ -665,7 +715,7 @@
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
-    UIAlertAction* two = [UIAlertAction actionWithTitle:@"1 día"
+    UIAlertAction* two = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_one_day", nil)
                                                   style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction * action)
                           {
@@ -678,7 +728,7 @@
                               [view dismissViewControllerAnimated:YES completion:nil];
                           }];
     
-    UIAlertAction* three = [UIAlertAction actionWithTitle:@"3 días"
+    UIAlertAction* three = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_three_day", nil)
                                                     style:UIAlertActionStyleDefault
                                                   handler:^(UIAlertAction * action)
                             {
@@ -691,13 +741,12 @@
                                 [view dismissViewControllerAnimated:YES completion:nil];
                             }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-    
     
     [view addAction:one];
     [view addAction:two];

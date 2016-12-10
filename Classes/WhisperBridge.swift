@@ -30,4 +30,18 @@ import Whisper
             hide(whisperFrom: toNavigationController, after: silenceAfter)
         }
     }
+
+    static open func showPermanentShout(_ title: String, titleColor: UIColor, backgroundColor: UIColor, toNavigationController: UINavigationController)
+    {
+        let message = Message(title: title, textColor: titleColor, backgroundColor: backgroundColor, images: nil)
+        // Present a permanent message
+        show(whisper: message, to: toNavigationController, action: .present)
+    }
+
+    static open func hidePermanentShout(_ toNavigationController: UINavigationController)
+    {
+        // Hide a permanent message
+        hide(whisperFrom: toNavigationController)
+    }
+
 }

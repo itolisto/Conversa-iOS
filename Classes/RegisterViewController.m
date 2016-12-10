@@ -21,9 +21,11 @@
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UILabel *termsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *termsBottomLabel;
-@property (weak, nonatomic) IBOutlet UIButton *signUpButton;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
+@property (weak, nonatomic) IBOutlet UIButton *signupButton;
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -40,20 +42,74 @@
     // Add delegates
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
-}
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker setMaximumDate:[NSDate date]];
+    [datePicker addTarget:self action:@selector(updateTextField:)
+         forControlEvents:UIControlEventValueChanged];
+
+    [self.birthdayText setInputView:datePicker];
+
+    [[self.signupButton layer] setCornerRadius:borderCornerRadius];
 }
 
 - (void) dismissKeyboard {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
+}
+
+-(void)resignKeyboard {
+    [self.birthdayText resignFirstResponder];
+}
+
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary *info = aNotification.userInfo;
+
+    CGRect rawFrame = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 140.0, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    if ([self.birthdayText isFirstResponder]) {
+        if ([self.birthdayText inputAccessoryView] == nil) {
+            UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, keyboardFrame.size.height, self.view.frame.size.width, 44)] ;
+            [keyboardToolbar setBarStyle:UIBarStyleBlack];
+            [keyboardToolbar setTranslucent:YES];
+            [keyboardToolbar sizeToFit];
+            UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                        target:self
+                                                                                        action:nil];
+            UIBarButtonItem *doneButton1 =[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signup_birhtday_toolbar_done", nil)
+                                                                           style:UIBarButtonItemStyleDone
+                                                                          target:self
+                                                                          action:@selector(resignKeyboard)];
+
+            NSArray *itemsArray = [NSArray arrayWithObjects:flexButton,doneButton1, nil];
+            [keyboardToolbar setItems:itemsArray];
+            [self.birthdayText setInputAccessoryView:keyboardToolbar];
+            [self.birthdayText reloadInputViews];
+        }
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - IBAction Methods -
@@ -81,6 +137,13 @@
 }
 
 #pragma mark - Register Methods -
+
+-(void)updateTextField:(UIDatePicker *)sender
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    self.birthdayText.text = [dateFormatter stringFromDate:sender.date];
+}
 
 - (BOOL) validForm {
     MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];

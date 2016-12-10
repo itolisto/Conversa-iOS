@@ -12,11 +12,6 @@
 
 @implementation CustomBlockCell
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    // Configure the view for the selected state
-}
-
 - (void)configureCellWith:(YapContact *)contact {
     self.contact = contact;
     self.usernameLabel.text   = contact.displayName;

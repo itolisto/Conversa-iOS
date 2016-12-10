@@ -19,16 +19,22 @@
 #import "CustomSearchCell.h"
 #import "NSFileManager+Conversa.h"
 #import "ProfileDialogViewController.h"
-#import <YapDatabase/YapDatabaseView.h>
+#import "MZFormSheetPresentationViewController.h"
 
 #import <stdlib.h>
 #import <sys/sysctl.h>
+#import <YapDatabase/YapDatabaseView.h>
+#import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
 @interface SearchViewController ()
 
-@property (strong, nonatomic) NSMutableArray<YapSearch *> *_mutableObjects;
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
+@property (weak, nonatomic) IBOutlet UILabel *emptyInfoLabel;
+
+@property (strong, nonatomic) DGActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) NSMutableArray<YapSearch *> *_mutableObjects;
 @property (nonatomic, strong) NSString *searchWith;
 @property (nonatomic, strong) YapDatabaseConnection *databaseConnection;
 @property (nonatomic, strong) YapDatabaseViewMappings *recentMappings;
@@ -45,10 +51,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self registerForKeyboardNotifications];
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-
-    [self.tableView registerNib:[UINib nibWithNibName:@"CustomSearchCell" bundle:nil] forCellReuseIdentifier:@"CustomSearchCell"];
 
     self._mutableObjects = [NSMutableArray arrayWithCapacity:29];
 
@@ -68,10 +74,31 @@
         [self.recentMappings updateWithTransaction:transaction];
     }];
 
+    self.activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeThreeDots tintColor:[UIColor greenColor] size:50.0f];
+    self.activityIndicatorView.frame = CGRectMake(self.loadingView.frame.size.width  / 2 - 35,
+                                             self.loadingView.frame.size.height / 2 - 35,
+                                             70.0f,
+                                             70.0f);
+    [self.loadingView addSubview:self.activityIndicatorView];
+
+    if ([self.recentMappings numberOfItemsInSection:0] > 0) {
+        self.loadingView.hidden = YES;
+        self.emptyView.hidden = YES;
+        self.tableView.hidden = NO;
+    } else {
+        self.loadingView.hidden = YES;
+        self.emptyView.hidden = NO;
+        self.tableView.hidden = YES;
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(yapDatabaseModified:)
                                                  name:YapDatabaseModifiedNotification
                                                object:[DatabaseManager sharedInstance].database];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.emptyView
+                                                                          action:@selector(dismissKeyboard)];
+    [self.emptyView addGestureRecognizer:tap];
 
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
@@ -97,7 +124,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors greenColor];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveNotification:)
                                                  name:SEARCH_NOTIFICATION_NAME
@@ -107,6 +133,38 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SEARCH_NOTIFICATION_NAME object:nil];
+}
+
+// Call this method somewhere in your view controller setup code.
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - Search Methods -
@@ -121,6 +179,9 @@
 - (void) runQueryWithParameter:(NSString *)search {
     self.searchWith = [search copy];
     if ([search length]) {
+        self.loadingView.hidden = NO;
+        self.emptyView.hidden = YES;
+        self.tableView.hidden = YES;
         [self loadObjects];
     } else {
         [self clear];
@@ -128,6 +189,16 @@
 }
 
 - (void)clear {
+    if ([self.recentMappings numberOfItemsInSection:0] > 0) {
+        self.loadingView.hidden = YES;
+        self.emptyView.hidden = YES;
+        self.tableView.hidden = NO;
+    } else {
+        self.loadingView.hidden = YES;
+        self.emptyView.hidden = NO;
+        self.tableView.hidden = YES;
+    }
+
     [__mutableObjects removeAllObjects];
     [self.tableView reloadData];
 }
@@ -135,41 +206,63 @@
 #pragma mark - Data Methods -
 
 - (void)loadObjects {
-    self.searchId = arc4random_uniform(4294967296);
-
+    self.searchId = arc4random_uniform(4294967294) + 1;
+    [self.activityIndicatorView startAnimating];
+    
     [PFCloud callFunctionInBackground:@"searchBusiness"
                        withParameters:@{@"search": self.searchWith, @"skip": @0, @"id" : @(self.searchId)}
                                 block:^(NSString *json, NSError *error)
      {
+         [self.activityIndicatorView stopAnimating];
+         self.loadingView.hidden = YES;
+
          if (error) {
+             self.emptyInfoLabel.text = @"No results found";
+             self.emptyView.hidden = NO;
+             self.tableView.hidden = YES;
              [ParseValidation validateError:error controller:self];
-         }
-
-         NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-         NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:&error];
-
-         if (error) {
-             // Show alert
          } else {
-             if ([[jsonDic objectForKey:@"id"] unsignedIntegerValue] == self.searchId) {
+             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                     options:NSJSONReadingMutableContainers
+                                                                       error:&error];
+
+             if (error) {
+                 self.emptyInfoLabel.text = @"Uhps, an error ocurred";
+                 self.emptyView.hidden = NO;
+                 self.tableView.hidden = YES;
                  [self._mutableObjects removeAllObjects];
+             } else {
+                 if ([[jsonDic objectForKey:@"id"] unsignedIntegerValue] == self.searchId) {
+                     if ([self.searchWith length] == 0) {
+                         return;
+                     }
 
-                 NSArray *results =[jsonDic valueForKeyPath:@"results"];
-                 NSUInteger size = [results count];
+                     [self._mutableObjects removeAllObjects];
 
-                 for (int i = 0; i < size; i++) {
-                     NSDictionary *object = [results objectAtIndex:i];
-                     YapSearch *newSearch = [[YapSearch alloc] initWithUniqueId:[object objectForKey:@"oj"]];
-                     newSearch.conversaId = [object objectForKey:@"id"];
-                     newSearch.displayName = [object objectForKey:@"dn"];
-                     newSearch.avatarUrl = [object objectForKey:@"av"];
-                     newSearch.searchDate = [NSDate date];
-                     [self._mutableObjects addObject:newSearch];
+                     NSArray *results =[jsonDic valueForKeyPath:@"results"];
+                     NSUInteger size = [results count];
+
+                     for (int i = 0; i < size; i++) {
+                         NSDictionary *object = [results objectAtIndex:i];
+                         YapSearch *newSearch = [[YapSearch alloc] initWithUniqueId:[object objectForKey:@"oj"]];
+                         newSearch.conversaId = [object objectForKey:@"id"];
+                         newSearch.displayName = [object objectForKey:@"dn"];
+                         newSearch.avatarUrl = [object objectForKey:@"av"];
+                         newSearch.searchDate = [NSDate date];
+                         [self._mutableObjects addObject:newSearch];
+                     }
+
+                     if (size > 0) {
+                         self.emptyView.hidden = YES;
+                         self.tableView.hidden = NO;
+                         [self.tableView reloadData];
+                     } else {
+                         self.emptyInfoLabel.text = @"No results found";
+                         self.emptyView.hidden = NO;
+                         self.tableView.hidden = YES;
+                     }
                  }
-
-                 [self.tableView reloadData];
              }
          }
      }];
@@ -225,6 +318,25 @@
 
 #pragma mark - UITableViewDelegate Methods -
 
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    static NSString *CellIdentifier = @"CustomCategoryHeaderCell";
+    UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    if (headerView == nil) {
+        [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
+    }
+
+    UILabel *label = (UILabel *)[headerView viewWithTag:123];
+
+    if ([self.searchWith length] == 0) {
+        [label setText:@"Recents"];
+    } else {
+        [label setText:@"Results"];
+    }
+
+    return headerView;
+}
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
            editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -237,51 +349,46 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    __block BOOL save = YES;
-    __block YapSearch *business = ((CustomSearchCell *)[tableView cellForRowAtIndexPath:indexPath]).yapbusiness;
-    YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
-
-    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-        YapSearch *search = [transaction objectForKey:business.uniqueId inCollection:[YapSearch collection]];
-
-        if(search) {
-            if ([self.searchWith length] > 0) {
-                if (![search.avatarUrl isEqualToString:business.avatarUrl]) {
-                    search.avatarUrl = business.avatarUrl;
-                }
-            }
-
-            search.searchDate = [NSDate date];
-            [search saveWithTransaction:transaction];
-            save = NO;
-        }
-    } completionBlock:^{
-        if (save) {
-            business.searchDate = [NSDate date];
-            [business saveNew:connection];
-        }
-    }];
-
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
 
-    [ProfileDialogViewController controller:[self topMostController]
-                                   business:nil
-                                yapbusiness:business
-                                     enable:YES
-                                     device:self.machine];
+#pragma mark - Navigation Method -
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"FromSearchToProfile"]) {
+        __block BOOL save = YES;
+        __block YapSearch *business = ((CustomSearchCell*)sender).yapbusiness;
+        YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+
+        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+            YapSearch *search = [transaction objectForKey:business.uniqueId inCollection:[YapSearch collection]];
+
+            if(search) {
+                if ([self.searchWith length] > 0) {
+                    if (![search.avatarUrl isEqualToString:business.avatarUrl]) {
+                        search.avatarUrl = business.avatarUrl;
+                    }
+                }
+
+                search.searchDate = [NSDate date];
+                [search saveWithTransaction:transaction];
+                save = NO;
+            }
+        } completionBlock:^{
+            if (save) {
+                business.searchDate = [NSDate date];
+                [business saveNew:connection];
+            }
+        }];
+        // Get reference to the destination view controller
+        ProfileDialogViewController *destinationViewController = [segue destinationViewController];
+        // Pass any objects to the view controller here, like...
+        destinationViewController.yapbusiness = business;
+        destinationViewController.enable = YES;
+    }
 }
 
 #pragma mark - Find Method -
-
-- (UIViewController*) topMostController {
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
-    }
-
-    return topController;
-}
 
 - (YapSearch *)searchAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.objects count] && indexPath.row < [self.objects count]) {

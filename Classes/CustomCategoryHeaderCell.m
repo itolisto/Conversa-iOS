@@ -22,8 +22,4 @@
     self.nameLabel.text = [header getHeaderName];
 }
 
-+ (NSString *)reuseIdentifier {
-    return NSStringFromClass([self class]);
-}
-
 @end

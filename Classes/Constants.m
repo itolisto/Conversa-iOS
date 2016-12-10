@@ -8,6 +8,9 @@
 
 #import "Constants.h"
 
+// General constants
+CGFloat const borderCornerRadius = 20.0f;
+
 // Options class
 NSString *const kClassOptions           = @"Options";
 NSString *const kOptionsCodeKey         = @"code";

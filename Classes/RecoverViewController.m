@@ -8,9 +8,11 @@
 
 #import "RecoverViewController.h"
 
-#import "MBProgressHUD.h"
 #import "Utilities.h"
+#import "Constants.h"
+#import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
+
 #import <Parse/Parse.h>
 
 @interface RecoverViewController ()
@@ -28,6 +30,9 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
+
+    // Add circular borders
+    [[self.sendPasswordButton layer] setCornerRadius:borderCornerRadius];
 }
 
 - (void) dismissKeyboard {

@@ -11,6 +11,8 @@
 #import "Log.h"
 #import "Colors.h"
 #import "Constants.h"
+#import "nCategory.h"
+#import "nHeaderTitle.h"
 #import "SettingsKeys.h"
 #import "ParseValidation.h"
 #import "CustomCategoryCell.h"
@@ -18,16 +20,11 @@
 #import "CategoryViewController.h"
 #import "CustomCategoryHeaderCell.h"
 
-#import "nHeaderTitle.h"
-#import "nCategory.h"
-
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) NSMutableArray<NSObject *> *_mutableObjects;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 // Whether we have loaded the first set of objects
-@property (nonatomic, assign) BOOL _firstLoad;
-@property (nonatomic, assign) BOOL searchMode;
 @property (nonatomic, assign) NSUInteger page;
 
 @end
@@ -45,7 +42,6 @@
     self.tableView.dataSource = self;
 
     self._mutableObjects = [NSMutableArray arrayWithCapacity:29];
-    self._firstLoad = YES;
 
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self
@@ -87,9 +83,20 @@
                                                      barMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 
-    self.navigationController.navigationBar.barTintColor = [Colors greenColor];
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
 
     [self loadObjects];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.searchMode) {
+        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+        self.navigationController.navigationBar.tintColor = [Colors blackColor];
+    } else {
+        self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+        self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+    }
 }
 
 #pragma mark - Data Methods -
@@ -272,13 +279,16 @@
 #pragma mark - UISearchBarDelegate Method -
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    searchBar.text = searchText.lowercaseString;
-    [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
-                                                        object:nil
-                                                      userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: searchBar.text}];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    if ([searchText length] == 0) {
+        [self sendSearchRequest:@""];
+    } else {
+        [self performSelector:@selector(sendSearchRequest:) withObject:searchText.lowercaseString afterDelay:0.4f];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
     [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
                                                         object:nil
                                                       userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: searchBar.text}];
@@ -297,8 +307,8 @@
                 }
             }
         }
+        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
         self.navigationController.navigationBar.tintColor = [Colors blackColor];
-        self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
         [self.view bringSubviewToFront:self.searchView];
     }
     [searchBar setShowsCancelButton:YES animated:YES];
@@ -317,7 +327,8 @@
                 }
             }
         }
-        self.navigationController.navigationBar.barTintColor = [Colors greenColor];
+        self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+        self.navigationController.navigationBar.tintColor = [Colors whiteColor];
         self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
         [self.view sendSubviewToBack:self.searchView];
 
@@ -326,6 +337,13 @@
                                                           userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: @""}];
     }
     [searchBar setShowsCancelButton:NO animated:YES];
+}
+
+- (void)sendSearchRequest:(NSString*)searchText {
+    DDLogError(@"Search: %@", searchText);
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
+                                                        object:nil
+                                                      userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: searchText}];
 }
 
 #pragma mark - Navigation Method -

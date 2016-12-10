@@ -46,6 +46,7 @@
 #import "ChatsViewController.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
+#import "CategoriesViewController.h"
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -204,6 +205,27 @@
     self.visible = false;
 }
 
+- (void)willMoveToParentViewController:(UIViewController *)parent {
+    [super willMoveToParentViewController:parent];
+    if (parent == nil) {
+        UIViewController *last = [self.navigationController.viewControllers firstObject];
+        if (last) {
+            if ([last isKindOfClass:[ChatsViewController class]]) {
+                self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+                self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+            } else if ([last isKindOfClass:[CategoriesViewController class]]) {
+                if (((CategoriesViewController*)last).searchMode) {
+                    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+                    self.navigationController.navigationBar.tintColor = [Colors blackColor];
+                } else {
+                    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+                    self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+                }
+            }
+        }
+    }
+}
+
 #pragma mark - Setup Methods -
 
 - (void)loadNavigationBarInformation {
@@ -236,7 +258,9 @@
             }
         });
     });
-    
+
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"conversation_navigation_title", nil);
+
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 175, 20)];
     title.textAlignment = NSTextAlignmentCenter;
     [title setText:self.buddy.displayName];
@@ -358,16 +382,26 @@
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     customLeftButton.frame = CGRectMake(0, 0, 30, 30);
     UIImage * buttonImage = [UIImage imageNamed:@"ic_more"];
-    [customLeftButton setContentMode:UIViewContentModeScaleToFill];
+    [customLeftButton setContentMode:UIViewContentModeScaleAspectFit];
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
+
+    UIButton *customRightButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    customRightButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    customRightButton.backgroundColor = [UIColor clearColor];
+    customRightButton.frame = CGRectMake(0, 0, 32, 32);
+    customRightButton.layer.cornerRadius = customRightButton.frame.size.width / 2;
+    UIImage * sendImage = [UIImage imageNamed:@"ic_send"];
+    [customRightButton setContentMode:UIViewContentModeScaleAspectFit];
+    [customRightButton setBackgroundImage:sendImage forState:UIControlStateNormal];
+    self.inputToolbar.contentView.rightBarButtonItem = customRightButton;
 }
 
 - (void)initializeCellMenus {
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionDelete:)];
     [JSQMessagesCollectionViewCell registerMenuAction:@selector(actionCopy:)];
-    UIMenuItem *menuItemCopy   = [[UIMenuItem alloc] initWithTitle:@"Copiar"   action:@selector(actionCopy:)];
-    UIMenuItem *menuItemDelete = [[UIMenuItem alloc] initWithTitle:@"Eliminar" action:@selector(actionDelete:)];
+    UIMenuItem *menuItemCopy = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"conversation_menu_item_copy", nil) action:@selector(actionCopy:)];
+    UIMenuItem *menuItemDelete = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"conversation_menu_item_delete", nil) action:@selector(actionDelete:)];
     [UIMenuController sharedMenuController].menuItems = @[menuItemCopy, menuItemDelete];
 }
 
@@ -378,7 +412,6 @@
         [self updateLoadEarlierVisible];
     }
 }
-
 
 - (YapMessage*)newYapMessageType:(NSInteger)type values:(NSDictionary*)values incoming:(BOOL)isIncoming {
     YapMessage *message = [[YapMessage alloc] init];
@@ -532,7 +565,7 @@
                                                                       message:nil
                                                                preferredStyle:UIAlertControllerStyleActionSheet];
 
-        UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:@"Librería"
+        UIAlertAction* photoLibrary = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_library", nil)
                                                                style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction * action)
         {
@@ -540,7 +573,7 @@
             [view dismissViewControllerAnimated:YES completion:nil];
         }];
         
-        UIAlertAction* camera = [UIAlertAction actionWithTitle:@"Cámara"
+        UIAlertAction* camera = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_camara", nil)
                                                          style:UIAlertActionStyleDefault
                                                        handler:^(UIAlertAction * action)
         {
@@ -548,7 +581,7 @@
             [view dismissViewControllerAnimated:YES completion:nil];
         }];
         
-        UIAlertAction* location = [UIAlertAction actionWithTitle:@"Enviar ubicación"
+        UIAlertAction* location = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_location", nil)
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * action)
         {
@@ -556,7 +589,7 @@
             [view dismissViewControllerAnimated:YES completion:nil];
         }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
         {
@@ -683,29 +716,33 @@
             if (msg.transferProgress == 100) {
                 return [self checkDelivered:indexPath andMessage:msg];
             } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", @"Recibido", msg.transferProgress];
+                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_received", nil), msg.transferProgress];
             } else {
-                progressString = [NSString stringWithFormat:@"%@", @"Esperando"];
+                progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
             }
         } else {
             if (msg.transferProgress == 100) {
                 return [self checkDelivered:indexPath andMessage:msg];
             } else if(msg.transferProgress > 0) {
-                progressString = [NSString stringWithFormat:@"%@ %i%%", @"Enviado", msg.transferProgress];
+                progressString = [NSString stringWithFormat:@"%@ %i%%", NSLocalizedString(@"conversation_message_info_sent", nil), msg.transferProgress];
             } else {
                 if (msg.delivered == statusParseError) {
-                    progressString = [NSString stringWithFormat:@"%@", @"Fallido"];
+                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_failed", nil)];
                 } else {
-                    progressString = [NSString stringWithFormat:@"%@", @"Esperando"];
+                    progressString = [NSString stringWithFormat:@"%@", NSLocalizedString(@"conversation_message_info_waiting", nil)];
                 }
             }
         }
 
         if ([progressString length]) {
             if (msg.delivered == statusParseError) {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}] atIndex:0];
+                [attributedString insertAttributedString:[[NSAttributedString alloc]
+                                                          initWithString:progressString
+                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}]
+                                                 atIndex:0];
             } else {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString] atIndex:0];
+                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString]
+                                                 atIndex:0];
             }
         }
 
@@ -722,12 +759,13 @@
         textAttachment.bounds = CGRectMake(0, 0, 11.0f, 10.0f);
         
         if (msg.getStatus == statusParseError) {
-            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:@"Fallido" attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
+            NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_failed", nil)
+                                                                                       attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}];
             [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
             return attrStr;
         }
         
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:@"Enviado"];
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc]initWithString:NSLocalizedString(@"conversation_message_info_sent", nil)];
         [attrStr appendAttributedString:[NSAttributedString attributedStringWithAttachment:textAttachment]];
         
         return attrStr;
@@ -917,15 +955,15 @@
 
 # pragma mark - ConversationListener Methods
 
-- (void)messageReceived:(NSDictionary *)message {
-    if (![self.buddy.uniqueId isEqualToString:[message objectForKey:@"contactId"]]) {
-        [WhisperBridge shout:@"Hola chavita"
-                    subtitle:@"Marica"
+- (void)messageReceived:(NSString *)message from:(YapContact *)from {
+    if (![self.buddy.uniqueId isEqualToString:from.uniqueId]) {
+        [WhisperBridge shout:from.displayName
+                    subtitle:message
              backgroundColor:[UIColor clearColor]
       toNavigationController:self.navigationController
                        image:nil silenceAfter:1.8 action:^
          {
-             DDLogError(@"Chavita Iglesias presiono esto");
+             // Change buddy and reload data
          }];
     } else {
         self.subTitle.hidden = YES;
@@ -936,7 +974,7 @@
     if ([self.buddy.uniqueId isEqualToString:contactId]) {
         if (isTyping) {
             self.subTitle.hidden = NO;
-            self.subTitle.text = @"Escribiendo...";
+            self.subTitle.text = NSLocalizedString(@"conversation_subtitle_writing", nil);
         } else {
             self.subTitle.hidden = YES;
         }
@@ -947,7 +985,7 @@
     if ([self.buddy.uniqueId isEqualToString:objectId]) {
         NSString *title = self.subTitle.text;
         
-        if ([title isEqualToString:@"Escribiendo..."]) {
+        if ([title isEqualToString:NSLocalizedString(@"conversation_subtitle_writing", nil)]) {
             title = self.buddy.displayName;
         }
         
@@ -998,10 +1036,10 @@
 - (void)showUnblockMessage {
     UIAlertController* view = [UIAlertController
                                 alertControllerWithTitle:nil
-                                message:@"Desbloquea este contacto para enviar mensajes"
+                                message:NSLocalizedString(@"conversation_alert_action_unblock_title", nil)
                                 preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction* unblock = [UIAlertAction actionWithTitle:@"Desbloquear"
+    UIAlertAction* unblock = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock", nil)
                                                       style:UIAlertActionStyleDefault
                                                     handler:^(UIAlertAction * action)
     {
@@ -1014,7 +1052,7 @@
         [view dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancelar"
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
     {
@@ -1098,7 +1136,7 @@
             } else {
                 if (sSelf) {
                     UIAlertController* view = [UIAlertController
-                                               alertControllerWithTitle:@"No se ha podido obtener tu ubicación"
+                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
                                                message:nil
                                                preferredStyle:UIAlertControllerStyleAlert];
                     
@@ -1257,7 +1295,9 @@
     NSString *imageName = GetImageName();
     NSData *imageData = UIImageJPEGRepresentation(picture, 0.4);
     // Save to Cache Directory
-    [[NSFileManager defaultManager] saveDataToCachesDirectory:imageData withName:imageName andDirectory:kMessageMediaImageLocation];
+    [[NSFileManager defaultManager] saveDataToLibraryDirectory:imageData
+                                                      withName:imageName
+                                                  andDirectory:kMessageMediaImageLocation];
     // Create message
     __block YapMessage *message = [self newYapMessageType:kMessageTypeImage
                                                    values:@{MESSAGE_FILENAME_KEY: imageName,
@@ -1310,7 +1350,7 @@
     self.visible = true;
     if (error) {
         UIAlertController* view = [UIAlertController
-                                   alertControllerWithTitle:@"No se pudo guardar la imagen"
+                                   alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_camara_title", nil)
                                    message:nil
                                    preferredStyle:UIAlertControllerStyleAlert];
         
@@ -1484,9 +1524,8 @@
     
     if (jsqMessage.isMediaMessage) {
         if ([jsqMessage.media isKindOfClass:[PhotoMediaItem class]]) {
-            
             UIAlertAction* photo = [UIAlertAction
-                                     actionWithTitle:@"Ver imagen"
+                                     actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_view", nil)
                                      style:UIAlertActionStyleDefault
                                      handler:^(UIAlertAction * action) {
                                          PhotoMediaItem *mediaItem = (PhotoMediaItem *)jsqMessage.media;
@@ -1498,12 +1537,12 @@
             [view addAction:photo];
         } else if ([jsqMessage.media isKindOfClass:[JSQLocationMediaItem class]]) {
             UIAlertAction* location = [UIAlertAction
-                                    actionWithTitle:@"Mostrar en mapa"
+                                    actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_map", nil)
                                     style:UIAlertActionStyleDefault
                                     handler:^(UIAlertAction * action) {
                                         JSQLocationMediaItem *mediaItem = (JSQLocationMediaItem *)jsqMessage.media;
                                         MapView *mapView = [[MapView alloc] initWith:mediaItem.location];
-                                        mapView.title = @"Mapa";
+                                        mapView.title = NSLocalizedString(@"mapview_controller_title", nil);
                                         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mapView];
                                         [view dismissViewControllerAnimated:YES completion:nil];
                                         [self presentViewController:navController animated:YES completion:nil];
@@ -1511,7 +1550,7 @@
             [view addAction:location];
         } else if([jsqMessage.media isKindOfClass:[AudioMediaItem class]]) {
             UIAlertAction* audio = [UIAlertAction
-                                       actionWithTitle:@"Reproducir audio"
+                                       actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_play", nil)
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action) {
                                            AudioMediaItem *mediaItem = (AudioMediaItem *)jsqMessage.media;
@@ -1526,7 +1565,7 @@
     }
     
     UIAlertAction* resend = [UIAlertAction
-                                   actionWithTitle:@"Reenviar"
+                                   actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_resend", nil)
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction * action) {
                                        // Retry
@@ -1534,7 +1573,7 @@
                                        [view dismissViewControllerAnimated:YES completion:nil];
                                    }];
     UIAlertAction* delete = [UIAlertAction
-                             actionWithTitle:@"Eliminar"
+                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_delete", nil)
                              style:UIAlertActionStyleDestructive
                              handler:^(UIAlertAction * action) {
                                  [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
@@ -1543,7 +1582,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

@@ -20,33 +20,56 @@
 #import "ParseValidation.h"
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
+#import <SDWebImage/UIImageView+WebCache.h>
 //#import "Conversa-Swift.h"
 
 @interface ProfileDialogViewController ()
 
+@property (assign, nonatomic, getter=isSelected) BOOL select;
 @property (assign, nonatomic) NSUInteger followers;
 @property (strong, nonatomic) NSString* businessId;
 
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;
+@property (weak, nonatomic) IBOutlet UIView *statusView;
+
 @property (weak, nonatomic) IBOutlet UILabel *displayNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *conversaIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followersLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *headerImage;
+@property (weak, nonatomic) IBOutlet UIImageView *favoriteImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *chatImageView;
+@property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *chatButton;
+
+@property (strong, nonatomic) UITapGestureRecognizer* tapOutsideRecognizer;
 
 @end
+
+/*
+ * Storyboard implementation information in 
+ * http://stackoverflow.com/questions/11236367/display-clearcolor-uiviewcontroller-over-uiviewcontroller
+ */
 
 @implementation ProfileDialogViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.containerView.layer.cornerRadius = 10.0f;
+    self.containerView.layer.masksToBounds = YES;
+
     self.avatarImage.backgroundColor = [UIColor clearColor];
     self.avatarImage.layer.cornerRadius = self.avatarImage.frame.size.width / 2;
-}
 
-- (void)viewWillAppear:(BOOL)animated {
+    self.statusView.backgroundColor = [Colors profileOfflineColor];
+    self.statusView.layer.cornerRadius = self.statusView.frame.size.width / 2;
+    // Agregar borde
+    self.statusView.layer.borderWidth = 2.0f;
+    self.statusView.layer.borderColor = [Colors whiteColor].CGColor;
+
     if (self.business) {
         self.businessId = self.business.objectId;
 
@@ -79,15 +102,14 @@
         self.conversaIdLabel.text = [@"@" stringByAppendingString:self.yapbusiness.conversaId];
     }
 
-    //    self.favoriteButton.enabled = NO;
-    //    self.favoriteButton.imageColorOn = [Colors redColor];
-    //    self.favoriteButton.circleColor = [Colors redColor];
-    //    self.favoriteButton.lineColor = [UIColor orangeColor];
-    //
-    //    if (!_enable) {
-    //        self.chatButton.enabled = NO;
-    //        self.chatButton.imageColorOff = [UIColor lightGrayColor];
-    //    }
+    self.select = NO;
+    self.favoriteButton.enabled = NO;
+    self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav_not"];
+
+    if (!_enable) {
+        self.chatButton.enabled = NO;
+        self.chatImageView.image = [UIImage imageNamed:@""];
+    }
 
     [PFCloud callFunctionInBackground:@"profileInfo"
                        withParameters:@{@"business": self.businessId}
@@ -193,8 +215,6 @@
                          status = [[results objectForKey:@"status"] intValue];
                      }
 
-                     //self.favoriteButton.enabled = YES;
-
                      if (header != nil) {
                          [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
                                              placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
@@ -234,24 +254,21 @@
                      // Status
                      switch (status) {
                          case 1: {
-                             //shapeDrawable = (GradientDrawable) getDrawable(R.drawable.circular_status_online);
+                             self.statusView.backgroundColor = [Colors profileOnlineColor];
                              break;
                          }
                          case 2: {
-                             //shapeDrawable = (GradientDrawable) getDrawable(R.drawable.circular_status_offline);
+                             self.statusView.backgroundColor = [Colors profileOfflineColor];
                              break;
                          }
                          default: {
-                             //shapeDrawable = (GradientDrawable) getDrawable(R.drawable.circular_status_away);
+                             self.statusView.backgroundColor = [Colors profileAwayColor];
                              break;
                          }
                      }
 
-                     //mIvStatus.setVisibility(View.VISIBLE);
-                     //mIvStatus.setBackground(shapeDrawable);
-
                      if (favorite) {
-                         //[self.favoriteButton beginWithSelectedState];
+                         [self changeFavorite:YES];
                      }
 
                      self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
@@ -277,7 +294,7 @@
                          //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cancel));
                          //mLtvDelivery.setText(getString(R.string.profile_delivery_no));
                      }
-                     
+
                      if (multiple) {
                          // Multiple locations
                          //mRtvLocationDescription.setText(R.string.profile_location_multiple_location);
@@ -289,30 +306,156 @@
                          // One location
                          //mRtvLocationDescription.setText(R.string.profile_location_one_location);
                      }
-                     
+
                  }
              }
          }
+
+         self.favoriteButton.enabled = YES;
      }];
+
+    //    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
+    //        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    //        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    //        blurEffectView.frame = self.view.bounds;
+    //        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    //        [self.view insertSubview:blurEffectView atIndex:0];
+    //    } else {
+
+    //    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if(self.tapOutsideRecognizer == nil) {
+        self.tapOutsideRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(handleTapBehind:)];
+        self.tapOutsideRecognizer.numberOfTapsRequired = 1;
+        self.tapOutsideRecognizer.cancelsTouchesInView = false;
+        self.tapOutsideRecognizer.delegate = self;
+        [self.view.window addGestureRecognizer:self.tapOutsideRecognizer];
+    }
+
+    UIColor *myBackground = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.3];
+    UIView* baseView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                0,
+                                                                [[UIScreen mainScreen] bounds].size.width,
+                                                                [[UIScreen mainScreen] bounds].size.height)];
+    baseView.tag = 512;
+    baseView.backgroundColor = myBackground;
+    [self.view insertSubview:baseView atIndex:0];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if(self.tapOutsideRecognizer != nil) {
+        [self.view.window removeGestureRecognizer:self.tapOutsideRecognizer];
+        self.tapOutsideRecognizer = nil;
+    }
+}
+
+#pragma mark - Action Method -
+
+- (void)handleTapBehind:(UITapGestureRecognizer*)sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        CGPoint location = [sender locationInView:self.view];
+
+        if (!CGRectContainsPoint([self.containerView frame], location)) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
+}
+
+- (void)changeFavorite:(BOOL)favorite {
+    self.select = favorite;
+
+    if (favorite) {
+        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
+        self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav"];
+        self.favoriteImageView.transform = expandTransform;
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+             usingSpringWithDamping:0.4
+              initialSpringVelocity:0.2
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
+                         } completion:^(BOOL finished) {
+
+                         }];
+    } else {
+        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
+        self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav_not"];
+        self.favoriteImageView.transform = expandTransform;
+        [UIView animateWithDuration:0.4
+                              delay:0.0
+             usingSpringWithDamping:0.4
+              initialSpringVelocity:0.2
+                            options:UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
+                         } completion:^(BOOL finished) {
+
+                         }];
+    }
 }
 
 #pragma mark - UIButton Methods -
 
-- (IBAction)shareButtonPressed:(UIButton *)sender {
+- (IBAction)chatPressed:(UIButton *)sender {
+    __block YapContact *bs = nil;
+    [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction)
+    {
+        bs = [transaction objectForKey:self.business.objectId inCollection:[YapContact collection]];
+    }];
+    // Get reference to the destination view controller
+    UIStoryboard *mainStoryboard = self.storyboard;
+    ConversationViewController *destinationViewController = (ConversationViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"conversationViewController"];
+    
+    // Pass any objects to the view controller here, like...
+    if (bs) {
+        [destinationViewController initWithBuddy:bs];
+    } else {
+        if (self.business) {
+            [destinationViewController initWithBusiness:self.business withAvatarUrl:nil];
+        } else {
+            Business *business = [Business objectWithoutDataWithObjectId:self.yapbusiness.uniqueId];
+            business.displayName = self.yapbusiness.displayName;
+            business.conversaID = self.yapbusiness.conversaId;
+            [destinationViewController initWithBusiness:business withAvatarUrl:self.yapbusiness.avatarUrl];
+        }
+    }
 
+    if ([[self presentingViewController] isKindOfClass:[UITabBarController class]]) {
+        // From category view controller
+        UITabBarController *one = (UITabBarController*)[self presentingViewController];
+        UINavigationController *two = (UINavigationController*)one.selectedViewController;
+        [self dismissViewControllerAnimated:YES completion:^{
+            [two pushViewController:destinationViewController animated:YES];
+        }];
+    } else if ([[self presentingViewController] isKindOfClass:[UIViewController class]]) {
+        // From search view controller
+        UIViewController *one = [self presentingViewController];
+        UINavigationController *two = one.navigationController;
+        [self dismissViewControllerAnimated:YES completion:^{
+            [two pushViewController:destinationViewController animated:YES];
+        }];
+    }
 }
 
 - (IBAction)favoritePressed:(UIButton *)sender {
     sender.enabled = NO;
 
-    if ([sender isSelected]) {
+    if ([self isSelected]) {
         [AppJobs addFavoriteJob:self.businessId favorite:NO];
-        //[sender deselect];
+        [self changeFavorite:NO];
         self.followers--;
+        self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
     } else {
         [AppJobs addFavoriteJob:self.businessId favorite:YES];
-        //[sender select];
+        [self changeFavorite:YES];
         self.followers++;
+        self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
     }
 
     sender.enabled  = YES;
@@ -365,7 +508,9 @@
             bs = [transaction objectForKey:self.business.objectId inCollection:[YapContact collection]];
         }];
         // Get reference to the destination view controller
-        ConversationViewController *destinationViewController = [segue destinationViewController];
+        UINavigationController *navController = [segue destinationViewController];
+        ConversationViewController *destinationViewController = (ConversationViewController*)([navController viewControllers][0]);
+
         // Pass any objects to the view controller here, like...
         if (bs) {
             [destinationViewController initWithBuddy:bs];
@@ -389,8 +534,8 @@
             enable:(BOOL)enable
             device:(NSString*)machine
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *navigationController;
+    UIStoryboard *storyboard = [fromController storyboard];
+    UIViewController *viewController;
     MZFormSheetPresentationViewController *formSheetController;
     CGSize size;
 
@@ -398,50 +543,50 @@
     if ([machine isEqualToString:@"iPhone7,1"] || [machine isEqualToString:@"iPhone8,2"] || [machine isEqualToString:@"iPhone9,2"] || [machine isEqualToString:@"iPhone9,4"])
     {
         // ALL PLUS MODELS (5.5in)
-        navigationController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:navigationController];
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
         //size = CGSizeMake(289, 454);
         size = CGSizeMake(282, 380);
     }
     else if ([machine isEqualToString:@"iPhone7,2"] || [machine isEqualToString:@"iPhone8,1"] || [machine isEqualToString:@"iPhone9,1"] || [machine isEqualToString:@"iPhone9,3"])
     {
         // ALL NORMAL MODELS (4.7in)
-        navigationController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:navigationController];
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
         //size = CGSizeMake(262, 412);
         size = CGSizeMake(282, 380);
     }
     else if ([machine isEqualToString:@"i386"] || [machine isEqualToString:@"x86_64"])
     {
         // SIMULATOR
-        navigationController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:navigationController];
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
         size = CGSizeMake(282, 380);
     }
     else
     {
         // ALL REGULAR MODELS (4in)
-        navigationController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:navigationController];
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
         //size = CGSizeMake(224, 350);
         size = CGSizeMake(282, 380);
     }
-
-    ProfileDialogViewController *vc = (ProfileDialogViewController*)navigationController;
-
+    
+    ProfileDialogViewController *vc = (ProfileDialogViewController*)viewController;
+    
     if (business) {
         vc.business = business;
     } else {
         vc.yapbusiness = yapbusiness;
     }
-
+    
     vc.enable = enable;
-
+    
     formSheetController.presentationController.contentViewSize = size;
     formSheetController.interactivePanGestureDismissalDirection = MZFormSheetPanGestureDismissDirectionNone;
     formSheetController.presentationController.shouldDismissOnBackgroundViewTap = YES;
     formSheetController.contentViewControllerTransitionStyle = MZFormSheetPresentationTransitionStyleSlideAndBounceFromTop;
-
+    
     [fromController presentViewController:formSheetController animated:YES completion:nil];
 }
 

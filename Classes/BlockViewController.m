@@ -14,6 +14,7 @@
 #import "DatabaseView.h"
 #import "DatabaseManager.h"
 #import "CustomBlockCell.h"
+
 #import <YapDatabase/YapDatabaseView.h>
 
 #define kYapDatabaseRangeLength     25

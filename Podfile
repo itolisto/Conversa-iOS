@@ -12,7 +12,7 @@ target 'Conversa' do
     # PushNotifications Service
     pod 'OneSignal'
     # Ably Realtime Client Library
-    pod 'AblyRealtime'
+    pod 'Ably'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher'
     # Google Maps for iOS
@@ -22,7 +22,7 @@ target 'Conversa' do
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
-    # pod 'OHQBImagePicker'
+    pod 'OHQBImagePicker'
     # Report a bug; bug reports will be sent directly to your email address!
     pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
@@ -32,9 +32,9 @@ target 'Conversa' do
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
-    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'MBProgressHUD', '~> 1.0.0'
     # For app reviews
-    # pod 'Appirater'
+    pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more
     pod 'IDMPhotoBrowser'
     # Crash Log

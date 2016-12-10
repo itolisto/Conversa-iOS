@@ -19,12 +19,12 @@
 #import "MBProgressHUD.h"
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
+
 #import <Parse/Parse.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 
 @interface AccountSettingsViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageUser;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *displayNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -40,29 +40,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     tap.cancelsTouchesInView = FALSE;
     [self.tableView addGestureRecognizer:tap];
     tap.delegate = self;
-    
-    // Imagen redonda
-    self.imageUser.layer.cornerRadius = self.imageUser.frame.size.width / 2;
-    self.imageUser.clipsToBounds = YES;
-    self.imageUser.image = [UIImage imageNamed:@"ic_person"];
-    // Agregar borde
-    self.imageUser.layer.borderWidth = 3.0f;
-    self.imageUser.layer.borderColor = [UIColor whiteColor].CGColor;
+
     // Datos iniciales
     self.emailTextField.text = [Account currentUser].email;
     self.displayNameTextField.text = [SettingsKeys getDisplayName];
     // Delegate
-    self.emailTextField.delegate = self;
     self.displayNameTextField.delegate = self;
     self.passwordTextField.delegate = self;
 
-    self.blockedContactsLabel.text = @"Cargando";
+    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_loading", nil);
     
     self.reload = NO;
     
@@ -72,6 +65,11 @@
                                                object:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+}
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -88,7 +86,7 @@
 
 - (void)dismissKeyboard {
     self.passwordTextField.text = @"";
-    //self.displayNameTextField.text = [Account currentUser].displayName;
+    self.displayNameTextField.text = [SettingsKeys getDisplayName];
     [self.view endEditing:YES];
 }
 
@@ -107,14 +105,14 @@
     if ([textField.text length] == 0) {
         UIAlertController * view=   [UIAlertController
                                      alertControllerWithTitle:nil
-                                     message:@"El campo no puede quedar vacío"
+                                     message:NSLocalizedString(@"settings_account_alert_change_empty_title", nil)
                                      preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* change = [UIAlertAction
                                  actionWithTitle:@"Ok"
                                  style:UIAlertActionStyleDefault
                                  handler:^(UIAlertAction * action) {
                                      if (textField == self.displayNameTextField) {
-                                         //textField.text = [Account currentUser].displayName;
+                                         textField.text = [SettingsKeys getDisplayName];
                                      }
                                      
                                      [view dismissViewControllerAnimated:YES completion:nil];
@@ -127,34 +125,37 @@
     if (textField == self.passwordTextField) {
         UIAlertController * view=   [UIAlertController
                                      alertControllerWithTitle:nil
-                                     message:@"¿Seguro que deseas cambiar tu contraseña?"
+                                     message:NSLocalizedString(@"settings_account_alert_password_title", nil)
                                      preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction* change = [UIAlertAction
-                                     actionWithTitle:@"Cambiar"
+                                     actionWithTitle:NSLocalizedString(@"settings_account_alert_password_action_change", nil)
                                      style:UIAlertActionStyleDestructive
                                      handler:^(UIAlertAction * action) {
                                          Account *user = [Account currentUser];
                                          user.password = self.passwordTextField.text;
-                                         
-                                         MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-                                         hudError.mode = MBProgressHUDModeText;
-                                         [self.view addSubview:hudError];
-                                         
+                                         self.passwordTextField.text = @"";
                                          [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                             if (succeeded && !error) {
-                                                 hudError.label.text = @"Contraseña cambiada";
-                                                 [hudError showAnimated:YES];
-                                                 [hudError hideAnimated:YES afterDelay:1.7];
+                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                                             hud.mode = MBProgressHUDModeCustomView;
+                                             hud.square = YES;
+                                             UIImage *image;
+
+                                             if (error) {
+                                                 // Show notification
+                                                 image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_not_changed", nil);
                                              } else {
-                                                 hudError.label.text = @"Contraseña no se ha cambiado";
-                                                 [hudError showAnimated:YES];
-                                                 [hudError hideAnimated:YES afterDelay:1.7];
+                                                 // Show notification
+                                                 image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_changed", nil);
                                              }
-                                             self.passwordTextField.text = @"";
+                                             
+                                             hud.customView = [[UIImageView alloc] initWithImage:image];
+                                             [hud hideAnimated:YES afterDelay:2.f];
                                          }];
                                      }];
         UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:@"Cancelar"
+                                 actionWithTitle:NSLocalizedString(@"settings_account_alert_cancel", nil)
                                  style:UIAlertActionStyleCancel
                                  handler:^(UIAlertAction * action) {
                                      self.passwordTextField.text = @"";
@@ -164,33 +165,36 @@
         [view addAction:change];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
-    } else if (textField == self.displayNameTextField) {
-//        Account *user = [Account currentUser];
-//        
-//        if (![textField.text isEqualToString:user.displayName]) {
-//            NSString *temp = user.displayName;
-//            user.displayName = self.displayNameTextField.text;
-//            
-//            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-//            hudError.mode = MBProgressHUDModeText;
-//            [self.view addSubview:hudError];
-//            
-//            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//                self.displayNameTextField.text = [Account currentUser].displayName;
-//                
-//                if (succeeded && !error) {
-//                    hudError.labelText = @"Nombre cambiado";
-//                    [hudError show:YES];
-//                    [hudError hide:YES afterDelay:1.7];
-//                } else {
-//                    user.displayName = temp;
-//                    [user saveInBackground];
-//                    hudError.labelText = @"Nombre no se ha cambiado";
-//                    [hudError show:YES];
-//                    [hudError hide:YES afterDelay:1.7];
-//                }
-//            }];
-//        }
+    } else {
+        if (![textField.text isEqualToString:[SettingsKeys getDisplayName]]) {
+            NSString *temp = textField.text;
+
+            [PFCloud callFunctionInBackground:@"updateDisplayName"
+                               withParameters:@{@"displayName" : temp}
+                                        block:^(id  _Nullable object, NSError * _Nullable error)
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.square = YES;
+                UIImage *image;
+
+                if (error) {
+                    self.displayNameTextField.text = [SettingsKeys getDisplayName];
+                    // Show notification
+                    image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
+                } else {
+                    // Change displayName
+                    [SettingsKeys setDisplayName:temp];
+                    // Show notification
+                    image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
+                }
+
+                hud.customView = [[UIImageView alloc] initWithImage:image];
+                [hud hideAnimated:YES afterDelay:2.f];
+            }];
+        }
     }
     
     return YES;
@@ -199,11 +203,11 @@
 #pragma mark - UITableViewDelegate Methods -
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([indexPath section] == 2) {
+    if ([indexPath section] == 1) {
         if ([indexPath row] == 0) {
             [self cleanRecentSearches];
         }
-    } else if([indexPath section] == 3) {
+    } else if([indexPath section] == 2) {
         [self showLogout];
     }
     
@@ -211,7 +215,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([indexPath section] == 2) {
+    if ([indexPath section] == 1) {
         if ([indexPath row] == 1) {
             __block NSUInteger count = 0;
             [[DatabaseManager sharedInstance].newConnection asyncReadWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
@@ -222,15 +226,14 @@
                 }];
             } completionBlock:^{
                 if (count == 0) {
-                    self.blockedContactsLabel.text = @"Ninguno";
+                    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_none", nil);
                 } else if (count == 1) {
-                    self.blockedContactsLabel.text = @"1 contacto";
+                    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_one", nil);
                 } else {
-                    self.blockedContactsLabel.text = [[NSString stringWithFormat:@"%lu", (unsigned long)count] stringByAppendingString:@" contactos"];
+                    self.blockedContactsLabel.text = [[NSString stringWithFormat:@"%lu", (unsigned long)count]
+                                                      stringByAppendingString:NSLocalizedString(@"settings_account_blocked_contact", nil)];
                 }
             }];
-            
-            self.blockedContactsLabel.text = @"Cargando";
         }
     }
     
@@ -242,17 +245,17 @@
 - (void)cleanRecentSearches {
     UIAlertController * view =   [UIAlertController
                                   alertControllerWithTitle:nil
-                                  message:@"Limpia el historial de búsquedas recientes"
+                                  message:NSLocalizedString(@"settings_account_recents_title", nil)
                                   preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* clean = [UIAlertAction
-                             actionWithTitle:@"Limpiar"
+                             actionWithTitle:NSLocalizedString(@"settings_account_recents_alert_action_clean", nil)
                              style:UIAlertActionStyleDestructive
                              handler:^(UIAlertAction * action) {
                                  [YapSearch clearAllRecentSearches];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"settings_account_recents_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -271,7 +274,7 @@
                                   preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction* logout = [UIAlertAction
-                             actionWithTitle:@"Cerrar sesión"
+                             actionWithTitle:NSLocalizedString(@"settings_account_logout_alert_action_logout", nil)
                              style:UIAlertActionStyleDestructive
                              handler:^(UIAlertAction * action) {
                                  [Account logOut];
@@ -281,7 +284,7 @@
                                  [self presentViewController:viewController animated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:@"Cancelar"
+                             actionWithTitle:NSLocalizedString(@"settings_account_logout_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

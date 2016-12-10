@@ -66,18 +66,12 @@
         if (skipConversationText) {
             return;
         }
-        
-        UIFont *currentFont = self.conversationLabel.font;
-        CGFloat fontSize = currentFont.pointSize;
+
         self.conversationLabel.text = [self getDisplayText:lastMessage];
         self.unreadMessage.backgroundColor = [UIColor clearColor];
         
-        if (lastMessage.isView) {
-            self.nameLabel.font = [UIFont systemFontOfSize:fontSize];
-            self.nameLabel.textColor = [UIColor blackColor];
-        } else {
-            self.nameLabel.font = [UIFont boldSystemFontOfSize:fontSize];
-            self.nameLabel.textColor = [UIColor blackColor];
+        if (!lastMessage.isView) {
+            //self.nameLabel.textColor = [UIColor blackColor];
             if (lastMessage.isIncoming) {
                 self.unreadMessage.backgroundColor = [Colors blueColor];
             }
@@ -175,10 +169,6 @@
     }
     
     return @"";
-}
-
-+ (NSString *)reuseIdentifier {
-    return NSStringFromClass([self class]);
 }
 
 @end

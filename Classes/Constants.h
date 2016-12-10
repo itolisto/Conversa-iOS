@@ -6,7 +6,10 @@
 //  Copyright © 2015 Conversa. All rights reserved.
 //
 
-@import Foundation;
+@import UIKit;
+
+// General constants
+extern CGFloat const borderCornerRadius;
 
 // Options class <------- REVISAR ESTA CLASE SI ES NECESARIA
 extern NSString *const kClassOptions;

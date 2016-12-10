@@ -19,13 +19,11 @@
 
 @interface LoginViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *titleUpLabel;
-@property (weak, nonatomic) IBOutlet UILabel *titleBottomLabel;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *forgotPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *signinButton;
-//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -47,6 +45,9 @@
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.view.backgroundColor = [UIColor clearColor];
+
+    // Add circular borders
+    [[self.signinButton layer] setCornerRadius:borderCornerRadius];
 }
 
 - (void)dismissKeyboard {
@@ -59,15 +60,11 @@
     [self doLogin];
 }
 
+- (IBAction)backBarButtonPressed:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UITextFieldDelegate Methods -
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];

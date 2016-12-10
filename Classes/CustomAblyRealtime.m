@@ -343,9 +343,12 @@
         message.incoming = YES;
     }
 
+    NSString *messageText = nil;
+
     switch (messageType) {
         case kMessageTypeText: {
             message.text = [results objectForKey:@"message"];
+            messageText = message.text;
             break;
         }
         case kMessageTypeLocation: {
@@ -353,13 +356,19 @@
                                     initWithLatitude:[[results objectForKey:@"latitude"] doubleValue]
                                     longitude:[[results objectForKey:@"longitude"] doubleValue]];
             message.location = location;
+            messageText = @"Location";
             break;
         }
-        case kMessageTypeVideo:
+        case kMessageTypeVideo: {
+            messageText = @"Video";
+        }
         case kMessageTypeAudio: {
             message.bytes = [[results objectForKey:@"size"] floatValue];
             message.duration = [NSNumber numberWithInteger:[[results objectForKey:@"duration"] integerValue]];
             message.remoteUrl = [results objectForKey:@"file"];
+            if (messageText == nil) {
+                messageText = @"Audio";
+            }
             break;
         }
         case kMessageTypeImage: {
@@ -367,6 +376,7 @@
             message.width = [[results objectForKey:@"width"] floatValue];
             message.height = [[results objectForKey:@"height"] floatValue];
             message.remoteUrl = [results objectForKey:@"file"];
+            messageText = @"Image";
             break;
         }
     }
@@ -378,23 +388,13 @@
          //[contact updateLastMessageDateWithTransaction:transaction];
          [contact saveWithTransaction:transaction];
      } completionBlock:^{
-         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:)]) {
-             [self.delegate messageReceived:results];
+         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+             [self.delegate messageReceived:messageText from:contact];
          } else {
              DDLogInfo(@"ConversationListener protocol isn't set to receive message");
          }
      }];
 }
-
-#pragma mark - ConversationListener Methods -
-
-//        if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(fromUser:didGoOnline:)]) {
-//            NSString *from = event.data.presence.uuid;
-//            [self.delegate fromUser:from didGoOnline:YES];
-//        } else {
-//            DDLogInfo(@"ConversationListener protocol isn't set to receive join event");
-//            // Process message here
-//        }
 
 #pragma mark - Class Methods -
 

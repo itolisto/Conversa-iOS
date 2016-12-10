@@ -36,9 +36,4 @@
     }
 }
 
-+ (NSString *)reuseIdentifier {
-    return NSStringFromClass([self class]);
-}
-
-
 @end

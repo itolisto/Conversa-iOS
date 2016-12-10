@@ -11,4 +11,7 @@
 
 @interface ChatsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, ConversationListener>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UISearchController *searchController;
+
 @end

@@ -11,16 +11,10 @@
 @class YapSearch;
 #import "MZFormSheetPresentationViewController.h"
 
-@interface ProfileDialogViewController : UIViewController
+@interface ProfileDialogViewController : UIViewController <UIGestureRecognizerDelegate>
 
 @property(strong, nonatomic) Business *business;
 @property(strong, nonatomic) YapSearch *yapbusiness;
-@property(assign, nonatomic) bool enable;
-
-+ (void)controller:(UIViewController*)fromController
-          business:(Business*)business
-       yapbusiness:(YapSearch*)yapbusiness
-            enable:(BOOL)enable
-            device:(NSString*)machine;
+@property(assign, nonatomic) BOOL enable;
 
 @end
