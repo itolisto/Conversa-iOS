@@ -7,9 +7,10 @@
 //
 
 @import UIKit;
-@import Parse;
 
-@interface CategoriesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+#import "BaseViewController.h"
+
+@interface CategoriesViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 /**
  The refresh control associated to table view if the last one is not null

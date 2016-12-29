@@ -9,7 +9,6 @@
 @import UIKit;
 @class Business;
 @class YapSearch;
-#import "MZFormSheetPresentationViewController.h"
 
 @interface ProfileDialogViewController : UIViewController <UIGestureRecognizerDelegate>
 

@@ -121,7 +121,9 @@ const struct YapMessageEdges YapMessageEdges = {
         }
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[NSFileManager defaultManager] deleteDataInCachesDirectory:self.filename inSubDirectory:subdirectory error:error];
+            [[NSFileManager defaultManager] deleteDataInLibraryDirectory:self.filename
+                                                         inSubDirectory:subdirectory
+                                                                  error:error];
         });
     }
 }

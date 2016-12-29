@@ -14,7 +14,6 @@
 #import "Customer.h"
 #import "YapSearch.h"
 #import "Constants.h"
-#import "YapContact.h"
 #import "SettingsKeys.h"
 #import "MBProgressHUD.h"
 #import "DatabaseManager.h"
@@ -169,8 +168,8 @@
         if (![textField.text isEqualToString:[SettingsKeys getDisplayName]]) {
             NSString *temp = textField.text;
 
-            [PFCloud callFunctionInBackground:@"updateDisplayName"
-                               withParameters:@{@"displayName" : temp}
+            [PFCloud callFunctionInBackground:@"updateCustomerName"
+                               withParameters:@{@"displayName" : temp, @"objectId" : [SettingsKeys getCustomerId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
             {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];

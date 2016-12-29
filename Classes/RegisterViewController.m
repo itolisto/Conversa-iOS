@@ -9,11 +9,13 @@
 #import "RegisterViewController.h"
 
 #import "Log.h"
+#import "Colors.h"
 #import "Account.h"
 #import "Customer.h"
 #import "Constants.h"
 #import "Utilities.h"
 #import "LoginHandler.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 
@@ -23,7 +25,8 @@
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
-@property (weak, nonatomic) IBOutlet UIButton *signupButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *signupButton;
+@property (weak, nonatomic) UITextField *activeTextField;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -39,6 +42,11 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
+    // Add login button properties
+    [self.signupButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
+    [self.signupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.signupButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.signupButton setTitleColor:[Colors green] forState:UIControlStateHighlighted];
     // Add delegates
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
@@ -46,7 +54,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification object:nil];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
@@ -58,8 +65,6 @@
          forControlEvents:UIControlEventValueChanged];
 
     [self.birthdayText setInputView:datePicker];
-
-    [[self.signupButton layer] setCornerRadius:borderCornerRadius];
 }
 
 - (void) dismissKeyboard {
@@ -73,18 +78,27 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-    NSDictionary *info = aNotification.userInfo;
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 
-    CGRect rawFrame = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
-
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 140.0, 0.0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
     self.scrollView.contentInset = contentInsets;
     self.scrollView.scrollIndicatorInsets = contentInsets;
 
+    if (self.activeTextField) {
+        // If active text field is hidden by keyboard, scroll it so it's visible
+        // Your app might not need or want this behavior.
+        CGRect aRect = self.view.frame;
+        aRect.size.height -= kbSize.height;
+
+        if (!CGRectContainsPoint(aRect, self.activeTextField.frame.origin) ) {
+            [self.scrollView scrollRectToVisible:self.activeTextField.frame animated:YES];
+        }
+    }
+    
     if ([self.birthdayText isFirstResponder]) {
         if ([self.birthdayText inputAccessoryView] == nil) {
-            UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, keyboardFrame.size.height, self.view.frame.size.width, 44)] ;
+            UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kbSize.height, self.view.frame.size.width, 44)] ;
             [keyboardToolbar setBarStyle:UIBarStyleBlack];
             [keyboardToolbar setTranslucent:YES];
             [keyboardToolbar sizeToFit];
@@ -118,21 +132,29 @@
     [self doRegister];
 }
 
-- (IBAction)backBarButtonPressed:(UIBarButtonItem *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (IBAction)backBarButtonPressed:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UITextFieldDelegate Method -
+#pragma mark - UITextFieldDelegate Methods -
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.activeTextField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.activeTextField = nil;
+}
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
-    
+
     if (textField == self.emailTextField) {
         [self.passwordTextField becomeFirstResponder];
     } else {
         [self doRegister];
     }
-    
+
     return YES;
 }
 
@@ -149,7 +171,7 @@
     MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
     hudError.mode = MBProgressHUDModeText;
     [self.view addSubview:hudError];
-    
+
     if(isEmailValid([self.emailTextField text])) {
         if([self.passwordTextField hasText]) {
             [hudError removeFromSuperview];
@@ -166,7 +188,7 @@
         [hudError hideAnimated:YES afterDelay:1.7];
         [self.emailTextField becomeFirstResponder];
     }
-    
+
     return NO;
 }
 
@@ -179,9 +201,9 @@
         user.password = self.passwordTextField.text;
         // Extra fields
         user[kUserTypeKey] = @(1);
-        
+
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
+
         [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (!error) {
@@ -200,7 +222,7 @@
                                  alertControllerWithTitle:nil
                                  message:NSLocalizedString(@"signup_failed_message", nil)
                                  preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction* ok = [UIAlertAction
                          actionWithTitle:@"Ok"
                          style:UIAlertActionStyleDefault

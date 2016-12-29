@@ -10,22 +10,19 @@
 
 @interface Colors : NSObject
 
-+ (UIColor*)yellowColor;
-+ (UIColor*)greenColor;
-+ (UIColor*)greenNavbarColor;
-+ (UIColor*)whiteNavbarColor;
-+ (UIColor*)outgoingColor;
-+ (UIColor*)incomingColor;
-+ (UIColor*)greenSearchAnimationColor;
-+ (UIColor*)redColor;
-+ (UIColor*)blackColor;
-+ (UIColor*)whiteColor;
-+ (UIColor*)blueColor;
-+ (UIColor*)searchBarColor;
++ (UIColor*)greenNavbar;
++ (UIColor*)whiteNavbar;
++ (UIColor*)outgoing;
++ (UIColor*)incoming;
++ (UIColor*)green;
++ (UIColor*)black;
++ (UIColor*)white;
++ (UIColor*)blue;
++ (UIColor*)searchBar;
 
-+ (UIColor*)profileOnlineColor;
-+ (UIColor*)profileOfflineColor;
-+ (UIColor*)profileAwayColor;
++ (UIColor*)profileOnline;
++ (UIColor*)profileOffline;
++ (UIColor*)profileAway;
 
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value;
 

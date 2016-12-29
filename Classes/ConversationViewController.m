@@ -94,11 +94,9 @@
     [super viewDidLoad];
     
     self.messages = [[NSMutableArray alloc] init];
-
-    [CustomAblyRealtime sharedInstance].delegate = self;
     
     // Bar tint
-    self.navigationController.navigationBar.barTintColor = [Colors whiteColor];
+    self.navigationController.navigationBar.barTintColor = [Colors white];
     
     // JSQMessagesController variables setup
     self.senderId = ([[SettingsKeys getCustomerId] length] == 0) ? @"" : [SettingsKeys getCustomerId];
@@ -155,13 +153,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.visible = true;
+    [CustomAblyRealtime sharedInstance].delegate = self;
     
     if (self.buddy) {
         if ([self.buddy.composingMessageString length] > 0) {
@@ -211,15 +210,15 @@
         UIViewController *last = [self.navigationController.viewControllers firstObject];
         if (last) {
             if ([last isKindOfClass:[ChatsViewController class]]) {
-                self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-                self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+                self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+                self.navigationController.navigationBar.tintColor = [Colors white];
             } else if ([last isKindOfClass:[CategoriesViewController class]]) {
                 if (((CategoriesViewController*)last).searchMode) {
-                    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
-                    self.navigationController.navigationBar.tintColor = [Colors blackColor];
+                    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
+                    self.navigationController.navigationBar.tintColor = [Colors black];
                 } else {
-                    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-                    self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+                    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+                    self.navigationController.navigationBar.tintColor = [Colors white];
                 }
             }
         }
@@ -243,7 +242,7 @@
                     logo.image = image;
                 } else {
                     [logo sd_setImageWithURL:[NSURL URLWithString:self.buddy.avatarThumbFileId]
-                            placeholderImage:[UIImage imageNamed:@"ic_business_default_light"]];
+                            placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
                 }
 
                 logo.layer.cornerRadius = 19;
@@ -365,8 +364,8 @@
 
 - (void)initializeBubbles {
     JSQMessagesBubbleImageFactory *bubbleImageFactory = [[JSQMessagesBubbleImageFactory alloc] init];
-    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoingColor]];
-    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incomingColor]];
+    self.outgoingBubbleImage = [bubbleImageFactory outgoingMessagesBubbleImageWithColor:[Colors outgoing]];
+    self.incomingBubbleImage = [bubbleImageFactory incomingMessagesBubbleImageWithColor:[Colors incoming]];
     // No avatars
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
@@ -381,7 +380,7 @@
     UIButton *customLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     customLeftButton.frame = CGRectMake(0, 0, 30, 30);
-    UIImage * buttonImage = [UIImage imageNamed:@"ic_more"];
+    UIImage * buttonImage = [UIImage imageNamed:@"ic_attachment"];
     [customLeftButton setContentMode:UIViewContentModeScaleAspectFit];
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
@@ -618,9 +617,9 @@
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
 
     if (!message.isMediaMessage) {
-        cell.textView.textColor = [Colors blackColor];
+        cell.textView.textColor = [Colors black];
         cell.textView.dataDetectorTypes = UIDataDetectorTypeAll;
-        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [Colors blackColor],
+        cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : [Colors black],
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
 
@@ -778,17 +777,16 @@
 {
     YapMessage *currentMessage = [self messageAtIndexPath:indexPath];
 
-    if ( currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading ||
-         currentMessage.delivered == statusParseError
-       ) {
-        return YES;
-    } else if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
+    if (currentMessage.isIncoming || currentMessage.getStatus == statusReceived) {
         return NO;
+    } else if (currentMessage.delivered == statusDownloading || currentMessage.delivered == statusUploading
+               || currentMessage.delivered == statusParseError) {
+        return YES;
     } else if (indexPath.item == [self.collectionView numberOfItemsInSection:indexPath.section] - 1) {
         // If is the last message and is outgoing, show message status
         return (currentMessage.isIncoming == NO);
     }
-    
+
     // At this point, is always sure that there is another message
     YapMessage *nextMessage = [self nextOutgoingMessage:indexPath];
     return (nextMessage) ? NO : YES;
@@ -955,17 +953,24 @@
 
 # pragma mark - ConversationListener Methods
 
-- (void)messageReceived:(NSString *)message from:(YapContact *)from {
+- (void)messageReceived:(YapMessage *)message from:(YapContact *)from text:(NSString *)text {
     if (![self.buddy.uniqueId isEqualToString:from.uniqueId]) {
         [WhisperBridge shout:from.displayName
-                    subtitle:message
+                    subtitle:text
              backgroundColor:[UIColor clearColor]
       toNavigationController:self.navigationController
-                       image:nil silenceAfter:1.8 action:^
-         {
-             // Change buddy and reload data
-         }];
+                       image:nil
+                silenceAfter:1.8
+                      action:nil];
     } else {
+        message.view = YES;
+        [self.messageDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+            [message saveWithTransaction:transaction];
+        } completionBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
+                                                                object:nil
+                                                              userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
+        }];
         self.subTitle.hidden = YES;
     }
 }
@@ -1303,8 +1308,10 @@
                                                    values:@{MESSAGE_FILENAME_KEY: imageName,
                                                             MESSAGE_SIZE_KEY: [NSNumber numberWithUnsignedInteger:imageData.length]}
                                                  incoming:NO];
+
     message.width = picture.size.width;
     message.height = picture.size.height;
+    message.filename = imageName;
     
     // Save so message can be inserted in collectionView
     [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {

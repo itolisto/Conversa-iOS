@@ -18,9 +18,9 @@
 #import "CustomBusinessCell.h"
 #import "ConversationViewController.h"
 #import "ProfileDialogViewController.h"
-#import "MZFormSheetPresentationViewController.h"
 
 #import <sys/sysctl.h>
+#import <Parse/Parse.h>
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
 @interface CategoryViewController()
@@ -79,7 +79,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [super viewWillAppear:animated];
 }

@@ -36,12 +36,4 @@
     [super logOut];
 }
 
-- (NSString *)getPrivateChannel {
-    return [NSString stringWithFormat:@"%@_pvt", [self objectId]];
-}
-
-- (NSString *)getPublicChannel {
-    return [NSString stringWithFormat:@"%@_pbc", [self objectId]];
-}
-
 @end

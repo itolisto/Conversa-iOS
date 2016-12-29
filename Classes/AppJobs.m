@@ -41,14 +41,15 @@
                                       forTask:@"downloadAvatarJob"];
 }
 
-+ (void)addDownloadFileJob:(NSString*)messageId url:(NSString*)url
++ (void)addDownloadFileJob:(NSString*)messageId url:(NSString*)url messageType:(NSInteger)messageType
 {
     if ([url length] == 0) {
         return;
     }
 
     [[EDQueue sharedInstance] enqueueWithData:@{@"messageId" : messageId,
-                                                @"url" : url}
+                                                @"url" : url,
+                                                @"type" : @(messageType)}
                                       forTask:@"downloadFileJob"];
 }
 

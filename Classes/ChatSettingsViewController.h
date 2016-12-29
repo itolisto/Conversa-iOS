@@ -8,6 +8,8 @@
 
 @import UIKit;
 
-@interface ChatSettingsViewController : UITableViewController
+#import "BaseTableViewController.h"
+
+@interface ChatSettingsViewController : BaseTableViewController
 
 @end

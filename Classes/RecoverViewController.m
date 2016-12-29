@@ -8,8 +8,10 @@
 
 #import "RecoverViewController.h"
 
+#import "Colors.h"
 #import "Utilities.h"
 #import "Constants.h"
+#import "UIStateButton.h"
 #import "MBProgressHUD.h"
 #import "JVFloatLabeledTextField.h"
 
@@ -18,7 +20,7 @@
 @interface RecoverViewController ()
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UIButton *sendPasswordButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *sendPasswordButton;
 
 @end
 
@@ -30,9 +32,11 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
-
-    // Add circular borders
-    [[self.sendPasswordButton layer] setCornerRadius:borderCornerRadius];
+    // Add login button properties
+    [self.sendPasswordButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
+    [self.sendPasswordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.sendPasswordButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.sendPasswordButton setTitleColor:[Colors green] forState:UIControlStateHighlighted];
 }
 
 - (void) dismissKeyboard {
@@ -48,14 +52,14 @@
                                            alertControllerWithTitle:nil
                                            message:NSLocalizedString(@"recover_password_failed_message", nil)
                                            preferredStyle:UIAlertControllerStyleAlert];
-                
+
                 UIAlertAction* ok = [UIAlertAction
                                      actionWithTitle:@"Ok"
                                      style:UIAlertActionStyleDefault
                                      handler:^(UIAlertAction * action) {
                                          [view dismissViewControllerAnimated:YES completion:nil];
                                      }];
-                
+
                 [view addAction:ok];
                 [self presentViewController:view animated:YES completion:nil];
             } else {
@@ -63,14 +67,14 @@
                                            alertControllerWithTitle:nil
                                            message:NSLocalizedString(@"recover_password_sent_message", nil)
                                            preferredStyle:UIAlertControllerStyleAlert];
-                
+
                 UIAlertAction* ok = [UIAlertAction
                                      actionWithTitle:@"Ok"
                                      style:UIAlertActionStyleDefault
                                      handler:^(UIAlertAction * action) {
                                          [view dismissViewControllerAnimated:YES completion:nil];
                                      }];
-                
+
                 [view addAction:ok];
                 [self presentViewController:view animated:YES completion:nil];
             }
@@ -80,21 +84,21 @@
                                    alertControllerWithTitle:nil
                                    message:NSLocalizedString(@"sign_email_not_valid_error", nil)
                                    preferredStyle:UIAlertControllerStyleAlert];
-        
+
         UIAlertAction* ok = [UIAlertAction
                              actionWithTitle:@"Ok"
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
-        
+
         [view addAction:ok];
         [self presentViewController:view animated:YES completion:nil];
     }
 }
 
 - (IBAction)backBarButtonPressed:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

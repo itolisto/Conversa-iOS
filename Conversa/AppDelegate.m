@@ -17,8 +17,8 @@
 #import "Constants.h"
 #import "Appirater.h"
 #import "YapContact.h"
+#import "YapMessage.h"
 #import "SettingsKeys.h"
-#import "PopularSearch.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "BusinessCategory.h"
@@ -60,7 +60,6 @@
     [Message registerSubclass];
     [Business registerSubclass];
     [Customer registerSubclass];
-    [PopularSearch registerSubclass];
     [BusinessCategory registerSubclass];
     
     // Initialize Parse.
@@ -158,9 +157,7 @@
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
-{
-}
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{ }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -282,101 +279,186 @@
         } else if ([[job objectForKey:@"task"] isEqualToString:@"favoriteJob"]) {
             NSDictionary *data = [job objectForKey:@"data"];
 
-            if (data) {
-                NSError *error;
-                NSNumber *result;
+            NSError *error;
+            NSNumber *result;
 
-                if ([data objectForKey:@"favorite"]) {
-                    result = [PFCloud callFunction:@"favorite"
-                                    withParameters:@{@"business": [data objectForKey:@"business"],
-                                                     @"favorite": @YES}
-                                             error:&error];
-                } else {
-                    result = [PFCloud callFunction:@"favorite"
-                                    withParameters:@{@"business": [data objectForKey:@"business"]}
-                                             error:&error];
-                }
+            if ([data objectForKey:@"favorite"]) {
+                result = [PFCloud callFunction:@"setCustomerFavorite"
+                                withParameters:@{@"business": [data objectForKey:@"business"],
+                                                 @"favorite": @YES}
+                                         error:&error];
+            } else {
+                result = [PFCloud callFunction:@"setCustomerFavorite"
+                                withParameters:@{@"business": [data objectForKey:@"business"]}
+                                         error:&error];
+            }
 
-                if (error) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [ParseValidation validateError:error controller:[self topViewController]];
-                    });
-                    block(EDQueueResultCritical);
-                } else {
-                    block(EDQueueResultSuccess);
-                }
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [ParseValidation validateError:error controller:[self topViewController]];
+                });
+                block(EDQueueResultCritical);
             } else {
                 block(EDQueueResultSuccess);
             }
         } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadAvatarJob"]) {
             NSDictionary *data = [job objectForKey:@"data"];
 
-            if (data) {
-                NSString *businessId = [data objectForKey:@"businessId"];
-                NSString *url = [data objectForKey:@"url"];
+            NSString *businessId = [data objectForKey:@"businessId"];
+            NSString *url = [data objectForKey:@"url"];
 
-                NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-                AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-                NSURL *URL = [NSURL URLWithString:url];
-                NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+            NSURL *URL = [NSURL URLWithString:url];
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
 
-                NSURLSessionDownloadTask *downloadTask =
-                [manager downloadTaskWithRequest:request
-                                        progress:nil
-                                     destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
-                {
-                    NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
-                    [savePath appendString:kMessageMediaAvatarLocation];
-                    // Create if not already created
-                    [[NSFileManager defaultManager] createDirectory:[savePath copy]];
-                    // Continue with filename
-                    [savePath appendString:@"/"];
-                    // Add requested save path
-                    [savePath appendString:businessId];
-                    [savePath appendString:@"_avatar.jpg"];
+            NSURLSessionDownloadTask *downloadTask =
+            [manager downloadTaskWithRequest:request
+                                    progress:nil
+                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+             {
+                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+                 [savePath appendString:kMessageMediaAvatarLocation];
+                 // Create if not already created
+                 [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                 // Continue with filename
+                 [savePath appendString:@"/"];
+                 // Add requested save path
+                 [savePath appendString:businessId];
+                 [savePath appendString:@"_avatar.jpg"];
 
-                    return [[NSURL alloc] initFileURLWithPath:savePath];
-                }
-                               completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
-                {
-                    DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
-                    if (error) {
-                        DDLogError(@"downloadAvatarJob error: %@", error);
-                        block(EDQueueResultCritical);
-                    } else {
-                        YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
-                        __block YapContact *contact = nil;
+                 return [[NSURL alloc] initFileURLWithPath:savePath];
+             }
+                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+             {
+                 DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
+                 if (error) {
+                     DDLogError(@"downloadAvatarJob error: %@", error);
+                     block(EDQueueResultCritical);
+                 } else {
+                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+                     __block YapContact *contact = nil;
 
-                        [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                            contact = [YapContact fetchObjectWithUniqueID:businessId transaction:transaction];
-                        }];
+                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                         contact = [YapContact fetchObjectWithUniqueID:businessId transaction:transaction];
+                     }];
 
-                        if (contact == nil) {
-                            // Delete file if contact not exists
-                            [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[businessId stringByAppendingString:@"_avatar.jpg"]
-                                                                          inSubDirectory:kMessageMediaImageLocation
-                                                                                   error:nil];
-                        }
+                     if (contact == nil) {
+                         // Delete file if contact not exists
+                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                         error:nil];
+                     }
 
-                        block(EDQueueResultSuccess);
-                    }
-                }];
+                     block(EDQueueResultSuccess);
+                 }
+             }];
 
-                [downloadTask resume];
-            } else {
-                block(EDQueueResultSuccess);
-            }
+            [downloadTask resume];
         } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadFileJob"]) {
             NSDictionary *data = [job objectForKey:@"data"];
 
-            if (data) {
-                NSString *messageId = [data objectForKey:@"messageId"];
-                NSString *url = [data objectForKey:@"url"];
+            NSString *messageId = [data objectForKey:@"messageId"];
+            NSString *url = [data objectForKey:@"url"];
+            NSInteger messageType = [[data objectForKey:@"type"] integerValue];
 
-                block(EDQueueResultSuccess);
-            } else {
-                block(EDQueueResultSuccess);
-            }
+            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+            NSURL *URL = [NSURL URLWithString:url];
+            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+            NSURLSessionDownloadTask *downloadTask =
+            [manager downloadTaskWithRequest:request
+                                    progress:nil
+                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+             {
+                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+
+                 switch (messageType) {
+                     case kMessageTypeImage: {
+                         [savePath appendString:kMessageMediaImageLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".jpg"];
+                         break;
+                     }
+                     case kMessageTypeAudio: {
+                         [savePath appendString:kMessageMediaAudioLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".mp3"];
+                         break;
+                     }
+                     default: {
+                         [savePath appendString:kMessageMediaVideoLocation];
+                         // Create if not already created
+                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+                         // Continue with filename
+                         [savePath appendString:@"/"];
+                         // Add requested save path
+                         [savePath appendString:messageId];
+                         [savePath appendString:@".mp4"];
+                         break;
+                     }
+                 }
+
+                 return [[NSURL alloc] initFileURLWithPath:savePath];
+             }
+                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+             {
+                 DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
+                 if (error) {
+                     DDLogError(@"downloadFileJob error: %@", error);
+                     block(EDQueueResultCritical);
+                 } else {
+                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+                     __block YapMessage *message = nil;
+
+                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                         message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
+                     }];
+
+                     if (message == nil) {
+                         // Delete file if message not exists
+                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                         error:nil];
+                     } else {
+                         switch (messageType) {
+                             case kMessageTypeImage: {
+                                 message.filename = [messageId stringByAppendingString:@".jpg"];
+                                 break;
+                             }
+                             case kMessageTypeAudio: {
+                                 message.filename = [messageId stringByAppendingString:@".mp3"];
+                                 break;
+                             }
+                             default: {
+                                 message.filename = [messageId stringByAppendingString:@".mp4"];
+                                 break;
+                             }
+                         }
+
+                         [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                          {
+                              [message saveWithTransaction:transaction];
+                              // Make a YapDatabaseModifiedNotification to update
+                              NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
+                              transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
+                          }];
+                     }
+
+                     block(EDQueueResultSuccess);
+                 }
+             }];
+
+            [downloadTask resume];
         } else {
             block(EDQueueResultCritical);
         }

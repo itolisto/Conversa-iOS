@@ -22,7 +22,6 @@
 #import "ConversationViewController.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
-//#import "Conversa-Swift.h"
 
 @interface ProfileDialogViewController ()
 
@@ -64,11 +63,10 @@
     self.avatarImage.backgroundColor = [UIColor clearColor];
     self.avatarImage.layer.cornerRadius = self.avatarImage.frame.size.width / 2;
 
-    self.statusView.backgroundColor = [Colors profileOfflineColor];
-    self.statusView.layer.cornerRadius = self.statusView.frame.size.width / 2;
     // Agregar borde
     self.statusView.layer.borderWidth = 2.0f;
-    self.statusView.layer.borderColor = [Colors whiteColor].CGColor;
+    self.statusView.layer.borderColor = [Colors white].CGColor;
+    self.statusView.layer.cornerRadius = self.statusView.frame.size.width / 2;
 
     if (self.business) {
         self.businessId = self.business.objectId;
@@ -111,7 +109,7 @@
         self.chatImageView.image = [UIImage imageNamed:@""];
     }
 
-    [PFCloud callFunctionInBackground:@"profileInfo"
+    [PFCloud callFunctionInBackground:@"getBusinessProfile"
                        withParameters:@{@"business": self.businessId}
                                 block:^(NSString * _Nullable result, NSError * _Nullable error)
      {
@@ -253,16 +251,16 @@
 
                      // Status
                      switch (status) {
+                         case 0: {
+                             self.statusView.backgroundColor = [Colors profileOnline];
+                             break;
+                         }
                          case 1: {
-                             self.statusView.backgroundColor = [Colors profileOnlineColor];
+                             self.statusView.backgroundColor = [Colors profileAway];
                              break;
                          }
                          case 2: {
-                             self.statusView.backgroundColor = [Colors profileOfflineColor];
-                             break;
-                         }
-                         default: {
-                             self.statusView.backgroundColor = [Colors profileAwayColor];
+                             self.statusView.backgroundColor = [Colors profileOffline];
                              break;
                          }
                      }
@@ -271,7 +269,7 @@
                          [self changeFavorite:YES];
                      }
 
-                     self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
+                     self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
 
                      if (website != nil) {
                          //self.websiteLabel.text = website;
@@ -450,12 +448,12 @@
         [AppJobs addFavoriteJob:self.businessId favorite:NO];
         [self changeFavorite:NO];
         self.followers--;
-        self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
+        self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     } else {
         [AppJobs addFavoriteJob:self.businessId favorite:YES];
         [self changeFavorite:YES];
         self.followers++;
-        self.followersLabel.text = [NSString stringWithFormat:@"%ld", self.followers];
+        self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     }
 
     sender.enabled  = YES;
@@ -534,60 +532,60 @@
             enable:(BOOL)enable
             device:(NSString*)machine
 {
-    UIStoryboard *storyboard = [fromController storyboard];
-    UIViewController *viewController;
-    MZFormSheetPresentationViewController *formSheetController;
-    CGSize size;
-
-    // or pass in UILayoutFittingCompressedSize to size automatically with auto-layout
-    if ([machine isEqualToString:@"iPhone7,1"] || [machine isEqualToString:@"iPhone8,2"] || [machine isEqualToString:@"iPhone9,2"] || [machine isEqualToString:@"iPhone9,4"])
-    {
-        // ALL PLUS MODELS (5.5in)
-        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-        //size = CGSizeMake(289, 454);
-        size = CGSizeMake(282, 380);
-    }
-    else if ([machine isEqualToString:@"iPhone7,2"] || [machine isEqualToString:@"iPhone8,1"] || [machine isEqualToString:@"iPhone9,1"] || [machine isEqualToString:@"iPhone9,3"])
-    {
-        // ALL NORMAL MODELS (4.7in)
-        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-        //size = CGSizeMake(262, 412);
-        size = CGSizeMake(282, 380);
-    }
-    else if ([machine isEqualToString:@"i386"] || [machine isEqualToString:@"x86_64"])
-    {
-        // SIMULATOR
-        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-        size = CGSizeMake(282, 380);
-    }
-    else
-    {
-        // ALL REGULAR MODELS (4in)
-        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-        //size = CGSizeMake(224, 350);
-        size = CGSizeMake(282, 380);
-    }
-    
-    ProfileDialogViewController *vc = (ProfileDialogViewController*)viewController;
-    
-    if (business) {
-        vc.business = business;
-    } else {
-        vc.yapbusiness = yapbusiness;
-    }
-    
-    vc.enable = enable;
-    
-    formSheetController.presentationController.contentViewSize = size;
-    formSheetController.interactivePanGestureDismissalDirection = MZFormSheetPanGestureDismissDirectionNone;
-    formSheetController.presentationController.shouldDismissOnBackgroundViewTap = YES;
-    formSheetController.contentViewControllerTransitionStyle = MZFormSheetPresentationTransitionStyleSlideAndBounceFromTop;
-    
-    [fromController presentViewController:formSheetController animated:YES completion:nil];
+//    UIStoryboard *storyboard = [fromController storyboard];
+//    UIViewController *viewController;
+//    MZFormSheetPresentationViewController *formSheetController;
+//    CGSize size;
+//
+//    // or pass in UILayoutFittingCompressedSize to size automatically with auto-layout
+//    if ([machine isEqualToString:@"iPhone7,1"] || [machine isEqualToString:@"iPhone8,2"] || [machine isEqualToString:@"iPhone9,2"] || [machine isEqualToString:@"iPhone9,4"])
+//    {
+//        // ALL PLUS MODELS (5.5in)
+//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
+//        //size = CGSizeMake(289, 454);
+//        size = CGSizeMake(282, 380);
+//    }
+//    else if ([machine isEqualToString:@"iPhone7,2"] || [machine isEqualToString:@"iPhone8,1"] || [machine isEqualToString:@"iPhone9,1"] || [machine isEqualToString:@"iPhone9,3"])
+//    {
+//        // ALL NORMAL MODELS (4.7in)
+//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
+//        //size = CGSizeMake(262, 412);
+//        size = CGSizeMake(282, 380);
+//    }
+//    else if ([machine isEqualToString:@"i386"] || [machine isEqualToString:@"x86_64"])
+//    {
+//        // SIMULATOR
+//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
+//        size = CGSizeMake(282, 380);
+//    }
+//    else
+//    {
+//        // ALL REGULAR MODELS (4in)
+//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
+//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
+//        //size = CGSizeMake(224, 350);
+//        size = CGSizeMake(282, 380);
+//    }
+//    
+//    ProfileDialogViewController *vc = (ProfileDialogViewController*)viewController;
+//    
+//    if (business) {
+//        vc.business = business;
+//    } else {
+//        vc.yapbusiness = yapbusiness;
+//    }
+//    
+//    vc.enable = enable;
+//    
+//    formSheetController.presentationController.contentViewSize = size;
+//    formSheetController.interactivePanGestureDismissalDirection = MZFormSheetPanGestureDismissDirectionNone;
+//    formSheetController.presentationController.shouldDismissOnBackgroundViewTap = YES;
+//    formSheetController.contentViewControllerTransitionStyle = MZFormSheetPresentationTransitionStyleSlideAndBounceFromTop;
+//    
+//    [fromController presentViewController:formSheetController animated:YES completion:nil];
 }
 
 @end

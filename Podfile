@@ -27,8 +27,6 @@ target 'Conversa' do
     pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
     pod 'Branch'
-    # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
-    pod 'TTTAttributedLabel'
     # UITextField subclass with floating labels
     pod 'JVFloatLabeledTextField'
     # MBProgressHUD is an iOS drop-in class that displays a translucent HUD with an indicator and/or labels
@@ -52,8 +50,6 @@ target 'Conversa' do
     pod 'UIActivityIndicator-for-SDWebImage'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
-    # MZFormSheetPresentationController provides an alternative to the native iOS UIModalPresentationFormSheet
-    pod 'MZFormSheetPresentationController'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS
     pod 'AFNetworking', '~> 3.0'
 end

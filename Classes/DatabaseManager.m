@@ -11,8 +11,9 @@
 @import SAMKeychain;
 #import "Log.h"
 #import "Constants.h"
-#import "DatabaseView.h"
 #import "YapMessage.h"
+#import "DatabaseView.h"
+
 #import <YapDatabase/YapDatabaseRelationship.h>
 
 @interface DatabaseManager ()

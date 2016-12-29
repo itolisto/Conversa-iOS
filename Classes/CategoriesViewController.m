@@ -20,6 +20,8 @@
 #import "CategoryViewController.h"
 #import "CustomCategoryHeaderCell.h"
 
+#import <Parse/Parse.h>
+
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) NSMutableArray<NSObject *> *_mutableObjects;
@@ -83,7 +85,7 @@
                                                      barMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 
-    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
 
     [self loadObjects];
 }
@@ -91,11 +93,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (self.searchMode) {
-        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
-        self.navigationController.navigationBar.tintColor = [Colors blackColor];
+        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
+        self.navigationController.navigationBar.tintColor = [Colors black];
     } else {
-        self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-        self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+        self.navigationController.navigationBar.tintColor = [Colors white];
     }
 }
 
@@ -302,13 +304,13 @@
             for(id field in subView.subviews){
                 if ([field isKindOfClass:[UITextField class]]) {
                     UITextField *textField = (UITextField *)field;
-                    [textField setBackgroundColor:[Colors searchBarColor]];
+                    [textField setBackgroundColor:[Colors searchBar]];
                     break;
                 }
             }
         }
-        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbarColor];
-        self.navigationController.navigationBar.tintColor = [Colors blackColor];
+        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
+        self.navigationController.navigationBar.tintColor = [Colors black];
         [self.view bringSubviewToFront:self.searchView];
     }
     [searchBar setShowsCancelButton:YES animated:YES];
@@ -327,8 +329,8 @@
                 }
             }
         }
-        self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-        self.navigationController.navigationBar.tintColor = [Colors whiteColor];
+        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+        self.navigationController.navigationBar.tintColor = [Colors white];
         self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
         [self.view sendSubviewToBack:self.searchView];
 

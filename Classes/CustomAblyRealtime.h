@@ -9,13 +9,13 @@
 @import Foundation;
 @import Ably;
 
-@class YapContact;
+@class YapContact, YapMessage;
 
 @protocol ConversationListener <NSObject>
 @required
-    - (void) messageReceived:(NSString*)message from:(YapContact*)from;
-    - (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping;
+    - (void) messageReceived:(YapMessage*)message from:(YapContact*)from text:(NSString*)text;
 @optional
+    - (void) fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping;
     // The only status is shown is 'online' and only visible if user enters chat with this user
     - (void) fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
 @end

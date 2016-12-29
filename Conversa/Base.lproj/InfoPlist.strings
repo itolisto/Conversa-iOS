@@ -1,10 +1,10 @@
-/* 
-  InfoPlist.strings
-  Conversa
+/*
+ InfoPlist.strings
+ Conversa
 
-  Created by Edgar Gomez on 12/5/16.
-  Copyright © 2016 Conversa. All rights reserved.
-*/
-"NSCameraUsageDescription" = "$(PRODUCT_NAME) quiere utilizar la cámara para capturar imágenes";
-"NSLocationWhenInUseUsageDescription" = "$(PRODUCT_NAME) quiere usar tu ubicación para enviarla a la NSA, no, solo bromeamos";
-"NSPhotoLibraryUsageDescription" = "$(PRODUCT_NAME) quiere acceder a la librería para enviar imágenes";
+ Created by Edgar Gomez on 12/15/16.
+ Copyright © 2016 Conversa. All rights reserved.
+ */
+"NSCameraUsageDescription" = "Capture images";
+"NSLocationWhenInUseUsageDescription" = "We want to send your location to NSA, no, just kidding";
+"NSPhotoLibraryUsageDescription" = "Send images";

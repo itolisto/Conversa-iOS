@@ -9,7 +9,8 @@
 @import UIKit;
 
 #import "EDQueue.h"
+#import "BaseViewController.h"
 
-@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SearchViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

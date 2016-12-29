@@ -7,9 +7,10 @@
 //
 
 @import UIKit;
-@import Parse;
 
-@interface CategoryViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+#import "BaseViewController.h"
+
+@interface CategoryViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *categoryId;
 

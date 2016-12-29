@@ -124,11 +124,7 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 
 + (BOOL)getAccountReadSetting {
     NSUserDefaults *defaults = [self getDefaults];
-    if([defaults boolForKey:readReceiptsSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+    return [defaults boolForKey:readReceiptsSwitch];
 }
 
 #pragma mark - Notifications settings -
@@ -160,49 +156,47 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     NSUserDefaults *defaults = [self getDefaults];
     
     if(inApp) {
-        if([defaults boolForKey:inAppSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:inAppSoundSwitch];
     }
     
-    if([defaults boolForKey:soundSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+    return [defaults boolForKey:soundSwitch];
 }
 
 + (BOOL)getNotificationPreviewInApp:(BOOL)inApp {
     NSUserDefaults *defaults = [self getDefaults];
     
     if(inApp) {
-        if([defaults boolForKey:inAppPreviewSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:inAppPreviewSwitch];
     }
     
-    if([defaults boolForKey:previewSwitch]) {
-        return YES;
-    }
-    
-    return NO;
+    return [defaults boolForKey:previewSwitch];
 }
 
 
 #pragma mark - Message settings -
 + (void)setMessageImageQuality:(ConversaImageQuality)quality {
     NSUserDefaults *defaults = [self getDefaults];
-    [defaults setInteger:quality forKey:qualityImageSetting];
+    switch ([defaults integerForKey:qualityImageSetting]) {
+        case ConversaImageQualityHigh:
+            [defaults setInteger:1 forKey:qualityImageSetting]; break;
+        case ConversaImageQualityMedium:
+            [defaults setInteger:2 forKey:qualityImageSetting]; break;
+        default:
+            [defaults setInteger:3 forKey:qualityImageSetting]; break;
+    }
     [defaults synchronize];
 }
 
 + (ConversaImageQuality)getMessageImageQuality {
     NSUserDefaults *defaults = [self getDefaults];
-    return [defaults integerForKey:qualityImageSetting];
+    switch ([defaults integerForKey:qualityImageSetting]) {
+        case 1:
+            return ConversaImageQualityHigh;
+        case 2:
+            return ConversaImageQualityMedium;
+        default:
+            return ConversaImageQualityLow;
+    }
 }
 
 + (void)setMessageSoundIncoming:(BOOL)incoming value:(BOOL)state {
@@ -221,17 +215,9 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     NSUserDefaults *defaults = [self getDefaults];
     
     if(incoming) {
-        if([defaults boolForKey:receiveSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:receiveSoundSwitch];
     } else {
-        if([defaults boolForKey:sendSoundSwitch]) {
-            return YES;
-        }
-        
-        return NO;
+        return [defaults boolForKey:sendSoundSwitch];
     }
 }
 

@@ -8,6 +8,8 @@
 
 @import UIKit;
 
-@interface AccountSettingsViewController : UITableViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
+#import "BaseTableViewController.h"
+
+@interface AccountSettingsViewController : BaseTableViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
 
 @end

@@ -80,7 +80,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         // Create strong reference to the weakSelf inside the block so that it´s not released while the block is running
         
-        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromLibrary:[wMessage.filename stringByAppendingString:@".mp4"]];
+        NSString *videoData = [[NSFileManager defaultManager] loadVideoFromLibrary:wMessage.filename];
         
         UIImage *image = nil;
         if (videoData) {
@@ -196,24 +196,26 @@
 - (JSQMessage *)createLocationMessage:(YapMessage *)item {
     NSString *name   = @"user";
     NSString *userId = [SettingsKeys getCustomerId];
-    
+
     if (item.isIncoming) {
         name   = @"business";
         userId = item.buddyUniqueId;
     }
-    
+
     NSDate   *date   = item.date;
     JSQLocationMediaItem *mediaItem = [[JSQLocationMediaItem alloc] initWithLocation:nil];
     mediaItem.appliesMediaViewMaskAsOutgoing = !item.isIncoming;
-    __weak typeof(YapMessage) *wMessage = item;
+    //__weak typeof(YapMessage) *wMessage = item;
     [mediaItem setLocation:item.location withCompletionHandler:^{
-        [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-            typeof(YapMessage)*sSelf = wMessage;
-            if (sSelf)
-                [sSelf touchMessageWithTransaction:transaction];
-        }];
+        [[DatabaseManager sharedInstance].updateDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+         {
+             //DDLogError(@"YapMessage: %@", item);
+             //typeof(YapMessage)*sSelf = wMessage;
+             if (item)
+                 [item touchMessageWithTransaction:transaction];
+         }];
     }];
-    
+
     return [[JSQMessage alloc] initWithSenderId:userId senderDisplayName:name date:date media:mediaItem];
 }
 

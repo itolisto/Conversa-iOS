@@ -19,7 +19,7 @@
 #import "ParseValidation.h"
 #import <Parse/Parse.h>
 
-@interface CustomAblyRealtime () //<SINServiceDelegate>
+@interface CustomAblyRealtime ()
 
 @property(nonatomic, assign)BOOL firstLoad;
 
@@ -369,6 +369,7 @@
             if (messageText == nil) {
                 messageText = @"Audio";
             }
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
             break;
         }
         case kMessageTypeImage: {
@@ -377,6 +378,7 @@
             message.height = [[results objectForKey:@"height"] floatValue];
             message.remoteUrl = [results objectForKey:@"file"];
             messageText = @"Image";
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
             break;
         }
     }
@@ -385,11 +387,10 @@
      {
          [message saveWithTransaction:transaction];
          contact.lastMessageDate = message.date;
-         //[contact updateLastMessageDateWithTransaction:transaction];
          [contact saveWithTransaction:transaction];
      } completionBlock:^{
-         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
-             [self.delegate messageReceived:messageText from:contact];
+         if(self.delegate && [self.delegate conformsToProtocol:@protocol(ConversationListener)] && [self.delegate respondsToSelector:@selector(messageReceived:from:text:)]) {
+             [self.delegate messageReceived:message from:contact text:messageText];
          } else {
              DDLogInfo(@"ConversationListener protocol isn't set to receive message");
          }

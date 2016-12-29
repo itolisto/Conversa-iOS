@@ -147,7 +147,6 @@ extern NSString *const kMuteUserNotificationName;
 #define     MESSAGE_FILENAME_KEY  @"filename"
 #define     MESSAGE_SIZE_KEY      @"size"
 
-#define		LINK_PARSE							@"https://files.parsetfss.com"
 #define     BLOCK_NOTIFICATION_NAME             @"BlockNotificationName"
 #define     SEARCH_NOTIFICATION_NAME            @"SearchNotificationName"
 #define     SEARCH_NOTIFICATION_DIC_KEY         @"SearchBarText"

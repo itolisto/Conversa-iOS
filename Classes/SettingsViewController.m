@@ -29,24 +29,43 @@
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 
-    // Imagen redonda
-    //self.avatarImage.layer.cornerRadius = self.avatarImage.frame.size.width / 2;
-    //self.avatarImage.clipsToBounds = YES;
     if ([SettingsKeys getGender] == Female) {
         self.avatarImage.image = [UIImage imageNamed:@"ic_person_female"];
     } else {
         self.avatarImage.image = [UIImage imageNamed:@"ic_person"];
     }
-    // Agregar borde
-    //self.avatarImage.layer.borderWidth = 2.0f;
-    //self.avatarImage.layer.borderColor = [Colors greenNavbarColor].CGColor;
+
     // Welcome
     self.helloLabel.text = [NSString stringWithFormat:@"%@, %@", NSLocalizedString(@"settings_home_profile_hi", nil), [SettingsKeys getDisplayName]];
+
+    [[NSUserDefaults standardUserDefaults] addObserver:self
+                                            forKeyPath:customerDisplayName
+                                               options:NSKeyValueObservingOptionNew
+                                               context:NULL];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)dealloc {
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:customerDisplayName];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    //NSLog(@"KVO: %@ changed property %@ to value %@", object, keyPath, change);
+    if (keyPath == nil || change == nil || [keyPath length] == 0 || [change count] == 0) {
+        return;
+    }
+
+    if ([change valueForKey:NSKeyValueChangeNewKey] == nil) {
+        return;
+    }
+
+    if ([keyPath isEqualToString:customerDisplayName]) {
+        self.helloLabel.text = [NSString stringWithFormat:@"%@, %@", NSLocalizedString(@"settings_home_profile_hi", nil), [SettingsKeys getDisplayName]];
+    }
 }
 
 #pragma mark - UITableViewDelegate Methods -

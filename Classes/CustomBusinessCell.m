@@ -27,14 +27,14 @@
     @try {
         if (business.avatar) {
             [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[business.avatar url]]
-                                   placeholderImage:[UIImage imageNamed:@"ic_business_default_light"]];
+                                   placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
         } else {
-            self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+            self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
         }
     } @catch (NSException *exception) {
-        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
     } @catch (id exception) {
-        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
     }
 
     self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaID];
@@ -46,9 +46,9 @@
 
     if ([yapbusiness.avatarUrl length]) {
         [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:yapbusiness.avatarUrl]
-                               placeholderImage:[UIImage imageNamed:@"ic_business_default_light"]];
+                               placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
     } else {
-        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default_light"];
+        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
     }
 
     self.conversaIdLabel.text = [@"@" stringByAppendingString:yapbusiness.conversaId];

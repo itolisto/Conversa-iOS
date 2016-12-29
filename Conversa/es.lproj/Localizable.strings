@@ -20,8 +20,6 @@
 "chats_cell_action_delete" = "Eliminar";
 "chats_alert_action_unmute" = "No silenciar";
 "chats_alert_action_mute" = "Silenciar";
-"chats_alert_action_unblock" = "Desbloquear";
-"chats_alert_action_block" = "Bloquear";
 "chats_alert_action_clear_conversation" = "Limpiar conversación";
 "chats_alert_action_cancel" = "Cancelar";
 "chats_alert_action_twelve_hours" = "12 horas";

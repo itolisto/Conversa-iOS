@@ -30,7 +30,9 @@ const struct YapContactEdges YapContactEdges = {
 
 - (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction {
     // Remove avatar
-    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[self.uniqueId stringByAppendingString:@"_avatar.jpg"] inSubDirectory:kMessageMediaAvatarLocation error:nil];
+    [[NSFileManager defaultManager] deleteDataInLibraryDirectory:[self.uniqueId stringByAppendingString:@"_avatar.jpg"]
+                                                  inSubDirectory:kMessageMediaAvatarLocation
+                                                           error:nil];
     [super removeWithTransaction:transaction];
 }
 

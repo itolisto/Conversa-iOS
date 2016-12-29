@@ -31,7 +31,14 @@
 
 #pragma mark - UITableViewDelegate Methods -
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        // Support
+    } else if (indexPath.row == 1) {
+        // Terms
+    } else {
+        // Privacy
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

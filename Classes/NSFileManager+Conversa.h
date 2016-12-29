@@ -30,6 +30,7 @@
 - (BOOL)deleteDataInDocumentsDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
 - (BOOL)deleteDataInLibraryDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
 - (BOOL)deleteDataInCachesDirectory:(NSString*)filename inSubDirectory:(NSString*)sub error:(NSError*)error;
+- (BOOL)deleteDataInDirectory:(NSString*)filename error:(NSError*)error;
 
 #pragma mark - Directories Methods -
 

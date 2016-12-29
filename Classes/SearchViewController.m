@@ -19,7 +19,6 @@
 #import "CustomSearchCell.h"
 #import "NSFileManager+Conversa.h"
 #import "ProfileDialogViewController.h"
-#import "MZFormSheetPresentationViewController.h"
 
 #import <stdlib.h>
 #import <sys/sysctl.h>
@@ -240,7 +239,7 @@
 
                      [self._mutableObjects removeAllObjects];
 
-                     NSArray *results =[jsonDic valueForKeyPath:@"results"];
+                     NSArray *results = [jsonDic valueForKeyPath:@"results"];
                      NSUInteger size = [results count];
 
                      for (int i = 0; i < size; i++) {

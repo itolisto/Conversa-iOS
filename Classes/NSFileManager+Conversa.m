@@ -109,9 +109,20 @@
     // Add requested save path
     [savePath appendString:path];
     // Save the file and see if it was successful
-    BOOL ok = [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
-    // Return status of file save
-    return ok;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[savePath copy]]) {
+        if ([[NSFileManager defaultManager] isDeletableFileAtPath:savePath]) {
+            if ([[NSFileManager defaultManager] removeItemAtPath:savePath error:nil]) {
+                return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
+            } else {
+                NSLog(@"saveDataToDocumentsDirectory: Error removing file at path: %@", path);
+                return NO;
+            }
+        }
+
+        return NO;
+    } else {
+        return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
+    }
 }
 
 - (BOOL)saveDataToLibraryDirectory:(NSData *)fileData withName:(NSString *)path andDirectory:(NSString *)directory {
@@ -129,9 +140,20 @@
     [savePath appendString:path];
     NSLog(@"%@",savePath);
     // Save the file and see if it was successful
-    BOOL ok = [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
-    // Return status of file save
-    return ok;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[savePath copy]]) {
+        if ([[NSFileManager defaultManager] isDeletableFileAtPath:savePath]) {
+            if ([[NSFileManager defaultManager] removeItemAtPath:savePath error:nil]) {
+                return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
+            } else {
+                NSLog(@"saveDataToLibraryDirectory: Error removing file at path: %@", path);
+                return NO;
+            }
+        }
+
+        return NO;
+    } else {
+        return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
+    }
 }
 
 - (BOOL)saveDataToCachesDirectory:(NSData *)fileData withName:(NSString *)path andDirectory:(NSString *)directory {
@@ -145,7 +167,7 @@
         [self createDirectory:[savePath copy]];
         [savePath appendString:@"/"];
     }
-    
+
     // Add requested save path
     [savePath appendString:path];
     NSLog(@"%@",savePath);
@@ -155,11 +177,11 @@
             if ([[NSFileManager defaultManager] removeItemAtPath:savePath error:nil]) {
                 return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
             } else {
-                NSLog(@"Error removing file at path FOR REPLACING: %@", path);
+                NSLog(@"saveDataToCachesDirectory: Error removing file at path: %@", path);
                 return NO;
             }
         }
-        
+
         return NO;
     } else {
         return [[NSFileManager defaultManager] createFileAtPath:[savePath copy] contents:fileData attributes:nil];
@@ -172,7 +194,7 @@
     path = [path stringByAppendingString:@"/"];
     path = [path stringByAppendingString:filename];
     BOOL success = NO;
-    
+
     if ([[NSFileManager defaultManager] isDeletableFileAtPath:path]) {
         if (error) {
             success = [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
@@ -182,11 +204,11 @@
 
         if (!success) {
             if (error) {
-                NSLog(@"Error removing file at path: %@", error.localizedDescription);
+                NSLog(@"deleteDataInDocumentsDirectory: Error removing file at path: %@", error.localizedDescription);
             }
         }
     }
-    
+
     return success;
 }
 
@@ -206,7 +228,7 @@
 
         if (!success) {
             if (error) {
-                 NSLog(@"Error removing file at path: %@", error.localizedDescription);
+                NSLog(@"deleteDataInLibraryDirectory: Error removing file at path: %@", error.localizedDescription);
             }
         }
     }
@@ -230,7 +252,27 @@
 
         if (!success) {
             if (error) {
-                NSLog(@"Error removing file at path: %@", error.localizedDescription);
+                NSLog(@"deleteDataInCachesDirectory: Error removing file at path: %@", error.localizedDescription);
+            }
+        }
+    }
+
+    return success;
+}
+
+- (BOOL)deleteDataInDirectory:(NSString*)filename error:(NSError*)error {
+    BOOL success = NO;
+
+    if ([[NSFileManager defaultManager] isDeletableFileAtPath:filename]) {
+        if (error) {
+            success = [[NSFileManager defaultManager] removeItemAtPath:filename error:&error];
+        } else {
+            success = [[NSFileManager defaultManager] removeItemAtPath:filename error:nil];
+        }
+
+        if (!success) {
+            if (error) {
+                NSLog(@"deleteDataInDirectory: Error removing file at path: %@", error.localizedDescription);
             }
         }
     }
@@ -278,10 +320,10 @@
             return YES;
         }
     }
-    
+
     BOOL success = [self createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:&error];
     if (error) NSLog(@"%@",error);
-    
+
     return success;
 }
 

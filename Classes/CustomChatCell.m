@@ -44,7 +44,7 @@
     UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[business.uniqueId stringByAppendingString:@"_avatar.jpg"]];
 
     if (!image) {
-        image = [UIImage imageNamed:@"ic_business_default_light"];
+        image = [UIImage imageNamed:@"ic_business_default"];
     }
 
     self.avatarImageView.image = image;
@@ -73,7 +73,7 @@
         if (!lastMessage.isView) {
             //self.nameLabel.textColor = [UIColor blackColor];
             if (lastMessage.isIncoming) {
-                self.unreadMessage.backgroundColor = [Colors blueColor];
+                self.unreadMessage.backgroundColor = [Colors blue];
             }
         }
     } else {
@@ -90,7 +90,7 @@
 
 - (void)setIsTypingText:(BOOL)value {
     if (value) {
-        self.conversationLabel.text = @"Escribiendo...";
+        self.conversationLabel.text = @"escribiendo...";
     } else {
         [self updateLastMessage:NO];
     }
@@ -155,20 +155,20 @@
             return message.text;
         }
         case kMessageTypeLocation: {
-            return (message.isIncoming) ? @"Ubicación recibida" : @"Ubicación enviada";
+            return @"Ubicación";
         }
         case kMessageTypeImage: {
-            return (message.isIncoming) ? @"Imagen recibida" : @"Imagen enviada";
+            return @"Imagen";
         }
         case kMessageTypeVideo: {
-            return (message.isIncoming) ? @"Video recibido" : @"Video enviado";
+            return @"Video";
         }
         case kMessageTypeAudio: {
-            return (message.isIncoming) ? @"Grabación recibida" : @"Grabación enviada";
+            return @"Grabación";
         }
     }
     
-    return @"";
+    return @"Mensaje";
 }
 
 @end

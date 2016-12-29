@@ -36,42 +36,45 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if ([indexPath section] == 0) {
         if ([indexPath row] == 0) {
             [self selectImageQuality];
         }
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)selectImageQuality {
     UIAlertController * view =   [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
+                                  alertControllerWithTitle:nil
+                                  message:nil
+                                  preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* High = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_high", nil)
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction * action) {
-                                       [self updateLabelWithQuality:ConversaImageQualityHigh];
-                                       [view dismissViewControllerAnimated:YES completion:nil];
-                                   }];
+                           actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_high", nil)
+                           style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action) {
+                               [SettingsKeys setMessageImageQuality:ConversaImageQualityHigh];
+                               [self updateLabelWithQuality:ConversaImageQualityHigh];
+                               [view dismissViewControllerAnimated:YES completion:nil];
+                           }];
     UIAlertAction* Medium = [UIAlertAction
                              actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_medium", nil)
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action) {
+                                 [SettingsKeys setMessageImageQuality:ConversaImageQualityMedium];
                                  [self updateLabelWithQuality:ConversaImageQualityMedium];
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* Low = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_low", nil)
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 [self updateLabelWithQuality:ConversaImageQualityLow];
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-    
+                          actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_low", nil)
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action) {
+                              [SettingsKeys setMessageImageQuality:ConversaImageQualityLow];
+                              [self updateLabelWithQuality:ConversaImageQualityLow];
+                              [view dismissViewControllerAnimated:YES completion:nil];
+                          }];
+
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_cancel", nil)
                              style:UIAlertActionStyleCancel
@@ -86,24 +89,18 @@
 }
 
 - (void)updateLabelWithQuality:(ConversaImageQuality)quality {
-    
+
     switch (quality) {
         case ConversaImageQualityHigh: {
-            [SettingsKeys setMessageImageQuality:ConversaImageQualityHigh];
             self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_high", nil);
             break;
         }
         case ConversaImageQualityMedium: {
-            [SettingsKeys setMessageImageQuality:ConversaImageQualityMedium];
             self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_medium", nil);
             break;
         }
         case ConversaImageQualityLow: {
-            [SettingsKeys setMessageImageQuality:ConversaImageQualityLow];
             self.qualityImageLabel.text = NSLocalizedString(@"settings_chat_quality_alert_action_low", nil);
-            break;
-        }
-        default: {
             break;
         }
     }

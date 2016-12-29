@@ -14,8 +14,6 @@
 #import "AppJobs.h"
 #import "Business.h"
 #import "Constants.h"
-#import "YapMessage.h"
-#import "YapContact.h"
 #import "AppDelegate.h"
 #import "DatabaseView.h"
 #import "SettingsKeys.h"
@@ -30,8 +28,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
-
-#import "Conversa-Swift.h"
 
 @interface ChatsViewController ()
 
@@ -63,8 +59,6 @@
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-
-    [CustomAblyRealtime sharedInstance].delegate = self;
 
     // Set Conversa logo into NavigationBar
     UIImage* logoImage = [UIImage imageNamed:@"im_logo_text_white"];
@@ -156,19 +150,10 @@
     }
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:YapDatabaseModifiedNotification object:[DatabaseManager sharedInstance].database];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UPDATE_CELL_NOTIFICATION_NAME object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UPDATE_CHATS_NOTIFICATION_NAME object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors greenNavbarColor];
-    [CustomAblyRealtime sharedInstance].delegate = self;
+    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
     [self updateBadge];
 
     if (self.reloadData) {
@@ -337,35 +322,6 @@
     self.searchMode = NO;
     [self.tableView reloadData];
     [searchBar setShowsCancelButton:NO animated:YES];
-}
-
-#pragma mark - ConversationListener Methods -
-
-- (void)messageReceived:(NSString *)message from:(YapContact *)from {
-    [WhisperBridge shout:from.displayName
-                subtitle:message
-         backgroundColor:[UIColor clearColor]
-  toNavigationController:self.navigationController
-                   image:nil silenceAfter:1.8 action:^
-    {
-        // Get reference to the destination view controller
-        UIStoryboard *storyboard = [self storyboard];
-        ConversationViewController *viewController = (ConversationViewController*)[storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
-        // Pass any objects to the view controller here, like...
-        [viewController initWithBuddy:from];
-        [self.navigationController pushViewController:viewController animated:YES];
-    }];
-}
-
-- (void)fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping {
-    NSArray * indexPathsArray = [self.tableView indexPathsForVisibleRows];
-    for(NSIndexPath *indexPath in indexPathsArray) {
-        CustomChatCell * cell = (CustomChatCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell.business.uniqueId isEqualToString:objectId]) {
-            [cell setIsTypingText:isTyping];
-            break;
-        }
-    }
 }
 
 #pragma mark - YapDatabase Methods -
@@ -608,50 +564,6 @@
                                         [self selectMuteTimeToContact:[contact copy]];
                                     }];
             [view addAction:mute];
-        }
-        
-        if (contact.blocked) {
-            UIAlertAction* unblock = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_unblock", nil)
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction * action)
-                                      {
-                                          contact.blocked = NO;
-                                          [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                                          {
-                                              [contact saveWithTransaction:transaction];
-                                          }];
-                                          
-//                                          [[PubNubService sharedInstance] subscribeToChannels:@[[contact getPrivateChannel]]];
-                                          
-                                          [[NSNotificationCenter defaultCenter] postNotificationName:BLOCK_NOTIFICATION_NAME
-                                                                                              object:nil
-                                                                                            userInfo:nil];
-                                          
-                                          [view dismissViewControllerAnimated:YES completion:nil];
-                                      }];
-            
-            [view addAction:unblock];
-        } else {
-            UIAlertAction* block = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_block", nil)
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action)
-                                    {
-                                        contact.blocked = YES;
-                                        [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                                        {
-                                            [contact saveWithTransaction:transaction];
-                                        }];
-                                        
-//                                        [[PubNubService sharedInstance] unsubscribeToChannels:@[[contact getPrivateChannel]]];
-                                        
-                                        [[NSNotificationCenter defaultCenter] postNotificationName:BLOCK_NOTIFICATION_NAME
-                                                                                            object:nil
-                                                                                          userInfo:nil];
-                                        
-                                        [view dismissViewControllerAnimated:YES completion:nil];
-                                    }];
-            
-            [view addAction:block];
         }
         
         UIAlertAction* clean = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_clear_conversation", nil)

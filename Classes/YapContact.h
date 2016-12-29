@@ -10,7 +10,6 @@
 @class YapMessage, YapAccount;
 #import "Business.h"
 #import "YapDatabaseObject.h"
-//#import "YapDatabaseRelationship.h"
 #import <YapDatabase/YapDatabaseRelationshipNode.h>
 
 extern const struct YapContactAttributes {
