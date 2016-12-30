@@ -8,9 +8,7 @@
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
 "signup_birhtday_toolbar_done" = "Listo";
-"signup_password_length_error" = "Contraseña es requerida";
 "signup_failed_message" = "Lo sentimos, por favor intenta registrarte de nuevo";
-"sign_email_not_valid_error" = "Correo electrónico es inválido";
 "sign_failed_message" = "Correo electrónico y contraseña no encuentran una cuenta. Por favor verifica los datos";
 
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
@@ -82,6 +80,9 @@
 "cydPTRrUJye" = "Salud";
 "cDvl63HGh9j" = "Retailers";
 "cprn5lWuEDc" = "Online \u0026 Internet";
+"c63MVeTZE3q" = "Ropa de niño";
+"cztraRwNrdX" = "Educación";
+"c0GCyIw3HBP" = "Postres y Dulces";
 
 "category_results_error" = "Uphs, por favor intenta de nuevo";
 "category_results_empty" = "No se encontraron resultados";
@@ -114,3 +115,9 @@
 "settings_chat_quality_alert_action_low" = "Baja";
 "settings_chat_quality_alert_action_cancel" = "Cancelar";
 
+/*
+ * Common strings
+ */
+"common_action_cancel" = "Cancelar";
+"common_field_required" = "Campo requerido";
+"common_field_invalid" = "Campo inválido";

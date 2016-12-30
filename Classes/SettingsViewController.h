@@ -11,6 +11,6 @@
 
 #import "BaseTableViewController.h"
 
-@interface SettingsViewController : BaseTableViewController <MFMailComposeViewControllerDelegate>
+@interface SettingsViewController : BaseTableViewController
 
 @end

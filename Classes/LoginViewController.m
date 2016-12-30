@@ -20,7 +20,7 @@
 
 @interface LoginViewController ()
 
-@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *usernameTextField;
+@property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIStateButton *signinButton;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -39,7 +39,7 @@
     [self.view addGestureRecognizer:tap];
     tap.delegate = self;
     // Add delegates
-    self.usernameTextField.delegate = self;
+    self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
     // Add login button properties
     [self.signinButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
@@ -66,6 +66,8 @@
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+#pragma mark - Observer Methods -
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
@@ -100,17 +102,65 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark - IBAction Method -
+#pragma mark - Action Method -
 
 - (IBAction)loginButtonPressed:(UIButton *)sender {
-    [self doLogin];
-}
-
-- (IBAction)backBarButtonPressed:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self validateTextField:self.emailTextField text:self.emailTextField.text select:YES] &&
+        [self validateTextField:self.passwordTextField text:self.passwordTextField.text select:YES])
+    {
+        [self doLogin];
+    }
 }
 
 #pragma mark - UITextFieldDelegate Methods -
+
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if (textField == self.emailTextField) {
+        if (isEmailValid(text)) {
+            return YES;
+        } else {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+
+            if ([text isEqualToString:@""]) {
+                hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            } else {
+                hudError.label.text = NSLocalizedString(@"common_field_invalid", nil);
+            }
+
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        }
+    } else {
+        if ([text isEqualToString:@""]) {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+            hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;
@@ -121,74 +171,46 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-
-    if (textField == self.usernameTextField)
+    if (textField == self.emailTextField) {
         [self.passwordTextField becomeFirstResponder];
-    else
-        [self doLogin];
-
+    } else {
+        [textField resignFirstResponder];
+    }
+    
     return YES;
 }
 
 #pragma mark - Login Methods -
 
-- (BOOL)validForm {
-    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-    hudError.mode = MBProgressHUDModeText;
-    [self.view addSubview:hudError];
-
-    if(isEmailValid([self.usernameTextField text])) {
-        if([self.passwordTextField hasText]) {
-            [hudError removeFromSuperview];
-            return YES;
-        } else {
-            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError showAnimated:YES];
-            [hudError hideAnimated:YES afterDelay:1.7];
-            [self.passwordTextField becomeFirstResponder];
-        }
-    } else {
-        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError showAnimated:YES];
-        [hudError hideAnimated:YES afterDelay:1.7];
-        [self.usernameTextField becomeFirstResponder];
-    }
-
-    return NO;
-}
-
 - (void)doLogin {
-    if([self validForm]) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        PFQuery *query = [Account query];
-        [query whereKey:kUserEmailKey equalTo:self.usernameTextField.text];
-        [query whereKey:kUserTypeKey equalTo:@(1)];
-        [query selectKeys:@[kUserUsernameKey]];
+    PFQuery *query = [Account query];
+    [query whereKey:kUserEmailKey equalTo:self.emailTextField.text];
+    [query whereKey:kUserTypeKey equalTo:@(1)];
+    [query selectKeys:@[kUserUsernameKey]];
 
-        [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-            if (error) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self showErrorMessage];
-            } else {
-                [Account logInWithUsernameInBackground:((Account *)object).username
-                                              password:self.passwordTextField.text
-                                                 block:^(PFUser * _Nullable user, NSError * _Nullable error)
-                 {
-                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self showErrorMessage];
+        } else {
+            [Account logInWithUsernameInBackground:((Account *)object).username
+                                          password:self.passwordTextField.text
+                                             block:^(PFUser * _Nullable user, NSError * _Nullable error)
+             {
+                 [MBProgressHUD hideHUDForView:self.view animated:YES];
 
-                     if(user) {
-                         // Successful login
-                         [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-                     } else {
-                         // The login failed. Check error to see why
-                         [self showErrorMessage];
-                     }
-                 }];
-            }
-        }];
-    }
+                 if(user) {
+                     // Successful login
+                     [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+                 } else {
+                     // The login failed. Check error to see why
+                     [self showErrorMessage];
+                 }
+             }];
+        }
+    }];
 }
 
 - (void)showErrorMessage {
@@ -206,5 +228,12 @@
     [view addAction:ok];
     [self presentViewController:view animated:YES completion:nil];
 }
+
+#pragma mark - Navigation Method -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 @end

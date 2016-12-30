@@ -24,7 +24,8 @@
 
 @interface CategoriesViewController ()
 
-@property (strong, nonatomic) NSMutableArray<NSObject *> *_mutableObjects;
+@property (strong, nonatomic) NSMutableArray<nHeaderTitle *> *_headers;
+@property (strong, nonatomic) NSMutableDictionary<NSNumber *, NSArray<nCategory *>*> *_dictionary;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 // Whether we have loaded the first set of objects
 @property (nonatomic, assign) NSUInteger page;
@@ -43,7 +44,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
-    self._mutableObjects = [NSMutableArray arrayWithCapacity:29];
+    self._dictionary = [NSMutableDictionary dictionaryWithCapacity:2];
+    self._headers = [NSMutableArray arrayWithCapacity:2];
 
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self
@@ -118,74 +120,100 @@
      {
          if (error) {
              [ParseValidation validateError:error controller:self];
-         }
-
-         [self._mutableObjects removeAllObjects];
-
-         NSError *jsonError;
-         NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-         NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                 options:NSJSONReadingMutableContainers
-                                                                   error:&jsonError];
-         //kNilOptions
-         if (jsonError || !jsonDic) {
-             // Show error
          } else {
-             NSArray *results =[jsonDic valueForKeyPath:@"results"];
-             NSUInteger size = [results count];
-             NSMutableArray *alphabetically = nil;
+             [self._dictionary removeAllObjects];
+             [self._headers removeAllObjects];
 
-             for (int i = 0; i < size; i++) {
-                 NSDictionary *object = [results objectAtIndex:i];
-                 NSString *headerTitle = [object objectForKey:@"tn"];
+             NSError *jsonError;
+             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                     options:NSJSONReadingMutableContainers
+                                                                       error:&jsonError];
+             //kNilOptions
+             if (jsonError || !jsonDic) {
+                 // Show error
+             } else {
+                 NSArray *results = [jsonDic valueForKeyPath:@"results"];
+                 NSUInteger size = [results count];
 
-                 if (headerTitle) {
-                     nHeaderTitle *title = [[nHeaderTitle alloc] init];
-                     title.headerName = headerTitle;
-                     title.relevance = [[object objectForKey:@"re"] integerValue];
-                     [self._mutableObjects addObject:title];
+                 NSMutableArray *alphabetically = nil;
+                 NSMutableArray *relevance = nil;
 
-                     if ([object objectForKey:@"al"]) {
-                         alphabetically = [[NSMutableArray alloc] initWithCapacity:1];
-                     }
-                 } else {
-                     nCategory *category = [[nCategory alloc] init];
-                     category.objectId = [object objectForKey:@"ob"];
-                     category.avatarUrl = [object objectForKey:@"th"];
+                 for (int i = 0; i < size; i++) {
+                     NSDictionary *object = [results objectAtIndex:i];
+                     NSString *headerTitle = [object objectForKey:@"tn"];
 
-                     if (alphabetically) {
-                         [alphabetically addObject:category];
+                     if (headerTitle) {
+                         nHeaderTitle *title = [[nHeaderTitle alloc] init];
+                         title.headerName = headerTitle;
+                         title.relevance = [[object objectForKey:@"re"] integerValue];
+                         [self._headers addObject:title];
 
-                         if (i + 1 < size) {
-                             object = [results objectAtIndex:i + 1];
-                             if ([object objectForKey:@"tn"]) {
+                         if ([object objectForKey:@"al"]) {
+                             alphabetically = [[NSMutableArray alloc] initWithCapacity:1];
+                         } else {
+                             relevance = [[NSMutableArray alloc] initWithCapacity:1];
+                         }
+                     } else {
+                         nCategory *category = [[nCategory alloc] init];
+                         category.objectId = [object objectForKey:@"ob"];
+                         category.avatarUrl = [object objectForKey:@"th"];
+
+                         if (alphabetically) {
+                             [alphabetically addObject:category];
+
+                             if (i + 1 < size) {
+                                 object = [results objectAtIndex:i + 1];
+                                 if ([object objectForKey:@"tn"]) {
+                                     NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                         NSString *first = [(nCategory*)obj1 getCategoryName];
+                                         NSString *second = [(nCategory*)obj2 getCategoryName];
+                                         return [first compare:second];
+                                     }];
+
+                                     [self._dictionary setObject:[sortedArray copy]
+                                                          forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
+
+                                     [alphabetically removeAllObjects];
+                                     alphabetically = nil;
+                                 }
+                             } else {
                                  NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                                      NSString *first = [(nCategory*)obj1 getCategoryName];
                                      NSString *second = [(nCategory*)obj2 getCategoryName];
                                      return [first compare:second];
                                  }];
-                                 [self._mutableObjects addObjectsFromArray:sortedArray];
+
+                                 [self._dictionary setObject:[sortedArray copy]
+                                                      forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
+
                                  [alphabetically removeAllObjects];
                                  alphabetically = nil;
                              }
                          } else {
-                             NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                                 NSString *first = [(nCategory*)obj1 getCategoryName];
-                                 NSString *second = [(nCategory*)obj2 getCategoryName];
-                                 return [first compare:second];
-                             }];
-                             [self._mutableObjects addObjectsFromArray:sortedArray];
-                             [alphabetically removeAllObjects];
-                             alphabetically = nil;
+                             [relevance addObject:category];
+
+                             if (i + 1 < size) {
+                                 object = [results objectAtIndex:i + 1];
+                                 if ([object objectForKey:@"tn"]) {
+                                     [self._dictionary setObject:[relevance copy]
+                                                          forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
+                                     [relevance removeAllObjects];
+                                     relevance = nil;
+                                 }
+                             } else {
+                                 [self._dictionary setObject:[relevance copy]
+                                                      forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
+                                 [relevance removeAllObjects];
+                                 relevance = nil;
+                             }
                          }
-                     } else {
-                         [self._mutableObjects addObject:category];
                      }
                  }
+                 
+                 [self.refreshControl endRefreshing];
+                 [self.tableView reloadData];
              }
-
-             [self.refreshControl endRefreshing];
-             [self.tableView reloadData];
          }
      }];
 }
@@ -194,29 +222,22 @@
     [self loadObjects];
 }
 
-- (NSArray<__kindof NSObject *> *)objects {
-    return __mutableObjects;
+- (NSArray *)arrayAtIndexPath:(NSIndexPath *)indexPath {
+    return [self._dictionary objectForKey:[NSNumber numberWithInteger:[indexPath section]]];
 }
 
-- (NSObject *)objectAtIndexPath:(NSIndexPath *)indexPath {
-    return self.objects[indexPath.row];
+- (nCategory *)objectAtIndexPath:(NSIndexPath *)indexPath {
+    return [[self arrayAtIndexPath:indexPath] objectAtIndex:[indexPath row]];
 }
 
 #pragma mark - UITableViewDataSource Methods -
 
-// Return the number of rows in the section.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.objects count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [self._headers count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSObject *category = (NSObject *)[self objectAtIndexPath:indexPath];
-
-    if ([category isKindOfClass:[nHeaderTitle class]]) {
-        return 30.0;
-    }
-
-    return 70.0;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [[self arrayAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -225,42 +246,49 @@
 
     NSObject *category = (NSObject *)[self objectAtIndexPath:indexPath];
 
-    if ([category isKindOfClass:[nHeaderTitle class]]) {
-        static NSString *simpleTableIdentifier = @"CustomCategoryHeaderCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    static NSString *simpleTableIdentifier = @"CustomCategoryCell";
+    cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
 
-        if (cell == nil) {
-            cell = [[CustomCategoryHeaderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-
-        // Configure the cell
-        [((CustomCategoryHeaderCell *)cell) configureCellWith:(nHeaderTitle *)category];
-    } else {
-        static NSString *simpleTableIdentifier = @"CustomCategoryCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-
-        if (cell == nil) {
-            cell = [[CustomCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-        }
-
-        bool hide = NO;
-
-        // Configure the cell
-        if (indexPath.row + 1 < [[self objects] count]) {
-            NSObject *ct = (NSObject *)[self objectAtIndexPath:[NSIndexPath indexPathForItem:indexPath.row + 1 inSection:0]];
-
-            if ([ct isKindOfClass:[nHeaderTitle class]]) {
-                hide = YES;
-            }
-        }
-
-        [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category hideView:hide];
+    if (cell == nil) {
+        cell = [[CustomCategoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-    
+
+    bool hide = YES;
+
+    // Configure the cell
+    if (indexPath.row + 1 < [[self arrayAtIndexPath:indexPath] count]) {
+        hide = NO;
+    }
+
+    [((CustomCategoryCell *)cell) configureCellWith:(nCategory *)category hideView:hide];
+
     return cell;
 }
 
 #pragma mark - UITableViewDelegate Methods -
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 30.0f;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 70.0;
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    static NSString *CellIdentifier = @"CustomCategoryHeaderCell";
+    UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+    if (headerView == nil) {
+        [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
+    }
+
+    UILabel *label = (UILabel *)[headerView viewWithTag:223];
+    [label setText:[self._headers objectAtIndex:section].headerName];
+
+    return headerView;
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

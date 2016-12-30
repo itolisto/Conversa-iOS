@@ -80,6 +80,7 @@
 		A5BA0CE61E09DC12001044F7 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA0CE41E09DC12001044F7 /* BaseViewController.m */; };
 		A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */; };
 		A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */; };
+		A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */; };
 		A5F8BC0E1DD59D40008BD50B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F8BC101DD59D40008BD50B /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
@@ -227,6 +228,7 @@
 		A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBusinessCell.h; sourceTree = "<group>"; };
 		A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBusinessCell.m; sourceTree = "<group>"; };
+		A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification.mp3; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5F8BC0F1DD59D40008BD50B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A5FEBDE11DF60801002B8836 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -388,6 +390,7 @@
 				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
 				A55B5D251D53C8F300AA576A /* Assets.xcassets */,
 				A55B5D2A1D53C8F300AA576A /* Info.plist */,
+				A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */,
 				A55B5D161D53C8F300AA576A /* Supporting Files */,
 				A5A7DDF01DD5692600E0D242 /* Strings */,
 			);
@@ -416,8 +419,8 @@
 		A5A7DDF01DD5692600E0D242 /* Strings */ = {
 			isa = PBXGroup;
 			children = (
-				A5F8BC101DD59D40008BD50B /* Localizable.strings */,
 				A59544551E09E340002057B9 /* InfoPlist.strings */,
+				A5F8BC101DD59D40008BD50B /* Localizable.strings */,
 			);
 			name = Strings;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 				A5F8BC0E1DD59D40008BD50B /* Localizable.strings in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
 				A55B5D241D53C8F300AA576A /* Main.storyboard in Resources */,
+				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

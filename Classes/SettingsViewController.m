@@ -71,14 +71,14 @@
 #pragma mark - UITableViewDelegate Methods -
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     if([indexPath section] == 3) {
         // Change status connection
         if ([indexPath row] == 0) {
             [self didSelectShareSetting:indexPath];
         }
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

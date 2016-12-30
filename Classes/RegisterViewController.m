@@ -23,7 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *emailTextField;
 @property (weak, nonatomic) IBOutlet JVFloatLabeledTextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
 @property (weak, nonatomic) IBOutlet UIStateButton *signupButton;
 @property (weak, nonatomic) UITextField *activeTextField;
@@ -50,6 +50,7 @@
     // Add delegates
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
+    self.birthdayTextField.delegate = self;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
@@ -64,8 +65,10 @@
     [datePicker addTarget:self action:@selector(updateTextField:)
          forControlEvents:UIControlEventValueChanged];
 
-    [self.birthdayText setInputView:datePicker];
+    [self.birthdayTextField setInputView:datePicker];
 }
+
+#pragma mark - Observer Methods -
 
 - (void) dismissKeyboard {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -73,7 +76,7 @@
 }
 
 -(void)resignKeyboard {
-    [self.birthdayText resignFirstResponder];
+    [self.birthdayTextField resignFirstResponder];
 }
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
@@ -96,8 +99,8 @@
         }
     }
     
-    if ([self.birthdayText isFirstResponder]) {
-        if ([self.birthdayText inputAccessoryView] == nil) {
+    if ([self.birthdayTextField isFirstResponder]) {
+        if ([self.birthdayTextField inputAccessoryView] == nil) {
             UIToolbar *keyboardToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, kbSize.height, self.view.frame.size.width, 44)] ;
             [keyboardToolbar setBarStyle:UIBarStyleBlack];
             [keyboardToolbar setTranslucent:YES];
@@ -112,8 +115,8 @@
 
             NSArray *itemsArray = [NSArray arrayWithObjects:flexButton,doneButton1, nil];
             [keyboardToolbar setItems:itemsArray];
-            [self.birthdayText setInputAccessoryView:keyboardToolbar];
-            [self.birthdayText reloadInputViews];
+            [self.birthdayTextField setInputAccessoryView:keyboardToolbar];
+            [self.birthdayTextField reloadInputViews];
         }
     }
 }
@@ -126,17 +129,69 @@
     self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
-#pragma mark - IBAction Methods -
+#pragma mark - Action Methods -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)registerButtonPressed:(UIButton *)sender {
-    [self doRegister];
+    if ([self validateTextField:self.emailTextField text:self.emailTextField.text select:YES] &&
+        [self validateTextField:self.passwordTextField text:self.passwordTextField.text select:YES])
+    {
+        [self doRegister];
+    }
 }
 
-- (IBAction)backBarButtonPressed:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+#pragma mark - UITextFieldDelegate Method -
 
-#pragma mark - UITextFieldDelegate Methods -
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if (textField == self.emailTextField) {
+        if (isEmailValid(text)) {
+            return YES;
+        } else {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+
+            if ([text isEqualToString:@""]) {
+                hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            } else {
+                hudError.label.text = NSLocalizedString(@"common_field_invalid", nil);
+            }
+
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        }
+    } else {
+        if ([text isEqualToString:@""]) {
+            MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+            hudError.mode = MBProgressHUDModeText;
+            [self.view addSubview:hudError];
+            hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+            [hudError showAnimated:YES];
+            [hudError hideAnimated:YES afterDelay:1.7];
+
+            if (select) {
+                if (![textField isFirstResponder]) {
+                    [textField becomeFirstResponder];
+                }
+            }
+
+            return NO;
+        } else {
+            return YES;
+        }
+    }
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.activeTextField = textField;
@@ -147,14 +202,12 @@
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-
     if (textField == self.emailTextField) {
         [self.passwordTextField becomeFirstResponder];
-    } else {
-        [self doRegister];
+    } else if (textField == self.passwordTextField) {
+        [self.birthdayTextField becomeFirstResponder];
     }
-
+    
     return YES;
 }
 
@@ -164,57 +217,31 @@
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    self.birthdayText.text = [dateFormatter stringFromDate:sender.date];
-}
-
-- (BOOL) validForm {
-    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-    hudError.mode = MBProgressHUDModeText;
-    [self.view addSubview:hudError];
-
-    if(isEmailValid([self.emailTextField text])) {
-        if([self.passwordTextField hasText]) {
-            [hudError removeFromSuperview];
-            return YES;
-        } else {
-            hudError.label.text = NSLocalizedString(@"signup_password_length_error", nil);
-            [hudError showAnimated:YES];
-            [hudError hideAnimated:YES afterDelay:1.7];
-            [self.passwordTextField becomeFirstResponder];
-        }
-    } else {
-        hudError.label.text = NSLocalizedString(@"sign_email_not_valid_error", nil);
-        [hudError showAnimated:YES];
-        [hudError hideAnimated:YES afterDelay:1.7];
-        [self.emailTextField becomeFirstResponder];
-    }
-
-    return NO;
+    self.birthdayTextField.text = [dateFormatter stringFromDate:sender.date];
+    [self.birthdayTextField resignFirstResponder];
 }
 
 - (void) doRegister {
-    if([self validForm]) {
-        Account *user = [Account object];
-        NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
-        user.username = [emailPieces objectAtIndex: 0];
-        user.email = self.emailTextField.text;
-        user.password = self.passwordTextField.text;
-        // Extra fields
-        user[kUserTypeKey] = @(1);
+    Account *user = [Account object];
+    NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
+    user.username = [emailPieces objectAtIndex: 0];
+    user.email = self.emailTextField.text;
+    user.password = self.passwordTextField.text;
+    // Extra fields
+    user[kUserTypeKey] = @(1);
 
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
-        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            if (!error) {
-                // Register successful
-                [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-            } else {
-                // Show the errorString somewhere and let the user try again.
-                [self showErrorMessage];
-            }
-        }];
-    }
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if (!error) {
+            // Register successful
+            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+        } else {
+            // Show the errorString somewhere and let the user try again.
+            [self showErrorMessage];
+        }
+    }];
 }
 
 - (void) showErrorMessage {

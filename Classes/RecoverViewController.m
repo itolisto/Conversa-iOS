@@ -13,9 +13,8 @@
 #import "Constants.h"
 #import "UIStateButton.h"
 #import "MBProgressHUD.h"
-#import "JVFloatLabeledTextField.h"
-
 #import <Parse/Parse.h>
+#import "JVFloatLabeledTextField.h"
 
 @interface RecoverViewController ()
 
@@ -26,8 +25,11 @@
 
 @implementation RecoverViewController
 
+#pragma mark - Lifecycle Methods -
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.emailTextField.delegate = self;
     // Hide keyboard when pressed outside TextField
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
@@ -39,65 +41,94 @@
     [self.sendPasswordButton setTitleColor:[Colors green] forState:UIControlStateHighlighted];
 }
 
+#pragma mark - UITextFieldDelegate Methods -
+
+- (BOOL)validateTextField:(JVFloatLabeledTextField*)textField text:(NSString*)text select:(BOOL)select {
+    if (isEmailValid(text)) {
+        return YES;
+    } else {
+        MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+        hudError.mode = MBProgressHUDModeText;
+        [self.view addSubview:hudError];
+
+        if ([text isEqualToString:@""]) {
+            hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+        } else {
+            hudError.label.text = NSLocalizedString(@"common_field_invalid", nil);
+        }
+
+        [hudError showAnimated:YES];
+        [hudError hideAnimated:YES afterDelay:1.7];
+
+        if (select) {
+            if (![textField isFirstResponder]) {
+                [textField becomeFirstResponder];
+            }
+        }
+
+        return NO;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - Observer Method -
+
 - (void) dismissKeyboard {
     //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
 }
 
+#pragma mark - Action Method -
+
 - (IBAction)recoverButtonPressed:(UIButton *)sender {
-    if (isEmailValid(self.emailTextField.text)) {
-        [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
-            if (error) {
-                UIAlertController* view = [UIAlertController
-                                           alertControllerWithTitle:nil
-                                           message:NSLocalizedString(@"recover_password_failed_message", nil)
-                                           preferredStyle:UIAlertControllerStyleAlert];
-
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"Ok"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action) {
-                                         [view dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-
-                [view addAction:ok];
-                [self presentViewController:view animated:YES completion:nil];
-            } else {
-                UIAlertController* view = [UIAlertController
-                                           alertControllerWithTitle:nil
-                                           message:NSLocalizedString(@"recover_password_sent_message", nil)
-                                           preferredStyle:UIAlertControllerStyleAlert];
-
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"Ok"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action) {
-                                         [view dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-
-                [view addAction:ok];
-                [self presentViewController:view animated:YES completion:nil];
-            }
-        }];
-    } else {
-        UIAlertController* view = [UIAlertController
-                                   alertControllerWithTitle:nil
-                                   message:NSLocalizedString(@"sign_email_not_valid_error", nil)
-                                   preferredStyle:UIAlertControllerStyleAlert];
-
-        UIAlertAction* ok = [UIAlertAction
-                             actionWithTitle:@"Ok"
-                             style:UIAlertActionStyleDefault
-                             handler:^(UIAlertAction * action) {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                             }];
-
-        [view addAction:ok];
-        [self presentViewController:view animated:YES completion:nil];
+    if ([self validateTextField:(JVFloatLabeledTextField*)self.emailTextField text:self.emailTextField.text select:YES]) {
+        [self recoverPassword];
     }
 }
 
-- (IBAction)backBarButtonPressed:(UIButton *)sender {
+- (void)recoverPassword {
+    [PFUser requestPasswordResetForEmailInBackground:self.emailTextField.text block:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            UIAlertController* view = [UIAlertController
+                                       alertControllerWithTitle:nil
+                                       message:NSLocalizedString(@"recover_password_failed_message", nil)
+                                       preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"Ok"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+
+            [view addAction:ok];
+            [self presentViewController:view animated:YES completion:nil];
+        } else {
+            UIAlertController* view = [UIAlertController
+                                       alertControllerWithTitle:nil
+                                       message:NSLocalizedString(@"recover_password_sent_message", nil)
+                                       preferredStyle:UIAlertControllerStyleAlert];
+
+            UIAlertAction* ok = [UIAlertAction
+                                 actionWithTitle:@"Ok"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action) {
+                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+
+            [view addAction:ok];
+            [self presentViewController:view animated:YES completion:nil];
+        }
+    }];
+}
+
+#pragma mark - Navigation Method -
+
+- (IBAction)closeButtonPressed:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 

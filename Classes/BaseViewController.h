@@ -10,10 +10,13 @@
 
 #import "YapMessage.h"
 #import "YapContact.h"
+#import "SettingsKeys.h"
 #import "CustomAblyRealtime.h"
 
 #import "Conversa-Swift.h"
 
 @interface BaseViewController : UIViewController <ConversationListener>
+
+- (UIViewController *)topViewController;
 
 @end

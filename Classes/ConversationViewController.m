@@ -96,7 +96,7 @@
     self.messages = [[NSMutableArray alloc] init];
     
     // Bar tint
-    self.navigationController.navigationBar.barTintColor = [Colors white];
+    self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
     
     // JSQMessagesController variables setup
     self.senderId = ([[SettingsKeys getCustomerId] length] == 0) ? @"" : [SettingsKeys getCustomerId];
@@ -588,7 +588,7 @@
             [view dismissViewControllerAnimated:YES completion:nil];
         }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_more_alert_action_cancel", nil)
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
         {
@@ -964,6 +964,8 @@
                       action:nil];
     } else {
         message.view = YES;
+        message.read = YES;
+
         [self.messageDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [message saveWithTransaction:transaction];
         } completionBlock:^{
@@ -1057,7 +1059,7 @@
         [view dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"conversation_alert_action_unblock_cancel", nil)
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
     {
@@ -1349,7 +1351,7 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     // Set visible so YapNotification don't skip UI updates
     self.visible = true;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)image:(UIImage *)image finishedSavingWithError:(NSError *) error contextInfo:(void *)contextInfo {
@@ -1589,7 +1591,7 @@
                                  [view dismissViewControllerAnimated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"conversation_unsent_alert_action_cancel", nil)
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

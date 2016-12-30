@@ -17,7 +17,7 @@
 #import "AppDelegate.h"
 #import "DatabaseView.h"
 #import "SettingsKeys.h"
-#import "Reachability.h"
+#import "UIStateButton.h"
 #import "CustomChatCell.h"
 #import "DatabaseManager.h"
 #import "OneSignalService.h"
@@ -33,7 +33,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UILabel *noMessagesLine1;
-@property (weak, nonatomic) IBOutlet UIButton *startBrowsingButton;
+@property (weak, nonatomic) IBOutlet UIStateButton *startBrowsingButton;
 @property (strong, nonatomic) NSMutableArray *filteredCategories;
 @property (nonatomic, strong) NSTimer *cellUpdateTimer;
 @property (nonatomic, assign) CGPoint lastTableViewPosition;
@@ -67,10 +67,12 @@
     view.image = logoImage;
     self.navigationItem.titleView = view;
 
-    // Add border to Button
-    [[self.startBrowsingButton layer] setBorderWidth:1.0f];
-    [[self.startBrowsingButton layer] setBorderColor:[UIColor greenColor].CGColor];
-    [[self.startBrowsingButton layer] setCornerRadius:15.0f];
+    // Add button properties
+    // Add login button properties
+    [self.startBrowsingButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [self.startBrowsingButton setTitleColor:[Colors green] forState:UIControlStateNormal];
+    [self.startBrowsingButton setBackgroundColor:[Colors green] forState:UIControlStateHighlighted];
+    [self.startBrowsingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
@@ -172,17 +174,6 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
-
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable) {
-        [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                               titleColor:[UIColor whiteColor]
-                          backgroundColor:[UIColor redColor]
-                   toNavigationController:self.navigationController];
-    } else {
-        [WhisperBridge hidePermanentShout:self.navigationController];
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -582,7 +573,7 @@
                                     [view dismissViewControllerAnimated:YES completion:nil];
                                 }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
                                  {
@@ -653,7 +644,7 @@
                                 [view dismissViewControllerAnimated:YES completion:nil];
                             }];
     
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_cancel", nil)
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                      style:UIAlertActionStyleCancel
                                                    handler:^(UIAlertAction * action)
                              {
