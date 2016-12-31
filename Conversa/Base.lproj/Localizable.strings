@@ -7,9 +7,9 @@
 */
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
 "recover_password_sent_message" = "Password recovery link sent";
-"signup_birhtday_toolbar_done" = "Done";
-"signup_failed_message" = "Ohps, sorry, please try register again later";
 "sign_failed_message" = "Email and password didn't match any account";
+"signup_email_error" = "This email is\nalready taken";
+"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
 
 "token_session_error" = "Another device has started session, this device will log out";
 "no_internet_connection_message" = "No internet connection";
@@ -19,18 +19,26 @@
 "chats_alert_action_unmute" = "Unmute";
 "chats_alert_action_mute" = "Mute";
 "chats_alert_action_clear_conversation" = "Clear conversation";
-"chats_alert_action_cancel" = "Cancel";
 "chats_alert_action_twelve_hours" = "12 hours";
 "chats_alert_action_one_day" = "1 day";
 "chats_alert_action_three_day" = "3 days";
 
+"chats_cell_conversation_location" = "Location";
+"chats_cell_conversation_image" = "Image";
+"chats_cell_conversation_video" = "Video";
+"chats_cell_conversation_audio" = "Audio";
+"chats_cell_conversation_message" = "Message";
+"chats_cell_conversation_empty" = "Start chatting";
+"chats_cell_date_now" = "Now";
+"chats_cell_date_yesterday" = "Yesterday";
+
+"conversation_inputtoolbar_placeholder" = "Write a message";
 "conversation_menu_item_copy" = "Copy";
 "conversation_menu_item_delete" = "Delete";
 "conversation_navigation_title" = "Back";
 "conversation_more_alert_action_library" = "Library";
 "conversation_more_alert_action_camara" = "Camara";
 "conversation_more_alert_action_location" = "Send location";
-"conversation_more_alert_action_cancel" = "Cancel";
 "conversation_message_info_received" = "Received";
 "conversation_message_info_waiting" = "Waiting";
 "conversation_message_info_sent" = "Sent";
@@ -38,7 +46,6 @@
 "conversation_subtitle_writing" = "writing...";
 "conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
 "conversation_alert_action_unblock" = "Unblock";
-"conversation_alert_action_unblock_cancel" = "Cancel";
 "conversation_alert_action_location_title" = "We couldn't find your location";
 "conversation_alert_action_camara_title" = "Image couldn't be saved";
 
@@ -47,7 +54,6 @@
 "conversation_unsent_alert_action_play" = "Play";
 "conversation_unsent_alert_action_resend" = "Resend";
 "conversation_unsent_alert_action_delete" = "Delete";
-"conversation_unsent_alert_action_cancel" = "Cancel";
 
 "categories_searchbar_placeholder" = "Search for business, stores, etc";
 "category" = "Category";
@@ -84,6 +90,9 @@
 "cztraRwNrdX" = "Education";
 "c0GCyIw3HBP" = "Bakery & Treats";
 
+"search_section_title_recents" = "Recents";
+"search_section_title_results" = "Results";
+
 "category_results_error" = "Uphs, please try again";
 "category_results_empty" = "No results found";
 
@@ -98,7 +107,6 @@
 "settings_account_alert_password_action_change" = "Change";
 "settings_account_alert_password_changed" = "Password changed";
 "settings_account_alert_password_not_changed" = "Password not changed";
-"settings_account_alert_cancel" = "Cancel";
 "settings_account_alert_displayname_changed" = "Name changed";
 "settings_account_alert_displayname_not_changed" = "Name not changed";
 "settings_account_blocked_none" = "None";
@@ -106,18 +114,16 @@
 "settings_account_blocked_contact" = "contacts";
 "settings_account_recents_title" = "Clean recent searches";
 "settings_account_recents_alert_action_clean" = "Clean";
-"settings_account_recents_alert_action_cancel" = "Cancel";
 "settings_account_logout_alert_action_logout" = "Log Out";
-"settings_account_logout_alert_action_cancel" = "Cancel";
 
 "settings_chat_quality_alert_action_high" = "High";
 "settings_chat_quality_alert_action_medium" = "Medium";
 "settings_chat_quality_alert_action_low" = "Low";
-"settings_chat_quality_alert_action_cancel" = "Cancel";
 
 /*
  * Common strings
  */
+"common_action_done" = "Done";
 "common_action_cancel" = "Cancelar";
 "common_field_required" = "Required field";
 "common_field_invalid" = "Invalid field";

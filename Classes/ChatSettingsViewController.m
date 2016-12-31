@@ -76,7 +76,7 @@
                           }];
 
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"settings_chat_quality_alert_action_cancel", nil)
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

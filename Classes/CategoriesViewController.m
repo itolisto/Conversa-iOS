@@ -165,26 +165,26 @@
                              if (i + 1 < size) {
                                  object = [results objectAtIndex:i + 1];
                                  if ([object objectForKey:@"tn"]) {
-                                     NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                     [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                                          NSString *first = [(nCategory*)obj1 getCategoryName];
                                          NSString *second = [(nCategory*)obj2 getCategoryName];
                                          return [first compare:second];
                                      }];
 
-                                     [self._dictionary setObject:[sortedArray copy]
+                                     [self._dictionary setObject:[alphabetically copy]
                                                           forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
 
                                      [alphabetically removeAllObjects];
                                      alphabetically = nil;
                                  }
                              } else {
-                                 NSArray *sortedArray = [alphabetically sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                                 [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
                                      NSString *first = [(nCategory*)obj1 getCategoryName];
                                      NSString *second = [(nCategory*)obj2 getCategoryName];
                                      return [first compare:second];
                                  }];
 
-                                 [self._dictionary setObject:[sortedArray copy]
+                                 [self._dictionary setObject:[alphabetically copy]
                                                       forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
 
                                  [alphabetically removeAllObjects];

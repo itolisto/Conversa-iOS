@@ -372,6 +372,7 @@
 }
 
 - (void)initializeInputToolbar {
+    self.inputToolbar.contentView.textView.placeHolder = NSLocalizedString(@"conversation_inputtoolbar_placeholder", nil);
     // Set a maximum height for the input toolbar
     self.inputToolbar.maximumHeight = kInputToolbarMaximumHeight;
     // The library will call the correct selector for each button, based on this value
@@ -968,6 +969,7 @@
 
         [self.messageDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
             [message saveWithTransaction:transaction];
+            [self.buddy saveWithTransaction:transaction];
         } completionBlock:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
                                                                 object:nil

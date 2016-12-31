@@ -154,7 +154,7 @@
                                          }];
                                      }];
         UIAlertAction* cancel = [UIAlertAction
-                                 actionWithTitle:NSLocalizedString(@"settings_account_alert_cancel", nil)
+                                 actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                  style:UIAlertActionStyleCancel
                                  handler:^(UIAlertAction * action) {
                                      self.passwordTextField.text = @"";
@@ -254,7 +254,7 @@
                                  [YapSearch clearAllRecentSearches];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"settings_account_recents_alert_action_cancel", nil)
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];
@@ -283,7 +283,7 @@
                                  [self presentViewController:viewController animated:YES completion:nil];
                              }];
     UIAlertAction* cancel = [UIAlertAction
-                             actionWithTitle:NSLocalizedString(@"settings_account_logout_alert_action_cancel", nil)
+                             actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [view dismissViewControllerAnimated:YES completion:nil];

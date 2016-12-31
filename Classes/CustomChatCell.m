@@ -77,22 +77,11 @@
             }
         }
     } else {
-        UIFont *currentFont = self.conversationLabel.font;
-        CGFloat fontSize = currentFont.pointSize;
-        self.nameLabel.font = [UIFont systemFontOfSize:fontSize];
         self.nameLabel.textColor = [UIColor blackColor];
         self.dateLabel.text = @"";
         
-        self.conversationLabel.text = @"¡Comienza a chatear con este negocio!";
+        self.conversationLabel.text = NSLocalizedString(@"chats_cell_conversation_empty", nil);
         self.unreadMessage.backgroundColor = [UIColor clearColor];
-    }
-}
-
-- (void)setIsTypingText:(BOOL)value {
-    if (value) {
-        self.conversationLabel.text = @"escribiendo...";
-    } else {
-        [self updateLastMessage:NO];
     }
 }
 
@@ -112,9 +101,9 @@
     NSInteger days = [components day];
     
     if (days == 1) {
-        dateString = @"Ayer";
+        dateString = NSLocalizedString(@"chats_cell_date_yesterday", nil);
     } else if (timeInterval < 60){
-        dateString = @"Ahora";
+        dateString = NSLocalizedString(@"chats_cell_date_now", nil);
     } else if (timeInterval < 60*60) {
         int minsInt = timeInterval/60;
         NSString * minString = @"mins";
@@ -155,20 +144,20 @@
             return message.text;
         }
         case kMessageTypeLocation: {
-            return @"Ubicación";
+            return NSLocalizedString(@"chats_cell_conversation_location", nil);
         }
         case kMessageTypeImage: {
-            return @"Imagen";
+            return NSLocalizedString(@"chats_cell_conversation_image", nil);
         }
         case kMessageTypeVideo: {
-            return @"Video";
+            return NSLocalizedString(@"chats_cell_conversation_video", nil);
         }
         case kMessageTypeAudio: {
-            return @"Grabación";
+            return NSLocalizedString(@"chats_cell_conversation_audio", nil);
         }
     }
-    
-    return @"Mensaje";
+
+    return NSLocalizedString(@"chats_cell_conversation_message", nil);
 }
 
 @end

@@ -390,7 +390,8 @@
                     break;
                 }
                 case YapDatabaseViewChangeUpdate : {
-                    [self.tableView reloadRowsAtIndexPaths:@[rowChange.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    //[self.tableView reloadRowsAtIndexPaths:@[rowChange.indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [((CustomChatCell*)[self.tableView cellForRowAtIndexPath:rowChange.indexPath]) updateLastMessage:NO];
                     break;
                 }
             }
@@ -494,9 +495,7 @@
     
     for(NSIndexPath *indexPath in indexPathsArray) {
         UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        if ([cell isKindOfClass:[CustomChatCell class]]) {
-            [(CustomChatCell *)cell updateLastMessage:YES];
-        }
+        [(CustomChatCell *)cell updateLastMessage:YES];
     }
 }
 

@@ -108,7 +108,7 @@
             UIBarButtonItem *flexButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                         target:self
                                                                                         action:nil];
-            UIBarButtonItem *doneButton1 =[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"signup_birhtday_toolbar_done", nil)
+            UIBarButtonItem *doneButton1 =[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"common_action_done", nil)
                                                                            style:UIBarButtonItemStyleDone
                                                                           target:self
                                                                           action:@selector(resignKeyboard)];
@@ -229,25 +229,29 @@
     user.password = self.passwordTextField.text;
     // Extra fields
     user[kUserTypeKey] = @(1);
+    user[kUserCustomerBirthdayKey] = self.birthdayTextField.text;
+    user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (!error) {
-            // Register successful
-            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+        if (error) {
+            if (error.code == kPFErrorUserEmailTaken) {
+                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
+            } else {
+                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
+            }
         } else {
-            // Show the errorString somewhere and let the user try again.
-            [self showErrorMessage];
+            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
         }
     }];
 }
 
-- (void) showErrorMessage {
+- (void) showErrorMessage:(NSString*)message {
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:nil
-                                 message:NSLocalizedString(@"signup_failed_message", nil)
+                                 message:message
                                  preferredStyle:UIAlertControllerStyleAlert];
 
     UIAlertAction* ok = [UIAlertAction

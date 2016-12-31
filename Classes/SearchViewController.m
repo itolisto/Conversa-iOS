@@ -227,7 +227,7 @@
                                                                        error:&error];
 
              if (error) {
-                 self.emptyInfoLabel.text = @"Uhps, an error ocurred";
+                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
                  self.emptyView.hidden = NO;
                  self.tableView.hidden = YES;
                  [self._mutableObjects removeAllObjects];
@@ -257,7 +257,7 @@
                          self.tableView.hidden = NO;
                          [self.tableView reloadData];
                      } else {
-                         self.emptyInfoLabel.text = @"No results found";
+                         self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
                          self.emptyView.hidden = NO;
                          self.tableView.hidden = YES;
                      }
@@ -279,7 +279,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if ([self.searchWith length] == 0) {
-        return @"Recientes";
+        return NSLocalizedString(@"search_section_title_recents", nil);
     }
 
     return nil;
@@ -328,9 +328,9 @@
     UILabel *label = (UILabel *)[headerView viewWithTag:123];
 
     if ([self.searchWith length] == 0) {
-        [label setText:@"Recents"];
+        [label setText:NSLocalizedString(@"search_section_title_recents", nil)];
     } else {
-        [label setText:@"Results"];
+        [label setText:NSLocalizedString(@"search_section_title_results", nil)];
     }
 
     return headerView;

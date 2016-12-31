@@ -87,11 +87,13 @@ NSString *const kMessageMediaVideoLocation = @"/video";
 NSString *const kMessageMediaAudioLocation = @"/audio";
 
 // User class
-NSString *const kUserAvatarKey   = @"avatar";
 NSString *const kUserUsernameKey = @"username";
 NSString *const kUserEmailKey    = @"email";
 NSString *const kUserPasswordKey = @"password";
 NSString *const kUserTypeKey     = @"userType";
+
+NSString *const kUserCustomerBirthdayKey = @"birthday";
+NSString *const kUserCustomerGenderKey   = @"gender";
 
 // Statistics class
 NSString *const kClassStatistics = @"Statistics";

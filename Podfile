@@ -52,4 +52,6 @@ target 'Conversa' do
     pod 'EDQueue'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS
     pod 'AFNetworking', '~> 3.0'
+    # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
+    pod 'TTTAttributedLabel'
 end

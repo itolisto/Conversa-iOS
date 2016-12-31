@@ -10,11 +10,13 @@
 
 #import "Colors.h"
 #import "UIStateButton.h"
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
-@interface HomeViewController ()
+@interface HomeViewController () <TTTAttributedLabelDelegate>
 
 @property (weak, nonatomic) IBOutlet UIStateButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIStateButton *signupButton;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *clickHereLabel;
 
 @end
 
@@ -32,10 +34,39 @@
     [self.signupButton setTitleColor:[Colors white] forState:UIControlStateNormal];
     [self.signupButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
     [self.signupButton setTitleColor:[Colors green] forState:UIControlStateHighlighted];
+
+    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:self.clickHereLabel.text
+                                                                                attributes:nil];
+
+    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+    NSUInteger size = [self.clickHereLabel.text length];
+    NSRange start, end;
+
+    if ([language isEqualToString:@"es"]) {
+        start = NSMakeRange(0, size - 13);
+        end = NSMakeRange(size - 13, 13);
+    } else {
+        start = NSMakeRange(0, size - 10);
+        end = NSMakeRange(size - 10, 10);
+    }
+
+    // Normal
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}
+                     range:start];
+    // Green
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[Colors green]}
+                     range:end];
+    // Active
+    self.clickHereLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+
+    NSURL *url = [NSURL URLWithString:@"http://en.wikipedia.org"];
+    [self.clickHereLabel addLinkToURL:url withRange:end];
+    self.clickHereLabel.attributedText = attrStr;
+    self.clickHereLabel.delegate = self;
 }
 
-- (IBAction)clickHereButton:(UIButton *)sender {
-    
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    NSLog(@"%@", url);
 }
 
 @end

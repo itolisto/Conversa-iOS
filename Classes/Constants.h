@@ -101,11 +101,12 @@ extern NSString *const kMessageMediaVideoLocation;
 extern NSString *const kMessageMediaAudioLocation;
 
 // User class
-extern NSString *const kUserAvatarKey;
 extern NSString *const kUserUsernameKey;
 extern NSString *const kUserEmailKey;
 extern NSString *const kUserPasswordKey;
 extern NSString *const kUserTypeKey;
+extern NSString *const kUserCustomerBirthdayKey;
+extern NSString *const kUserCustomerGenderKey;
 
 // Statistics class
 extern NSString *const kClassStatistics;
