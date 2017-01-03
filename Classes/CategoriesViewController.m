@@ -27,8 +27,6 @@
 @property (strong, nonatomic) NSMutableArray<nHeaderTitle *> *_headers;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber *, NSArray<nCategory *>*> *_dictionary;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
-// Whether we have loaded the first set of objects
-@property (nonatomic, assign) NSUInteger page;
 
 @end
 
@@ -39,7 +37,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchView.hidden = YES;
-    self.page = 0;
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -112,26 +109,25 @@
         language = @"en"; // Set to default language
     }
 
-    //DDLogError(@"Category after --> %@", language);
-
     [PFCloud callFunctionInBackground:@"getCategories"
                        withParameters:@{@"language": language}
                                 block:^(NSString *json, NSError *error)
      {
          if (error) {
+             [self.refreshControl endRefreshing];
              [ParseValidation validateError:error controller:self];
          } else {
              [self._dictionary removeAllObjects];
              [self._headers removeAllObjects];
 
-             NSError *jsonError;
              NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
              NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
                                                                      options:NSJSONReadingMutableContainers
-                                                                       error:&jsonError];
+                                                                       error:&error];
              //kNilOptions
-             if (jsonError || !jsonDic) {
+             if (error) {
                  // Show error
+                 [self.refreshControl endRefreshing];
              } else {
                  NSArray *results = [jsonDic valueForKeyPath:@"results"];
                  NSUInteger size = [results count];
@@ -157,6 +153,7 @@
                      } else {
                          nCategory *category = [[nCategory alloc] init];
                          category.objectId = [object objectForKey:@"ob"];
+                         category.name = [object objectForKey:@"na"];
                          category.avatarUrl = [object objectForKey:@"th"];
 
                          if (alphabetically) {
@@ -166,8 +163,8 @@
                                  object = [results objectAtIndex:i + 1];
                                  if ([object objectForKey:@"tn"]) {
                                      [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                                         NSString *first = [(nCategory*)obj1 getCategoryName];
-                                         NSString *second = [(nCategory*)obj2 getCategoryName];
+                                         NSString *first = [(nCategory*)obj1 getName];
+                                         NSString *second = [(nCategory*)obj2 getName];
                                          return [first compare:second];
                                      }];
 
@@ -179,8 +176,8 @@
                                  }
                              } else {
                                  [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                                     NSString *first = [(nCategory*)obj1 getCategoryName];
-                                     NSString *second = [(nCategory*)obj2 getCategoryName];
+                                     NSString *first = [(nCategory*)obj1 getName];
+                                     NSString *second = [(nCategory*)obj2 getName];
                                      return [first compare:second];
                                  }];
 
@@ -210,7 +207,7 @@
                          }
                      }
                  }
-                 
+
                  [self.refreshControl endRefreshing];
                  [self.tableView reloadData];
              }
@@ -266,14 +263,6 @@
 }
 
 #pragma mark - UITableViewDelegate Methods -
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30.0f;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70.0;
-}
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     static NSString *CellIdentifier = @"CustomCategoryHeaderCell";
@@ -384,7 +373,7 @@
         CategoryViewController *destinationViewController = [segue destinationViewController];
         CustomCategoryCell *cell = sender;
         nCategory *bs = cell.category;
-        destinationViewController.navigationItem.title = [bs getCategoryName];
+        destinationViewController.navigationItem.title = [bs getName];
         // Pass any objects to the view controller here, like...
         [destinationViewController setCategoryId:bs.objectId];
     }

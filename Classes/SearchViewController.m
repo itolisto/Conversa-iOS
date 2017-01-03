@@ -18,10 +18,9 @@
 #import "DatabaseManager.h"
 #import "CustomSearchCell.h"
 #import "NSFileManager+Conversa.h"
+#import "CategoriesViewController.h"
 #import "ProfileDialogViewController.h"
 
-#import <stdlib.h>
-#import <sys/sysctl.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
@@ -38,8 +37,11 @@
 @property (nonatomic, strong) YapDatabaseConnection *databaseConnection;
 @property (nonatomic, strong) YapDatabaseViewMappings *recentMappings;
 
-@property (nonatomic, assign) NSUInteger searchId;
-@property(strong, nonatomic) NSString *machine;
+@property (assign, nonatomic) NSUInteger searchId;
+
+@property (assign, nonatomic) NSInteger page;
+@property (assign, nonatomic) BOOL loadingPage;
+@property (assign, nonatomic) BOOL loadMore;
 
 @end
 
@@ -49,8 +51,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self registerForKeyboardNotifications];
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -94,8 +94,14 @@
                                              selector:@selector(yapDatabaseModified:)
                                                  name:YapDatabaseModifiedNotification
                                                object:[DatabaseManager sharedInstance].database];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
 
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.emptyView
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                           action:@selector(dismissKeyboard)];
     [self.emptyView addGestureRecognizer:tap];
 
@@ -109,12 +115,6 @@
                                                  forBarPosition:UIBarPositionAny
                                                      barMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-
-    size_t size;
-    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    char *machine = malloc(size);
-    sysctlbyname("hw.machine", machine, &size, NULL, 0);
-    self.machine = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
 }
 
 - (void)dealloc {
@@ -132,19 +132,6 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SEARCH_NOTIFICATION_NAME object:nil];
-}
-
-// Call this method somewhere in your view controller setup code.
-- (void)registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-
 }
 
 // Called when the UIKeyboardDidShowNotification is sent.
@@ -166,6 +153,10 @@
     self.tableView.scrollIndicatorInsets = contentInsets;
 }
 
+- (void)dismissKeyboard {
+    [((CategoriesViewController*)self.parentViewController).searchController.searchBar resignFirstResponder];
+}
+
 #pragma mark - Search Methods -
 
 - (void) receiveNotification:(NSNotification *) notification
@@ -176,18 +167,26 @@
 }
 
 - (void) runQueryWithParameter:(NSString *)search {
-    self.searchWith = [search copy];
+    self.searchId = arc4random_uniform(4294967294) + 1;
+
     if ([search length]) {
+        [self._mutableObjects removeAllObjects];
+        self.page = 0;
+        self.loadingPage = NO;
+        self.loadMore = YES;
+        self.searchWith = [search copy];
         self.loadingView.hidden = NO;
         self.emptyView.hidden = YES;
         self.tableView.hidden = YES;
-        [self loadObjects];
+        [self searchBusiness];
     } else {
         [self clear];
     }
 }
 
 - (void)clear {
+    self.searchWith = @"";
+
     if ([self.recentMappings numberOfItemsInSection:0] > 0) {
         self.loadingView.hidden = YES;
         self.emptyView.hidden = YES;
@@ -204,19 +203,25 @@
 
 #pragma mark - Data Methods -
 
-- (void)loadObjects {
-    self.searchId = arc4random_uniform(4294967294) + 1;
+- (void)searchBusiness {
     [self.activityIndicatorView startAnimating];
     
     [PFCloud callFunctionInBackground:@"searchBusiness"
-                       withParameters:@{@"search": self.searchWith, @"skip": @0, @"id" : @(self.searchId)}
+                       withParameters:@{@"search": self.searchWith, @"skip": @(self.page), @"id": @(self.searchId)}
                                 block:^(NSString *json, NSError *error)
      {
-         [self.activityIndicatorView stopAnimating];
-         self.loadingView.hidden = YES;
+         if (self.page == 0) {
+             [self.activityIndicatorView stopAnimating];
+             self.loadingView.hidden = YES;
+         }
+
+         if (self.loadingPage) {
+             self.loadingPage = NO;
+             [self._mutableObjects removeLastObject];
+         }
 
          if (error) {
-             self.emptyInfoLabel.text = @"No results found";
+             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
              self.emptyView.hidden = NO;
              self.tableView.hidden = YES;
              [ParseValidation validateError:error controller:self];
@@ -233,12 +238,6 @@
                  [self._mutableObjects removeAllObjects];
              } else {
                  if ([[jsonDic objectForKey:@"id"] unsignedIntegerValue] == self.searchId) {
-                     if ([self.searchWith length] == 0) {
-                         return;
-                     }
-
-                     [self._mutableObjects removeAllObjects];
-
                      NSArray *results = [jsonDic valueForKeyPath:@"results"];
                      NSUInteger size = [results count];
 
@@ -253,17 +252,30 @@
                      }
 
                      if (size > 0) {
-                         self.emptyView.hidden = YES;
-                         self.tableView.hidden = NO;
-                         [self.tableView reloadData];
+
+                         if (size < 20) {
+                             self.loadMore = NO;
+                         }
+
+                         if (self.page == 0) {
+                             self.emptyView.hidden = YES;
+                             self.tableView.hidden = NO;
+                         }
                      } else {
-                         self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
-                         self.emptyView.hidden = NO;
-                         self.tableView.hidden = YES;
+                         if (self.page == 0) {
+                             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
+                             self.emptyView.hidden = NO;
+                             self.tableView.hidden = YES;
+                         }
+                         self.loadMore = NO;
                      }
+
+                     self.page++;
                  }
              }
          }
+
+         [self.tableView reloadData];
      }];
 }
 
@@ -274,16 +286,24 @@
 #pragma mark - UITableViewDataSource Methods -
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.searchWith length] > 0) {
+        if ([self.objects count] == indexPath.row + 1) {
+            if (self.loadingPage) {
+                return 30.0;
+            }
+        }
+    }
+    
     return 65.0;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if ([self.searchWith length] == 0) {
-        return NSLocalizedString(@"search_section_title_recents", nil);
-    }
-
-    return nil;
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if ([self.searchWith length] == 0) {
+//        return NSLocalizedString(@"search_section_title_recents", nil);
+//    }
+//
+//    return nil;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([self.searchWith length] == 0) {
@@ -302,6 +322,21 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.searchWith length] > 0) {
+        if ([self.objects count] == indexPath.row + 1) {
+            if (self.loadingPage) {
+                static NSString *CellIdentifier = @"CustomLoadCell";
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+                if (cell == nil) {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                }
+
+                return cell;
+            }
+        }
+    }
+
     static NSString *simpleTableIdentifier = @"CustomSearchCell";
     CustomSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
 
@@ -321,10 +356,6 @@
     static NSString *CellIdentifier = @"CustomCategoryHeaderCell";
     UITableViewCell *headerView = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-    if (headerView == nil) {
-        [NSException raise:@"headerView == nil.." format:@"No cells with matching CellIdentifier loaded from your storyboard"];
-    }
-
     UILabel *label = (UILabel *)[headerView viewWithTag:123];
 
     if ([self.searchWith length] == 0) {
@@ -336,19 +367,22 @@
     return headerView;
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleNone;
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    if (self.loadMore) {
+        if ([self.searchWith length] > 0) {
+            if (!self.loadingPage && [self.objects count] == indexPath.row + 1) {
+                self.loadingPage = YES;
+                [self._mutableObjects addObject:[[YapSearch alloc] init]];
+                [self.tableView reloadData];
+                [self searchBusiness];
+            }
+        }
+    }
 }
 
 #pragma mark - Navigation Method -

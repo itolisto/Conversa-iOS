@@ -130,12 +130,16 @@
                 // Change first load
                 self.firstLoad = NO;
             } else {
-                NSString * channelname = [@"upbc:" stringByAppendingString:[SettingsKeys getCustomerId]];
-                if (![self.ably.channels exists:channelname]) {
-                    [self subscribeToChannels];
-                } else {
-                    for (ARTRealtimeChannel * channel in self.ably.channels) {
-                        [self reattach:channel];
+                NSString *name = [SettingsKeys getCustomerId];
+
+                if (name) {
+                    NSString * channelname = [@"upbc:" stringByAppendingString:name];
+                    if (![self.ably.channels exists:channelname]) {
+                        [self subscribeToChannels];
+                    } else {
+                        for (ARTRealtimeChannel * channel in self.ably.channels) {
+                            [self reattach:channel];
+                        }
                     }
                 }
             }

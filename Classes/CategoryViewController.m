@@ -19,7 +19,6 @@
 #import "ConversationViewController.h"
 #import "ProfileDialogViewController.h"
 
-#import <sys/sysctl.h>
 #import <Parse/Parse.h>
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
@@ -31,10 +30,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *emptyInfoLabel;
 
 @property (strong, nonatomic) DGActivityIndicatorView *activityIndicatorView;
-@property (strong, nonatomic) NSMutableArray<PFObject *> *_mutableObjects;
-@property(strong, nonatomic) NSString *machine;
-@property(nonatomic) BOOL visible;
-@property NSInteger page;
+@property (strong, nonatomic) NSMutableArray<Business *> *_mutableObjects;
+@property (assign, nonatomic) BOOL visible;
+
+@property (assign, nonatomic) NSInteger page;
+@property (assign, nonatomic) BOOL loadingPage;
+@property (assign, nonatomic) BOOL loadMore;
 
 @end
 
@@ -50,6 +51,8 @@
     
     self._mutableObjects = [NSMutableArray arrayWithCapacity:10];
     self.page = 0;
+    self.loadingPage = NO;
+    self.loadMore = YES;
 
     self.tableView.hidden = YES;
     self.emptyView.hidden = YES;
@@ -68,12 +71,6 @@
     v.backgroundColor = [UIColor whiteColor];
     [self.tableView setTableFooterView:v];
 
-    size_t size;
-    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-    char *machine = malloc(size);
-    sysctlbyname("hw.machine", machine, &size, NULL, 0);
-    self.machine = [NSString stringWithCString:machine encoding:NSUTF8StringEncoding];
-
     [self loadObjects];
 }
 
@@ -86,13 +83,10 @@
 
 #pragma mark - Data Methods -
 
-- (void)clear {
-    [__mutableObjects removeAllObjects];
-    [self.tableView reloadData];
-}
-
 - (void)loadObjects {
-    [self.activityIndicatorView startAnimating];
+    if (self.page == 0) {
+        [self.activityIndicatorView startAnimating];
+    }
 
     PFQuery *query = [BusinessCategory query];
     [query selectKeys:@[kBusinessCategoryBusinessKey]];
@@ -112,32 +106,60 @@
     [query orderByAscending:kBusinessCategoryRelevanceKey];
     [query addAscendingOrder:kBusinessCategoryPositionKey];
 
-    [query setLimit:25];
-    [query setSkip:self.page * 25];
+    [query setLimit:20];
+    [query setSkip:self.page * 20];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        [self.activityIndicatorView stopAnimating];
-        self.loadingView.hidden = YES;
+        if (self.page == 0) {
+            [self.activityIndicatorView stopAnimating];
+            self.loadingView.hidden = YES;
+        }
+
+        if (self.loadingPage) {
+            self.loadingPage = NO;
+            [self._mutableObjects removeLastObject];
+        }
 
         if (error) {
             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
             self.emptyView.hidden = NO;
             [ParseValidation validateError:error controller:self];
         } else {
-            if ([objects count] > 0) {
-                self.tableView.hidden = NO;
-                self.emptyView.hidden = YES;
-                [self._mutableObjects addObjectsFromArray:objects];
-                [self.tableView reloadData];
+            NSUInteger size = [objects count];
+
+            if (size > 0) {
+                NSMutableArray <Business*> *business = [NSMutableArray arrayWithCapacity:size];
+
+                for (int i = 0; i < size; i++) {
+                    [business addObject:((BusinessCategory*)[objects objectAtIndex:i]).business];
+                }
+
+                if (size < 20) {
+                    self.loadMore = NO;
+                }
+
+                [self._mutableObjects addObjectsFromArray:business];
+
+                if (self.page == 0) {
+                    self.tableView.hidden = NO;
+                    self.emptyView.hidden = YES;
+                }
             } else {
-                self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
-                self.emptyView.hidden = NO;
+                if (self.page == 0) {
+                    self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
+                    self.emptyView.hidden = NO;
+                }
+                self.loadMore = NO;
             }
+
+            self.page++;
         }
+
+        [self.tableView reloadData];
     }];
 }
 
-- (PFObject *)objectAtIndexPath:(NSIndexPath *)indexPath {
+- (Business *)objectAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.objects count] && indexPath.row < [self.objects count]) {
         return self.objects[indexPath.row];
     }
@@ -145,7 +167,7 @@
     return nil;
 }
 
-- (NSArray<__kindof PFObject *> *)objects {
+- (NSArray<__kindof Business *> *)objects {
     return __mutableObjects;
 }
 
@@ -157,23 +179,41 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.objects count] == indexPath.row + 1) {
+        if (self.loadingPage) {
+            return 30.0;
+        }
+    }
+
     return 65.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PFObject *object = [self objectAtIndexPath:indexPath];
-    static NSString *CellIdentifier = @"CustomBusinessCell";
+    static NSString *CellIdentifier;
+
+    if ([self.objects count] == indexPath.row + 1) {
+        if (self.loadingPage) {
+            CellIdentifier = @"CustomLoadCell";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+            
+            return cell;
+        }
+    }
+
+    CellIdentifier = @"CustomBusinessCell";
     CustomBusinessCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) {
         cell = [[CustomBusinessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
-    BusinessCategory *bs = (BusinessCategory *)object;
-
     // Configure the cell
-    [cell configureCellWith:bs.business];
+    [cell configureCellWith:[self objectAtIndexPath:indexPath]];
 
     return cell;
 }
@@ -184,15 +224,16 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    return UITableViewCellEditingStyleNone;
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return NO;
+    if (self.loadMore) {
+        if (!self.loadingPage && [self.objects count] == indexPath.row + 1) {
+            self.loadingPage = YES;
+            [self._mutableObjects addObject:[Business object]];
+            [self.tableView reloadData];
+            [self loadObjects];
+        }
+    }
 }
 
 #pragma mark - Navigation Method -

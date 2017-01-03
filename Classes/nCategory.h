@@ -10,14 +10,9 @@
 
 @interface nCategory : NSObject
 
-@property (strong, nonatomic) NSString *objectId;
-@property (strong, nonatomic) NSString *avatarUrl;
-@property (assign, nonatomic) BOOL removeDividerMargin;
-
-- (NSString *)getObjectId;
-- (NSString *)getAvatarUrl;
-- (BOOL)getRemoveDividerMargin;
-
-- (NSString *)getCategoryName;
+@property (strong, nonatomic, getter=getObjectId) NSString *objectId;
+@property (strong, nonatomic, getter=getName) NSString *name;
+@property (strong, nonatomic, getter=getAvatarUrl) NSString *avatarUrl;
+@property (assign, nonatomic, getter=getRemoveDividerMargin) BOOL removeDividerMargin;
 
 @end

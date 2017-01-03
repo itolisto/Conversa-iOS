@@ -27,7 +27,7 @@
     [self.avatar sd_setImageWithURL:[NSURL URLWithString:[category getAvatarUrl]]
                  placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
 
-    self.nameLabel.text = [category getCategoryName];
+    self.nameLabel.text = [category getName];
 
     if (hideView) {
         self.dividerView.hidden = YES;
