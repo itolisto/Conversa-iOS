@@ -11,7 +11,6 @@
 #import "Log.h"
 #import "Branch.h"
 #import "Account.h"
-#import "Message.h"
 #import "Customer.h"
 #import "Business.h"
 #import "Constants.h"
@@ -57,7 +56,6 @@
     
     // Register subclassing for using as Parse objects
     [Account registerSubclass];
-    [Message registerSubclass];
     [Business registerSubclass];
     [Customer registerSubclass];
     [BusinessCategory registerSubclass];
@@ -236,7 +234,9 @@
 
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [ParseValidation validateError:error controller:[self topViewController]];
+                    if ([ParseValidation validateError:error]) {
+                        [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                    }
                 });
                 block(EDQueueResultCritical);
             } else {
@@ -290,7 +290,9 @@
 
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [ParseValidation validateError:error controller:[self topViewController]];
+                    if ([ParseValidation validateError:error]) {
+                        [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                    }
                 });
                 block(EDQueueResultCritical);
             } else {
@@ -409,22 +411,25 @@
                            completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
              {
                  DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
-                 if (error) {
-                     DDLogError(@"downloadFileJob error: %@", error);
-                     block(EDQueueResultCritical);
+                 YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+                 __block YapMessage *message = nil;
+
+                 [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                     message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
+                 }];
+
+                 if (message == nil) {
+                     // Delete file if message not exists
+                     [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+                                                                     error:nil];
                  } else {
-                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
-                     __block YapMessage *message = nil;
-
-                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                         message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
-                     }];
-
-                     if (message == nil) {
-                         // Delete file if message not exists
+                     if (error) {
+                         DDLogError(@"downloadFileJob error: %@", error);
+                         message.delivered = statusParseError;
                          [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
                                                                          error:nil];
                      } else {
+                         message.delivered = statusReceived;
                          switch (messageType) {
                              case kMessageTypeImage: {
                                  message.filename = [messageId stringByAppendingString:@".jpg"];
@@ -439,18 +444,18 @@
                                  break;
                              }
                          }
-
-                         [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                          {
-                              [message saveWithTransaction:transaction];
-                              // Make a YapDatabaseModifiedNotification to update
-                              NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
-                              transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
-                          }];
                      }
 
-                     block(EDQueueResultSuccess);
+                     [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+                      {
+                          [message saveWithTransaction:transaction];
+                          // Make a YapDatabaseModifiedNotification to update
+                          NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
+                          transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
+                      }];
                  }
+                 
+                 block(EDQueueResultSuccess);
              }];
 
             [downloadTask resume];

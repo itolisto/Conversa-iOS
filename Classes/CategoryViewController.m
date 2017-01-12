@@ -76,9 +76,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.backItem.title = @"";
+    self.navigationController.navigationBar.topItem.title = @"";
     self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [super viewWillAppear:animated];
 }
 
 #pragma mark - Data Methods -
@@ -123,7 +125,10 @@
         if (error) {
             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
             self.emptyView.hidden = NO;
-            [ParseValidation validateError:error controller:self];
+            self.loadMore = NO;
+            if ([ParseValidation validateError:error]) {
+                [ParseValidation _handleInvalidSessionTokenError:self];
+            }
         } else {
             NSUInteger size = [objects count];
 
@@ -237,6 +242,10 @@
 }
 
 #pragma mark - Navigation Method -
+
+//- (void)backPressed {
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"FromCategoryToProfile"]) {

@@ -9,13 +9,8 @@
 #import "OneSignalService.h"
 
 #import "Log.h"
-#import "Message.h"
-#import "Business.h"
-#import "YapContact.h"
-#import "YapMessage.h"
 #import "SettingsKeys.h"
-#import "DatabaseManager.h"
-#import <Parse/Parse.h>
+#import "CustomAblyRealtime.h"
 
 @interface OneSignalService ()
 
@@ -53,23 +48,15 @@
         // Function to be called when a notification is received.
         OSNotificationPayload* payload = notification.payload;
 
-        NSString* messageTitle = @"OneSignal Example";
-        NSString* fullMessage = [payload.body copy];
-
         if (payload.additionalData) {
-
-            if(payload.title)
-                messageTitle = payload.title;
-
             NSDictionary* additionalData = payload.additionalData;
-
-            if (additionalData[@"actionSelected"])
-                fullMessage = [fullMessage stringByAppendingString:[NSString stringWithFormat:@"\nPressed ButtonId:%@", additionalData[@"actionSelected"]]];
+            [[CustomAblyRealtime sharedInstance] onMessage:additionalData];
         }
     }
             handleNotificationAction:^(OSNotificationOpenedResult *result)
     {
         // Function to be called when a user reacts to a notification received.
+        DDLogWarn(@"handleNotificationAction (:");
     }
                             settings:@{kOSSettingsKeyInAppAlerts: @NO, kOSSettingsKeyAutoPrompt: @NO}];
 }
@@ -86,7 +73,7 @@
 }
 
 - (void)startTags {
-    [OneSignal sendTags:@{@"UserType" : @(1),
+    [OneSignal sendTags:@{@"usertype" : @(1),
                           @"upbc" : [SettingsKeys getCustomerId],
                           @"upvt" : [SettingsKeys getCustomerId]}
                    onSuccess:^(NSDictionary *result)
@@ -97,27 +84,7 @@
      }];
 }
 
-#pragma mark - Process message Method -
-
-- (void)processMessage:(NSDictionary *)additionalData {
-    NSString* customKey = additionalData[@"customKey"];
-    if (customKey)
-        NSLog(@"customKey: %@", customKey);
-}
-
 #pragma mark - Class Methods -
-
-- (void)subscribeToAllChannels:(BOOL)presence {
-
-}
-
-- (void)subscribeToChannels:(NSArray*)channels {
-
-}
-
-- (void)unsubscribeToChannels:(NSArray*)channels {
-
-}
 
 - (void)unsubscribeFromAllChannels {
 

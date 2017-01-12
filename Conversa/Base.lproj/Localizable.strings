@@ -35,15 +35,15 @@
 "conversation_inputtoolbar_placeholder" = "Write a message";
 "conversation_menu_item_copy" = "Copy";
 "conversation_menu_item_delete" = "Delete";
-"conversation_navigation_title" = "Back";
 "conversation_more_alert_action_library" = "Library";
 "conversation_more_alert_action_camara" = "Camara";
 "conversation_more_alert_action_location" = "Send location";
-"conversation_message_info_received" = "Received";
-"conversation_message_info_waiting" = "Waiting";
+"conversation_message_info_sending" = "Sending";
+"conversation_message_info_uploading" = "Uploading";
+"conversation_message_info_downloading" = "Downloading";
 "conversation_message_info_sent" = "Sent";
 "conversation_message_info_failed" = "Failed";
-"conversation_subtitle_writing" = "writing...";
+"conversation_subtitle_writing" = "typing...";
 "conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
 "conversation_alert_action_unblock" = "Unblock";
 "conversation_alert_action_location_title" = "We couldn't find your location";
@@ -55,7 +55,7 @@
 "conversation_unsent_alert_action_resend" = "Resend";
 "conversation_unsent_alert_action_delete" = "Delete";
 
-"categories_searchbar_placeholder" = "Search for business, stores, etc";
+"categories_searchbar_placeholder" = "Search for businesses, stores, etc";
 "category" = "Category";
 
 "search_section_title_recents" = "Recents";
@@ -66,8 +66,10 @@
 
 "mapview_controller_title" = "Map";
 
+"profile_share_text" = "Chat now with %1s, follow the link %2s";
+
 "settings_home_profile_hi" = "Hi";
-"settings_home_share_text" = "Download this app to talk to almost any business";
+"settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it.";
 
 "settings_account_blocked_loading" = "Loading";
 "settings_account_alert_change_empty_title" = "Field can't be empty";

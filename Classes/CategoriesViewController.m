@@ -115,7 +115,9 @@
      {
          if (error) {
              [self.refreshControl endRefreshing];
-             [ParseValidation validateError:error controller:self];
+             if ([ParseValidation validateError:error]) {
+                 [ParseValidation _handleInvalidSessionTokenError:self];
+             }
          } else {
              [self._dictionary removeAllObjects];
              [self._headers removeAllObjects];
@@ -374,6 +376,7 @@
         CustomCategoryCell *cell = sender;
         nCategory *bs = cell.category;
         destinationViewController.navigationItem.title = [bs getName];
+        //destinationViewController.navigationItem.leftBarButtonItem.title = @"";
         // Pass any objects to the view controller here, like...
         [destinationViewController setCategoryId:bs.objectId];
     }

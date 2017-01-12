@@ -12,5 +12,5 @@
 @import UIKit;
 
 NSString* GetImageName();
-UIImage* compressImage(UIImage *image);
+UIImage* compressImage(UIImage *image, BOOL isThumb);
 CGFloat compressionRate();

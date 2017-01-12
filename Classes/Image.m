@@ -25,19 +25,19 @@ NSString* GetImageName() {
  * Function taked from this website
  * https://www.built.io/blog/2013/03/improving-image-compression-what-weve-learned-from-whatsapp/
  */
-UIImage* compressImage(UIImage *image) {
-    
+UIImage* compressImage(UIImage *image, BOOL isThumb) {
+
     if (!image) {
         return nil;
     }
-    
+
     float actualHeight = image.size.height;
     float actualWidth  = image.size.width;
     float maxHeight = 600.0;
     float maxWidth  = 800.0;
     float imgRatio  = actualWidth/actualHeight;
     float maxRatio  = maxWidth/maxHeight;
-    
+
     if (actualHeight > maxHeight || actualWidth > maxWidth) {
         if(imgRatio < maxRatio){
             // Adjust width according to maxHeight
@@ -56,14 +56,19 @@ UIImage* compressImage(UIImage *image) {
             actualWidth = maxWidth;
         }
     }
-    
+
     CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
     UIGraphicsBeginImageContext(rect.size);
     [image drawInRect:rect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    NSData *imageData = UIImageJPEGRepresentation(img, compressionRate());
+    NSData *imageData = nil;
+    if (isThumb) {
+        imageData = UIImageJPEGRepresentation(img, 0.3f);
+    } else {
+        imageData = UIImageJPEGRepresentation(img, compressionRate());
+    }
     UIGraphicsEndImageContext();
-    
+
     return [UIImage imageWithData:imageData];
 }
 
@@ -78,6 +83,6 @@ CGFloat compressionRate() {
         default:
             break;
     }
-    
+
     return 0.3f;
 }

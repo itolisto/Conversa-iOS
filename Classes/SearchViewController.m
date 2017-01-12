@@ -224,7 +224,9 @@
              self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
              self.emptyView.hidden = NO;
              self.tableView.hidden = YES;
-             [ParseValidation validateError:error controller:self];
+             if ([ParseValidation validateError:error]) {
+                 [ParseValidation _handleInvalidSessionTokenError:self];
+             }
          } else {
              NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
              NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData

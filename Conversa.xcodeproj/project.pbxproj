@@ -38,8 +38,6 @@
 		A52906AB1D6FE7080018D74C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906431D6FE7080018D74C /* LoginViewController.m */; };
 		A52906AD1D6FE7080018D74C /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906461D6FE7080018D74C /* MapView.m */; };
 		A52906AE1D6FE7080018D74C /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A52906471D6FE7080018D74C /* MapView.xib */; };
-		A52906AF1D6FE7080018D74C /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906491D6FE7080018D74C /* Message.m */; };
-		A52906B01D6FE7080018D74C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A529064B1D6FE7080018D74C /* Reachability.m */; };
 		A52906B11D6FE7080018D74C /* NotificationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = A529064D1D6FE7080018D74C /* NotificationPermissions.m */; };
 		A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A529064F1D6FE7080018D74C /* NotificationsViewController.m */; };
 		A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906511D6FE7080018D74C /* NSFileManager+Conversa.m */; };
@@ -62,6 +60,7 @@
 		A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906841D6FE7080018D74C /* YapSearch.m */; };
 		A53962941D70B83900D557FE /* OneSignalController.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962911D70B83900D557FE /* OneSignalController.m */; };
 		A53962951D70B83900D557FE /* OneSignalService.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962921D70B83900D557FE /* OneSignalService.m */; };
+		A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A54703CA1E2753E30090A073 /* ChatNavBarView.xib */; };
 		A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86F1E109E1800ECC891 /* UIStateButton.m */; };
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
 		A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D1A1D53C8F300AA576A /* AppDelegate.m */; };
@@ -86,7 +85,6 @@
 
 /* Begin PBXFileReference section */
 		889B71B8015672A28D2B9B53 /* Pods-Conversa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conversa.release.xcconfig"; path = "Pods/Target Support Files/Pods-Conversa/Pods-Conversa.release.xcconfig"; sourceTree = "<group>"; };
-		A51441B01DE6268E00DD4373 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		A51441B21DE6268E00DD4373 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A52905F71D6FE7080018D74C /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		A52905F81D6FE7080018D74C /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -147,10 +145,6 @@
 		A52906451D6FE7080018D74C /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		A52906461D6FE7080018D74C /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		A52906471D6FE7080018D74C /* MapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
-		A52906481D6FE7080018D74C /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
-		A52906491D6FE7080018D74C /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		A529064A1D6FE7080018D74C /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		A529064B1D6FE7080018D74C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A529064C1D6FE7080018D74C /* NotificationPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationPermissions.h; sourceTree = "<group>"; };
 		A529064D1D6FE7080018D74C /* NotificationPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationPermissions.m; sourceTree = "<group>"; };
 		A529064E1D6FE7080018D74C /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
@@ -193,6 +187,8 @@
 		A53962911D70B83900D557FE /* OneSignalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalController.m; sourceTree = "<group>"; };
 		A53962921D70B83900D557FE /* OneSignalService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalService.m; sourceTree = "<group>"; };
 		A53962931D70B83900D557FE /* OneSignalService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalService.h; sourceTree = "<group>"; };
+		A54703C71E272C180090A073 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		A54703CA1E2753E30090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86E1E109E1800ECC891 /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A547C86F1E109E1800ECC891 /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
 		A54F51FE1DD562F9008BF9FB /* Conversa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Conversa.entitlements; sourceTree = "<group>"; };
@@ -327,8 +323,6 @@
 				A52906081D6FE7080018D74C /* BusinessCategory.m */,
 				A52906251D6FE7080018D74C /* Customer.h */,
 				A52906261D6FE7080018D74C /* Customer.m */,
-				A52906481D6FE7080018D74C /* Message.h */,
-				A52906491D6FE7080018D74C /* Message.m */,
 				A59F4CDF1DD786FA005491B2 /* ParseValidation.h */,
 				A59F4CE01DD786FA005491B2 /* ParseValidation.m */,
 			);
@@ -353,6 +347,7 @@
 		A539628F1D70B05200D557FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A54703CA1E2753E30090A073 /* ChatNavBarView.xib */,
 				A52906451D6FE7080018D74C /* MapView.h */,
 				A52906461D6FE7080018D74C /* MapView.m */,
 				A52906471D6FE7080018D74C /* MapView.xib */,
@@ -503,8 +498,6 @@
 				A52906171D6FE7080018D74C /* Constants.h */,
 				A52906181D6FE7080018D74C /* Constants.m */,
 				A529063F1D6FE7080018D74C /* Log.h */,
-				A529064A1D6FE7080018D74C /* Reachability.h */,
-				A529064B1D6FE7080018D74C /* Reachability.m */,
 				A529066A1D6FE7080018D74C /* SettingsKeys.h */,
 				A529066B1D6FE7080018D74C /* SettingsKeys.m */,
 				A52906741D6FE7080018D74C /* Utilities.h */,
@@ -696,6 +689,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
 				A55B5D291D53C8F300AA576A /* LaunchScreen.storyboard in Resources */,
 				A59544531E09E340002057B9 /* InfoPlist.strings in Resources */,
 				A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */,
@@ -789,7 +783,6 @@
 				A52906C71D6FE7080018D74C /* Utilities.m in Sources */,
 				A52906C91D6FE7080018D74C /* VideoMediaItem.m in Sources */,
 				A52906851D6FE7080018D74C /* AboutViewController.m in Sources */,
-				A52906B01D6FE7080018D74C /* Reachability.m in Sources */,
 				A52906AD1D6FE7080018D74C /* MapView.m in Sources */,
 				A529068D1D6FE7080018D74C /* BusinessCategory.m in Sources */,
 				A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */,
@@ -825,7 +818,6 @@
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
 				A53962941D70B83900D557FE /* OneSignalController.m in Sources */,
 				A52906BF1D6FE7080018D74C /* RegisterViewController.m in Sources */,
-				A52906AF1D6FE7080018D74C /* Message.m in Sources */,
 				A59F4CEE1DD7B937005491B2 /* bCategory.m in Sources */,
 				A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */,
 				A52906981D6FE7080018D74C /* CustomBlockCell.m in Sources */,
@@ -852,7 +844,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A55B5D231D53C8F300AA576A /* Base */,
-				A51441B01DE6268E00DD4373 /* es */,
+				A54703C71E272C180090A073 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
