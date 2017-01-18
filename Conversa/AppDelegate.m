@@ -24,6 +24,7 @@
 #import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import "ConversationViewController.h"
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import Fabric;
@@ -86,16 +87,6 @@
     }
         
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
-    
-    // Define controller to take action
-    UIViewController *rootViewController = nil;
-    rootViewController = [self defaultNavigationController];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = rootViewController;
-    // Make the receiver the main window and displays it in front of other windows
-    [self.window makeKeyAndVisible];
-    // The number to display as the app’s icon badge.
-    application.applicationIconBadgeNumber = 0;
 
     [[Buglife sharedBuglife] startWithAPIKey:@"AtLX2qYcNMTEhESEpKO8egtt"];
     [Buglife sharedBuglife].invocationOptions = LIFEInvocationOptionsShake;
@@ -103,7 +94,10 @@
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
-    
+
+    __block BOOL fromBranch = NO;
+    __block NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
+
     Branch *branch = [Branch getInstance];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && params) {
@@ -111,16 +105,42 @@
             // params will be empty if no data found
             // ... insert custom logic here ...
             // Change view controller to go
-            NSLog(@"deep link data: %@", params.description);
+            //NSLog(@"deep link data: %@", params);
+
+            if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] != [NSNull null])
+            {
+                if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES) {
+                    NSLog(@"deep link clicked");
+                    if ([params objectForKey:@"goConversa"] && [params objectForKey:@"goConversa"] != [NSNull null]) {
+                        fromBranch = YES;
+                        [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
+                        [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
+                        [branchInfo setObject:[params objectForKey:@"conversaid"] forKey:@"conversaid"];
+                        [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                    }
+                } else {
+                    NSLog(@"no deep link");
+                }
+            }
         }
     }];
-    
+
     [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
-    
+
+    // Define controller to take action
+    UIViewController *rootViewController = nil;
+    rootViewController = [self defaultNavigationController:fromBranch branch:branchInfo];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = rootViewController;
+    // Make the receiver the main window and displays it in front of other windows
+    [self.window makeKeyAndVisible];
+    // The number to display as the app’s icon badge.
+    application.applicationIconBadgeNumber = 0;
+
     return YES;
 }
 
-- (UIViewController*)defaultNavigationController
+- (UIViewController*)defaultNavigationController:(BOOL)fromBranch branch:(NSDictionary*)branchInfo
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
@@ -140,7 +160,32 @@
      * 4. Propiedad Storyboard ID se escribe nombre
      */
     if (hasAccount) {
-        return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
+        if (fromBranch) {
+            __block YapContact *bs = nil;
+
+            [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
+            }];
+
+            // Get reference to the destination view controller
+            ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
+
+            // Pass any objects to the view controller here, like...
+            if (bs) {
+                [destinationViewController initWithBuddy:bs];
+            } else {
+                Business *business = [Business objectWithoutDataWithObjectId:[branchInfo objectForKey:@"objectId"]];
+                business.displayName = [branchInfo objectForKey:@"name"];
+                business.conversaID = [branchInfo objectForKey:@"conversaid"];
+
+                [destinationViewController initWithBusiness:business
+                                              withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
+            }
+
+            return destinationViewController;
+        } else {
+            return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
+        }
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
             return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];

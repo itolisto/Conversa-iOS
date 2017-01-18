@@ -18,6 +18,8 @@
 #import "YapContact.h"
 #import "DatabaseManager.h"
 #import "ParseValidation.h"
+#import "BranchLinkProperties.h"
+#import "BranchUniversalObject.h"
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
 
@@ -461,43 +463,52 @@
     sender.enabled  = YES;
 }
 
+- (IBAction)sharePressed:(UIButton *)sender {
+    BranchUniversalObject *branchUniversalObject = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:self.businessId];
+    branchUniversalObject.contentDescription = @"profile_share";
+    branchUniversalObject.contentIndexMode = ContentIndexModePublic;
+    [branchUniversalObject addMetadataKey:@"objectId" value:self.businessId];
+
+    if (self.business) {
+        branchUniversalObject.title = self.business.displayName;
+        [branchUniversalObject addMetadataKey:@"name" value:self.business.displayName];
+        [branchUniversalObject addMetadataKey:@"conversaid" value:self.business.conversaID];
+        @try {
+            [branchUniversalObject addMetadataKey:@"avatar" value:self.business.avatar.url];
+        } @catch (NSException *exception) {
+            [branchUniversalObject addMetadataKey:@"avatar" value:@""];
+        }
+    } else {
+        branchUniversalObject.title = self.yapbusiness.displayName;
+        [branchUniversalObject addMetadataKey:@"name" value:self.yapbusiness.displayName];
+        [branchUniversalObject addMetadataKey:@"conversaid" value:self.yapbusiness.conversaId];
+        [branchUniversalObject addMetadataKey:@"avatar" value:self.yapbusiness.avatarUrl];
+    }
+
+    BranchLinkProperties *linkProperties = [[BranchLinkProperties alloc] init];
+    linkProperties.feature = @"user_share";
+    linkProperties.channel = @"user_android";
+    [linkProperties addControlParam:@"$fallback_url" withValue:@"http://www.conversachat.com"];
+
+    [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
+                                               andShareText:@""
+                                         fromViewController:self
+                                        completionWithError:^(NSString * _Nullable activityType, BOOL completed, NSError * _Nullable activityError) {
+                                            
+                                        }];
+
+    [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
+                                               andShareText:@"Super amazing thing I want to share!"
+                                         fromViewController:self
+                                                 completion:^(NSString *activityType, BOOL completed)
+    {
+        NSLog(@"finished presenting");
+    }];
+}
+
 - (IBAction)closePressed:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-#pragma mark - TTTAttributedLabelDelegate Methods -
-
-//- (void)attributedLabel:(TTTAttributedLabel *)label
-//   didSelectLinkWithURL:(NSURL *)url {
-//    if (![[UIApplication sharedApplication] openURL:url]) {
-//        NSLog(@"%@%@",@"Failed to open url:",[url description]);
-//    }
-//}
-//
-//- (void)attributedLabel:(TTTAttributedLabel *)label
-//didSelectLinkWithAddress:(NSDictionary *)addressComponents {
-//    if ([[UIApplication sharedApplication]
-//         canOpenURL:[NSURL URLWithString:@"waze://"]]) {
-//
-//        // Waze is installed. Launch Waze and start navigation
-//        NSString *urlStr =
-//        [NSString stringWithFormat:@"waze://?q=%@",
-//         [addressComponents objectForKey:@"address"]];
-//
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
-//
-//    } else {
-//        // Waze is not installed. Launch AppStore to install Waze app
-//        [[UIApplication sharedApplication] openURL:[NSURL
-//                                                    URLWithString:@"http://itunes.apple.com/us/app/id323229106"]];
-//    }
-//}
-//
-//- (void)attributedLabel:(TTTAttributedLabel *)label
-//didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
-//    phoneNumber = [@"telprompt://" stringByAppendingString:phoneNumber];
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
-//}
 
 #pragma mark - Navigation Method -
 

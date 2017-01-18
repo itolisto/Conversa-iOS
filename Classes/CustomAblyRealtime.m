@@ -195,7 +195,7 @@
 }
 
 - (void)onMessage:(NSDictionary *)results {
-    //DDLogError(@"onMessage: message received --> %@", [results allKeys]);
+    DDLogError(@"onMessage: message received --> %@", [results allKeys]);
     if ([results valueForKey:@"appAction"]) {
         int action = [[results valueForKey:@"appAction"] intValue];
         switch (action) {
