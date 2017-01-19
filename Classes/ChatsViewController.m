@@ -220,11 +220,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
-}
-
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self createMoreActions:indexPath];
@@ -542,6 +537,7 @@
                                           }];
                                           
                                           [view dismissViewControllerAnimated:YES completion:nil];
+                                          [self.tableView setEditing:NO animated:YES];
                                       }];
             [view addAction:unmute];
         } else {
@@ -570,6 +566,7 @@
                                     }];
                                     
                                     [view dismissViewControllerAnimated:YES completion:nil];
+                                    [self.tableView setEditing:NO animated:YES];
                                 }];
         
         UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
@@ -577,6 +574,7 @@
                                                        handler:^(UIAlertAction * action)
                                  {
                                      [view dismissViewControllerAnimated:YES completion:nil];
+                                     [self.tableView setEditing:NO animated:YES];
                                  }];
         
         [view addAction:clean];
@@ -615,6 +613,7 @@
                                   [contact saveWithTransaction:transaction];
                               }];
                               [view dismissViewControllerAnimated:YES completion:nil];
+                              [self.tableView setEditing:NO animated:YES];
                           }];
     
     UIAlertAction* two = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_one_day", nil)
@@ -628,6 +627,7 @@
                                   [contact saveWithTransaction:transaction];
                               }];
                               [view dismissViewControllerAnimated:YES completion:nil];
+                              [self.tableView setEditing:NO animated:YES];
                           }];
     
     UIAlertAction* three = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_three_day", nil)
@@ -641,6 +641,7 @@
                                     [contact saveWithTransaction:transaction];
                                 }];
                                 [view dismissViewControllerAnimated:YES completion:nil];
+                                [self.tableView setEditing:NO animated:YES];
                             }];
     
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
@@ -648,6 +649,7 @@
                                                    handler:^(UIAlertAction * action)
                              {
                                  [view dismissViewControllerAnimated:YES completion:nil];
+                                 [self.tableView setEditing:NO animated:YES];
                              }];
     
     [view addAction:one];

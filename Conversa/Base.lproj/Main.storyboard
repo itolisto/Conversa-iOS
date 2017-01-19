@@ -1063,7 +1063,7 @@
             </objects>
             <point key="canvasLocation" x="304" y="2341"/>
         </scene>
-        <!--Chats-->
+        <!-- -->
         <scene sceneID="bL8-bZ-NlE">
             <objects>
                 <viewController id="YWb-E1-0g7" customClass="ChatsViewController" sceneMemberID="viewController">
@@ -1271,7 +1271,9 @@
                         </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <navigationItem key="navigationItem" title="Chats" id="6PW-zo-r0X"/>
+                    <navigationItem key="navigationItem" title=" " id="6PW-zo-r0X">
+                        <barButtonItem key="backBarButtonItem" title=" " id="ZUN-fa-PgQ"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyView" destination="S62-iU-xNa" id="Jxj-ae-qKK"/>
                         <outlet property="noMessagesLine1" destination="Sb9-Ly-eQ6" id="JVH-pC-YHS"/>
@@ -1295,20 +1297,13 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0N9-W0-D4T">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <segue destination="EVL-bW-oSc" kind="embed" id="2XO-by-Nm2"/>
-                                </connections>
-                            </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="30" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6wK-7j-LUD">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexTrackingBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search" id="G4i-oV-6qv">
+                                <searchBar key="tableHeaderView" clipsSubviews="YES" contentMode="scaleAspectFit" placeholder="Search" id="G4i-oV-6qv">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1421,6 +1416,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <containerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0N9-W0-D4T">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="EVL-bW-oSc" kind="embed" id="2XO-by-Nm2"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1434,7 +1436,9 @@
                             <constraint firstItem="0N9-W0-D4T" firstAttribute="top" secondItem="Vfs-zP-c9h" secondAttribute="bottom" id="y3r-mY-6b8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="TkM-iK-HD4"/>
+                    <navigationItem key="navigationItem" id="TkM-iK-HD4">
+                        <barButtonItem key="backBarButtonItem" title=" " id="EuR-nU-GgW"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="G4i-oV-6qv" id="pvD-Ur-e1G"/>
                         <outlet property="searchView" destination="0N9-W0-D4T" id="XYC-m1-YBH"/>
@@ -1659,6 +1663,9 @@
                             <constraint firstItem="PEN-TI-UPb" firstAttribute="top" secondItem="lGx-Bu-3X3" secondAttribute="bottom" id="xvv-hn-o6d"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Nye-LD-GYa">
+                        <barButtonItem key="backBarButtonItem" title=" " id="f7t-yH-dXm"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyInfoLabel" destination="dfu-kb-y7W" id="UFZ-3j-adF"/>
                         <outlet property="emptyView" destination="KGU-rj-4tg" id="hIB-kc-JCr"/>
@@ -1700,7 +1707,7 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_fav_not" translatesAutoresizingMaskIntoConstraints="NO" id="sPf-Va-Wls">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_fav_not" translatesAutoresizingMaskIntoConstraints="NO" id="sPf-Va-Wls">
                                                         <rect key="frame" x="30" y="10" width="35" height="35"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="35" id="IX2-X4-pgZ"/>
@@ -1738,7 +1745,7 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_start_chat" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-Zf-9vt">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_start_chat" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-Zf-9vt">
                                                         <rect key="frame" x="29" y="10" width="35" height="35"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="35" id="2Xa-AD-lsc"/>
@@ -1776,7 +1783,7 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share" translatesAutoresizingMaskIntoConstraints="NO" id="gAh-LK-Mok">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_share" translatesAutoresizingMaskIntoConstraints="NO" id="gAh-LK-Mok">
                                                         <rect key="frame" x="29" y="10" width="35" height="35"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="35" id="JBq-2o-WJy"/>
@@ -1805,7 +1812,6 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="sTo-Ci-uzf"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="wxF-rV-L1F"/>
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6dB-No-ypM" userLabel="Container View">
@@ -2184,6 +2190,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="eRh-cN-CLv">
+                        <barButtonItem key="backBarButtonItem" title=" " id="xAJ-Lt-sya"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="emptyInfoLabel" destination="ccK-3a-Rhp" id="ajk-Xk-QaW"/>
                         <outlet property="emptyView" destination="gwf-Wg-8ou" id="YpX-Uu-Uia"/>
@@ -2994,6 +3003,6 @@
         <image name="tab_settings_inactive" width="28" height="28"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9Zj-mD-1sj"/>
+        <segue reference="4wh-38-Ytd"/>
     </inferredMetricsTieBreakers>
 </document>

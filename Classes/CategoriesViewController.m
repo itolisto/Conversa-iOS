@@ -330,9 +330,8 @@
         }
         self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
         self.navigationController.navigationBar.tintColor = [Colors black];
-        [self.view bringSubviewToFront:self.searchView];
+        [searchBar setShowsCancelButton:YES animated:YES];
     }
-    [searchBar setShowsCancelButton:YES animated:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -350,14 +349,11 @@
         }
         self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
         self.navigationController.navigationBar.tintColor = [Colors white];
-        self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
-        [self.view sendSubviewToBack:self.searchView];
-
         [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
                                                             object:nil
                                                           userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: @""}];
+        [searchBar setShowsCancelButton:NO animated:YES];
     }
-    [searchBar setShowsCancelButton:NO animated:YES];
 }
 
 - (void)sendSearchRequest:(NSString*)searchText {

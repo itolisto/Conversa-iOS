@@ -370,36 +370,23 @@
 
 - (void)changeFavorite:(BOOL)favorite {
     self.select = favorite;
+    CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
+    self.favoriteImageView.transform = expandTransform;
 
     if (favorite) {
-        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
         self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav"];
-        self.favoriteImageView.transform = expandTransform;
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-             usingSpringWithDamping:0.4
-              initialSpringVelocity:0.2
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
-                         } completion:^(BOOL finished) {
-
-                         }];
     } else {
-        CGAffineTransform expandTransform = CGAffineTransformMakeScale(1.2, 1.2);
         self.favoriteImageView.image = [UIImage imageNamed:@"ic_fav_not"];
-        self.favoriteImageView.transform = expandTransform;
-        [UIView animateWithDuration:0.4
-                              delay:0.0
-             usingSpringWithDamping:0.4
-              initialSpringVelocity:0.2
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             self.favoriteImageView.transform = CGAffineTransformInvert(expandTransform);
-                         } completion:^(BOOL finished) {
-
-                         }];
     }
+
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+         usingSpringWithDamping:0.4
+          initialSpringVelocity:0.2
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.favoriteImageView.transform = CGAffineTransformIdentity;
+                     } completion:nil];
 }
 
 #pragma mark - UIButton Methods -
@@ -464,46 +451,30 @@
 }
 
 - (IBAction)sharePressed:(UIButton *)sender {
-    BranchUniversalObject *branchUniversalObject = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:self.businessId];
-    branchUniversalObject.contentDescription = @"profile_share";
-    branchUniversalObject.contentIndexMode = ContentIndexModePublic;
-    [branchUniversalObject addMetadataKey:@"objectId" value:self.businessId];
+    NSString *textToShare = NSLocalizedString(@"settings_home_share_text", nil);
+    NSString *link;
 
     if (self.business) {
-        branchUniversalObject.title = self.business.displayName;
-        [branchUniversalObject addMetadataKey:@"name" value:self.business.displayName];
-        [branchUniversalObject addMetadataKey:@"conversaid" value:self.business.conversaID];
-        @try {
-            [branchUniversalObject addMetadataKey:@"avatar" value:self.business.avatar.url];
-        } @catch (NSException *exception) {
-            [branchUniversalObject addMetadataKey:@"avatar" value:@""];
-        }
+        link = [@"https://9ozf.test-app.link/" stringByAppendingString:self.business.conversaID];
     } else {
-        branchUniversalObject.title = self.yapbusiness.displayName;
-        [branchUniversalObject addMetadataKey:@"name" value:self.yapbusiness.displayName];
-        [branchUniversalObject addMetadataKey:@"conversaid" value:self.yapbusiness.conversaId];
-        [branchUniversalObject addMetadataKey:@"avatar" value:self.yapbusiness.avatarUrl];
+        link = [@"https://9ozf.test-app.link/" stringByAppendingString:self.yapbusiness.conversaId];
     }
 
-    BranchLinkProperties *linkProperties = [[BranchLinkProperties alloc] init];
-    linkProperties.feature = @"user_share";
-    linkProperties.channel = @"user_android";
-    [linkProperties addControlParam:@"$fallback_url" withValue:@"http://www.conversachat.com"];
+    NSArray *objectsToShare = @[textToShare, link];
 
-    [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
-                                               andShareText:@""
-                                         fromViewController:self
-                                        completionWithError:^(NSString * _Nullable activityType, BOOL completed, NSError * _Nullable activityError) {
-                                            
-                                        }];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
 
-    [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
-                                               andShareText:@"Super amazing thing I want to share!"
-                                         fromViewController:self
-                                                 completion:^(NSString *activityType, BOOL completed)
-    {
-        NSLog(@"finished presenting");
-    }];
+    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList,
+                                   UIActivityTypePostToFlickr,
+                                   UIActivityTypePostToVimeo];
+
+    activityVC.excludedActivityTypes = excludeActivities;
+
+    [self presentViewController:activityVC animated:YES completion:nil];
 }
 
 - (IBAction)closePressed:(UIButton *)sender {
@@ -537,68 +508,6 @@
             }
         }
     }
-}
-
-+ (void)controller:(UIViewController*)fromController
-          business:(Business*)business
-       yapbusiness:(YapSearch*)yapbusiness
-            enable:(BOOL)enable
-            device:(NSString*)machine
-{
-//    UIStoryboard *storyboard = [fromController storyboard];
-//    UIViewController *viewController;
-//    MZFormSheetPresentationViewController *formSheetController;
-//    CGSize size;
-//
-//    // or pass in UILayoutFittingCompressedSize to size automatically with auto-layout
-//    if ([machine isEqualToString:@"iPhone7,1"] || [machine isEqualToString:@"iPhone8,2"] || [machine isEqualToString:@"iPhone9,2"] || [machine isEqualToString:@"iPhone9,4"])
-//    {
-//        // ALL PLUS MODELS (5.5in)
-//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-//        //size = CGSizeMake(289, 454);
-//        size = CGSizeMake(282, 380);
-//    }
-//    else if ([machine isEqualToString:@"iPhone7,2"] || [machine isEqualToString:@"iPhone8,1"] || [machine isEqualToString:@"iPhone9,1"] || [machine isEqualToString:@"iPhone9,3"])
-//    {
-//        // ALL NORMAL MODELS (4.7in)
-//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-//        //size = CGSizeMake(262, 412);
-//        size = CGSizeMake(282, 380);
-//    }
-//    else if ([machine isEqualToString:@"i386"] || [machine isEqualToString:@"x86_64"])
-//    {
-//        // SIMULATOR
-//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-//        size = CGSizeMake(282, 380);
-//    }
-//    else
-//    {
-//        // ALL REGULAR MODELS (4in)
-//        viewController = [storyboard instantiateViewControllerWithIdentifier:@"formSheetController"];
-//        formSheetController = [[MZFormSheetPresentationViewController alloc] initWithContentViewController:viewController];
-//        //size = CGSizeMake(224, 350);
-//        size = CGSizeMake(282, 380);
-//    }
-//    
-//    ProfileDialogViewController *vc = (ProfileDialogViewController*)viewController;
-//    
-//    if (business) {
-//        vc.business = business;
-//    } else {
-//        vc.yapbusiness = yapbusiness;
-//    }
-//    
-//    vc.enable = enable;
-//    
-//    formSheetController.presentationController.contentViewSize = size;
-//    formSheetController.interactivePanGestureDismissalDirection = MZFormSheetPanGestureDismissDirectionNone;
-//    formSheetController.presentationController.shouldDismissOnBackgroundViewTap = YES;
-//    formSheetController.contentViewControllerTransitionStyle = MZFormSheetPresentationTransitionStyleSlideAndBounceFromTop;
-//    
-//    [fromController presentViewController:formSheetController animated:YES completion:nil];
 }
 
 @end

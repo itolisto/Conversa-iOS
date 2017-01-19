@@ -82,8 +82,8 @@
 "settings_account_blocked_none" = "None";
 "settings_account_blocked_one" = "1 contact";
 "settings_account_blocked_contact" = "contacts";
-"settings_account_recents_title" = "Clean recent searches";
-"settings_account_recents_alert_action_clean" = "Clean";
+"settings_account_recents_title" = "Clear recent searches";
+"settings_account_recents_alert_action_clean" = "Clear";
 "settings_account_logout_alert_action_logout" = "Log Out";
 
 "settings_chat_quality_alert_action_high" = "High";

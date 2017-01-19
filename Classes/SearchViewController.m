@@ -85,8 +85,8 @@
         self.emptyView.hidden = YES;
         self.tableView.hidden = NO;
     } else {
-        self.loadingView.hidden = YES;
-        self.emptyView.hidden = NO;
+        self.loadingView.hidden = NO;
+        self.emptyView.hidden = YES;
         self.tableView.hidden = YES;
     }
 
@@ -109,12 +109,6 @@
     UIView *v = [[UIView alloc] init];
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
-
-    // Remove 1px bottom line
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init]
-                                                 forBarPosition:UIBarPositionAny
-                                                     barMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
 }
 
 - (void)dealloc {
@@ -168,10 +162,10 @@
 
 - (void) runQueryWithParameter:(NSString *)search {
     self.searchId = arc4random_uniform(4294967294) + 1;
+    self.page = 0;
 
     if ([search length]) {
         [self._mutableObjects removeAllObjects];
-        self.page = 0;
         self.loadingPage = NO;
         self.loadMore = YES;
         self.searchWith = [search copy];
@@ -192,8 +186,8 @@
         self.emptyView.hidden = YES;
         self.tableView.hidden = NO;
     } else {
-        self.loadingView.hidden = YES;
-        self.emptyView.hidden = NO;
+        self.loadingView.hidden = NO;
+        self.emptyView.hidden = YES;
         self.tableView.hidden = YES;
     }
 
@@ -298,14 +292,6 @@
     
     return 65.0;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if ([self.searchWith length] == 0) {
-//        return NSLocalizedString(@"search_section_title_recents", nil);
-//    }
-//
-//    return nil;
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([self.searchWith length] == 0) {
