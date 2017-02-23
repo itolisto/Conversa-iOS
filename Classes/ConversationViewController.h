@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-@class Business, YapContact, YapMessage;
+@class YapContact, YapMessage;
 #import "CustomAblyRealtime.h"
 #import <Parse/Parse.h>
 #import <OHQBImagePicker/QBImagePicker.h>
@@ -20,7 +20,7 @@
 @property(nonatomic, strong) YapContact *buddy;
 
 - (void)initWithBuddy:(YapContact *)buddy;
-- (void)initWithBusiness:(Business *)business withAvatarUrl:(NSString*)url;
+- (void)initWithBusiness:(YapContact *)business withAvatarUrl:(NSString*)url;
 - (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)value withPFFile:(PFFile *)file;
 
 @end

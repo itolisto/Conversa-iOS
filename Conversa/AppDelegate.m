@@ -11,7 +11,6 @@
 #import "Log.h"
 #import "Branch.h"
 #import "Account.h"
-#import "Customer.h"
 #import "Business.h"
 #import "Constants.h"
 #import "Appirater.h"
@@ -20,7 +19,6 @@
 #import "SettingsKeys.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
-#import "BusinessCategory.h"
 #import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
@@ -58,15 +56,19 @@
     // Register subclassing for using as Parse objects
     [Account registerSubclass];
     [Business registerSubclass];
-    [Customer registerSubclass];
-    [BusinessCategory registerSubclass];
-    
+
     // Initialize Parse.
-    [Parse setApplicationId:@"39H1RFC1jalMV3cv8pmDGPRh93Bga1mB4dyxbLwl"
-                  clientKey:@"YC3vORNGt6I4f8yEsO6TyGF97XbmitofOrrS5PCC"];
+    [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        //configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        //configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        //configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+        // To work with localhost
+        configuration.applicationId = @"b15c83";
+        configuration.server = @"http://localhost:1337/parse";
+    }]];
     
 #if TARGET_IPHONE_SIMULATOR
-    //NSLog(@"Home directory: %@",NSHomeDirectory());
+    NSLog(@"Home directory: %@",NSHomeDirectory());
 #endif
     
     if (![DatabaseManager existsYapDatabase]) {
@@ -118,8 +120,6 @@
                         [branchInfo setObject:[params objectForKey:@"conversaid"] forKey:@"conversaid"];
                         [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
                     }
-                } else {
-                    NSLog(@"no deep link");
                 }
             }
         }
@@ -324,12 +324,14 @@
 
             if ([data objectForKey:@"favorite"]) {
                 result = [PFCloud callFunction:@"setCustomerFavorite"
-                                withParameters:@{@"business": [data objectForKey:@"business"],
+                                withParameters:@{@"businessId": [data objectForKey:@"business"],
+                                                 @"customerId": [SettingsKeys getCustomerId],
                                                  @"favorite": @YES}
                                          error:&error];
             } else {
                 result = [PFCloud callFunction:@"setCustomerFavorite"
-                                withParameters:@{@"business": [data objectForKey:@"business"]}
+                                withParameters:@{@"businessId": [data objectForKey:@"business"],
+                                                 @"customerId": [SettingsKeys getCustomerId]}
                                          error:&error];
             }
 

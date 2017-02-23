@@ -123,91 +123,39 @@
              [self._headers removeAllObjects];
 
              NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                     options:NSJSONReadingMutableContainers
-                                                                       error:&error];
-             //kNilOptions
+             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:&error];
              if (error) {
                  // Show error
                  [self.refreshControl endRefreshing];
              } else {
-                 NSArray *results = [jsonDic valueForKeyPath:@"results"];
                  NSUInteger size = [results count];
-
-                 NSMutableArray *alphabetically = nil;
-                 NSMutableArray *relevance = nil;
 
                  for (int i = 0; i < size; i++) {
                      NSDictionary *object = [results objectAtIndex:i];
-                     NSString *headerTitle = [object objectForKey:@"tn"];
 
-                     if (headerTitle) {
-                         nHeaderTitle *title = [[nHeaderTitle alloc] init];
-                         title.headerName = headerTitle;
-                         title.relevance = [[object objectForKey:@"re"] integerValue];
-                         [self._headers addObject:title];
+                     nHeaderTitle *title = [[nHeaderTitle alloc] init];
+                     title.headerName = [object objectForKey:@"tn"];
+                     [self._headers addObject:title];
 
-                         if ([object objectForKey:@"al"]) {
-                             alphabetically = [[NSMutableArray alloc] initWithCapacity:1];
-                         } else {
-                             relevance = [[NSMutableArray alloc] initWithCapacity:1];
-                         }
-                     } else {
-                         nCategory *category = [[nCategory alloc] init];
-                         category.objectId = [object objectForKey:@"ob"];
-                         category.name = [object objectForKey:@"na"];
-                         category.avatarUrl = [object objectForKey:@"th"];
+                     NSArray *categories = [object objectForKey:@"cat"];
+                     NSMutableArray *categoriesInSection = [NSMutableArray arrayWithCapacity:2];
+                     NSUInteger categoriesSize = [categories count];
 
-                         if (alphabetically) {
-                             [alphabetically addObject:category];
+                     for (int h = 0; h < categoriesSize; h++) {
+                         NSDictionary *category = [categories objectAtIndex:h];
 
-                             if (i + 1 < size) {
-                                 object = [results objectAtIndex:i + 1];
-                                 if ([object objectForKey:@"tn"]) {
-                                     [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                                         NSString *first = [(nCategory*)obj1 getName];
-                                         NSString *second = [(nCategory*)obj2 getName];
-                                         return [first compare:second];
-                                     }];
+                         nCategory *categoryReg = [[nCategory alloc] init];
+                         categoryReg.objectId = [category objectForKey:@"ob"];
+                         categoryReg.name = [category objectForKey:@"na"];
+                         categoryReg.avatarUrl = [category objectForKey:@"th"];
 
-                                     [self._dictionary setObject:[alphabetically copy]
-                                                          forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
-
-                                     [alphabetically removeAllObjects];
-                                     alphabetically = nil;
-                                 }
-                             } else {
-                                 [alphabetically sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-                                     NSString *first = [(nCategory*)obj1 getName];
-                                     NSString *second = [(nCategory*)obj2 getName];
-                                     return [first compare:second];
-                                 }];
-
-                                 [self._dictionary setObject:[alphabetically copy]
-                                                      forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
-
-                                 [alphabetically removeAllObjects];
-                                 alphabetically = nil;
-                             }
-                         } else {
-                             [relevance addObject:category];
-
-                             if (i + 1 < size) {
-                                 object = [results objectAtIndex:i + 1];
-                                 if ([object objectForKey:@"tn"]) {
-                                     [self._dictionary setObject:[relevance copy]
-                                                          forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
-                                     [relevance removeAllObjects];
-                                     relevance = nil;
-                                 }
-                             } else {
-                                 [self._dictionary setObject:[relevance copy]
-                                                      forKey:[NSNumber numberWithInteger:[self._headers count] - 1]];
-                                 [relevance removeAllObjects];
-                                 relevance = nil;
-                             }
-                         }
+                         [categoriesInSection addObject:categoryReg];
                      }
+
+                     [self._dictionary setObject:categoriesInSection
+                                          forKey:[NSNumber numberWithInt:i]];
                  }
 
                  [self.refreshControl endRefreshing];

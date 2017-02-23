@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-@class Business;
+@class YapContact;
 @class YapSearch;
 
 @interface CustomBusinessCell : UITableViewCell
@@ -17,10 +17,10 @@
 @property (nonatomic, weak) IBOutlet UILabel *conversaIdLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *verifiedImageView;
 
-@property (strong, nonatomic) Business *business;
+@property (strong, nonatomic) YapContact *business;
 @property (strong, nonatomic) YapSearch *yapbusiness;
 
-- (void)configureCellWith:(Business *)business;
+- (void)configureCellWith:(YapContact *)business;
 - (void)configureCellWithYap:(YapSearch *)business;
 
 @end

@@ -12,10 +12,10 @@
 #import "Colors.h"
 #import "AppJobs.h"
 #import "Account.h"
-#import "Business.h"
 #import "YapSearch.h"
 #import "Constants.h"
 #import "YapContact.h"
+#import "SettingsKeys.h"
 #import "DatabaseManager.h"
 #import "ParseValidation.h"
 #import "BranchLinkProperties.h"
@@ -70,37 +70,17 @@
     self.statusView.layer.borderColor = [Colors white].CGColor;
     self.statusView.layer.cornerRadius = self.statusView.frame.size.width / 2;
 
-    if (self.business) {
-        self.businessId = self.business.objectId;
+    self.businessId = self.objectId;
 
-        @try {
-            if ([self.business avatar]) {
-                [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:[[self.business avatar] url]]
-                                    placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
-            } else {
-                self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
-            }
-        } @catch (NSException *exception) {
-            self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
-        } @catch (id exception) {
-            self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
-        }
-
-        self.displayNameLabel.text = self.business.displayName;
-        self.conversaIdLabel.text = [@"@" stringByAppendingString:self.business.conversaID];
+    if (self.avatarUrl) {
+        [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.avatarUrl]
+                            placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
     } else {
-        self.businessId = self.yapbusiness.uniqueId;
-
-        if ([self.yapbusiness.avatarUrl length] > 0) {
-            [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.yapbusiness.avatarUrl]
-                                placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
-        } else {
-            self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
-        }
-
-        self.displayNameLabel.text = self.yapbusiness.displayName;
-        self.conversaIdLabel.text = [@"@" stringByAppendingString:self.yapbusiness.conversaId];
+        self.avatarImage.image = [UIImage imageNamed:@"ic_business_default"];
     }
+
+    self.displayNameLabel.text = self.displayName;
+    self.conversaIdLabel.text = [@"@" stringByAppendingString:self.conversaID];
 
     self.select = NO;
     self.favoriteButton.enabled = NO;
@@ -112,219 +92,212 @@
     }
 
     [PFCloud callFunctionInBackground:@"getBusinessProfile"
-                       withParameters:@{@"business": self.businessId}
-                                block:^(NSString * _Nullable result, NSError * _Nullable error)
-     {
-         if (error) {
-             if ([ParseValidation validateError:error]) {
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             }
-         } else {
-             id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
-                                                         options:0
-                                                           error:&error];
-             if (error) {
-                 DDLogError(@"%@", error);
-             } else {
-                 if ([object isKindOfClass:[NSDictionary class]]) {
-                     NSDictionary *results = object;
-
-                     self.followers = 0;
-                     NSString *header = nil;
-                     NSString *daySpecial = nil;
-                     NSString *website = nil;
-                     bool delivery = NO;//
-                     NSArray *openOn;
-                     NSString *number;
-                     bool multiple = NO;
-                     bool online = NO;
-                     NSString *promo = nil;
-                     NSString *promoTextColor = nil;
-                     NSString *promoBackground = nil;
-                     NSArray *tags;
-                     bool verified = NO;
-                     long since = 0L;
-                     bool favorite = NO;
-                     int status = 0;
-
-                     if ([results objectForKey:@"header"] && [results objectForKey:@"header"] != [NSNull null]) {
-                         header = [results objectForKey:@"header"];
-                     }
-
-                     if ([results objectForKey:@"followers"] && [results objectForKey:@"followers"] != [NSNull null]) {
-                         self.followers = [[results objectForKey:@"followers"] unsignedIntegerValue];
+                       withParameters:@{
+                                        @"businessId": self.businessId,
+                                        @"customerId": [SettingsKeys getCustomerId]
+                                        }
+                                block:^(NSString *  _Nullable result, NSError * _Nullable error)
+    {
+        if (error) {
+            if ([ParseValidation validateError:error]) {
+                [ParseValidation _handleInvalidSessionTokenError:self];
+            }
+        } else {
+            id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
+                                                        options:0
+                                                          error:&error];
+                     if (error) {
+                         DDLogError(@"%@", error);
                      } else {
-                         self.followers = 0;
-                     }
-
-                     if ([results objectForKey:@"daySpecial"] && [results objectForKey:@"daySpecial"] != [NSNull null]) {
-                         daySpecial = [results objectForKey:@"daySpecial"];
-                     }
-
-                     if ([results objectForKey:@"website"] && [results objectForKey:@"website"] != [NSNull null]) {
-                         website = [results objectForKey:@"website"];
-                     }
-
-                     if ([results objectForKey:@"delivery"] && [results objectForKey:@"delivery"] != [NSNull null]) {
-                         delivery = [[results objectForKey:@"delivery"] boolValue];
-                     }
-
-                     if ([results objectForKey:@"openOn"] && [results objectForKey:@"openOn"] != [NSNull null]) {
-                         openOn = [results objectForKey:@"openOn"];
-                     }
-
-                     if ([results objectForKey:@"number"] && [results objectForKey:@"number"] != [NSNull null]) {
-                         number = [results objectForKey:@"number"];
-                     }
-
-                     if ([results objectForKey:@"multiple"] && [results objectForKey:@"multiple"] != [NSNull null]) {
-                         multiple = [[results objectForKey:@"multiple"] boolValue];
-                     }
-
-                     if ([results objectForKey:@"online"] && [results objectForKey:@"online"] != [NSNull null]) {
-                         online = [[results objectForKey:@"online"] boolValue];
-                     }
-
-                     if ([results objectForKey:@"promo"] && [results objectForKey:@"promo"] != [NSNull null]) {
-                         promo = [results objectForKey:@"promo"];
-                     }
-
-                     if ([results objectForKey:@"promoColor"] && [results objectForKey:@"promoColor"] != [NSNull null]) {
-                         promoTextColor = [results objectForKey:@"promoColor"];
-                     }
-
-                     if ([results objectForKey:@"promoBack"] && [results objectForKey:@"promoBack"] != [NSNull null]) {
-                         promoBackground = [results objectForKey:@"promoBack"];
-                     }
-
-                     if ([results objectForKey:@"tags"] && [results objectForKey:@"tags"] != [NSNull null]) {
-                         tags = [results objectForKey:@"tags"];
-                     }
-
-                     if ([results objectForKey:@"verified"] && [results objectForKey:@"verified"] != [NSNull null]) {
-                         verified = [[results objectForKey:@"verified"] boolValue];
-                     }
-
-                     if ([results objectForKey:@"since"] && [results objectForKey:@"since"] != [NSNull null]) {
-                         since = [[results objectForKey:@"since"] longValue];
-                     }
-
-                     if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
-                         favorite = [[results objectForKey:@"favorite"] boolValue];
-                     }
-
-                     if ([results objectForKey:@"status"] && [results objectForKey:@"status"] != [NSNull null]) {
-                         status = [[results objectForKey:@"status"] intValue];
-                     }
-
-                     if (header != nil) {
-                         [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
-                                             placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
-                     }
-
-                     if (promo != nil || promoBackground != nil) {
-                         //mLlSpecialPromoContainer.setVisibility(View.VISIBLE);
-
-                         if (promo != nil) {
-                             //mRtvSpecialPromo.setVisibility(View.VISIBLE);
-                             //mSdvSpecialPromo.setVisibility(View.VISIBLE);
-
-                             if (promoTextColor != nil) {
-                                 @try {
-                                     //mRtvSpecialPromo.setTextColor(Color.parseColor(promoTextColor));
-                                 } @catch (NSException *exception) {
-                                     //mRtvSpecialPromo.setTextColor(Color.WHITE);
+                         if ([object isKindOfClass:[NSDictionary class]]) {
+                             NSDictionary *results = object;
+        
+                             self.followers = 0;
+                             NSString *header = nil;
+                             NSString *daySpecial = nil;
+                             NSString *website = nil;
+                             bool delivery = NO;//
+                             NSArray *openOn;
+                             NSString *number;
+                             bool multiple = NO;
+                             bool online = NO;
+                             NSString *promo = nil;
+                             NSString *promoTextColor = nil;
+                             NSString *promoBackground = nil;
+                             NSArray *tags;
+                             bool verified = NO;
+                             long since = 0L;
+                             bool favorite = NO;
+                             int status = 0;
+        
+                             if ([results objectForKey:@"header"] && [results objectForKey:@"header"] != [NSNull null]) {
+                                 header = [results objectForKey:@"header"];
+                             }
+        
+                             if ([results objectForKey:@"followers"] && [results objectForKey:@"followers"] != [NSNull null]) {
+                                 self.followers = [[results objectForKey:@"followers"] unsignedIntegerValue];
+                             } else {
+                                 self.followers = 0;
+                             }
+        
+                             if ([results objectForKey:@"daySpecial"] && [results objectForKey:@"daySpecial"] != [NSNull null]) {
+                                 daySpecial = [results objectForKey:@"daySpecial"];
+                             }
+        
+                             if ([results objectForKey:@"website"] && [results objectForKey:@"website"] != [NSNull null]) {
+                                 website = [results objectForKey:@"website"];
+                             }
+        
+                             if ([results objectForKey:@"delivery"] && [results objectForKey:@"delivery"] != [NSNull null]) {
+                                 delivery = [[results objectForKey:@"delivery"] boolValue];
+                             }
+        
+                             if ([results objectForKey:@"openOn"] && [results objectForKey:@"openOn"] != [NSNull null]) {
+                                 openOn = [results objectForKey:@"openOn"];
+                             }
+        
+                             if ([results objectForKey:@"number"] && [results objectForKey:@"number"] != [NSNull null]) {
+                                 number = [results objectForKey:@"number"];
+                             }
+        
+                             if ([results objectForKey:@"multiple"] && [results objectForKey:@"multiple"] != [NSNull null]) {
+                                 multiple = [[results objectForKey:@"multiple"] boolValue];
+                             }
+        
+                             if ([results objectForKey:@"online"] && [results objectForKey:@"online"] != [NSNull null]) {
+                                 online = [[results objectForKey:@"online"] boolValue];
+                             }
+        
+                             if ([results objectForKey:@"promo"] && [results objectForKey:@"promo"] != [NSNull null]) {
+                                 promo = [results objectForKey:@"promo"];
+                             }
+        
+                             if ([results objectForKey:@"promoColor"] && [results objectForKey:@"promoColor"] != [NSNull null]) {
+                                 promoTextColor = [results objectForKey:@"promoColor"];
+                             }
+        
+                             if ([results objectForKey:@"promoBack"] && [results objectForKey:@"promoBack"] != [NSNull null]) {
+                                 promoBackground = [results objectForKey:@"promoBack"];
+                             }
+        
+                             if ([results objectForKey:@"tags"] && [results objectForKey:@"tags"] != [NSNull null]) {
+                                 tags = [results objectForKey:@"tags"];
+                             }
+        
+                             if ([results objectForKey:@"verified"] && [results objectForKey:@"verified"] != [NSNull null]) {
+                                 verified = [[results objectForKey:@"verified"] boolValue];
+                             }
+        
+                             if ([results objectForKey:@"since"] && [results objectForKey:@"since"] != [NSNull null]) {
+                                 since = [[results objectForKey:@"since"] longValue];
+                             }
+        
+                             if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
+                                 favorite = [[results objectForKey:@"favorite"] boolValue];
+                             }
+        
+                             if ([results objectForKey:@"status"] && [results objectForKey:@"status"] != [NSNull null]) {
+                                 status = [[results objectForKey:@"status"] intValue];
+                             }
+        
+                             if (header != nil) {
+                                 [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
+                                                     placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
+                             }
+        
+                             if (promo != nil || promoBackground != nil) {
+                                 //mLlSpecialPromoContainer.setVisibility(View.VISIBLE);
+        
+                                 if (promo != nil) {
+                                     //mRtvSpecialPromo.setVisibility(View.VISIBLE);
+                                     //mSdvSpecialPromo.setVisibility(View.VISIBLE);
+        
+                                     if (promoTextColor != nil) {
+                                         @try {
+                                             //mRtvSpecialPromo.setTextColor(Color.parseColor(promoTextColor));
+                                         } @catch (NSException *exception) {
+                                             //mRtvSpecialPromo.setTextColor(Color.WHITE);
+                                         }
+                                     }
+                                 }
+        
+                                 if (promoBackground != nil) {
+                                     //mSdvSpecialPromo.setVisibility(View.VISIBLE);
+        
+                                     //Uri uri;
+        
+                                     if([promoBackground length]) {
+                                         //uri = Utils.getDefaultImage(this, R.drawable.specialpromo_dropshadow);
+                                     } else {
+                                         //uri = Uri.parse(promoBackground);
+                                     }
+        
+                                     //mSdvSpecialPromo.setImageURI(uri);
                                  }
                              }
-                         }
-
-                         if (promoBackground != nil) {
-                             //mSdvSpecialPromo.setVisibility(View.VISIBLE);
-
-                             //Uri uri;
-
-                             if([promoBackground length]) {
-                                 //uri = Utils.getDefaultImage(this, R.drawable.specialpromo_dropshadow);
-                             } else {
-                                 //uri = Uri.parse(promoBackground);
+        
+                             // Status
+                             switch (status) {
+                                 case 0: {
+                                     self.statusView.backgroundColor = [Colors profileOnline];
+                                     break;
+                                 }
+                                 case 1: {
+                                     self.statusView.backgroundColor = [Colors profileAway];
+                                     break;
+                                 }
+                                 case 2: {
+                                     self.statusView.backgroundColor = [Colors profileOffline];
+                                     break;
+                                 }
                              }
-
-                             //mSdvSpecialPromo.setImageURI(uri);
+        
+                             if (favorite) {
+                                 [self changeFavorite:YES];
+                             }
+        
+                             self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+        
+                             if (website != nil) {
+                                 //self.websiteLabel.text = website;
+                             } else {
+                                 //mltvLink.setText(R.string.profile_no_website_message);
+                                 //self.websiteLabel.text = website;
+                             }
+        
+                             if (number != nil) {
+                                 //self.contactNumberLabel.text = number;
+                             } else {
+                                 //mltvContactNumber.setText(R.string.profile_no_number_message);
+                                 //self.contactNumberLabel.text = number;
+                             }
+        
+                             if (delivery) {
+                                 //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check));
+                                 //mLtvDelivery.setText(getString(R.string.profile_delivery_yes));
+                             } else {
+                                 //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cancel));
+                                 //mLtvDelivery.setText(getString(R.string.profile_delivery_no));
+                             }
+        
+                             if (multiple) {
+                                 // Multiple locations
+                                 //mRtvLocationDescription.setText(R.string.profile_location_multiple_location);
+                             } else if (online) {
+                                 // Just online
+                                 //mRtvLocationDescription.setText(R.string.profile_location_online_location);
+                                 //mBtnLocation.setVisibility(View.GONE);
+                             } else {
+                                 // One location
+                                 //mRtvLocationDescription.setText(R.string.profile_location_one_location);
+                             }
+        
                          }
                      }
-
-                     // Status
-                     switch (status) {
-                         case 0: {
-                             self.statusView.backgroundColor = [Colors profileOnline];
-                             break;
-                         }
-                         case 1: {
-                             self.statusView.backgroundColor = [Colors profileAway];
-                             break;
-                         }
-                         case 2: {
-                             self.statusView.backgroundColor = [Colors profileOffline];
-                             break;
-                         }
-                     }
-
-                     if (favorite) {
-                         [self changeFavorite:YES];
-                     }
-
-                     self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
-
-                     if (website != nil) {
-                         //self.websiteLabel.text = website;
-                     } else {
-                         //mltvLink.setText(R.string.profile_no_website_message);
-                         //self.websiteLabel.text = website;
-                     }
-
-                     if (number != nil) {
-                         //self.contactNumberLabel.text = number;
-                     } else {
-                         //mltvContactNumber.setText(R.string.profile_no_number_message);
-                         //self.contactNumberLabel.text = number;
-                     }
-
-                     if (delivery) {
-                         //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check));
-                         //mLtvDelivery.setText(getString(R.string.profile_delivery_yes));
-                     } else {
-                         //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cancel));
-                         //mLtvDelivery.setText(getString(R.string.profile_delivery_no));
-                     }
-
-                     if (multiple) {
-                         // Multiple locations
-                         //mRtvLocationDescription.setText(R.string.profile_location_multiple_location);
-                     } else if (online) {
-                         // Just online
-                         //mRtvLocationDescription.setText(R.string.profile_location_online_location);
-                         //mBtnLocation.setVisibility(View.GONE);
-                     } else {
-                         // One location
-                         //mRtvLocationDescription.setText(R.string.profile_location_one_location);
-                     }
-
                  }
-             }
-         }
-
-         self.favoriteButton.enabled = YES;
-     }];
-
-    //    if (!UIAccessibilityIsReduceTransparencyEnabled()) {
-    //        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    //        UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    //        blurEffectView.frame = self.view.bounds;
-    //        blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    //        [self.view insertSubview:blurEffectView atIndex:0];
-    //    } else {
-
-    //    }
+        
+                 self.favoriteButton.enabled = YES;
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -395,7 +368,7 @@
     __block YapContact *bs = nil;
     [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction)
     {
-        bs = [transaction objectForKey:self.business.objectId inCollection:[YapContact collection]];
+        bs = [transaction objectForKey:self.objectId inCollection:[YapContact collection]];
     }];
     // Get reference to the destination view controller
     UIStoryboard *mainStoryboard = self.storyboard;
@@ -405,14 +378,13 @@
     if (bs) {
         [destinationViewController initWithBuddy:bs];
     } else {
-        if (self.business) {
-            [destinationViewController initWithBusiness:self.business withAvatarUrl:nil];
-        } else {
-            Business *business = [Business objectWithoutDataWithObjectId:self.yapbusiness.uniqueId];
-            business.displayName = self.yapbusiness.displayName;
-            business.conversaID = self.yapbusiness.conversaId;
-            [destinationViewController initWithBusiness:business withAvatarUrl:self.yapbusiness.avatarUrl];
-        }
+        YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:self.objectId];
+        newBuddy.accountUniqueId = [Account currentUser].objectId;
+        newBuddy.displayName = self.displayName;
+        newBuddy.conversaId = self.conversaID;
+        //newBuddy.about = self.about;
+        newBuddy.avatarThumbFileId = self.avatarUrl;
+        [destinationViewController initWithBusiness:newBuddy withAvatarUrl:nil];
     }
 
     if ([[self presentingViewController] isKindOfClass:[UITabBarController class]]) {
@@ -452,13 +424,7 @@
 
 - (IBAction)sharePressed:(UIButton *)sender {
     NSString *textToShare = NSLocalizedString(@"settings_home_share_text", nil);
-    NSString *link;
-
-    if (self.business) {
-        link = [@"https://9ozf.test-app.link/" stringByAppendingString:self.business.conversaID];
-    } else {
-        link = [@"https://9ozf.test-app.link/" stringByAppendingString:self.yapbusiness.conversaId];
-    }
+    NSString *link = [@"https://conversa.link/" stringByAppendingString:self.conversaID];
 
     NSArray *objectsToShare = @[textToShare, link];
 
@@ -487,7 +453,7 @@
     if ([[segue identifier] isEqualToString:@"FromProfileToChat"]) {
         __block YapContact *bs = nil;
         [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-            bs = [transaction objectForKey:self.business.objectId inCollection:[YapContact collection]];
+            bs = [transaction objectForKey:self.objectId inCollection:[YapContact collection]];
         }];
         // Get reference to the destination view controller
         UINavigationController *navController = [segue destinationViewController];
@@ -497,15 +463,13 @@
         if (bs) {
             [destinationViewController initWithBuddy:bs];
         } else {
-            if (self.business) {
-                [destinationViewController initWithBusiness:self.business withAvatarUrl:nil];
-            } else {
-                Business *business = [Business objectWithoutDataWithObjectId:self.yapbusiness.uniqueId];
-                business.displayName = self.yapbusiness.displayName;
-                business.conversaID = self.yapbusiness.conversaId;
-
-                [destinationViewController initWithBusiness:business withAvatarUrl:self.yapbusiness.avatarUrl];
-            }
+            YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:self.objectId];
+            newBuddy.accountUniqueId = [Account currentUser].objectId;
+            newBuddy.displayName = self.displayName;
+            newBuddy.conversaId = self.conversaID;
+            //newBuddy.about = self.about;
+            newBuddy.avatarThumbFileId = self.avatarUrl;
+            [destinationViewController initWithBusiness:newBuddy withAvatarUrl:nil];
         }
     }
 }

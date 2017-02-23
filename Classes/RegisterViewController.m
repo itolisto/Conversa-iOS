@@ -11,7 +11,6 @@
 #import "Log.h"
 #import "Colors.h"
 #import "Account.h"
-#import "Customer.h"
 #import "Constants.h"
 #import "Utilities.h"
 #import "LoginHandler.h"
@@ -29,6 +28,7 @@
 @property (weak, nonatomic) UITextField *activeTextField;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (assign, nonatomic) double birthdayTimestamp;
 
 @end
 
@@ -218,18 +218,23 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     self.birthdayTextField.text = [dateFormatter stringFromDate:sender.date];
-    [self.birthdayTextField resignFirstResponder];
+    // We multiply as Date in Javascript uses milliseconds
+    self.birthdayTimestamp = [sender.date timeIntervalSince1970] * 1000;
 }
 
-- (void) doRegister {
+- (void)doRegister {
     Account *user = [Account object];
+
     NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
-    user.username = [emailPieces objectAtIndex: 0];
+    NSString *username = [emailPieces objectAtIndex: 0];
+    NSString *domain = [[[emailPieces objectAtIndex: 1] componentsSeparatedByString:@"."] objectAtIndex:0];
+
+    user.username = [username stringByAppendingString:domain];
     user.email = self.emailTextField.text;
     user.password = self.passwordTextField.text;
     // Extra fields
     user[kUserTypeKey] = @(1);
-    user[kUserCustomerBirthdayKey] = self.birthdayTextField.text;
+    user[kUserCustomerBirthdayKey] = @(self.birthdayTimestamp);
     user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -248,7 +253,7 @@
     }];
 }
 
-- (void) showErrorMessage:(NSString*)message {
+- (void)showErrorMessage:(NSString*)message {
     UIAlertController * view=   [UIAlertController
                                  alertControllerWithTitle:nil
                                  message:message

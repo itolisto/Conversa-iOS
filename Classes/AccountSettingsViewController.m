@@ -11,7 +11,6 @@
 #import "Image.h"
 #import "Camera.h"
 #import "Account.h"
-#import "Customer.h"
 #import "YapSearch.h"
 #import "Constants.h"
 #import "SettingsKeys.h"
@@ -27,7 +26,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *displayNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UILabel *blockedContactsLabel;
 
 @property (nonatomic, assign) BOOL reload;
 
@@ -53,8 +51,6 @@
     // Delegate
     self.displayNameTextField.delegate = self;
     self.passwordTextField.delegate = self;
-
-    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_loading", nil);
     
     self.reload = NO;
     
@@ -169,7 +165,7 @@
             NSString *temp = textField.text;
 
             [PFCloud callFunctionInBackground:@"updateCustomerName"
-                               withParameters:@{@"displayName" : temp, @"objectId" : [SettingsKeys getCustomerId]}
+                               withParameters:@{@"displayName" : temp, @"customerId" : [SettingsKeys getCustomerId]}
                                         block:^(id  _Nullable object, NSError * _Nullable error)
             {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
@@ -213,32 +209,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([indexPath section] == 1) {
-        if ([indexPath row] == 1) {
-            __block NSUInteger count = 0;
-            [[DatabaseManager sharedInstance].newConnection asyncReadWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                [transaction enumerateRowsInCollection:[YapContact collection] usingBlock:^(NSString * _Nonnull key, id  _Nonnull object, id  _Nullable metadata, BOOL * _Nonnull stop) {
-                    if (((YapContact*)object).blocked) {
-                        count++;
-                    }
-                }];
-            } completionBlock:^{
-                if (count == 0) {
-                    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_none", nil);
-                } else if (count == 1) {
-                    self.blockedContactsLabel.text = NSLocalizedString(@"settings_account_blocked_one", nil);
-                } else {
-                    self.blockedContactsLabel.text = [[NSString stringWithFormat:@"%lu", (unsigned long)count]
-                                                      stringByAppendingString:NSLocalizedString(@"settings_account_blocked_contact", nil)];
-                }
-            }];
-        }
-    }
-    
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-}
-
 #pragma mark - Action Methods -
 
 - (void)cleanRecentSearches {
@@ -277,6 +247,7 @@
                              style:UIAlertActionStyleDestructive
                              handler:^(UIAlertAction * action) {
                                  [Account logOut];
+                                 //
                                  [view dismissViewControllerAnimated:YES completion:nil];
                                  UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                                  UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];

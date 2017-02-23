@@ -195,7 +195,7 @@ const struct YapContactEdges YapContactEdges = {
     return count;
 }
 
-+ (NSDictionary*) saveContactWithParseBusiness:(Business *)business
++ (NSDictionary*) saveContactWithParseBusiness:(YapContact *)business
                                  andConnection:(YapDatabaseConnection*)editingConnection
                                        andSave:(BOOL)save
 {
@@ -203,7 +203,7 @@ const struct YapContactEdges YapContactEdges = {
     __block YapContact *newBuddy = nil;
     
     [editingConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-        newBuddy = [transaction objectForKey:business.objectId inCollection:[YapContact collection]];
+        newBuddy = [transaction objectForKey:business.uniqueId inCollection:[YapContact collection]];
     }];
 
     if (newBuddy) {
@@ -214,30 +214,20 @@ const struct YapContactEdges YapContactEdges = {
             update = YES;
         }
 
-        if (![newBuddy.conversaId isEqualToString:business.conversaID]) {
-            newBuddy.conversaId = business.conversaID;
+        if (![newBuddy.conversaId isEqualToString:business.conversaId]) {
+            newBuddy.conversaId = business.conversaId;
             update = YES;
         }
 
-        @try {
-            if (business.about) {
-                if (![newBuddy.about isEqualToString:business.about]) {
-                    newBuddy.about = business.about;
-                    update = YES;
-                }
-            }
-        } @catch (NSException *ignored) {}
-          @catch (id ignored) {}
+        if (![newBuddy.about isEqualToString:business.about]) {
+            newBuddy.about = business.about;
+            update = YES;
+        }
 
-        @try {
-            if (business.avatar) {
-                if (![newBuddy.avatarThumbFileId isEqualToString:[business.avatar url]]) {
-                    newBuddy.avatarThumbFileId = [business.avatar url];
-                    update = YES;
-                }
-            }
-        } @catch (NSException *ignored) {}
-          @catch (id ignored) {}
+        if (![newBuddy.avatarThumbFileId isEqualToString:business.avatarThumbFileId]) {
+            newBuddy.avatarThumbFileId = business.avatarThumbFileId;
+            update = YES;
+        }
 
         if (update) {
             [editingConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
@@ -247,35 +237,7 @@ const struct YapContactEdges YapContactEdges = {
 
         [values setObject:[NSNumber numberWithBool:YES] forKey:kNSDictionaryChangeValue];
     } else {
-        newBuddy = [[YapContact alloc] initWithUniqueId:business.objectId];
-        newBuddy.accountUniqueId = [Account currentUser].objectId;
-        newBuddy.displayName = business.displayName;
-        newBuddy.conversaId = business.conversaID;
-
-        @try {
-            if (business.about) {
-                newBuddy.about = business.about;
-            } else {
-                newBuddy.about = @"";
-            }
-        } @catch (NSException *exception) {
-            newBuddy.about = @"";
-        } @catch (id exception) {
-            newBuddy.about = @"";
-        }
-
-        @try {
-            if (business.avatar) {
-                newBuddy.avatarThumbFileId = [business.avatar url];
-            } else {
-                newBuddy.avatarThumbFileId = @"";
-            }
-        } @catch (NSException *exception) {
-            newBuddy.avatarThumbFileId = @"";
-        } @catch (id exception) {
-            newBuddy.avatarThumbFileId = @"";
-        }
-
+        newBuddy = [business copy];
         newBuddy.composingMessageString = @"";
         newBuddy.blocked = NO;
         newBuddy.mute = NO;

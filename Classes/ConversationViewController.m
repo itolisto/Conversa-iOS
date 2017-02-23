@@ -84,7 +84,8 @@
 @property(nonatomic) BOOL visible;
 @property(nonatomic) BOOL typingFlag;
 
-@property(nonatomic,weak) NSTimer* timeWaiting;
+@property(nonatomic, strong) NSTimer *timeWaiting;
+@property(nonatomic, strong) NSString *lastStatus;
 
 @end
 
@@ -100,10 +101,6 @@
     
     // Bar tint
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
-    
-    // JSQMessagesController variables setup
-    self.senderId = ([[SettingsKeys getCustomerId] length] == 0) ? @"" : [SettingsKeys getCustomerId];
-    self.senderDisplayName = @"user";
 
     /**
      *  Set up message accessory button delegate and configuration
@@ -262,12 +259,13 @@
         });
     });
 
+    self.lastStatus = @"Conversa";
+
     UIView *view = [[NSBundle mainBundle] loadNibNamed:@"ChatNavBarView" owner:self options:nil][0];
     self.titleView = (UILabel *)[view viewWithTag:120];
     [self.titleView setText:self.buddy.displayName];
     self.subTitle = (UILabel *)[view viewWithTag:121];
-    [self.subTitle setText:@""];
-    self.subTitle.hidden = YES;
+    [self.subTitle setText:self.lastStatus];
     
     UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc]
                                           initWithTarget:self
@@ -277,6 +275,7 @@
     [view addGestureRecognizer:profileTap];
     
     self.navigationItem.titleView = view;
+    [self loadLastStatus];
 }
 
 - (void)refreshNavigationBarInformation:(YapContact *)buddy {
@@ -299,15 +298,92 @@
         });
     });
 
+    self.lastStatus = @"Conversa";
     [self.titleView setText:buddy.displayName];
-    self.subTitle.hidden = YES;
+    [self.subTitle setText:self.lastStatus];
+    [self loadLastStatus];
+}
+
+- (void)loadLastStatus {
+    [self performSelector:@selector(loadStatus) withObject:self afterDelay:2.5];
+}
+
+- (void)loadStatus {
+    [PFCloud callFunctionInBackground:@"getBusinessLastStatus"
+                       withParameters:@{@"businessId":self.buddy.uniqueId}
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+     {
+         if(error) {
+             if ([ParseValidation validateError:error]) {
+                 self.visible = NO;
+                 [ParseValidation _handleInvalidSessionTokenError:self];
+             }
+         } else {
+             double last = [object doubleValue];
+             double now = [[NSDate date] timeIntervalSince1970] * 1000;
+
+             if (last <= now) {
+                 long diff = now - last;
+                 long diffm = diff / (1000 * 60);
+
+                 if (diffm < 70) {
+                     if (diffm <= 10) {
+                         self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
+                     } else {
+                         diffm = diffm - 10;
+                         if (diffm == 1) {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_minute", nil)];
+                         } else {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffm], NSLocalizedString(@"conversation_active_minutes", nil)];
+                         }
+                     }
+                 } else {
+                     diff = diff - (70 * 60 * 1000);
+                     long diffh = diff / (1000 * 60 * 60);
+                     long diffd = diff / (1000 * 60 * 60 * 24);
+                     long diffw = diff / (1000 * 60 * 60 * 24 * 7);
+
+                     if (diffh < 24) {
+                         if (diffh == 1) {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_hour", nil)];
+                         } else {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffh], NSLocalizedString(@"conversation_active_hours", nil)];
+                         }
+                     } else if (diffd < 31) {
+                         if (diffd == 1) {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_day", nil)];
+                         } else {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffd], NSLocalizedString(@"conversation_active_days", nil)];
+                         }
+                     } else if (diffw < 52) {
+                         if (diffw == 1) {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_week", nil)];
+                         } else {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_weeks", nil)];
+                         }
+                     } else {
+                         diffw = diffw / 52;
+                         if (diffw == 1) {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_year", nil)];
+                         } else {
+                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_years", nil)];
+                         }
+                     }
+                 }
+             }
+
+             if (!self.typingFlag) {
+                 [self.subTitle setText:self.lastStatus];
+             }
+         }
+     }];
 }
 
 - (void)setupMessageMapping {
     if (self.messageMappings) {
         return;
     }
-    
+
     __block BOOL set = NO;
     
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
@@ -363,7 +439,7 @@
     [self initWithText:buddy];
 }
 
-- (void)initWithBusiness:(Business *)business withAvatarUrl:(NSString*)url {
+- (void)initWithBusiness:(YapContact *)business withAvatarUrl:(NSString*)url {
     NSDictionary *values = [YapContact saveContactWithParseBusiness:business
                                                       andConnection:[DatabaseManager sharedInstance].newConnection
                                                             andSave:NO];
@@ -391,7 +467,7 @@
     // Set a maximum height for the input toolbar
     self.inputToolbar.maximumHeight = kInputToolbarMaximumHeight;
     // The library will call the correct selector for each button, based on this value
-    self.inputToolbar.sendButtonOnRight = YES;
+    //self.inputToolbar.sendButtonOnRight = YES;
     // Attachment Button
     UIButton *customLeftButton = [UIButton buttonWithType:UIButtonTypeSystem];
     customLeftButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -688,6 +764,14 @@
 
 #pragma mark - JSQMessagesCollectionViewDataSource Methods -
 
+- (NSString *)senderDisplayName {
+    return @"user";
+}
+
+- (NSString *)senderId {
+    return ([[SettingsKeys getCustomerId] length] == 0) ? @"" : [SettingsKeys getCustomerId];
+}
+
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.messages objectAtIndex:indexPath.item];
@@ -960,7 +1044,8 @@
                                                                 object:nil
                                                               userInfo:@{UPDATE_CELL_DIC_KEY: self.buddy.uniqueId}];
         }];
-        self.subTitle.hidden = YES;
+
+        self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
     } else {
         YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
         [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
@@ -1051,10 +1136,9 @@
 
 - (void)showIsTyping:(BOOL)show {
     if (show) {
-        self.subTitle.hidden = NO;
         self.subTitle.text = NSLocalizedString(@"conversation_subtitle_writing", nil);
     } else {
-        self.subTitle.hidden = YES;
+        self.subTitle.text = self.lastStatus;
     }
 }
 
@@ -1196,9 +1280,9 @@
         {
             NSMutableDictionary *messageNSD = [NSMutableDictionary dictionaryWithDictionary:
                                                @{
-                                                 @"user" : [SettingsKeys getCustomerId],
-                                                 @"business" : self.buddy.uniqueId,
-                                                 @"fromUser" : @(YES),
+                                                 @"customerId" : [SettingsKeys getCustomerId],
+                                                 @"businessId" : self.buddy.uniqueId,
+                                                 @"fromCustomer" : @(YES),
                                                  @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
                                                  }];
 
@@ -1523,15 +1607,15 @@
     } completion:^(BOOL success) {
             if (isInserting) {
                 if (isIncoming) {
+                    [self.subTitle setText:self.lastStatus];
                     [self finishReceivingMessage];
-                    self.subTitle.text = @"";
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        //[JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        //[JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }

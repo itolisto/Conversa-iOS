@@ -7,6 +7,7 @@
 //
 
 #import "ParseValidation.h"
+
 #import "Account.h"
 
 @implementation ParseValidation
@@ -35,7 +36,8 @@
                              [view dismissViewControllerAnimated:YES completion:nil];
                              UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                              UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
-                             [fromController presentViewController:viewController animated:YES completion:nil];
+                             [UIApplication sharedApplication].delegate.window.rootViewController = viewController;
+                             [[UIApplication sharedApplication].delegate.window makeKeyAndVisible];
                          }];
     [view addAction:ok];
     [fromController presentViewController:view animated:YES completion:nil];

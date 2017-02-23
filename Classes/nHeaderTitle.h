@@ -10,10 +10,6 @@
 
 @interface nHeaderTitle : NSObject
 
-@property (strong, nonatomic) NSString *headerName;
-@property (assign, nonatomic) NSInteger relevance;
-
-- (NSString *)getHeaderName;
-- (NSInteger)getRelevance;
+@property (strong, nonatomic, getter=getHeaderName) NSString *headerName;
 
 @end

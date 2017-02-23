@@ -10,12 +10,4 @@
 
 @implementation nHeaderTitle
 
-- (NSString *)getHeaderName {
-    return _headerName;
-}
-
-- (NSInteger)getRelevance {
-    return _relevance;
-}
-
 @end

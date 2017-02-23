@@ -32,6 +32,18 @@
 "chats_cell_date_now" = "Ahora";
 "chats_cell_date_yesterday" = "Ayer";
 
+"conversation_active_minute" = "minuto";
+"conversation_active_minutes" = "minutos";
+"conversation_active_hour" = "hora";
+"conversation_active_hours" = "horas";
+"conversation_active_day" = "día";
+"conversation_active_days" = "días";
+"conversation_active_week" = "semana";
+"conversation_active_weeks" = "semanas";
+"conversation_active_year" = "año";
+"conversation_active_years" = "años";
+"conversation_active_message" = "Activo hace %1$@ %2$@";
+"conversation_active_message_now" = "Activo ahora";
 "conversation_inputtoolbar_placeholder" = "Escribe un mensaje";
 "conversation_menu_item_copy" = "Copiar";
 "conversation_menu_item_delete" = "Eliminar";

@@ -50,7 +50,7 @@ NSString *const BlockedGroup = @"BlockedGroup";
 + (void)registerRelationshipDatabase
 {
     YapDatabaseRelationshipOptions *options = [[YapDatabaseRelationshipOptions alloc] init];
-    options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithBlacklist:[NSSet setWithObject:[YapSearch collection]]];
+    //options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithBlacklist:[NSSet setWithObject:[YapSearch collection]]];
     
     YapDatabaseRelationship *databaseRelationship = [[YapDatabaseRelationship alloc] initWithVersionTag:@"1"
                                                                                                 options:options];

@@ -9,8 +9,15 @@
 @import UIKit;
 #import <Parse/Parse.h>
 #import "YapDatabaseObject.h"
+#import <YapDatabase/YapDatabaseRelationshipNode.h>
 
-@interface YapSearch : YapDatabaseObject
+extern const struct YapSearchEdges {
+    __unsafe_unretained NSString *account;
+} YapSearchEdges;
+
+@interface YapSearch : YapDatabaseObject <YapDatabaseRelationshipNode>
+
+@property (nonatomic, strong) NSString *accountUniqueId; // Used to point to this account
 
 @property (nonatomic, strong) NSString *conversaId;
 @property (nonatomic, strong) NSString *displayName;

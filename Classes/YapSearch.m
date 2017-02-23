@@ -9,8 +9,14 @@
 #import "YapSearch.h"
 
 @import YapDatabase;
+#import "Account.h"
 #import "Constants.h"
+#import "YapAccount.h"
 #import "DatabaseManager.h"
+
+const struct YapSearchEdges YapSearchEdges = {
+    .account = @"accountUniqueId",
+};
 
 @implementation YapSearch
 
@@ -95,6 +101,25 @@
 
 + (NSUInteger)numberOfRecentSearchesWithTransaction:(YapDatabaseReadTransaction *)transaction {
     return [transaction numberOfKeysInCollection:[YapSearch collection]];
+}
+
+#pragma mark - YapDatabaseRelationshipNode
+// This method gets automatically called when the object is inserted/updated in the database.
+- (nullable NSArray<YapDatabaseRelationshipEdge *> *)yapDatabaseRelationshipEdges
+{
+    NSArray *edges = nil;
+
+    if (self.accountUniqueId) {
+        YapDatabaseRelationshipEdge *accountEdge = [YapDatabaseRelationshipEdge edgeWithName:YapSearchEdges.account
+                                                                              destinationKey:self.accountUniqueId
+                                                                                  collection:[YapAccount collection]
+                                                                             nodeDeleteRules:YDB_DeleteSourceIfDestinationDeleted];
+        // YDB_DeleteSourceIfDestinationDeleted
+        //   automatically delete this Contact if the Account is deleted
+        edges = @[accountEdge];
+    }
+
+    return edges;
 }
 
 @end

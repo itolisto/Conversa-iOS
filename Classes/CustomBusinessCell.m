@@ -8,7 +8,7 @@
 
 #import "CustomBusinessCell.h"
 
-#import "Business.h"
+#import "YapContact.h"
 #import "Constants.h"
 #import "YapSearch.h"
 #import "NSFileManager+Conversa.h"
@@ -21,23 +21,15 @@
     _photoImageView.layer.cornerRadius = _photoImageView.frame.size.width / 2;
 }
 
-- (void)configureCellWith:(Business *)business {
+- (void)configureCellWith:(YapContact *)business {
     self.business = business;
 
-    @try {
-        if (business.avatar) {
-            [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[business.avatar url]]
-                                   placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
-        } else {
-            self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
-        }
-    } @catch (NSException *exception) {
-        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
-    } @catch (id exception) {
-        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
+    if (business.avatarThumbFileId) {
+        [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:business.avatarThumbFileId]
+                               placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
     }
 
-    self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaID];
+    self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaId];
     self.displayNameLabel.text = business.displayName;
 }
 

@@ -7,13 +7,15 @@
 //
 
 @import UIKit;
-@class Business;
+@class YapContact;
 @class YapSearch;
 
 @interface ProfileDialogViewController : UIViewController <UIGestureRecognizerDelegate>
 
-@property(strong, nonatomic) Business *business;
-@property(strong, nonatomic) YapSearch *yapbusiness;
+@property(strong, nonatomic) NSString *objectId;
+@property(strong, nonatomic) NSString *avatarUrl;
+@property(strong, nonatomic) NSString *displayName;
+@property(strong, nonatomic) NSString *conversaID;
 @property(assign, nonatomic) BOOL enable;
 
 @end

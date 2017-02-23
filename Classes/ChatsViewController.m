@@ -142,7 +142,7 @@
     v.backgroundColor = [UIColor clearColor];
     [self.tableView setTableFooterView:v];
 
-    if ([[SettingsKeys getCustomerId] length] == 0) {
+    if ([SettingsKeys getCustomerId] == nil || [[SettingsKeys getCustomerId] length] == 0) {
         [AppJobs addCustomerDataJob];
     } else {
         // Register for push notifications and send tags

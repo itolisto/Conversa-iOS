@@ -10,11 +10,10 @@
 
 #import "Log.h"
 #import "Colors.h"
+#import "Account.h"
 #import "Constants.h"
-#import "bCategory.h"
 #import "Utilities.h"
 #import "ParseValidation.h"
-#import "BusinessCategory.h"
 #import "CustomBusinessCell.h"
 #import "ConversationViewController.h"
 #import "ProfileDialogViewController.h"
@@ -30,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *emptyInfoLabel;
 
 @property (strong, nonatomic) DGActivityIndicatorView *activityIndicatorView;
-@property (strong, nonatomic) NSMutableArray<Business *> *_mutableObjects;
+@property (strong, nonatomic) NSMutableArray<YapContact *> *_mutableObjects;
 @property (assign, nonatomic) BOOL visible;
 
 @property (assign, nonatomic) NSInteger page;
@@ -88,81 +87,86 @@
         [self.activityIndicatorView startAnimating];
     }
 
-    PFQuery *query = [BusinessCategory query];
-    [query selectKeys:@[kBusinessCategoryBusinessKey]];
+    [PFCloud callFunctionInBackground:@"getCategoryBusinesses"
+                       withParameters:@{@"page": @(self.page), @"categoryId": self.categoryId}
+                                block:^(NSString *json, NSError *error)
+     {
+         if (self.page == 0) {
+             [self.activityIndicatorView stopAnimating];
+             self.loadingView.hidden = YES;
+         }
 
-    [query includeKey:kBusinessCategoryBusinessKey];
-    [query whereKey:kBusinessCategoryCategoryKey equalTo:[bCategory objectWithoutDataWithObjectId:self.categoryId]];
-    [query whereKey:kBusinessCategoryActiveKey   equalTo:@(YES)];
+         if (self.loadingPage) {
+             self.loadingPage = NO;
+             [self._mutableObjects removeLastObject];
+         }
 
-    PFQuery *param1 = [Business query];
-    [param1 selectKeys:@[kBusinessDisplayNameKey, kBusinessAboutKey, kBusinessAvatarKey, kBusinessConversaIdKey, kBusinessVerifiedKey]];
-    [param1 whereKey:kBusinessActiveKey  equalTo:@(YES)];
-    [param1 whereKey:kBusinessCountryKey equalTo:[PFObject objectWithoutDataWithClassName:@"Country" objectId:@"QZ31UNerIj"]];
-    [param1 whereKeyDoesNotExist:kBusinessBusinessKey];
+         if (error) {
+             if ([ParseValidation validateError:error]) {
+                 [ParseValidation _handleInvalidSessionTokenError:self];
+             } else {
+                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+                 self.emptyView.hidden = NO;
+                 self.loadMore = NO;
+             }
+         } else {
+             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                options:NSJSONReadingMutableContainers
+                                                                  error:&error];
 
-    [query whereKey:kBusinessCategoryBusinessKey matchesKey:kObjectRowObjectIdKey inQuery:param1];
+             if (error) {
+                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+                 self.emptyView.hidden = NO;
+                 self.loadMore = NO;
+             } else {
+                 NSUInteger size = [results count];
 
-    [query orderByAscending:kBusinessCategoryRelevanceKey];
-    [query addAscendingOrder:kBusinessCategoryPositionKey];
+                 if (size > 0) {
+                     NSMutableArray <YapContact*> *businesses = [NSMutableArray arrayWithCapacity:size];
 
-    [query setLimit:20];
-    [query setSkip:self.page * 20];
+                     for (int i = 0; i < size; i++) {
+                         NSDictionary *business = [results objectAtIndex:i];
 
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (self.page == 0) {
-            [self.activityIndicatorView stopAnimating];
-            self.loadingView.hidden = YES;
-        }
+                         YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:[business valueForKey:@"ob"]];
+                         newBuddy.accountUniqueId = [Account currentUser].objectId;
+                         newBuddy.displayName = [business valueForKey:@"dn"];
+                         newBuddy.conversaId = [business valueForKey:@"cn"];
+                         newBuddy.about = [business valueForKey:@"ab"];
 
-        if (self.loadingPage) {
-            self.loadingPage = NO;
-            [self._mutableObjects removeLastObject];
-        }
+                         if ([business respondsToSelector:NSSelectorFromString(@"av")]) {
+                             newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
+                         }
+                         [businesses addObject:newBuddy];
+                     }
 
-        if (error) {
-            self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
-            self.emptyView.hidden = NO;
-            self.loadMore = NO;
-            if ([ParseValidation validateError:error]) {
-                [ParseValidation _handleInvalidSessionTokenError:self];
-            }
-        } else {
-            NSUInteger size = [objects count];
+                     if (size < 20) {
+                         self.loadMore = NO;
+                     }
 
-            if (size > 0) {
-                NSMutableArray <Business*> *business = [NSMutableArray arrayWithCapacity:size];
+                     [self._mutableObjects addObjectsFromArray:businesses];
 
-                for (int i = 0; i < size; i++) {
-                    [business addObject:((BusinessCategory*)[objects objectAtIndex:i]).business];
-                }
-
-                if (size < 20) {
-                    self.loadMore = NO;
-                }
-
-                [self._mutableObjects addObjectsFromArray:business];
-
-                if (self.page == 0) {
-                    self.tableView.hidden = NO;
-                    self.emptyView.hidden = YES;
-                }
-            } else {
-                if (self.page == 0) {
-                    self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
-                    self.emptyView.hidden = NO;
-                }
-                self.loadMore = NO;
-            }
-
-            self.page++;
-        }
-
-        [self.tableView reloadData];
-    }];
+                     if (self.page == 0) {
+                         self.tableView.hidden = NO;
+                         self.emptyView.hidden = YES;
+                     }
+                 } else {
+                     if (self.page == 0) {
+                         self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
+                         self.emptyView.hidden = NO;
+                     }
+                     self.loadMore = NO;
+                 }
+                 
+                 self.page++;
+             }
+         }
+         
+         [self.tableView reloadData];
+     }];
 }
 
-- (Business *)objectAtIndexPath:(NSIndexPath *)indexPath {
+- (YapContact *)objectAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.objects count] && indexPath.row < [self.objects count]) {
         return self.objects[indexPath.row];
     }
@@ -170,13 +174,12 @@
     return nil;
 }
 
-- (NSArray<__kindof Business *> *)objects {
+- (NSArray<__kindof YapContact *> *)objects {
     return __mutableObjects;
 }
 
 #pragma mark - UITableViewDataSource Methods -
 
-// Return the number of rows in the section.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.objects count];
 }
@@ -232,7 +235,7 @@
     if (self.loadMore) {
         if (!self.loadingPage && [self.objects count] == indexPath.row + 1) {
             self.loadingPage = YES;
-            [self._mutableObjects addObject:[Business object]];
+            [self._mutableObjects addObject:[YapContact init]];
             [self.tableView reloadData];
             [self loadObjects];
         }
@@ -241,16 +244,16 @@
 
 #pragma mark - Navigation Method -
 
-//- (void)backPressed {
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"FromCategoryToProfile"]) {
         // Get reference to the destination view controller
         ProfileDialogViewController *destinationViewController = [segue destinationViewController];
         // Pass any objects to the view controller here, like...
-        destinationViewController.business = ((BusinessCategory*)sender).business;
+        YapContact *business = ((CustomBusinessCell*)sender).business;
+        destinationViewController.objectId = business.uniqueId;
+        destinationViewController.avatarUrl = business.avatarThumbFileId;
+        destinationViewController.displayName = business.displayName;
+        destinationViewController.conversaID = business.conversaId;
         destinationViewController.enable = YES;
     }
 }

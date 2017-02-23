@@ -240,6 +240,7 @@
                      for (int i = 0; i < size; i++) {
                          NSDictionary *object = [results objectAtIndex:i];
                          YapSearch *newSearch = [[YapSearch alloc] initWithUniqueId:[object objectForKey:@"oj"]];
+                         newSearch.accountUniqueId = [Account currentUser].objectId;
                          newSearch.conversaId = [object objectForKey:@"id"];
                          newSearch.displayName = [object objectForKey:@"dn"];
                          newSearch.avatarUrl = [object objectForKey:@"av"];
@@ -404,7 +405,10 @@
         // Get reference to the destination view controller
         ProfileDialogViewController *destinationViewController = [segue destinationViewController];
         // Pass any objects to the view controller here, like...
-        destinationViewController.yapbusiness = business;
+        destinationViewController.objectId = business.uniqueId;
+        destinationViewController.avatarUrl = business.avatarUrl;
+        destinationViewController.displayName = business.displayName;
+        destinationViewController.conversaID = business.conversaId;
         destinationViewController.enable = YES;
     }
 }

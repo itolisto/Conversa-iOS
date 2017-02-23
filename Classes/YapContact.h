@@ -8,7 +8,6 @@
 
 @import UIKit;
 @class YapMessage, YapAccount;
-#import "Business.h"
 #import "YapDatabaseObject.h"
 #import <YapDatabase/YapDatabaseRelationshipNode.h>
 
@@ -33,7 +32,7 @@ extern const struct YapContactEdges {
 @property (nonatomic, assign) BOOL blocked;
 @property (nonatomic, assign) BOOL mute;
 
-+ (NSDictionary*) saveContactWithParseBusiness:(Business *)business
++ (NSDictionary*) saveContactWithParseBusiness:(YapContact *)business
                                  andConnection:(YapDatabaseConnection*)editingConnection
                                        andSave:(BOOL)save;
 
