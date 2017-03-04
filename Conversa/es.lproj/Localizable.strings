@@ -1,3 +1,183 @@
+
+/* No comment provided by engineer. */
+"categories_searchbar_placeholder" = "Busca negocios, tiendas, etc";
+
+"category" = "Categoría";
+
+/* No comment provided by engineer. */
+"category_results_empty" = "No se encontraron resultados";
+
+/* No comment provided by engineer. */
+"category_results_error" = "Uphs, por favor intenta de nuevo";
+
+/* No comment provided by engineer. */
+"chats_alert_action_clear_conversation" = "Limpiar conversación";
+
+/* No comment provided by engineer. */
+"chats_alert_action_mute" = "Silenciar";
+
+/* No comment provided by engineer. */
+"chats_alert_action_one_day" = "1 día";
+
+/* No comment provided by engineer. */
+"chats_alert_action_three_day" = "3 días";
+
+/* No comment provided by engineer. */
+"chats_alert_action_twelve_hours" = "12 horas";
+
+/* No comment provided by engineer. */
+"chats_alert_action_unmute" = "No silenciar";
+
+/* No comment provided by engineer. */
+"chats_cell_action_delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"chats_cell_action_title" = "Más";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_audio" = "Audio";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_empty" = "Empieza a chatear";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_image" = "Imagen";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_location" = "Ubicación";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_message" = "Mensaje";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_video" = "Video";
+
+"chats_cell_date_now" = "Ahora";
+
+/* No comment provided by engineer. */
+"chats_cell_date_yesterday" = "Ayer";
+
+/* No comment provided by engineer. */
+"common_action_cancel" = "Cancelar";
+
+/*
+ * Common strings
+ */
+"common_action_done" = "Listo";
+
+/* No comment provided by engineer. */
+"common_field_invalid" = "Campo inválido";
+
+/* No comment provided by engineer. */
+"common_field_required" = "Campo requerido";
+
+/* No comment provided by engineer. */
+"conversation_active_day" = "día";
+
+/* No comment provided by engineer. */
+"conversation_active_days" = "días";
+
+/* No comment provided by engineer. */
+"conversation_active_hour" = "hora";
+
+/* No comment provided by engineer. */
+"conversation_active_hours" = "horas";
+
+/* No comment provided by engineer. */
+"conversation_active_message" = "Activo hace %1$@ %2$@";
+
+/* No comment provided by engineer. */
+"conversation_active_message_now" = "Activo ahora";
+
+/* No comment provided by engineer. */
+"conversation_active_minute" = "minuto";
+
+/* No comment provided by engineer. */
+"conversation_active_minutes" = "minutos";
+
+/* No comment provided by engineer. */
+"conversation_active_week" = "semana";
+
+/* No comment provided by engineer. */
+"conversation_active_weeks" = "semanas";
+
+/* No comment provided by engineer. */
+"conversation_active_year" = "año";
+
+/* No comment provided by engineer. */
+"conversation_active_years" = "años";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_camara_title" = "La imagen no pudo ser guardada";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_location_title" = "No pudimos encontrar tu ubicación";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock" = "Desbloquear";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock_title" = "Desbloquea este contacto para enviar mensajes";
+
+/* No comment provided by engineer. */
+"conversation_inputtoolbar_placeholder" = "Escribe un mensaje";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_copy" = "Copiar";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"conversation_message_info_downloading" = "Descargando";
+
+/* No comment provided by engineer. */
+"conversation_message_info_failed" = "Fallido";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sending" = "Enviando";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sent" = "Enviado";
+
+/* No comment provided by engineer. */
+"conversation_message_info_uploading" = "Subiendo";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_camara" = "Cámara";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_library" = "Librería";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_location" = "Enviar ubicación";
+
+/* No comment provided by engineer. */
+"conversation_subtitle_writing" = "escribiendo...";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_map" = "Ver mapa";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_play" = "Reproducir";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_resend" = "Reenviar";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_view" = "Ver imagen";
+
+/* No comment provided by engineer. */
+"mapview_controller_title" = "Mapa";
+
+/* No comment provided by engineer. */
+"no_internet_connection_message" = "Sin conexión a internet";
+
+"profile_share_text" = "Chatea ahora con %1s, sigue el link %2s";
+
 /* 
   Localizable.strings
   Conversa
@@ -6,106 +186,77 @@
   Copyright © 2016 Conversa. All rights reserved.
 */
 "recover_password_failed_message" = "No pudimos encontrar ninguna cuenta asociada a este correo electrónico";
+
+/* No comment provided by engineer. */
 "recover_password_sent_message" = "Se ha enviado un link para recuperar tu contraseña, revisa tu correo";
-"sign_failed_message" = "Correo electrónico y contraseña no coinciden. Por favor verifica los datos";
-"signup_email_error" = "Este correo electrónico\nya está ocupado";
-"signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
 
-"token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
-"no_internet_connection_message" = "Sin conexión a internet";
-
-"chats_cell_action_title" = "Más";
-"chats_cell_action_delete" = "Eliminar";
-"chats_alert_action_unmute" = "No silenciar";
-"chats_alert_action_mute" = "Silenciar";
-"chats_alert_action_clear_conversation" = "Limpiar conversación";
-"chats_alert_action_twelve_hours" = "12 horas";
-"chats_alert_action_one_day" = "1 día";
-"chats_alert_action_three_day" = "3 días";
-
-"chats_cell_conversation_location" = "Ubicación";
-"chats_cell_conversation_image" = "Imagen";
-"chats_cell_conversation_video" = "Video";
-"chats_cell_conversation_audio" = "Audio";
-"chats_cell_conversation_message" = "Mensaje";
-"chats_cell_conversation_empty" = "Empieza a chatear";
-"chats_cell_date_now" = "Ahora";
-"chats_cell_date_yesterday" = "Ayer";
-
-"conversation_active_minute" = "minuto";
-"conversation_active_minutes" = "minutos";
-"conversation_active_hour" = "hora";
-"conversation_active_hours" = "horas";
-"conversation_active_day" = "día";
-"conversation_active_days" = "días";
-"conversation_active_week" = "semana";
-"conversation_active_weeks" = "semanas";
-"conversation_active_year" = "año";
-"conversation_active_years" = "años";
-"conversation_active_message" = "Activo hace %1$@ %2$@";
-"conversation_active_message_now" = "Activo ahora";
-"conversation_inputtoolbar_placeholder" = "Escribe un mensaje";
-"conversation_menu_item_copy" = "Copiar";
-"conversation_menu_item_delete" = "Eliminar";
-"conversation_more_alert_action_library" = "Librería";
-"conversation_more_alert_action_camara" = "Cámara";
-"conversation_more_alert_action_location" = "Enviar ubicación";
-"conversation_message_info_sending" = "Enviando";
-"conversation_message_info_uploading" = "Subiendo";
-"conversation_message_info_downloading" = "Descargando";
-"conversation_message_info_sent" = "Enviado";
-"conversation_message_info_failed" = "Fallido";
-"conversation_subtitle_writing" = "escribiendo...";
-"conversation_alert_action_unblock_title" = "Desbloquea este contacto para enviar mensajes";
-"conversation_alert_action_unblock" = "Desbloquear";
-"conversation_alert_action_location_title" = "No pudimos encontrar tu ubicación";
-"conversation_alert_action_camara_title" = "La imagen no pudo ser guardada";
-
-"conversation_unsent_alert_action_view" = "Ver imagen";
-"conversation_unsent_alert_action_map" = "Ver mapa";
-"conversation_unsent_alert_action_play" = "Reproducir";
-"conversation_unsent_alert_action_resend" = "Reenviar";
-"conversation_unsent_alert_action_delete" = "Eliminar";
-
-"categories_searchbar_placeholder" = "Busca por negocios, tiendas, etc";
-"category" = "Categoría";
-
+/* No comment provided by engineer. */
 "search_section_title_recents" = "Recientes";
+
+/* No comment provided by engineer. */
 "search_section_title_results" = "Resultados";
 
-"category_results_error" = "Uphs, por favor intenta de nuevo";
-"category_results_empty" = "No se encontraron resultados";
+/* No comment provided by engineer. */
+"settings_account_alert_change_empty_title" = "Campo no puede estar vacío";
 
-"mapview_controller_title" = "Mapa";
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_changed" = "Nombre cambiado";
 
-"profile_share_text" = "Chatea ahora con %1s, sigue el link %2s";
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_not_changed" = "Nombre no cambiado";
 
-"settings_home_profile_hi" = "Hola";
-"settings_home_share_text" = "Descarga esta aplicación para hablar con casi cualquier negocio";
+/* No comment provided by engineer. */
+"settings_account_alert_password_action_change" = "Cambiar";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_changed" = "Contraseña cambiada";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_not_changed" = "Contraseña no cambiada";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_title" = "¿Estás segura que quieres cambiar tu contraseña?";
+
+"settings_account_blocked_contact" = "contactos";
 
 "settings_account_blocked_loading" = "Cargando";
-"settings_account_alert_change_empty_title" = "Campo no puede estar vacío";
-"settings_account_alert_password_title" = "¿Estás segura que quieres cambiar tu contraseña?";
-"settings_account_alert_password_action_change" = "Cambiar";
-"settings_account_alert_password_changed" = "Contraseña cambiada";
-"settings_account_alert_password_not_changed" = "Contraseña no cambiada";
-"settings_account_alert_displayname_changed" = "Nombre cambiado";
-"settings_account_alert_displayname_not_changed" = "Nombre no cambiado";
+
 "settings_account_blocked_none" = "Ninguno";
+
 "settings_account_blocked_one" = "1 contacto";
-"settings_account_blocked_contact" = "contactos";
-"settings_account_recents_title" = "Limpiar búsquedas recientes";
-"settings_account_recents_alert_action_clean" = "Limpiar";
+
+/* No comment provided by engineer. */
 "settings_account_logout_alert_action_logout" = "Cerrar sesión";
 
+/* No comment provided by engineer. */
+"settings_account_recents_alert_action_clean" = "Limpiar";
+
+/* No comment provided by engineer. */
+"settings_account_recents_title" = "Limpiar búsquedas recientes";
+
+/* No comment provided by engineer. */
 "settings_chat_quality_alert_action_high" = "Alta";
-"settings_chat_quality_alert_action_medium" = "Media";
+
+/* No comment provided by engineer. */
 "settings_chat_quality_alert_action_low" = "Baja";
 
-/*
- * Common strings
- */
-"common_action_done" = "Listo";
-"common_action_cancel" = "Cancelar";
-"common_field_required" = "Campo requerido";
-"common_field_invalid" = "Campo inválido";
+/* No comment provided by engineer. */
+"settings_chat_quality_alert_action_medium" = "Media";
+
+/* No comment provided by engineer. */
+"settings_home_profile_hi" = "Hola";
+
+/* No comment provided by engineer. */
+"settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala.";
+
+/* No comment provided by engineer. */
+"sign_failed_message" = "Correo electrónico y contraseña no coinciden. Por favor verifica los datos";
+
+/* No comment provided by engineer. */
+"signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
+
+/* No comment provided by engineer. */
+"signup_email_error" = "Este correo electrónico\nya está ocupado";
+
+/* No comment provided by engineer. */
+"token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";

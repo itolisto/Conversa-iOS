@@ -14,6 +14,7 @@
 #import "nCategory.h"
 #import "nHeaderTitle.h"
 #import "SettingsKeys.h"
+#import "UIStateButton.h"
 #import "ParseValidation.h"
 #import "CustomCategoryCell.h"
 #import "SearchViewController.h"
@@ -27,6 +28,8 @@
 @property (strong, nonatomic) NSMutableArray<nHeaderTitle *> *_headers;
 @property (strong, nonatomic) NSMutableDictionary<NSNumber *, NSArray<nCategory *>*> *_dictionary;
 @property (weak, nonatomic) IBOutlet UIView *searchView;
+@property (weak, nonatomic) IBOutlet UIView *noConnectionView;
+@property (weak, nonatomic) IBOutlet UIStateButton *retryButton;
 
 @end
 
@@ -70,6 +73,12 @@
     // our search bar is inside the navigation bar.
     self.searchController.hidesNavigationBarDuringPresentation = false;
 
+    // Add retry button properties
+    [self.retryButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
+    [self.retryButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [self.retryButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    [self.retryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+
     // Load initial data
     self.searchMode = NO;
 
@@ -100,69 +109,80 @@
     }
 }
 
+- (IBAction)retryButtonPressed:(UIStateButton *)sender {
+    [self loadObjects];
+}
+
 #pragma mark - Data Methods -
 
 - (void)loadObjects {
-    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+    NetworkStatus networkStatus = [self.networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        self.noConnectionView.hidden = NO;
+    } else {
+        self.noConnectionView.hidden = YES;
 
-    if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
-        language = @"en"; // Set to default language
-    }
+        NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
 
-    [PFCloud callFunctionInBackground:@"getCategories"
-                       withParameters:@{@"language": language}
-                                block:^(NSString *json, NSError *error)
-     {
-         if (error) {
-             [self.refreshControl endRefreshing];
-             if ([ParseValidation validateError:error]) {
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             }
-         } else {
-             [self._dictionary removeAllObjects];
-             [self._headers removeAllObjects];
+        if (![language isEqualToString:@"es"] && ![language isEqualToString:@"en"]) {
+            language = @"en"; // Set to default language
+        }
 
-             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&error];
+        [PFCloud callFunctionInBackground:@"getCategories"
+                           withParameters:@{@"language": language}
+                                    block:^(NSString *json, NSError *error)
+         {
              if (error) {
-                 // Show error
                  [self.refreshControl endRefreshing];
-             } else {
-                 NSUInteger size = [results count];
-
-                 for (int i = 0; i < size; i++) {
-                     NSDictionary *object = [results objectAtIndex:i];
-
-                     nHeaderTitle *title = [[nHeaderTitle alloc] init];
-                     title.headerName = [object objectForKey:@"tn"];
-                     [self._headers addObject:title];
-
-                     NSArray *categories = [object objectForKey:@"cat"];
-                     NSMutableArray *categoriesInSection = [NSMutableArray arrayWithCapacity:2];
-                     NSUInteger categoriesSize = [categories count];
-
-                     for (int h = 0; h < categoriesSize; h++) {
-                         NSDictionary *category = [categories objectAtIndex:h];
-
-                         nCategory *categoryReg = [[nCategory alloc] init];
-                         categoryReg.objectId = [category objectForKey:@"ob"];
-                         categoryReg.name = [category objectForKey:@"na"];
-                         categoryReg.avatarUrl = [category objectForKey:@"th"];
-
-                         [categoriesInSection addObject:categoryReg];
-                     }
-
-                     [self._dictionary setObject:categoriesInSection
-                                          forKey:[NSNumber numberWithInt:i]];
+                 if ([ParseValidation validateError:error]) {
+                     [ParseValidation _handleInvalidSessionTokenError:self];
                  }
+             } else {
+                 [self._dictionary removeAllObjects];
+                 [self._headers removeAllObjects];
 
-                 [self.refreshControl endRefreshing];
-                 [self.tableView reloadData];
+                 NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+                 NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                    options:NSJSONReadingMutableContainers
+                                                                      error:&error];
+                 if (error) {
+                     // Show error
+                     [self.refreshControl endRefreshing];
+                 } else {
+                     NSUInteger size = [results count];
+
+                     for (int i = 0; i < size; i++) {
+                         NSDictionary *object = [results objectAtIndex:i];
+
+                         nHeaderTitle *title = [[nHeaderTitle alloc] init];
+                         title.headerName = [object objectForKey:@"tn"];
+                         [self._headers addObject:title];
+
+                         NSArray *categories = [object objectForKey:@"cat"];
+                         NSMutableArray *categoriesInSection = [NSMutableArray arrayWithCapacity:2];
+                         NSUInteger categoriesSize = [categories count];
+
+                         for (int h = 0; h < categoriesSize; h++) {
+                             NSDictionary *category = [categories objectAtIndex:h];
+
+                             nCategory *categoryReg = [[nCategory alloc] init];
+                             categoryReg.objectId = [category objectForKey:@"ob"];
+                             categoryReg.name = [category objectForKey:@"na"];
+                             categoryReg.avatarUrl = [category objectForKey:@"th"];
+
+                             [categoriesInSection addObject:categoryReg];
+                         }
+                         
+                         [self._dictionary setObject:categoriesInSection
+                                              forKey:[NSNumber numberWithInt:i]];
+                     }
+                     
+                     [self.refreshControl endRefreshing];
+                     [self.tableView reloadData];
+                 }
              }
-         }
-     }];
+         }];
+    }
 }
 
 - (void)_refreshControlValueChanged:(UIRefreshControl *)refreshControl {

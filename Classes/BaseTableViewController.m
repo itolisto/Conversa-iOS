@@ -8,7 +8,6 @@
 
 #import "BaseTableViewController.h"
 
-#import "Reachability.h"
 #import "NSFileManager+Conversa.h"
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -20,27 +19,66 @@
 
 #pragma mark - Lifecycle Methods -
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.networkReachability = [Reachability reachabilityForInternetConnection];
+    [self.networkReachability startNotifier];
+}
+
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    [self.networkReachability startNotifier];
+//}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [CustomAblyRealtime sharedInstance].delegate = self;
 
-    if (self.navigationController != nil) {
-        Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-        NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-        if (networkStatus == NotReachable) {
-            [WhisperBridge showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                                   titleColor:[UIColor whiteColor]
-                              backgroundColor:[UIColor redColor]
-                       toNavigationController:self.navigationController];
-        } else {
-            [WhisperBridge hidePermanentShout:self.navigationController];
+    __weak typeof(self) wself = self;
+
+    self.networkReachability.reachableBlock = ^(Reachability *reachability) {
+        typeof(self)sSelf = wself;
+        if (sSelf) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [sSelf yesconnection];
+            });
         }
+    };
+
+    self.networkReachability.unreachableBlock = ^(Reachability *reachability) {
+        typeof(self)sSelf = wself;
+        if (sSelf) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [sSelf noConnection];
+            });
+        }
+    };
+}
+
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    [self.networkReachability stopNotifier];
+//}
+
+- (void)noConnection {
+    if (self.navigationController != nil) {
+        [[WhisperBridge sharedInstance] showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
+                                                titleColor:[UIColor whiteColor]
+                                           backgroundColor:[UIColor redColor]
+                                    toNavigationController:self.navigationController];
+    }
+}
+
+- (void)yesconnection {
+    if (self.navigationController != nil) {
+        [[WhisperBridge sharedInstance] hidePermanentShout:self.navigationController];
     }
 }
 
 - (void)dealloc
 {
+    [self.networkReachability stopNotifier];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -101,13 +139,13 @@
                          CFRelease(cfString);
                      }
 
-                     [WhisperBridge shout:from.displayName
-                                 subtitle:text
-                          backgroundColor:[UIColor clearColor]
-                   toNavigationController:self.navigationController
-                                    image:image
-                             silenceAfter:1.8
-                                   action:nil];
+                     [[WhisperBridge sharedInstance] shout:from.displayName
+                                                  subtitle:text
+                                           backgroundColor:[UIColor clearColor]
+                                    toNavigationController:self.navigationController
+                                                     image:image
+                                              silenceAfter:1.8
+                                                    action:nil];
                  });
              });
          }

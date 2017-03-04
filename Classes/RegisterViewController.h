@@ -7,7 +7,9 @@
 //
 
 @import UIKit;
+#import <SafariServices/SafariServices.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
-@interface RegisterViewController : UIViewController <UIGestureRecognizerDelegate, UITextFieldDelegate>
+@interface RegisterViewController : UIViewController <TTTAttributedLabelDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, SFSafariViewControllerDelegate>
 
 @end

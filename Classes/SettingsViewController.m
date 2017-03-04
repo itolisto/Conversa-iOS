@@ -50,7 +50,9 @@
 }
 
 - (void)dealloc {
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:customerDisplayName context:NULL];
+    @try{
+        [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:customerDisplayName context:NULL];
+    }@catch(id ignored){}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {

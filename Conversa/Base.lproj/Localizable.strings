@@ -1,3 +1,183 @@
+
+/* No comment provided by engineer. */
+"categories_searchbar_placeholder" = "Search for businesses, stores, etc";
+
+"category" = "Category";
+
+/* No comment provided by engineer. */
+"category_results_empty" = "No results found";
+
+/* No comment provided by engineer. */
+"category_results_error" = "Uphs, please try again";
+
+/* No comment provided by engineer. */
+"chats_alert_action_clear_conversation" = "Clear conversation";
+
+/* No comment provided by engineer. */
+"chats_alert_action_mute" = "Mute";
+
+/* No comment provided by engineer. */
+"chats_alert_action_one_day" = "1 day";
+
+/* No comment provided by engineer. */
+"chats_alert_action_three_day" = "3 days";
+
+/* No comment provided by engineer. */
+"chats_alert_action_twelve_hours" = "12 hours";
+
+/* No comment provided by engineer. */
+"chats_alert_action_unmute" = "Unmute";
+
+/* No comment provided by engineer. */
+"chats_cell_action_delete" = "Delete";
+
+/* No comment provided by engineer. */
+"chats_cell_action_title" = "More";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_audio" = "Audio";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_empty" = "Start chatting";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_image" = "Image";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_location" = "Location";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_message" = "Message";
+
+/* No comment provided by engineer. */
+"chats_cell_conversation_video" = "Video";
+
+"chats_cell_date_now" = "Now";
+
+/* No comment provided by engineer. */
+"chats_cell_date_yesterday" = "Yesterday";
+
+/* No comment provided by engineer. */
+"common_action_cancel" = "Cancel";
+
+/*
+ * Common strings
+ */
+"common_action_done" = "Done";
+
+/* No comment provided by engineer. */
+"common_field_invalid" = "Invalid field";
+
+/* No comment provided by engineer. */
+"common_field_required" = "Required field";
+
+/* No comment provided by engineer. */
+"conversation_active_day" = "day";
+
+/* No comment provided by engineer. */
+"conversation_active_days" = "days";
+
+/* No comment provided by engineer. */
+"conversation_active_hour" = "hour";
+
+/* No comment provided by engineer. */
+"conversation_active_hours" = "hours";
+
+/* No comment provided by engineer. */
+"conversation_active_message" = "Active %1$@ %2$@ ago";
+
+/* No comment provided by engineer. */
+"conversation_active_message_now" = "Active now";
+
+/* No comment provided by engineer. */
+"conversation_active_minute" = "minute";
+
+/* No comment provided by engineer. */
+"conversation_active_minutes" = "minutes";
+
+/* No comment provided by engineer. */
+"conversation_active_week" = "week";
+
+/* No comment provided by engineer. */
+"conversation_active_weeks" = "weeks";
+
+/* No comment provided by engineer. */
+"conversation_active_year" = "year";
+
+/* No comment provided by engineer. */
+"conversation_active_years" = "years";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_camara_title" = "Image couldn't be saved";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_location_title" = "We couldn't find your location";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock" = "Unblock";
+
+/* No comment provided by engineer. */
+"conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
+
+/* No comment provided by engineer. */
+"conversation_inputtoolbar_placeholder" = "Write a message";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_copy" = "Copy";
+
+/* No comment provided by engineer. */
+"conversation_menu_item_delete" = "Delete";
+
+/* No comment provided by engineer. */
+"conversation_message_info_downloading" = "Downloading";
+
+/* No comment provided by engineer. */
+"conversation_message_info_failed" = "Failed";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sending" = "Sending";
+
+/* No comment provided by engineer. */
+"conversation_message_info_sent" = "Sent";
+
+/* No comment provided by engineer. */
+"conversation_message_info_uploading" = "Uploading";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_camara" = "Camara";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_library" = "Library";
+
+/* No comment provided by engineer. */
+"conversation_more_alert_action_location" = "Send location";
+
+/* No comment provided by engineer. */
+"conversation_subtitle_writing" = "typing...";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_delete" = "Delete";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_map" = "Show map";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_play" = "Play";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_resend" = "Resend";
+
+/* No comment provided by engineer. */
+"conversation_unsent_alert_action_view" = "View image";
+
+/* No comment provided by engineer. */
+"mapview_controller_title" = "Map";
+
+/* No comment provided by engineer. */
+"no_internet_connection_message" = "No internet connection";
+
+"profile_share_text" = "Chat now with %1s, follow the link %2s";
+
 /* 
   Localizable.strings
   Conversa
@@ -6,106 +186,77 @@
   Copyright © 2016 Conversa. All rights reserved.
 */
 "recover_password_failed_message" = "Couldn't find any email assocciated with this account";
+
+/* No comment provided by engineer. */
 "recover_password_sent_message" = "Password recovery link sent";
-"sign_failed_message" = "Email and password didn't match any account";
-"signup_email_error" = "This email is\nalready taken";
-"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
 
-"token_session_error" = "Another device has started session, this device will log out";
-"no_internet_connection_message" = "No internet connection";
-
-"chats_cell_action_title" = "More";
-"chats_cell_action_delete" = "Delete";
-"chats_alert_action_unmute" = "Unmute";
-"chats_alert_action_mute" = "Mute";
-"chats_alert_action_clear_conversation" = "Clear conversation";
-"chats_alert_action_twelve_hours" = "12 hours";
-"chats_alert_action_one_day" = "1 day";
-"chats_alert_action_three_day" = "3 days";
-
-"chats_cell_conversation_location" = "Location";
-"chats_cell_conversation_image" = "Image";
-"chats_cell_conversation_video" = "Video";
-"chats_cell_conversation_audio" = "Audio";
-"chats_cell_conversation_message" = "Message";
-"chats_cell_conversation_empty" = "Start chatting";
-"chats_cell_date_now" = "Now";
-"chats_cell_date_yesterday" = "Yesterday";
-
-"conversation_active_minute" = "minute";
-"conversation_active_minutes" = "minutes";
-"conversation_active_hour" = "hour";
-"conversation_active_hours" = "hours";
-"conversation_active_day" = "day";
-"conversation_active_days" = "days";
-"conversation_active_week" = "week";
-"conversation_active_weeks" = "weeks";
-"conversation_active_year" = "year";
-"conversation_active_years" = "years";
-"conversation_active_message" = "Active %1$@ %2$@ ago";
-"conversation_active_message_now" = "Active now";
-"conversation_inputtoolbar_placeholder" = "Write a message";
-"conversation_menu_item_copy" = "Copy";
-"conversation_menu_item_delete" = "Delete";
-"conversation_more_alert_action_library" = "Library";
-"conversation_more_alert_action_camara" = "Camara";
-"conversation_more_alert_action_location" = "Send location";
-"conversation_message_info_sending" = "Sending";
-"conversation_message_info_uploading" = "Uploading";
-"conversation_message_info_downloading" = "Downloading";
-"conversation_message_info_sent" = "Sent";
-"conversation_message_info_failed" = "Failed";
-"conversation_subtitle_writing" = "typing...";
-"conversation_alert_action_unblock_title" = "Unblock this contact to send a message";
-"conversation_alert_action_unblock" = "Unblock";
-"conversation_alert_action_location_title" = "We couldn't find your location";
-"conversation_alert_action_camara_title" = "Image couldn't be saved";
-
-"conversation_unsent_alert_action_view" = "View image";
-"conversation_unsent_alert_action_map" = "Show map";
-"conversation_unsent_alert_action_play" = "Play";
-"conversation_unsent_alert_action_resend" = "Resend";
-"conversation_unsent_alert_action_delete" = "Delete";
-
-"categories_searchbar_placeholder" = "Search for businesses, stores, etc";
-"category" = "Category";
-
+/* No comment provided by engineer. */
 "search_section_title_recents" = "Recents";
+
+/* No comment provided by engineer. */
 "search_section_title_results" = "Results";
 
-"category_results_error" = "Uphs, please try again";
-"category_results_empty" = "No results found";
+/* No comment provided by engineer. */
+"settings_account_alert_change_empty_title" = "Field can't be empty";
 
-"mapview_controller_title" = "Map";
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_changed" = "Name changed";
 
-"profile_share_text" = "Chat now with %1s, follow the link %2s";
+/* No comment provided by engineer. */
+"settings_account_alert_displayname_not_changed" = "Name not changed";
 
-"settings_home_profile_hi" = "Hi";
-"settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it.";
+/* No comment provided by engineer. */
+"settings_account_alert_password_action_change" = "Change";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_changed" = "Password changed";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_not_changed" = "Password not changed";
+
+/* No comment provided by engineer. */
+"settings_account_alert_password_title" = "Are you sure you want to change your password?";
+
+"settings_account_blocked_contact" = "contacts";
 
 "settings_account_blocked_loading" = "Loading";
-"settings_account_alert_change_empty_title" = "Field can't be empty";
-"settings_account_alert_password_title" = "Are you sure you want to change your password?";
-"settings_account_alert_password_action_change" = "Change";
-"settings_account_alert_password_changed" = "Password changed";
-"settings_account_alert_password_not_changed" = "Password not changed";
-"settings_account_alert_displayname_changed" = "Name changed";
-"settings_account_alert_displayname_not_changed" = "Name not changed";
+
 "settings_account_blocked_none" = "None";
+
 "settings_account_blocked_one" = "1 contact";
-"settings_account_blocked_contact" = "contacts";
-"settings_account_recents_title" = "Clear recent searches";
-"settings_account_recents_alert_action_clean" = "Clear";
+
+/* No comment provided by engineer. */
 "settings_account_logout_alert_action_logout" = "Log Out";
 
+/* No comment provided by engineer. */
+"settings_account_recents_alert_action_clean" = "Clear";
+
+/* No comment provided by engineer. */
+"settings_account_recents_title" = "Clear recent searches";
+
+/* No comment provided by engineer. */
 "settings_chat_quality_alert_action_high" = "High";
-"settings_chat_quality_alert_action_medium" = "Medium";
+
+/* No comment provided by engineer. */
 "settings_chat_quality_alert_action_low" = "Low";
 
-/*
- * Common strings
- */
-"common_action_done" = "Done";
-"common_action_cancel" = "Cancelar";
-"common_field_required" = "Required field";
-"common_field_invalid" = "Invalid field";
+/* No comment provided by engineer. */
+"settings_chat_quality_alert_action_medium" = "Medium";
+
+/* No comment provided by engineer. */
+"settings_home_profile_hi" = "Hi";
+
+/* No comment provided by engineer. */
+"settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it.";
+
+/* No comment provided by engineer. */
+"sign_failed_message" = "Email and password didn't match any account";
+
+/* No comment provided by engineer. */
+"signup_complete_error" = "We couldn't process the request\nin this moment, try again later";
+
+/* No comment provided by engineer. */
+"signup_email_error" = "This email is\nalready taken";
+
+/* No comment provided by engineer. */
+"token_session_error" = "Another device has started session, this device will log out";

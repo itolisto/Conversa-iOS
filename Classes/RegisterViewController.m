@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *birthdayTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *genderControl;
 @property (weak, nonatomic) IBOutlet UIStateButton *signupButton;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *termsPrivacyLabel;
 @property (weak, nonatomic) UITextField *activeTextField;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -66,6 +67,49 @@
          forControlEvents:UIControlEventValueChanged];
 
     [self.birthdayTextField setInputView:datePicker];
+
+    NSMutableAttributedString* attrStr = [[NSMutableAttributedString alloc] initWithString:self.termsPrivacyLabel.text
+                                                                                attributes:nil];
+
+    NSString *language = [[[NSLocale preferredLanguages] objectAtIndex:0] substringToIndex:2];
+    NSRange start, startPrivacy;
+
+    if ([language isEqualToString:@"es"]) {
+        start = [self.termsPrivacyLabel.text rangeOfString:@"TERMINOS"];
+        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"POLITICAS"].location, 23);
+    } else {
+        start = [self.termsPrivacyLabel.text rangeOfString:@"TERMS"];
+        startPrivacy = NSMakeRange([self.termsPrivacyLabel.text rangeOfString:@"PRIVACY"].location, 16);
+    }
+
+    // Rest of Text normal
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}
+                     range:NSMakeRange(0, start.location)];
+    // Only "Y" (es) or "AND" (en) need a range because is in the middle
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}
+                     range:NSMakeRange(start.location + start.length, ([language isEqualToString:@"es"]) ? 3 : 5)];
+    // Green
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[Colors green]}
+                     range:start];
+    [attrStr setAttributes:@{NSForegroundColorAttributeName:[Colors green]}
+                     range:startPrivacy];
+
+    self.termsPrivacyLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+
+    NSURL *url = [NSURL URLWithString:@"http://conversachat.com/terms"];
+    NSURL *urlPrivacy = [NSURL URLWithString:@"http://conversachat.com/privacy"];
+
+    [self.termsPrivacyLabel addLinkToURL:url withRange:start];
+    [self.termsPrivacyLabel addLinkToURL:urlPrivacy withRange:startPrivacy];
+    self.termsPrivacyLabel.attributedText = attrStr;
+    self.termsPrivacyLabel.delegate = self;
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    SFSafariViewController *svc = [[SFSafariViewController alloc]initWithURL:url
+                                                     entersReaderIfAvailable:NO];
+    svc.delegate = self;
+    [self presentViewController:svc animated:YES completion:nil];
 }
 
 #pragma mark - Observer Methods -

@@ -134,7 +134,7 @@
                          newBuddy.conversaId = [business valueForKey:@"cn"];
                          newBuddy.about = [business valueForKey:@"ab"];
 
-                         if ([business respondsToSelector:NSSelectorFromString(@"av")]) {
+                         if ([business valueForKey:@"av"]) {
                              newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
                          }
                          [businesses addObject:newBuddy];

@@ -61,12 +61,13 @@
 		A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86F1E109E1800ECC891 /* UIStateButton.m */; };
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
 		A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D1A1D53C8F300AA576A /* AppDelegate.m */; };
-		A55B5D241D53C8F300AA576A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D221D53C8F300AA576A /* Main.storyboard */; };
 		A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D251D53C8F300AA576A /* Assets.xcassets */; };
-		A55B5D291D53C8F300AA576A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */; };
 		A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */; };
 		A571285F1E5EA44200B80D87 /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A571285E1E5EA44200B80D87 /* Business.m */; };
-		A59544531E09E340002057B9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A59544551E09E340002057B9 /* InfoPlist.strings */; };
+		A59307441E5FBAE300083665 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D221D53C8F300AA576A /* Main.storyboard */; };
+		A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */; };
+		A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A59544551E09E340002057B9 /* InfoPlist.strings */; };
+		A59307471E5FBAE300083665 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F8BC101DD59D40008BD50B /* Localizable.strings */; };
 		A59F4CE11DD786FA005491B2 /* ParseValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = A59F4CE01DD786FA005491B2 /* ParseValidation.m */; };
 		A59F4CE41DD78AE2005491B2 /* CustomCategoryHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A59F4CE31DD78AE2005491B2 /* CustomCategoryHeaderCell.m */; };
 		A59F4CE81DD7AB7D005491B2 /* nHeaderTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = A59F4CE71DD7AB7D005491B2 /* nHeaderTitle.m */; };
@@ -77,7 +78,6 @@
 		A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */; };
 		A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */; };
 		A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */; };
-		A5F8BC0E1DD59D40008BD50B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5F8BC101DD59D40008BD50B /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,7 +178,6 @@
 		A53962911D70B83900D557FE /* OneSignalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalController.m; sourceTree = "<group>"; };
 		A53962921D70B83900D557FE /* OneSignalService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalService.m; sourceTree = "<group>"; };
 		A53962931D70B83900D557FE /* OneSignalService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalService.h; sourceTree = "<group>"; };
-		A54703C71E272C180090A073 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		A54703CA1E2753E30090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86E1E109E1800ECC891 /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A547C86F1E109E1800ECC891 /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
@@ -195,6 +194,7 @@
 		A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
 		A571285D1E5EA44200B80D87 /* Business.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Business.h; sourceTree = "<group>"; };
 		A571285E1E5EA44200B80D87 /* Business.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Business.m; sourceTree = "<group>"; };
+		A59307481E5FBFB700083665 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A59544541E09E340002057B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A59544561E09E342002057B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A59F4CDF1DD786FA005491B2 /* ParseValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseValidation.h; sourceTree = "<group>"; };
@@ -616,6 +616,7 @@
 				A55B5D101D53C8F300AA576A /* Frameworks */,
 				A55B5D111D53C8F300AA576A /* Resources */,
 				A54F51FF1DD5630D008BF9FB /* Fabric */,
+				A59307431E5FB67F00083665 /* Localization BartyCrouch */,
 			);
 			buildRules = (
 			);
@@ -639,6 +640,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = K5WP7YH5E4;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -647,6 +649,9 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};
@@ -658,7 +663,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				es,
 			);
@@ -677,13 +681,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
+				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
+				A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */,
+				A59307471E5FBAE300083665 /* Localizable.strings in Resources */,
 				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
-				A55B5D291D53C8F300AA576A /* LaunchScreen.storyboard in Resources */,
-				A59544531E09E340002057B9 /* InfoPlist.strings in Resources */,
 				A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */,
-				A5F8BC0E1DD59D40008BD50B /* Localizable.strings in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
-				A55B5D241D53C8F300AA576A /* Main.storyboard in Resources */,
 				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -734,6 +738,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+		};
+		A59307431E5FB67F00083665 /* Localization BartyCrouch */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Localization BartyCrouch";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which bartycrouch > /dev/null; then\n    # Incrementally update all Storyboards/XIBs strings files\n    bartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n    # Add new keys to Localizable.strings files from NSLocalizedString in code\n    bartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/Conversa\" -a -s\nelse\n    echo \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
 		CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -829,7 +847,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A55B5D231D53C8F300AA576A /* Base */,
-				A54703C71E272C180090A073 /* es */,
+				A59307481E5FBFB700083665 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -963,6 +981,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -988,6 +1007,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = Conversa/Info.plist;

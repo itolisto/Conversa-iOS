@@ -23,8 +23,8 @@
 
 #import "ConversationViewController.h"
 
+@import AVKit;
 @import YapDatabase;
-@import MediaPlayer;
 @import AVFoundation;
 #import "Log.h"
 #import "Image.h"
@@ -40,6 +40,7 @@
 #import "YapMessage.h"
 #import "SettingsKeys.h"
 #import "DatabaseView.h"
+#import "UIStateButton.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "NSNumber+Conversa.h"
@@ -47,6 +48,7 @@
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
 #import "CategoriesViewController.h"
+#import "ProfileDialogViewController.h"
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -102,9 +104,7 @@
     // Bar tint
     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
 
-    /**
-     *  Set up message accessory button delegate and configuration
-     */
+    // Set up message accessory button delegate and configuration
     self.inputToolbar.contentView.textView.pasteDelegate = self;
     self.automaticallyScrollsToMostRecentMessage = YES;
     
@@ -209,18 +209,16 @@
     if (parent == nil) {
         UIViewController *last = [self.navigationController.viewControllers firstObject];
         if (last) {
-            if ([last isKindOfClass:[ChatsViewController class]]) {
-                self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
-                self.navigationController.navigationBar.tintColor = [Colors white];
-            } else if ([last isKindOfClass:[CategoriesViewController class]]) {
+            if ([last isKindOfClass:[CategoriesViewController class]]) {
                 if (((CategoriesViewController*)last).searchMode) {
                     self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
                     self.navigationController.navigationBar.tintColor = [Colors black];
-                } else {
-                    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
-                    self.navigationController.navigationBar.tintColor = [Colors white];
+                    return;
                 }
             }
+
+            self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+            self.navigationController.navigationBar.tintColor = [Colors white];
         }
     }
 }
@@ -477,14 +475,24 @@
     [customLeftButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     self.inputToolbar.contentView.leftBarButtonItem = customLeftButton;
 
-    UIButton *customRightButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    customRightButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    customRightButton.backgroundColor = [UIColor clearColor];
+    // Add sign up button properties
+    UIStateButton *customRightButton = [UIStateButton buttonWithType:UIButtonTypeCustom];
     customRightButton.frame = CGRectMake(0, 0, 32, 32);
     customRightButton.layer.cornerRadius = customRightButton.frame.size.width / 2;
-    UIImage * sendImage = [UIImage imageNamed:@"ic_send"];
-    [customRightButton setContentMode:UIViewContentModeScaleAspectFit];
-    [customRightButton setBackgroundImage:sendImage forState:UIControlStateNormal];
+    customRightButton.clipsToBounds = YES;
+
+    [customRightButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
+    [customRightButton setBackgroundColor:[Colors darkerGreen] forState:UIControlStateHighlighted];
+    [customRightButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+
+    UIImage *sendImage = [UIImage imageNamed:@"ic_send"];
+    UIImage *scaledImage = [UIImage imageWithCGImage:[sendImage CGImage]
+                                               scale:(sendImage.scale * 1.2)
+                                         orientation:(sendImage.imageOrientation)];
+    [customRightButton setImage:scaledImage forState:UIControlStateNormal];
+    [customRightButton setImage:scaledImage forState:UIControlStateDisabled];
+    [customRightButton setImage:scaledImage forState:UIControlStateHighlighted];
+
     self.inputToolbar.contentView.rightBarButtonItem = customRightButton;
 }
 
@@ -995,9 +1003,7 @@
                 if (mediaItem.status == STATUS_FAILED) {
                 
                 } else if (mediaItem.status == STATUS_SUCCEED) {
-                    MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                    [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                    [moviePlayer.moviePlayer play];
+                    [self playMediaWithURL:mediaItem.fileURL];
                 }
             } else if ([message.media isKindOfClass:[JSQLocationMediaItem class]]) {
                 JSQLocationMediaItem *mediaItem = (JSQLocationMediaItem *)message.media;
@@ -1009,9 +1015,7 @@
                 if (mediaItem.status == STATUS_FAILED) {
 
                 } else if (mediaItem.status == STATUS_SUCCEED) {
-                    MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                    [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                    [moviePlayer.moviePlayer play];
+                    [self playMediaWithURL:mediaItem.fileURL];
                 }
             }
         }
@@ -1101,13 +1105,13 @@
                              CFRelease(cfString);
                          }
 
-                         [WhisperBridge shout:from.displayName
-                                     subtitle:text
-                              backgroundColor:[UIColor clearColor]
-                       toNavigationController:self.navigationController
-                                        image:image
-                                 silenceAfter:1.8
-                                       action:nil];
+                         [[WhisperBridge sharedInstance] shout:from.displayName
+                                                      subtitle:text
+                                               backgroundColor:[UIColor clearColor]
+                                        toNavigationController:self.navigationController
+                                                         image:image
+                                                  silenceAfter:1.8
+                                                        action:nil];
                      });
                  });
              }
@@ -1148,6 +1152,8 @@
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
 
         if ([self.inputToolbar.contentView.textView hasText]) {
+            //self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
+
             if (!self.typingFlag) {
                 self.typingFlag = YES;
                 [[CustomAblyRealtime sharedInstance] sendTypingStateOnChannel:[self.buddy getPublicChannel]
@@ -1158,6 +1164,8 @@
                        withObject:self
                        afterDelay:kWaitingTimeInSeconds];
         } else {
+            //self.inputToolbar.contentView.rightBarButtonItem.enabled = NO;
+
             [self performSelector:@selector(userHasEndedTyping)
                        withObject:self
                        afterDelay:0];
@@ -1178,7 +1186,14 @@
 }
 
 - (IBAction)goToProfile:(id)sender {
-    // TODO: Implement action for profile tap
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ProfileDialogViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"profileVIewController"];
+    destinationViewController.objectId = self.buddy.uniqueId;
+    destinationViewController.avatarUrl = self.buddy.avatarThumbFileId;
+    destinationViewController.displayName = self.buddy.displayName;
+    destinationViewController.conversaID = self.buddy.conversaId;
+    destinationViewController.enable = NO;
+    [self.navigationController presentViewController:destinationViewController animated:YES completion:nil];
 }
 
 - (void)showUnblockMessage {
@@ -1222,6 +1237,30 @@
     [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
         [message removeWithTransaction:transaction];
     }];
+}
+
+- (void)playMediaWithURL:(NSURL*)mediaUrl {
+    // Create an AVPlayer
+    AVPlayer *moviePlayer = [AVPlayer playerWithURL:mediaUrl];
+    // Option: 1
+    //    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:mediaUrl];
+    //    moviePlayer = [AVPlayer playerWithPlayerItem:playerItem];
+    //    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:moviePlayer];
+    //    layer.frame = CGRectMake(0, 0, 320 , 480);
+    //    [self.view.layer addSublayer: layer];
+    //    moviePlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    //    [moviePlayer play];
+    // Option 2
+    // Create a player view controller
+    AVPlayerViewController *controller = [[AVPlayerViewController alloc]init];
+    // Show the view controller
+    controller.view.frame = self.view.frame;
+    [self presentViewController:controller animated:YES completion:nil];
+    // Play
+    controller.player = moviePlayer;
+    moviePlayer.closedCaptionDisplayEnabled = NO;
+    moviePlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    [moviePlayer play];
 }
 
 #pragma mark - Send messages Methods -
@@ -1663,10 +1702,7 @@
                                        style:UIAlertActionStyleDefault
                                        handler:^(UIAlertAction * action) {
                                            AudioMediaItem *mediaItem = (AudioMediaItem *)jsqMessage.media;
-                                           MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc] initWithContentURL:mediaItem.fileURL];
-                                           [view dismissViewControllerAnimated:YES completion:nil];
-                                           [self presentMoviePlayerViewControllerAnimated:moviePlayer];
-                                           [moviePlayer.moviePlayer play];
+                                           [self playMediaWithURL:mediaItem.fileURL];
                                        }];
             [view addAction:audio];
             

@@ -59,14 +59,17 @@
     // Active
     self.clickHereLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
 
-    NSURL *url = [NSURL URLWithString:@"http://en.wikipedia.org"];
+    NSURL *url = [NSURL URLWithString:@"http://conversa.link/manager"];
     [self.clickHereLabel addLinkToURL:url withRange:end];
     self.clickHereLabel.attributedText = attrStr;
     self.clickHereLabel.delegate = self;
 }
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    NSLog(@"%@", url);
+    SFSafariViewController *svc = [[SFSafariViewController alloc]initWithURL:url
+                                                     entersReaderIfAvailable:NO];
+    svc.delegate = self;
+    [self presentViewController:svc animated:YES completion:nil];
 }
 
 @end

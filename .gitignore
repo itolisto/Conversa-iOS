@@ -10,3 +10,4 @@ DerivedData
 *.xccheckout
 Podfile.lock
 /Pods/
+tmpstrings

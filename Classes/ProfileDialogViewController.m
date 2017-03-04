@@ -88,7 +88,6 @@
 
     if (!_enable) {
         self.chatButton.enabled = NO;
-        self.chatImageView.image = [UIImage imageNamed:@""];
     }
 
     [PFCloud callFunctionInBackground:@"getBusinessProfile"

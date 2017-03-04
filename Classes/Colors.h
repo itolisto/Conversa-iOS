@@ -24,6 +24,8 @@
 + (UIColor*)profileOffline;
 + (UIColor*)profileAway;
 
++ (UIColor*)darkerGreen;
+
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value;
 
 @end

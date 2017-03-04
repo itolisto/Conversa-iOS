@@ -59,12 +59,12 @@
 
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        //configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        //configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        //configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
-        configuration.applicationId = @"b15c83";
-        configuration.server = @"http://localhost:1337/parse";
+//        configuration.applicationId = @"b15c83";
+//        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -97,28 +97,91 @@
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
 
-    __block BOOL fromBranch = NO;
-    __block NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
-
     Branch *branch = [Branch getInstance];
+    [branch disableCookieBasedMatching];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && params) {
-            // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
-            // params will be empty if no data found
-            // ... insert custom logic here ...
-            // Change view controller to go
-            //NSLog(@"deep link data: %@", params);
+            Account *account = [Account currentUser];
 
-            if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] != [NSNull null])
+            if (account == nil) {
+                return;
+            }
+
+            if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == true)
             {
-                if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES) {
-                    NSLog(@"deep link clicked");
-                    if ([params objectForKey:@"goConversa"] && [params objectForKey:@"goConversa"] != [NSNull null]) {
-                        fromBranch = YES;
+                if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES)
+                {
+                    if ([params objectForKey:@"goConversa"])
+                    {
+                        NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
                         [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
                         [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
                         [branchInfo setObject:[params objectForKey:@"conversaid"] forKey:@"conversaid"];
                         [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                        // Define controller to take action
+                        __block YapContact *bs = nil;
+
+                        [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                            bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
+                        }];
+
+                        // Get reference to the destination view controller
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
+
+                        // Pass any objects to the view controller here, like...
+                        if (bs) {
+                            [destinationViewController initWithBuddy:bs];
+                        } else {
+                            YapContact *business = [[YapContact alloc] initWithUniqueId:[branchInfo objectForKey:@"objectId"]];
+                            business.displayName = [branchInfo objectForKey:@"name"];
+                            business.conversaId = [branchInfo objectForKey:@"conversaid"];
+                            [destinationViewController initWithBusiness:business
+                                                          withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
+                        }
+
+                        UIViewController *controller = [self topViewController];
+
+                        if (controller) {
+                            if ([controller isKindOfClass:[ConversationViewController class]]) {
+                                // DO NOTHING
+                            } else if ([controller isKindOfClass:[UITabBarController class]]) {
+                                UITabBarController *tbcontroller = (UITabBarController*)controller;
+                                UIViewController *scontroller = [tbcontroller selectedViewController];
+
+                                if ([scontroller isKindOfClass:[UINavigationController class]]) {
+                                    UINavigationController *navcontroller = (UINavigationController*)scontroller;
+
+                                    if (navcontroller.isNavigationBarHidden) {
+                                        navcontroller.navigationBarHidden = NO;
+                                    }
+
+                                    [navcontroller pushViewController:destinationViewController
+                                                             animated:YES];
+                                } else {
+                                    // scontroller is a uiviewcontroller
+                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scontroller];
+
+                                    [navController pushViewController:destinationViewController
+                                                             animated:YES];
+                                }
+                            } else if ([controller isKindOfClass:[UINavigationController class]]) {
+                                UINavigationController *navcontroller = (UINavigationController*)controller;
+                                [navcontroller pushViewController:destinationViewController
+                                                         animated:YES];
+                            } else {
+                                if (controller.navigationController) {
+                                    [controller.navigationController pushViewController:destinationViewController
+                                                                               animated:YES];
+                                } else {
+                                    // Create UINavigationController if not exists
+                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+
+                                    [navController pushViewController:destinationViewController
+                                                             animated:YES];
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -129,7 +192,7 @@
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
-    rootViewController = [self defaultNavigationController:fromBranch branch:branchInfo];
+    rootViewController = [self defaultNavigationController];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = rootViewController;
     // Make the receiver the main window and displays it in front of other windows
@@ -140,7 +203,7 @@
     return YES;
 }
 
-- (UIViewController*)defaultNavigationController:(BOOL)fromBranch branch:(NSDictionary*)branchInfo
+- (UIViewController*)defaultNavigationController
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
@@ -160,32 +223,7 @@
      * 4. Propiedad Storyboard ID se escribe nombre
      */
     if (hasAccount) {
-        if (fromBranch) {
-            __block YapContact *bs = nil;
-
-            [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
-            }];
-
-            // Get reference to the destination view controller
-            ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
-
-            // Pass any objects to the view controller here, like...
-            if (bs) {
-                [destinationViewController initWithBuddy:bs];
-            } else {
-                Business *business = [Business objectWithoutDataWithObjectId:[branchInfo objectForKey:@"objectId"]];
-                business.displayName = [branchInfo objectForKey:@"name"];
-                business.conversaID = [branchInfo objectForKey:@"conversaid"];
-
-                [destinationViewController initWithBusiness:business
-                                              withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
-            }
-
-            return destinationViewController;
-        } else {
-            return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
-        }
+        return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
             return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];

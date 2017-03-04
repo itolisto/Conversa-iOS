@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -77,17 +77,17 @@
 				<key>NSIncludesSubdomains</key>
 				<string>YES</string>
 			</dict>
-			<key>localhost:1337</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<string>YES</string>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
 			<key>ec2-52-71-125-28.compute-1.amazonaws.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+			<key>localhost:1337</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<string>YES</string>
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
@@ -101,6 +101,7 @@
 	<string>$(PRODUCT_NAME) wants to access your photo library to send images</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

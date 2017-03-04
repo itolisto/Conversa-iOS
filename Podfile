@@ -18,9 +18,9 @@ target 'Conversa' do
     # Google Maps for iOS
     pod 'GoogleMaps'
     # Latest on develop
-    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'develop'
+    pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'release_7.3'
     # A fancy Obj-C wrapper for Cocoa System Sound Services
-    pod 'JSQSystemSoundPlayer'
+    # pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.

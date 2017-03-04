@@ -6,8 +6,9 @@
 //  Copyright © 2016 Conversa. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+#import <SafariServices/SafariServices.h>
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : UIViewController <SFSafariViewControllerDelegate>
 
 @end
