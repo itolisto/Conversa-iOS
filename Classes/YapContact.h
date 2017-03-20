@@ -25,7 +25,6 @@ extern const struct YapContactEdges {
 @property (nonatomic, strong) NSString *accountUniqueId; // Used to point to this account
 @property (nonatomic, strong) NSString *displayName;
 @property (nonatomic, strong) NSString *conversaId;
-@property (nonatomic, strong) NSString *about;
 @property (nonatomic, strong) NSString *composingMessageString;
 @property (nonatomic, strong) NSString *avatarThumbFileId;
 @property (nonatomic, strong) NSDate *lastMessageDate;

@@ -233,7 +233,9 @@
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{ }
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    NSLog(@"\n\n didReceiveLocalNotification: =>\n\n %@", notification);//[@"data"]
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -264,9 +266,31 @@
 
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"\n\n didReceiveRemoteNotification w/f: =>\n\n %@", userInfo);//[@"data"]
+    switch (application.applicationState) {
+        case UIApplicationStateInactive:
+            NSLog(@"\n\nInactive\n\n");
+            //Show the view with the content of the push
+            completionHandler(UIBackgroundFetchResultNewData);
+            break;
+        case UIApplicationStateBackground:
+            NSLog(@"\n\nBackground\n\n");
+            //Refresh the local model
+            completionHandler(UIBackgroundFetchResultNewData);
+            break;
+        case UIApplicationStateActive:
+            NSLog(@"\n\nActive\n\n");
+            //Show an in-app banner
+            completionHandler(UIBackgroundFetchResultNewData);
+            break;
+    }
 }
+
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+//    NSLog(@"\n\n didReceiveRemoteNotification: =>\n\n %@", userInfo);//[@"data"]
+//    [[OneSignalService sharedInstance] processMessage:userInfo];
+//}
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);

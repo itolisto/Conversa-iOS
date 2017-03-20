@@ -39,7 +39,6 @@ extern NSString *const kCustomerUserInfoKey;
 extern NSString *const kClassBusiness;
 extern NSString *const kBusinessBusinessInfoKey;
 extern NSString *const kBusinessDisplayNameKey;
-extern NSString *const kBusinessAboutKey;
 extern NSString *const kBusinessAvatarKey;
 extern NSString *const kBusinessConversaIdKey;
 extern NSString *const kBusinessActiveKey;

@@ -25,11 +25,6 @@
     [self.networkReachability startNotifier];
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    [self.networkReachability startNotifier];
-//}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -56,23 +51,22 @@
     };
 }
 
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [self.networkReachability stopNotifier];
-//}
-
 - (void)noConnection {
-    if (self.navigationController != nil) {
-        [[WhisperBridge sharedInstance] showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                                                titleColor:[UIColor whiteColor]
-                                           backgroundColor:[UIColor redColor]
-                                    toNavigationController:self.navigationController];
+    if ([self isKindOfClass:NSClassFromString(@"ChatsViewController")]) {
+        if (self.navigationController != nil) {
+            [[WhisperBridge sharedInstance] showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
+                                                    titleColor:[UIColor whiteColor]
+                                               backgroundColor:[UIColor redColor]
+                                        toNavigationController:self.navigationController];
+        }
     }
 }
 
 - (void)yesconnection {
-    if (self.navigationController != nil) {
-        [[WhisperBridge sharedInstance] hidePermanentShout:self.navigationController];
+    if ([self isKindOfClass:NSClassFromString(@"ChatsViewController")]) {
+        if (self.navigationController != nil) {
+            [[WhisperBridge sharedInstance] hidePermanentShout:self.navigationController];
+        }
     }
 }
 

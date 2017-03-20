@@ -56,4 +56,6 @@ target 'Conversa' do
     pod 'AFNetworking', '~> 3.0'
     # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
     pod 'TTTAttributedLabel'
+    # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods.
+    pod 'VTAcknowledgementsViewController'
 end

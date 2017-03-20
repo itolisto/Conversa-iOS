@@ -219,11 +219,6 @@ const struct YapContactEdges YapContactEdges = {
             update = YES;
         }
 
-        if (![newBuddy.about isEqualToString:business.about]) {
-            newBuddy.about = business.about;
-            update = YES;
-        }
-
         if (![newBuddy.avatarThumbFileId isEqualToString:business.avatarThumbFileId]) {
             newBuddy.avatarThumbFileId = business.avatarThumbFileId;
             update = YES;

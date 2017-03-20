@@ -62,6 +62,7 @@
     NSURL *url = [NSURL URLWithString:@"http://conversa.link/manager"];
     [self.clickHereLabel addLinkToURL:url withRange:end];
     self.clickHereLabel.attributedText = attrStr;
+    self.clickHereLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     self.clickHereLabel.delegate = self;
 }
 

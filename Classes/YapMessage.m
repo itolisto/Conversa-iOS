@@ -42,6 +42,7 @@ const struct YapMessageEdges YapMessageEdges = {
         self.delivered = statusUploading;
         self.messageType = kMessageTypeText;
         self.transferProgress = 0;
+        self.fromConversa = NO;
     }
     return self;
 }
@@ -61,6 +62,7 @@ const struct YapMessageEdges YapMessageEdges = {
         self.delivered = statusUploading;
         self.messageType = kMessageTypeText;
         self.transferProgress = 0;
+        self.fromConversa = NO;
     }
     return self;
 }

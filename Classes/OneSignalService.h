@@ -13,6 +13,7 @@
 
 + (OneSignalService *)sharedInstance;
 - (void)launchWithOptions:(NSDictionary *)launchOptions;
+- (void)processMessage:(NSDictionary*)additionalData;
 - (void)registerForPushNotifications;
 - (void)startTags;
 - (void)unsubscribeFromAllChannels;

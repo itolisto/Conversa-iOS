@@ -129,6 +129,9 @@
 "conversation_menu_item_delete" = "Eliminar";
 
 /* No comment provided by engineer. */
+"conversation_message_from_conversa" = "Por Agente Conversa";
+
+/* No comment provided by engineer. */
 "conversation_message_info_downloading" = "Descargando";
 
 /* No comment provided by engineer. */
@@ -197,6 +200,15 @@
 "search_section_title_results" = "Resultados";
 
 /* No comment provided by engineer. */
+"sett_help_dialog_agent_message" = "Buscando información de agente";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "No se pudo encontrar información, por favor intente de nuevo más tarde";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "Buscando información de soporte";
+
+/* No comment provided by engineer. */
 "settings_account_alert_change_empty_title" = "Campo no puede estar vacío";
 
 /* No comment provided by engineer. */
@@ -260,3 +272,6 @@
 
 /* No comment provided by engineer. */
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
+
+/* No comment provided by engineer. */
+"..." = "";

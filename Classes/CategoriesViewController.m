@@ -325,7 +325,6 @@
 }
 
 - (void)sendSearchRequest:(NSString*)searchText {
-    DDLogError(@"Search: %@", searchText);
     [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
                                                         object:nil
                                                       userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: searchText}];

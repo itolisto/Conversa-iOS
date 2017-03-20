@@ -381,7 +381,6 @@
         newBuddy.accountUniqueId = [Account currentUser].objectId;
         newBuddy.displayName = self.displayName;
         newBuddy.conversaId = self.conversaID;
-        //newBuddy.about = self.about;
         newBuddy.avatarThumbFileId = self.avatarUrl;
         [destinationViewController initWithBusiness:newBuddy withAvatarUrl:nil];
     }
@@ -466,7 +465,6 @@
             newBuddy.accountUniqueId = [Account currentUser].objectId;
             newBuddy.displayName = self.displayName;
             newBuddy.conversaId = self.conversaID;
-            //newBuddy.about = self.about;
             newBuddy.avatarThumbFileId = self.avatarUrl;
             [destinationViewController initWithBusiness:newBuddy withAvatarUrl:nil];
         }

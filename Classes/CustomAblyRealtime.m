@@ -188,7 +188,6 @@
 }
 
 - (void)onMessage:(NSDictionary *)results {
-    DDLogError(@"onMessage: message received --> %@", [results allKeys]);
     if ([results valueForKey:@"appAction"]) {
         int action = [[results valueForKey:@"appAction"] intValue];
         switch (action) {
@@ -211,7 +210,7 @@
                 if (buddy == nil) {
                     PFQuery *query = [Business query];
                     [query whereKey:kBusinessActiveKey equalTo:@(YES)];
-                    [query selectKeys:@[kBusinessDisplayNameKey, kBusinessConversaIdKey, kBusinessAboutKey, kBusinessAvatarKey]];
+                    [query selectKeys:@[kBusinessDisplayNameKey, kBusinessConversaIdKey, kBusinessAvatarKey]];
 
                     [query getObjectInBackgroundWithId:contactId block:^(PFObject * _Nullable object, NSError * _Nullable error)
                      {
@@ -226,18 +225,6 @@
                              newBuddy.accountUniqueId = [Account currentUser].objectId;
                              newBuddy.displayName = business.displayName;
                              newBuddy.conversaId = business.conversaID;
-
-                             @try {
-                                 if (business.about) {
-                                     newBuddy.about = business.about;
-                                 } else {
-                                     newBuddy.about = @"";
-                                 }
-                             } @catch (NSException *exception) {
-                                 newBuddy.about = @"";
-                             } @catch (id exception) {
-                                 newBuddy.about = @"";
-                             }
 
                              @try {
                                  if (business.avatar) {
@@ -360,6 +347,10 @@
     message.buddyUniqueId = contactId;
     message.messageType = messageType;
 
+    if ([results objectForKey:@"agent"]) {
+        message.fromConversa = YES;
+    }
+
     if ([[SettingsKeys getCustomerId] isEqualToString:contactId]) {
         message.incoming = NO;
     } else {
@@ -431,11 +422,11 @@
         [channel.presence updateClient:self.clientId
                                   data:@{@"isTyping": @(value), @"from": [SettingsKeys getCustomerId]}
                               callback:^(ARTErrorInfo * _Nullable error)
-         {
-             if (error) {
-                 DDLogError(@"Error sending typing state: %@", error);
-             }
-         }];
+        {
+            if (error) {
+                DDLogError(@"Error sending typing state: %@", error);
+            }
+        }];
     }
 }
 

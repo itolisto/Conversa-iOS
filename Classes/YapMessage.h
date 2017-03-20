@@ -43,6 +43,7 @@ extern const struct YapMessageEdges {
 @property (nonatomic, strong) CLLocation *location;     // For location
 @property (nonatomic, assign) NSInteger messageType;
 @property (nonatomic, assign) int transferProgress;
+@property (nonatomic, assign) BOOL fromConversa;
 
 @property (nonatomic, assign) CGFloat width;    // For Image
 @property (nonatomic, assign) CGFloat height;   // For Image

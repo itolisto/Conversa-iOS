@@ -19,7 +19,6 @@
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
 #import "CustomChatCell.h"
-#import "DatabaseManager.h"
 #import "OneSignalService.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"

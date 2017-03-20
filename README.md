@@ -16,4 +16,6 @@ Luego descargar e instalar las dependencias
 
     $ pod install
 
+Abrir Conversa.xcworkspace y construir proyecto (Command + B)
+
 **Listo para correr**

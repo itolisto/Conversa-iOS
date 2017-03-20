@@ -39,7 +39,6 @@ NSString *const kCustomerUserInfoKey = @"userInfo";
 NSString *const kClassBusiness           = @"Business";
 NSString *const kBusinessBusinessInfoKey = @"businessInfo";
 NSString *const kBusinessDisplayNameKey  = @"displayName";
-NSString *const kBusinessAboutKey   = @"about";
 NSString *const kBusinessAvatarKey   = @"avatar";
 NSString *const kBusinessConversaIdKey   = @"conversaID";
 NSString *const kBusinessActiveKey       = @"active";

@@ -132,7 +132,6 @@
                          newBuddy.accountUniqueId = [Account currentUser].objectId;
                          newBuddy.displayName = [business valueForKey:@"dn"];
                          newBuddy.conversaId = [business valueForKey:@"cn"];
-                         newBuddy.about = [business valueForKey:@"ab"];
 
                          if ([business valueForKey:@"av"]) {
                              newBuddy.avatarThumbFileId = [business valueForKey:@"av"];

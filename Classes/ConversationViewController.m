@@ -837,6 +837,9 @@
         } else if (!msg.isIncoming) {
             progressString = [NSString stringWithFormat:@"%@",
                               NSLocalizedString(@"conversation_message_info_sent", nil)];
+        } else if (msg.fromConversa) {
+            progressString = [NSString stringWithFormat:@"%@",
+                              NSLocalizedString(@"conversation_message_from_conversa", nil)];
         }
 
         if ([progressString length]) {
@@ -869,7 +872,7 @@
         || currentMessage.delivered == statusParseError) {
         return YES;
     } else if (currentMessage.isIncoming) {
-        return NO;
+        return (currentMessage.fromConversa);
     } else if (indexPath.item + 1 < [self.collectionView numberOfItemsInSection:indexPath.section]) {
         // At this point, is always sure that there is another message
         return ([self nextOutgoingMessage:indexPath]) ? NO : YES;
@@ -1187,7 +1190,7 @@
 
 - (IBAction)goToProfile:(id)sender {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ProfileDialogViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"profileVIewController"];
+    ProfileDialogViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"profileViewController"];
     destinationViewController.objectId = self.buddy.uniqueId;
     destinationViewController.avatarUrl = self.buddy.avatarThumbFileId;
     destinationViewController.displayName = self.buddy.displayName;

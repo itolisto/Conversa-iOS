@@ -129,6 +129,9 @@
 "conversation_menu_item_delete" = "Delete";
 
 /* No comment provided by engineer. */
+"conversation_message_from_conversa" = "By Conversa Agent";
+
+/* No comment provided by engineer. */
 "conversation_message_info_downloading" = "Downloading";
 
 /* No comment provided by engineer. */
@@ -197,6 +200,15 @@
 "search_section_title_results" = "Results";
 
 /* No comment provided by engineer. */
+"sett_help_dialog_agent_message" = "Retrieving agent information";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_message_error" = "Couldn't find informartion, please try again later";
+
+/* No comment provided by engineer. */
+"sett_help_dialog_support_message" = "Retrieving support information";
+
+/* No comment provided by engineer. */
 "settings_account_alert_change_empty_title" = "Field can't be empty";
 
 /* No comment provided by engineer. */
@@ -260,3 +272,6 @@
 
 /* No comment provided by engineer. */
 "token_session_error" = "Another device has started session, this device will log out";
+
+/* No comment provided by engineer. */
+"..." = "";

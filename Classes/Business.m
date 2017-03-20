@@ -14,7 +14,6 @@
 @implementation Business
 
 @dynamic conversaID;
-@dynamic about;
 @dynamic displayName;
 @dynamic avatar;
 

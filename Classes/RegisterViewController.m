@@ -95,13 +95,19 @@
                      range:startPrivacy];
 
     self.termsPrivacyLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
+    self.termsPrivacyLabel.linkAttributes = @{NSForegroundColorAttributeName: [Colors green],
+                                              NSUnderlineStyleAttributeName: [NSNumber numberWithBool:NO]
+                                              };
 
     NSURL *url = [NSURL URLWithString:@"http://conversachat.com/terms"];
     NSURL *urlPrivacy = [NSURL URLWithString:@"http://conversachat.com/privacy"];
 
+    self.termsPrivacyLabel.attributedText = attrStr;
+
     [self.termsPrivacyLabel addLinkToURL:url withRange:start];
     [self.termsPrivacyLabel addLinkToURL:urlPrivacy withRange:startPrivacy];
-    self.termsPrivacyLabel.attributedText = attrStr;
+
+    self.termsPrivacyLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
     self.termsPrivacyLabel.delegate = self;
 }
 
@@ -112,10 +118,15 @@
     [self presentViewController:svc animated:YES completion:nil];
 }
 
+#pragma mark - UIGestureRecognizerDelegate Method -
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return ![touch.view isKindOfClass:[TTTAttributedLabel class]];
+}
+
 #pragma mark - Observer Methods -
 
 - (void) dismissKeyboard {
-    //Causes the view (or one of its embedded text fields) to resign the first responder status.
     [self.view endEditing:YES];
 }
 

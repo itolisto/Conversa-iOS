@@ -19,67 +19,10 @@
 
 #pragma mark - Lifecycle Methods -
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.networkReachability = [Reachability reachabilityForInternetConnection];
-    [self.networkReachability startNotifier];
-}
-
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    [self.networkReachability startNotifier];
-//}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [CustomAblyRealtime sharedInstance].delegate = self;
-
-    __weak typeof(self) wself = self;
-
-    self.networkReachability.reachableBlock = ^(Reachability *reachability) {
-        typeof(self)sSelf = wself;
-        if (sSelf) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [sSelf yesconnection];
-            });
-        }
-    };
-
-    self.networkReachability.unreachableBlock = ^(Reachability *reachability) {
-        typeof(self)sSelf = wself;
-        if (sSelf) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [sSelf noConnection];
-            });
-        }
-    };
-}
-
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [self.networkReachability stopNotifier];
-//}
-
-- (void)noConnection {
-    if (self.navigationController != nil) {
-        [[WhisperBridge sharedInstance] showPermanentShout:NSLocalizedString(@"no_internet_connection_message", nil)
-                                                titleColor:[UIColor whiteColor]
-                                           backgroundColor:[UIColor redColor]
-                                    toNavigationController:self.navigationController];
-    }
-}
-
-- (void)yesconnection {
-    if (self.navigationController != nil) {
-        [[WhisperBridge sharedInstance] hidePermanentShout:self.navigationController];
-    }
-}
-
-- (void)dealloc
-{
-    [self.networkReachability stopNotifier];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - ConversationListener Methods -

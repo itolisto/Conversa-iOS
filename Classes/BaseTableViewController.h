@@ -11,7 +11,6 @@
 #import "YapMessage.h"
 #import "YapContact.h"
 #import "SettingsKeys.h"
-#import "Reachability.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 
@@ -20,8 +19,5 @@
 @interface BaseTableViewController : UITableViewController <ConversationListener>
 
 - (UIViewController *)topViewController;
-- (void)noConnection;
-- (void)yesconnection;
-@property(nonatomic, strong) Reachability *networkReachability;
 
 @end
