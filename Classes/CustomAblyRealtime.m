@@ -121,12 +121,8 @@
         [self onPresenceMessage:message];
     }];
 
-//    [[channel getPresence] enter:@"" callback:^(ARTErrorInfo * _Nullable error) {
-//
-//    }];
-
-    [channel on:^(ARTErrorInfo * _Nullable error) {
-        [self onChannelStateChanged:channel.state error:error];
+    [channel on:^(ARTChannelStateChange * _Nullable state) {
+        [self onChannelStateChanged:state.current error:state.reason];
     }];
 }
 
@@ -305,6 +301,8 @@
             break;
         case ARTRealtimeChannelDetached:
             break;
+        case ARTRealtimeChannelSuspended:
+            break;
         case ARTRealtimeChannelFailed:
             break;
     }
@@ -389,13 +387,13 @@
         }
     }
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
-        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-        {
-            [self.delegate messageReceived:message from:contact];
-            return;
-        }
-    }
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+//        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+//        {
+//            [self.delegate messageReceived:message from:contact];
+//            return;
+//        }
+//    }
 
     [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
      {
@@ -403,14 +401,22 @@
          contact.lastMessageDate = message.date;
          [contact saveWithTransaction:transaction];
      } completionBlock:^{
-         // We are not active, so use a local notification instead
-         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-         localNotification.alertAction = @"Ver";
-         localNotification.soundName = UILocalNotificationDefaultSoundName;
-         localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
-         localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
-         localNotification.userInfo = @{@"contact":contact.uniqueId};
-         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+         if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+             if(self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)])
+             {
+                 [self.delegate messageReceived:message from:contact];
+                 return;
+             }
+         } else {
+             // We are not active, so use a local notification instead
+             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+             localNotification.alertAction = @"Ver";
+             localNotification.soundName = UILocalNotificationDefaultSoundName;
+             localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
+             localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
+             localNotification.userInfo = @{@"contact":contact.uniqueId};
+             [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+         }
      }];
 }
 

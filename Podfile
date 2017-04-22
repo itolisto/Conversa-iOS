@@ -7,6 +7,18 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'Conversa' do
+    # Firebase
+    # pod 'Firebase/Core'
+    # 	Cloud Messaging / Notifications
+    # pod 'Firebase/Messaging'
+    # 	Realtime Database
+    # pod 'Firebase/Database'
+    # 	Crash Reporting
+    # pod 'Firebase/Crash'
+    # 	Authentication
+    # pod 'Firebase/Auth'
+    # 	Storage
+    # pod 'Firebase/Storage'
     #pod 'Parse'
     pod 'Parse', :git => 'https://github.com/ParsePlatform/Parse-SDK-iOS-OSX.git'
     # PushNotifications Service

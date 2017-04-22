@@ -1,6 +1,6 @@
 
 /* No comment provided by engineer. */
-"categories_searchbar_placeholder" = "Busca negocios, tiendas, etc";
+"categories_searchbar_placeholder" = "Busca tiendas y negocios";
 
 "category" = "Categoría";
 
@@ -9,6 +9,9 @@
 
 /* No comment provided by engineer. */
 "category_results_error" = "Uphs, por favor intenta de nuevo";
+
+/* No comment provided by engineer. */
+"chat_searchbar_placeholder" = "Busca en tus chats";
 
 /* No comment provided by engineer. */
 "chats_alert_action_clear_conversation" = "Limpiar conversación";
@@ -129,7 +132,7 @@
 "conversation_menu_item_delete" = "Eliminar";
 
 /* No comment provided by engineer. */
-"conversation_message_from_conversa" = "Por Agente Conversa";
+"conversation_message_from_conversa" = "Vía agente conversa";
 
 /* No comment provided by engineer. */
 "conversation_message_info_downloading" = "Descargando";
@@ -179,7 +182,8 @@
 /* No comment provided by engineer. */
 "no_internet_connection_message" = "Sin conexión a internet";
 
-"profile_share_text" = "Chatea ahora con %1s, sigue el link %2s";
+/* No comment provided by engineer. */
+"profile_share_text" = "Chatea ahora con %1$@, sigue el link %2$@";
 
 /* 
   Localizable.strings
@@ -272,6 +276,36 @@
 
 /* No comment provided by engineer. */
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
+
+/* No comment provided by engineer. */
+"tutorial_message_five" = "Sin llamadas. Sin emails. Sin redes sociales. Solo chat.";
+
+/* No comment provided by engineer. */
+"tutorial_message_four" = "Encuentra el negocio en Conversa y empieza a chatear 😁";
+
+/* No comment provided by engineer. */
+"tutorial_message_one" = "Hemos hecho fácil poder contactar y chatear con cualquier empresa local";
+
+/* No comment provided by engineer. */
+"tutorial_message_three" = "Obtener más información del servicio que necesitas";
+
+/* No comment provided by engineer. */
+"tutorial_message_two" = "Chatear y consultar sobre precios o disponibilidad de productos 💬📲";
+
+/* No comment provided by engineer. */
+"tutorial_title_five" = "Lo amarás en serio";
+
+/* No comment provided by engineer. */
+"tutorial_title_four" = "Cuando lo necesites";
+
+/* No comment provided by engineer. */
+"tutorial_title_one" = "Bienvenido a Conversa 😎";
+
+/* No comment provided by engineer. */
+"tutorial_title_three" = "O quizá";
+
+/* No comment provided by engineer. */
+"tutorial_title_two" = "Ahora puedes";
 
 /* No comment provided by engineer. */
 "..." = "";

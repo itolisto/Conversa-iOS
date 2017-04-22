@@ -51,16 +51,16 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     return [defaults boolForKey:tutorialAlreadyShown];
 }
 
-+ (void)setNotificationsCheck:(BOOL)state {
-    NSUserDefaults *defaults = [self getDefaults];
-    [defaults setBool:state forKey:notificationsCheck];
-    [defaults synchronize];
-}
-
-+ (BOOL)getNotificationsCheck {
-    NSUserDefaults *defaults = [self getDefaults];
-    return [defaults boolForKey:notificationsCheck];
-}
+//+ (void)setNotificationsCheck:(BOOL)state {
+//    NSUserDefaults *defaults = [self getDefaults];
+//    [defaults setBool:state forKey:notificationsCheck];
+//    [defaults synchronize];
+//}
+//
+//+ (BOOL)getNotificationsCheck {
+//    NSUserDefaults *defaults = [self getDefaults];
+//    return [defaults boolForKey:notificationsCheck];
+//}
 
 #pragma mark - Account settings -
 + (void)setCustomerId:(NSString*)objectId {

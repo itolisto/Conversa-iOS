@@ -25,6 +25,7 @@
 + (UIColor*)profileAway;
 
 + (UIColor*)darkerGreen;
++ (UIColor*)secondaryGreen;
 
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value;
 

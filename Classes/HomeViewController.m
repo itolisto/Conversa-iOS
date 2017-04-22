@@ -59,7 +59,7 @@
     // Active
     self.clickHereLabel.activeLinkAttributes = @{NSForegroundColorAttributeName:[UIColor lightGrayColor]};
 
-    NSURL *url = [NSURL URLWithString:@"http://conversa.link/manager"];
+    NSURL *url = [NSURL URLWithString:@"https://conversa.typeform.com/to/RRg54U"];
     [self.clickHereLabel addLinkToURL:url withRange:end];
     self.clickHereLabel.attributedText = attrStr;
     self.clickHereLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;

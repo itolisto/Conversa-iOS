@@ -254,8 +254,20 @@
                              if (favorite) {
                                  [self changeFavorite:YES];
                              }
-        
-                             self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+
+                             if (self.followers > 999) {
+                                 NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+                                 formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+                                 [formatterCurrency setMinimumFractionDigits:1];
+                                 [formatterCurrency setMaximumFractionDigits:1];
+
+                                 NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+                                 self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+                             } else {
+                                 self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+                             }
         
                              if (website != nil) {
                                  //self.websiteLabel.text = website;
@@ -310,14 +322,18 @@
         [self.view.window addGestureRecognizer:self.tapOutsideRecognizer];
     }
 
-    UIColor *myBackground = [UIColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:0.3];
     UIView* baseView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                 0,
                                                                 [[UIScreen mainScreen] bounds].size.width,
                                                                 [[UIScreen mainScreen] bounds].size.height)];
     baseView.tag = 512;
-    baseView.backgroundColor = myBackground;
+    baseView.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.45];
+    baseView.alpha = 0.0;
     [self.view insertSubview:baseView atIndex:0];
+
+    [UIView animateWithDuration:0.20 animations:^{
+        baseView.alpha = 1.0;
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -408,8 +424,22 @@
     if ([self isSelected]) {
         [AppJobs addFavoriteJob:self.businessId favorite:NO];
         [self changeFavorite:NO];
-        self.followers--;
-        self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+        if (self.followers > 0) {
+            self.followers--;
+            if (self.followers > 999) {
+                NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+                formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+                [formatterCurrency setMinimumFractionDigits:1];
+                [formatterCurrency setMaximumFractionDigits:1];
+
+                NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+                self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+            } else {
+                self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
+            }
+        }
     } else {
         [AppJobs addFavoriteJob:self.businessId favorite:YES];
         [self changeFavorite:YES];
@@ -421,8 +451,9 @@
 }
 
 - (IBAction)sharePressed:(UIButton *)sender {
-    NSString *textToShare = NSLocalizedString(@"settings_home_share_text", nil);
     NSString *link = [@"https://conversa.link/" stringByAppendingString:self.conversaID];
+
+    NSString *textToShare = [NSString stringWithFormat:NSLocalizedString(@"profile_share_text", nil), self.displayName, link];
 
     NSArray *objectsToShare = @[textToShare, link];
 

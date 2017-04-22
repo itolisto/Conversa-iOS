@@ -11,8 +11,8 @@
 @implementation Colors
 
 + (UIColor*)greenNavbar {
-    // green: #37FF77
-    return [UIColor colorWithRed:55.0f/255.0f green:255.0f/255.0f blue:119.0f/255.0f alpha:1.0];
+    // green: #06f28f
+    return [UIColor colorWithRed:6.0f/255.0f green:242.0f/255.0f blue:143.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)whiteNavbar {
@@ -26,13 +26,13 @@
 }
 
 + (UIColor*)incoming {
-    // green: #F0F0F0
+    // white: #F0F0F0
     return [UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)green {
-    // green: #37FF77
-    return [UIColor colorWithRed:55.0f/255.0f green:255.0f/255.0f blue:119.0f/255.0f alpha:1.0];
+    // green: #06f28f
+    return [UIColor colorWithRed:6.0f/255.0f green:242.0f/255.0f blue:143.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)black {
@@ -73,6 +73,11 @@
 + (UIColor*)darkerGreen {
     // green: #00C03E
     return [UIColor colorWithRed:0.0f/255.0f green:191.0f/255.0f blue:62.0f/255.0f alpha:1.0];
+}
+
++ (UIColor*)secondaryGreen {
+    // green: #00e676
+    return [UIColor colorWithRed:0.0f/255.0f green:230.0f/255.0f blue:118.0f/255.0f alpha:1.0];
 }
 
 + (UIColor*)darkenColor:(UIColor*)color withValue:(CGFloat)value {

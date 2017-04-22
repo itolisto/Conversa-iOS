@@ -116,8 +116,11 @@
                         NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
                         [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
                         [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
-                        [branchInfo setObject:[params objectForKey:@"conversaid"] forKey:@"conversaid"];
-                        [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                        [branchInfo setObject:[params objectForKey:@"conversaId"] forKey:@"conversaId"];
+
+                        if ([params objectForKey:@"avatar"]) {
+                            [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                        }
                         // Define controller to take action
                         __block YapContact *bs = nil;
 
@@ -212,7 +215,7 @@
     
     if (account) {
         hasAccount = YES;
-        [SettingsKeys setNotificationsCheck:NO];
+//        [SettingsKeys setNotificationsCheck:NO];
     }
     
     /**

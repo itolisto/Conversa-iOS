@@ -80,6 +80,7 @@
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.showsScopeBar = NO;
     self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.placeholder = NSLocalizedString(@"chat_searchbar_placeholder", nil);
     // Sets this view controller as presenting view controller for the search interface
     self.definesPresentationContext = YES;
     // Set SearchBar into NavigationBar
@@ -147,7 +148,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[OneSignalService sharedInstance] registerForPushNotifications];
-        [[OneSignalService sharedInstance] startTags];
+        //[[OneSignalService sharedInstance] startTags];
     }
 }
 
@@ -519,143 +520,51 @@
                                      alertControllerWithTitle:nil
                                      message:nil
                                      preferredStyle:UIAlertControllerStyleActionSheet];
-        
+
         YapContact *contact = [self contactForIndexPath:indexPath];
-        
-        if (contact.mute) {
-            UIAlertAction* unmute  = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_unmute", nil)
-                                                              style:UIAlertActionStyleDefault
-                                                            handler:^(UIAlertAction * action)
-                                      {
-                                          [contact programActionInHours:0 isMuting:NO];
-                                          // Update contact
-                                          contact.mute = NO;
-                                          [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                                          {
-                                              [contact saveWithTransaction:transaction];
-                                          }];
-                                          
-                                          [view dismissViewControllerAnimated:YES completion:nil];
-                                          [self.tableView setEditing:NO animated:YES];
-                                      }];
-            [view addAction:unmute];
-        } else {
-            UIAlertAction* mute  = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_mute", nil)
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction * action)
-                                    {
-                                        // Mostrar opciones siguientes
-                                        [view dismissViewControllerAnimated:YES completion:nil];
-                                        [self selectMuteTimeToContact:[contact copy]];
-                                    }];
-            [view addAction:mute];
-        }
-        
+
         UIAlertAction* clean = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_clear_conversation", nil)
                                                         style:UIAlertActionStyleDestructive
                                                       handler:^(UIAlertAction * action)
-                                {
-                                    [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                                    {
-                                        [YapMessage deleteAllMessagesForBuddyId:contact.uniqueId transaction:transaction];
-                                    } completionBlock:^{
-                                        [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
-                                                                                            object:nil
-                                                                                          userInfo:@{UPDATE_CELL_DIC_KEY: contact.uniqueId}];
-                                    }];
-                                    
-                                    [view dismissViewControllerAnimated:YES completion:nil];
-                                    [self.tableView setEditing:NO animated:YES];
-                                }];
-        
+        {
+            [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+             {
+                 [YapMessage deleteAllMessagesForBuddyId:contact.uniqueId transaction:transaction];
+             } completionBlock:^{
+                 [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_CELL_NOTIFICATION_NAME
+                                                                     object:nil
+                                                                   userInfo:@{UPDATE_CELL_DIC_KEY: contact.uniqueId}];
+             }];
+
+            [view dismissViewControllerAnimated:YES completion:nil];
+            [self.tableView setEditing:NO animated:YES];
+        }];
+
         UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction * action)
-                                 {
-                                     [view dismissViewControllerAnimated:YES completion:nil];
-                                     [self.tableView setEditing:NO animated:YES];
-                                 }];
-        
+        {
+            [view dismissViewControllerAnimated:YES completion:nil];
+            [self.tableView setEditing:NO animated:YES];
+        }];
+
         [view addAction:clean];
         [view addAction:cancel];
         [self presentViewController:view animated:YES completion:nil];
     }];
-    
+
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
                                                                             title:NSLocalizedString(@"chats_cell_action_delete", nil)
                                                                           handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
-                                          {
-                                              YapContact *cellBuddy = [self contactForIndexPath:indexPath];
-                                              
-                                              [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
-                                                  [cellBuddy removeWithTransaction:transaction];
-                                              }];
-                                          }];
-    
-    return @[deleteAction, editAction];
-}
+    {
+        YapContact *cellBuddy = [self contactForIndexPath:indexPath];
 
-- (void)selectMuteTimeToContact:(YapContact *)contact {
-    UIAlertController * view =  [UIAlertController
-                                 alertControllerWithTitle:nil
-                                 message:nil
-                                 preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction* one = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_twelve_hours", nil)
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action)
-                          {
-                              [contact programActionInHours:12 isMuting:YES];
-                              // Update contact
-                              contact.mute = YES;
-                              [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                                  [contact saveWithTransaction:transaction];
-                              }];
-                              [view dismissViewControllerAnimated:YES completion:nil];
-                              [self.tableView setEditing:NO animated:YES];
-                          }];
-    
-    UIAlertAction* two = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_one_day", nil)
-                                                  style:UIAlertActionStyleDefault
-                                                handler:^(UIAlertAction * action)
-                          {
-                              [contact programActionInHours:24 isMuting:YES];
-                              // Update contact
-                              contact.mute = YES;
-                              [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                                  [contact saveWithTransaction:transaction];
-                              }];
-                              [view dismissViewControllerAnimated:YES completion:nil];
-                              [self.tableView setEditing:NO animated:YES];
-                          }];
-    
-    UIAlertAction* three = [UIAlertAction actionWithTitle:NSLocalizedString(@"chats_alert_action_three_day", nil)
-                                                    style:UIAlertActionStyleDefault
-                                                  handler:^(UIAlertAction * action)
-                            {
-                                [contact programActionInHours:72 isMuting:YES];
-                                // Update contact
-                                contact.mute = YES;
-                                [self.muteConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
-                                    [contact saveWithTransaction:transaction];
-                                }];
-                                [view dismissViewControllerAnimated:YES completion:nil];
-                                [self.tableView setEditing:NO animated:YES];
-                            }];
-    
-    UIAlertAction* cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
-                                                     style:UIAlertActionStyleCancel
-                                                   handler:^(UIAlertAction * action)
-                             {
-                                 [view dismissViewControllerAnimated:YES completion:nil];
-                                 [self.tableView setEditing:NO animated:YES];
-                             }];
-    
-    [view addAction:one];
-    [view addAction:two];
-    [view addAction:three];
-    [view addAction:cancel];
-    [self presentViewController:view animated:YES completion:nil];
+        [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
+            [cellBuddy removeWithTransaction:transaction];
+        }];
+    }];
+
+    return @[deleteAction, editAction];
 }
 
 #pragma mark - Setup Mappings Methods -
@@ -664,20 +573,20 @@
     if (self.mappings) {
         return;
     }
-    
+
     [self.databaseConnection readWithBlock:^(YapDatabaseReadTransaction *transaction) {
         if ([transaction ext:ConversaDatabaseViewExtensionName]) {
             self.mappings = [[YapDatabaseViewMappings alloc] initWithGroups:@[ConversationGroup]
                                                                        view:ConversaDatabaseViewExtensionName];
             [self.mappings updateWithTransaction:transaction];
-            
+
             if (self.searchMappings) {
                 [self.searchMappings updateWithTransaction:transaction];
             }
             if (self.unreadConversationsMappings) {
                 [self.unreadConversationsMappings updateWithTransaction:transaction];
             }
-            
+
             [self.tableView reloadData];
         } else {
             // View isn't ready yet.

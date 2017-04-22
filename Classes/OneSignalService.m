@@ -91,7 +91,7 @@
 #pragma mark - Class Methods -
 
 - (void)unsubscribeFromAllChannels {
-    [OneSignal deleteTags:@[@"upbc", @"upvt"]];
+    [OneSignal deleteTags:@[@"upbc", @"upvt", @"usertype"]];
     [OneSignal setSubscription:NO];
 }
 

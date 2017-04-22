@@ -64,6 +64,7 @@
 		A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D251D53C8F300AA576A /* Assets.xcassets */; };
 		A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */; };
 		A571285F1E5EA44200B80D87 /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A571285E1E5EA44200B80D87 /* Business.m */; };
+		A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */; };
 		A59307441E5FBAE300083665 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D221D53C8F300AA576A /* Main.storyboard */; };
 		A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */; };
 		A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A59544551E09E340002057B9 /* InfoPlist.strings */; };
@@ -195,6 +196,7 @@
 		A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
 		A571285D1E5EA44200B80D87 /* Business.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Business.h; sourceTree = "<group>"; };
 		A571285E1E5EA44200B80D87 /* Business.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Business.m; sourceTree = "<group>"; };
+		A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		A59307481E5FBFB700083665 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A59544541E09E340002057B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A59544561E09E342002057B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				A5E77A601DD56BA20032B7D5 /* Profile */,
 				A5E77A5F1DD56B9D0032B7D5 /* Search */,
 				A5E77A5E1DD56B980032B7D5 /* Settings */,
+				A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */,
 				A52906191D6FE7080018D74C /* ContentViewController.swift */,
 				A52906731D6FE7080018D74C /* TutorialViewController.swift */,
 			);
@@ -827,6 +830,7 @@
 				A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */,
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
+				A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */,
 				A53962941D70B83900D557FE /* OneSignalController.m in Sources */,
 				A52906BF1D6FE7080018D74C /* RegisterViewController.m in Sources */,
 				A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */,

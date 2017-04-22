@@ -170,6 +170,7 @@
             CGRect newFrame = self.inputToolbar.contentView.textView.frame;
             newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
             self.inputToolbar.contentView.textView.frame = newFrame;
+            self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
         }
     }
     
@@ -324,11 +325,11 @@
                  long diff = now - last;
                  long diffm = diff / (1000 * 60);
 
-                 if (diffm < 70) {
-                     if (diffm <= 10) {
+                 if (diffm < 63) {
+                     if (diffm <= 3) {
                          self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
                      } else {
-                         diffm = diffm - 10;
+                         diffm = diffm - 3;
                          if (diffm == 1) {
                              self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_minute", nil)];
                          } else {
@@ -481,7 +482,7 @@
     customRightButton.layer.cornerRadius = customRightButton.frame.size.width / 2;
     customRightButton.clipsToBounds = YES;
 
-    [customRightButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
+    [customRightButton setBackgroundColor:[Colors secondaryGreen] forState:UIControlStateNormal];
     [customRightButton setBackgroundColor:[Colors darkerGreen] forState:UIControlStateHighlighted];
     [customRightButton setBackgroundColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
 
@@ -506,6 +507,7 @@
 
 - (void)initializeCollectionViewLayout {
     if (self.collectionView) {
+        self.collectionView.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0.0, 7.0, 0.0, 7.0);
         self.collectionView.showsVerticalScrollIndicator = NO;
         self.collectionView.showsHorizontalScrollIndicator = NO;
         [self updateLoadEarlierVisible];
@@ -848,10 +850,13 @@
             if (error) {
                 [attributedString insertAttributedString:[[NSAttributedString alloc]
                                                           initWithString:progressString
-                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor]}]
+                                                          attributes:@{NSForegroundColorAttributeName: [UIColor redColor],
+                                                                       NSFontAttributeName: [UIFont systemFontOfSize:10.0]}]
                                                  atIndex:0];
             } else {
-                [attributedString insertAttributedString:[[NSAttributedString alloc] initWithString:progressString]
+                [attributedString insertAttributedString:[[NSAttributedString alloc]
+                                                          initWithString:progressString
+                                                          attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.0]}]
                                                  atIndex:0];
             }
         }
@@ -872,7 +877,13 @@
         || currentMessage.delivered == statusParseError) {
         return YES;
     } else if (currentMessage.isIncoming) {
-        return (currentMessage.fromConversa);
+        if (indexPath.item + 1 < [self.collectionView numberOfItemsInSection:indexPath.section]) {
+            YapMessage * nextMessage = [self messageAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1
+                                                                                   inSection:indexPath.section]];
+            return !(currentMessage.fromConversa && nextMessage.isIncoming && nextMessage.fromConversa);
+        } else {
+            return (currentMessage.fromConversa);
+        }
     } else if (indexPath.item + 1 < [self.collectionView numberOfItemsInSection:indexPath.section]) {
         // At this point, is always sure that there is another message
         return ([self nextOutgoingMessage:indexPath]) ? NO : YES;
@@ -1054,71 +1065,128 @@
 
         self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
     } else {
-        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
-        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-         {
-             [message saveWithTransaction:transaction];
-             from.lastMessageDate = message.date;
-             [from saveWithTransaction:transaction];
-         } completionBlock:^{
-             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
-                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                     NSString *text = nil;
+        if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                NSString *text = nil;
 
-                     switch (message.messageType) {
-                         case kMessageTypeText: {
-                             text = message.text;
-                             break;
-                         }
-                         case kMessageTypeLocation: {
-                             text = NSLocalizedString(@"chats_cell_conversation_location", nil);
-                             break;
-                         }
-                         case kMessageTypeVideo: {
-                             text = NSLocalizedString(@"chats_cell_conversation_video", nil);
-                             break;
-                         }
-                         case kMessageTypeAudio: {
-                             text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
-                             break;
-                         }
-                         case kMessageTypeImage: {
-                             text = NSLocalizedString(@"chats_cell_conversation_image", nil);
-                             break;
-                         }
-                         default: {
-                             text = NSLocalizedString(@"chats_cell_conversation_message", nil);
-                             break;
-                         }
-                     }
+                switch (message.messageType) {
+                    case kMessageTypeText: {
+                        text = message.text;
+                        break;
+                    }
+                    case kMessageTypeLocation: {
+                        text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+                        break;
+                    }
+                    case kMessageTypeVideo: {
+                        text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+                        break;
+                    }
+                    case kMessageTypeAudio: {
+                        text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+                        break;
+                    }
+                    case kMessageTypeImage: {
+                        text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+                        break;
+                    }
+                    default: {
+                        text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+                        break;
+                    }
+                }
 
-                     UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[from.uniqueId stringByAppendingString:@"_avatar.jpg"]];
+                UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[from.uniqueId stringByAppendingString:@"_avatar.jpg"]];
 
-                     if (!image) {
-                         image = [UIImage imageNamed:@"ic_business_default"];
-                     }
+                if (!image) {
+                    image = [UIImage imageNamed:@"ic_business_default"];
+                }
 
-                     dispatch_async(dispatch_get_main_queue(), ^{
-                         if ([SettingsKeys getNotificationSoundInApp:YES]) {
-                             NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification" ofType:@"mp3"];
-                             CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
-                             SystemSoundID soundID;
-                             AudioServicesCreateSystemSoundID(cfString, &soundID);
-                             AudioServicesPlaySystemSound (soundID);
-                             CFRelease(cfString);
-                         }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([SettingsKeys getNotificationSoundInApp:YES]) {
+                        NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification" ofType:@"mp3"];
+                        CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+                        SystemSoundID soundID;
+                        AudioServicesCreateSystemSoundID(cfString, &soundID);
+                        AudioServicesPlaySystemSound (soundID);
+                        CFRelease(cfString);
+                    }
 
-                         [[WhisperBridge sharedInstance] shout:from.displayName
-                                                      subtitle:text
-                                               backgroundColor:[UIColor clearColor]
-                                        toNavigationController:self.navigationController
-                                                         image:image
-                                                  silenceAfter:1.8
-                                                        action:nil];
-                     });
-                 });
-             }
-         }];
+                    [[WhisperBridge sharedInstance] shout:from.displayName
+                                                 subtitle:text
+                                          backgroundColor:[UIColor clearColor]
+                                   toNavigationController:self.navigationController
+                                                    image:image
+                                             silenceAfter:1.8
+                                                   action:nil];
+                });
+            });
+        }
+//        YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+//        [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//         {
+//             [message saveWithTransaction:transaction];
+//             from.lastMessageDate = message.date;
+//             [from saveWithTransaction:transaction];
+//         } completionBlock:^{
+//             if ([SettingsKeys getNotificationPreviewInApp:YES]) {
+//                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//                     NSString *text = nil;
+//
+//                     switch (message.messageType) {
+//                         case kMessageTypeText: {
+//                             text = message.text;
+//                             break;
+//                         }
+//                         case kMessageTypeLocation: {
+//                             text = NSLocalizedString(@"chats_cell_conversation_location", nil);
+//                             break;
+//                         }
+//                         case kMessageTypeVideo: {
+//                             text = NSLocalizedString(@"chats_cell_conversation_video", nil);
+//                             break;
+//                         }
+//                         case kMessageTypeAudio: {
+//                             text = NSLocalizedString(@"chats_cell_conversation_audio", nil);
+//                             break;
+//                         }
+//                         case kMessageTypeImage: {
+//                             text = NSLocalizedString(@"chats_cell_conversation_image", nil);
+//                             break;
+//                         }
+//                         default: {
+//                             text = NSLocalizedString(@"chats_cell_conversation_message", nil);
+//                             break;
+//                         }
+//                     }
+//
+//                     UIImage *image = [[NSFileManager defaultManager] loadAvatarFromLibrary:[from.uniqueId stringByAppendingString:@"_avatar.jpg"]];
+//
+//                     if (!image) {
+//                         image = [UIImage imageNamed:@"ic_business_default"];
+//                     }
+//
+//                     dispatch_async(dispatch_get_main_queue(), ^{
+//                         if ([SettingsKeys getNotificationSoundInApp:YES]) {
+//                             NSString *soundPath = [[NSBundle mainBundle] pathForResource:@"sound_notification" ofType:@"mp3"];
+//                             CFURLRef cfString = (CFURLRef)CFBridgingRetain([NSURL fileURLWithPath:soundPath]);
+//                             SystemSoundID soundID;
+//                             AudioServicesCreateSystemSoundID(cfString, &soundID);
+//                             AudioServicesPlaySystemSound (soundID);
+//                             CFRelease(cfString);
+//                         }
+//
+//                         [[WhisperBridge sharedInstance] shout:from.displayName
+//                                                      subtitle:text
+//                                               backgroundColor:[UIColor clearColor]
+//                                        toNavigationController:self.navigationController
+//                                                         image:image
+//                                                  silenceAfter:1.8
+//                                                        action:nil];
+//                     });
+//                 });
+//             }
+//         }];
     }
 }
 
@@ -1185,7 +1253,14 @@
 #pragma mark - Actions Methods -
 
 - (IBAction)logoTapped:(id)sender {
-    // TODO: Implement action for logo tap
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ProfileDialogViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"profileViewController"];
+    destinationViewController.objectId = self.buddy.uniqueId;
+    destinationViewController.avatarUrl = self.buddy.avatarThumbFileId;
+    destinationViewController.displayName = self.buddy.displayName;
+    destinationViewController.conversaID = self.buddy.conversaId;
+    destinationViewController.enable = NO;
+    [self.navigationController presentViewController:destinationViewController animated:YES completion:nil];
 }
 
 - (IBAction)goToProfile:(id)sender {
