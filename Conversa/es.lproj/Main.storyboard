@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -2467,8 +2467,8 @@
                                             </mask>
                                         </variation>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHATEA CON CUALQUIER NEGOCIO SENCILLO. VELOZ. EFICAZ." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbl-NM-Mnf">
-                                        <rect key="frame" x="-113" y="159" width="514" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHATEA CON CUALQUIER NEGOCIO SENCILLO. VELOZ. EFICAZ." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbl-NM-Mnf">
+                                        <rect key="frame" x="-1.5" y="159" width="291.5" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="7fC-hf-cDQ"/>
                                         </constraints>
@@ -2502,17 +2502,17 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Zg-Rk-7dg">
-                                <rect key="frame" x="0.0" y="260" width="320" height="273.5"/>
+                                <rect key="frame" x="0.0" y="260" width="320" height="260.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WWa-IJ-pTd">
-                                        <rect key="frame" x="0.0" y="117" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="110.5" width="320" height="1"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="ta7-yw-86E"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LTX-2d-iwt" userLabel="Boton Ingreso" customClass="UIStateButton">
-                                        <rect key="frame" x="75" y="70" width="170" height="40"/>
+                                        <rect key="frame" x="75" y="63.5" width="170" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="170" id="wVg-yh-0jy"/>
@@ -2542,7 +2542,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOw-fW-PVe" userLabel="Boton Ingreso" customClass="UIStateButton">
-                                        <rect key="frame" x="75" y="147" width="170" height="40"/>
+                                        <rect key="frame" x="75" y="140.5" width="170" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="170" id="9c2-B9-I5h"/>
@@ -2574,7 +2574,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YA TENGO UNA CUENTA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpd-vs-cjw">
-                                        <rect key="frame" x="60" y="125" width="200" height="15"/>
+                                        <rect key="frame" x="60" y="118.5" width="200" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Jpr-DE-SkJ"/>
                                         </constraints>
@@ -2583,7 +2583,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿ERES NUEVO AQUI?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hh-md-WFT">
-                                        <rect key="frame" x="60" y="48" width="200" height="15"/>
+                                        <rect key="frame" x="60" y="41.5" width="200" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="a2J-kM-vS4"/>
                                         </constraints>
@@ -2607,8 +2607,8 @@
                                     <constraint firstItem="gpd-vs-cjw" firstAttribute="top" secondItem="WWa-IJ-pTd" secondAttribute="bottom" constant="7" id="tqw-xO-3Tt"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿BUSCANDO REGISTRAR TU NEGOCIO? PRESIONA AQUI" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSh-7B-geu" customClass="TTTAttributedLabel">
-                                <rect key="frame" x="15.5" y="533.5" width="294" height="13.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿BUSCANDO REGISTRAR TU NEGOCIO? PRESIONA AQUI" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSh-7B-geu" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="88.5" y="520.5" width="148.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2996,8 +2996,8 @@
                                                     <action selector="registerButtonPressed:" destination="8cA-rX-ZgL" eventType="touchUpInside" id="J59-NU-VLP"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TERMINOS Y POLITICAS DE PRIVACIDAD" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxx-4P-X2D" customClass="TTTAttributedLabel">
-                                                <rect key="frame" x="-75.5" y="433" width="472" height="13.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TERMINOS Y POLITICAS DE PRIVACIDAD" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxx-4P-X2D" customClass="TTTAttributedLabel">
+                                                <rect key="frame" x="31.5" y="433" width="258.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
