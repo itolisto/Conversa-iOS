@@ -28,6 +28,7 @@
 @import AVFoundation;
 #import "Log.h"
 #import "Image.h"
+#import "Flurry.h"
 #import "Camera.h"
 #import "Colors.h"
 #import "AppJobs.h"
@@ -192,6 +193,9 @@
     }];
     
     self.collectionView.collectionViewLayout.springinessEnabled = NO;
+
+    NSString *customer_id = [SettingsKeys getCustomerId];
+    [Flurry logEvent:@"user_chat_duration" withParameters:@{@"user": (customer_id) ? customer_id : @""} timed:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -203,6 +207,7 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.visible = false;
+    [Flurry endTimedEvent:@"user_chat_duration" withParameters:nil];
 }
 
 - (void)willMoveToParentViewController:(UIViewController *)parent {
@@ -337,7 +342,7 @@
                          }
                      }
                  } else {
-                     diff = diff - (70 * 60 * 1000);
+                     diff = diff - (63 * 60 * 1000);
                      long diffh = diff / (1000 * 60 * 60);
                      long diffd = diff / (1000 * 60 * 60 * 24);
                      long diffw = diff / (1000 * 60 * 60 * 24 * 7);
@@ -1402,6 +1407,11 @@
                                                  @"fromCustomer" : @(YES),
                                                  @"messageType" : [NSNumber numberWithInteger:yapMessage.messageType]
                                                  }];
+
+            NSString *connectionId = [[CustomAblyRealtime sharedInstance] getPublicConnectionId];
+            if (connectionId) {
+                [messageNSD addEntriesFromDictionary:@{@"connectionId" : connectionId}];
+            }
 
             switch (yapMessage.messageType) {
                 case kMessageTypeText: {

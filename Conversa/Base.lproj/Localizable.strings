@@ -183,7 +183,7 @@
 "no_internet_connection_message" = "No internet connection";
 
 /* No comment provided by engineer. */
-"profile_share_text" = "Chat now with %1$@, follow the link %2$@";
+"profile_share_text" = "Chat now with %1$@, follow the link: %2$@";
 
 /* 
   Localizable.strings
@@ -278,7 +278,7 @@
 "token_session_error" = "Another device has started session, this device will log out";
 
 /* No comment provided by engineer. */
-"tutorial_message_five" = "No phone calls. No emails. No social media. Just chat.";
+"tutorial_message_five" = "No phone calls. No emails. No social media. Just chat. 💬🙌🏼";
 
 /* No comment provided by engineer. */
 "tutorial_message_four" = "Find the business on Conversa and start chatting 😁";
@@ -296,7 +296,7 @@
 "tutorial_title_five" = "You'll love it";
 
 /* No comment provided by engineer. */
-"tutorial_title_four" = "Whenever you need";
+"tutorial_title_four" = "Whenever you need 😄";
 
 /* No comment provided by engineer. */
 "tutorial_title_one" = "Welcome to Conversa 😎";

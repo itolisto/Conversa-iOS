@@ -7,24 +7,14 @@ use_frameworks!
 inhibit_all_warnings!
 
 target 'Conversa' do
-    # Firebase
-    # pod 'Firebase/Core'
-    # 	Cloud Messaging / Notifications
-    # pod 'Firebase/Messaging'
-    # 	Realtime Database
-    # pod 'Firebase/Database'
-    # 	Crash Reporting
-    # pod 'Firebase/Crash'
-    # 	Authentication
-    # pod 'Firebase/Auth'
-    # 	Storage
-    # pod 'Firebase/Storage'
+    # Analytics Pod
+    pod 'Flurry-iOS-SDK/FlurrySDK'
     #pod 'Parse'
     pod 'Parse', :git => 'https://github.com/ParsePlatform/Parse-SDK-iOS-OSX.git'
     # PushNotifications Service
     pod 'OneSignal'
     # Ably Realtime Client Library
-    pod 'Ably'
+    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher'
     # Google Maps for iOS
@@ -49,9 +39,6 @@ target 'Conversa' do
     pod 'Appirater'
     # ARC support, swipe-to-dismiss, image progress and more
     pod 'IDMPhotoBrowser'
-    # Crash Log
-    pod 'Fabric'
-    pod 'Crashlytics'
     # Simple Objective-C wrapper for the keychain that works on Mac and iOS
     pod 'SAMKeychain'
     # Model framework for Cocoa and Cocoa Touch

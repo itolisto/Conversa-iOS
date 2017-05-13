@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Colors.h"
 #import "Business.h"
 #import "Constants.h"
@@ -410,6 +411,7 @@
         destinationViewController.displayName = business.displayName;
         destinationViewController.conversaID = business.conversaId;
         destinationViewController.enable = YES;
+        [Flurry logEvent:@"user_profile_open" withParameters:@{@"fromSearch": @(YES)}];
     }
 }
 

@@ -12,7 +12,6 @@
 
 // General
 NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
-NSString *notificationsCheck   = @"notificationsCheck";
 
 // Account settings
 NSString *customerObjectId  = @"customerObjectId";
@@ -50,17 +49,6 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
     NSUserDefaults *defaults = [self getDefaults];
     return [defaults boolForKey:tutorialAlreadyShown];
 }
-
-//+ (void)setNotificationsCheck:(BOOL)state {
-//    NSUserDefaults *defaults = [self getDefaults];
-//    [defaults setBool:state forKey:notificationsCheck];
-//    [defaults synchronize];
-//}
-//
-//+ (BOOL)getNotificationsCheck {
-//    NSUserDefaults *defaults = [self getDefaults];
-//    return [defaults boolForKey:notificationsCheck];
-//}
 
 #pragma mark - Account settings -
 + (void)setCustomerId:(NSString*)objectId {

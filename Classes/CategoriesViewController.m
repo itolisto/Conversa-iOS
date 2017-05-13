@@ -9,6 +9,7 @@
 #import "CategoriesViewController.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Colors.h"
 #import "Constants.h"
 #import "nCategory.h"
@@ -339,7 +340,7 @@
         CustomCategoryCell *cell = sender;
         nCategory *bs = cell.category;
         destinationViewController.navigationItem.title = [bs getName];
-        //destinationViewController.navigationItem.leftBarButtonItem.title = @"";
+        [Flurry logEvent:@"user_category_selected" withParameters:@{@"category":[bs getObjectId]}];
         // Pass any objects to the view controller here, like...
         [destinationViewController setCategoryId:bs.objectId];
     }

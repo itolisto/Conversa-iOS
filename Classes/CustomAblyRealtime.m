@@ -70,11 +70,16 @@
     artoptions.key = @"zmxQkA.0hjFJg:-DRtJj8oaEifjs-_";
     artoptions.logLevel = ARTLogLevelError;
     artoptions.echoMessages = NO;
-    //artoptions.clientId = self.clientId;
+    artoptions.clientId = self.clientId;
     self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
+    [self.ably.push activate];
+}
+
+- (ARTRealtime*)getAblyRealtime {
+    return self.ably;
 }
 
 - (void)subscribeToChannels {
@@ -117,12 +122,12 @@
         }
     }];
 
-    [[channel getPresence] subscribe:^(ARTPresenceMessage * _Nonnull message) {
+    [[channel presence] subscribe:^(ARTPresenceMessage * _Nonnull message) {
         [self onPresenceMessage:message];
     }];
 
-    [channel on:^(ARTChannelStateChange * _Nullable state) {
-        [self onChannelStateChanged:state.current error:state.reason];
+    [channel on:^(ARTErrorInfo * _Nullable error) {
+        [self onChannelStateChanged:channel.state error:error];
     }];
 }
 
@@ -131,6 +136,7 @@
         return;
     }
 
+    [self.ably.push deactivate];
     [self.ably close];
 }
 
@@ -172,7 +178,7 @@
         case ARTRealtimeClosing:
             for (ARTRealtimeChannel * channel in self.ably.channels) {
                 [channel unsubscribe];
-                [[channel getPresence] unsubscribe];
+                [[channel presence] unsubscribe];
             }
             break;
         case ARTRealtimeClosed:
@@ -263,24 +269,15 @@
         return;
     }
 
-    switch (messages.action) {
-        case ARTPresenceEnter:
-            break;
-        case ARTPresenceLeave:
-            break;
-        case ARTPresenceUpdate: {
-            if (messages.data) {
-                if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
-                    NSDictionary *data = (NSDictionary*)messages.data;
-                    NSString *from = [data valueForKey:@"from"];
-                    bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
-                    [self.delegate fromUser:from userIsTyping:isTyping];
-                }
+    if (messages.data) {
+        NSDictionary *data = (NSDictionary*)messages.data;
+        NSString *from = [data valueForKey:@"from"];
+        bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
+        if (from) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
+                [self.delegate fromUser:from userIsTyping:isTyping];
             }
-            break;
         }
-        default:
-            break;
     }
 }
 
@@ -288,23 +285,6 @@
     if (reason != nil) {
         DDLogError(@"onChannelStateChanged --> %@", reason.message);
         return;
-    }
-
-    switch (state) {
-        case ARTRealtimeChannelInitialized:
-            break;
-        case ARTRealtimeChannelAttaching:
-            break;
-        case ARTRealtimeChannelAttached:
-            break;
-        case ARTRealtimeChannelDetaching:
-            break;
-        case ARTRealtimeChannelDetached:
-            break;
-        case ARTRealtimeChannelSuspended:
-            break;
-        case ARTRealtimeChannelFailed:
-            break;
     }
 }
 
@@ -322,6 +302,45 @@
     }
 
     return nil;
+}
+
+#pragma mark - ARTPushRegistererDelegate Methods -
+
+- (void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didActivateAblyPush: --> %@", error);
+        return;
+    } else {
+        DDLogError(@"didActivateAblyPush succeded");
+    }
+
+    [[self.ably.channels get:[@"upbc:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+     subscribeDevice:^(ARTErrorInfo *_Nullable error) {
+         // Check error.
+     }];
+
+    [[self.ably.channels get:[@"upvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+     subscribeDevice:^(ARTErrorInfo *_Nullable error) {
+         // Check error.
+     }];
+}
+
+- (void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didDeactivateAblyPush: --> %@", error);
+        return;
+    } else {
+        DDLogError(@"didDeactivateAblyPush succeded");
+    }
+}
+
+- (void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
+        return;
+    } else {
+        DDLogError(@"didAblyPushRegistrationFail");
+    }
 }
 
 #pragma mark - Process message Method -

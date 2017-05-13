@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Branch.h"
 #import "Account.h"
 #import "Business.h"
@@ -24,11 +25,9 @@
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
 #import <AFNetworking/AFNetworking.h>
+@import Ably;
 @import Parse;
-@import Fabric;
-@import Buglife;
 @import GoogleMaps;
-@import Crashlytics;
 
 @interface AppDelegate ()
     
@@ -41,9 +40,14 @@
     
     // Set Google Maps
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
+
+    FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+                                        withLogLevel:FlurryLogLevelDebug]
+                                       withCrashReporting:YES]
+                                      withSessionContinueSeconds:10]
+                                     withAppVersion:@"1.3.4"];
     
-    // Set Fabric
-    [Fabric with:@[[Answers class], [Crashlytics class]]];
+    [Flurry startSession:@"2XVJXDVKP5YBZZ88K6J9" withSessionBuilder:builder];
     
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -89,9 +93,6 @@
     }
         
     [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
-
-    [[Buglife sharedBuglife] startWithAPIKey:@"AtLX2qYcNMTEhESEpKO8egtt"];
-    [Buglife sharedBuglife].invocationOptions = LIFEInvocationOptionsShake;
 
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
@@ -191,7 +192,7 @@
         }
     }];
 
-    [[OneSignalService sharedInstance] launchWithOptions:launchOptions];
+    //[[OneSignalService sharedInstance] launchWithOptions:launchOptions];
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
@@ -215,7 +216,6 @@
     
     if (account) {
         hasAccount = YES;
-//        [SettingsKeys setNotificationsCheck:NO];
     }
     
     /**
@@ -266,37 +266,21 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    NSLog(@"\n\n didReceiveRemoteNotification w/f: =>\n\n %@", userInfo);//[@"data"]
-    switch (application.applicationState) {
-        case UIApplicationStateInactive:
-            NSLog(@"\n\nInactive\n\n");
-            //Show the view with the content of the push
-            completionHandler(UIBackgroundFetchResultNewData);
-            break;
-        case UIApplicationStateBackground:
-            NSLog(@"\n\nBackground\n\n");
-            //Refresh the local model
-            completionHandler(UIBackgroundFetchResultNewData);
-            break;
-        case UIApplicationStateActive:
-            NSLog(@"\n\nActive\n\n");
-            //Show an in-app banner
-            completionHandler(UIBackgroundFetchResultNewData);
-            break;
+    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+    if (ably) {
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
     }
 }
 
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-//    NSLog(@"\n\n didReceiveRemoteNotification: =>\n\n %@", userInfo);//[@"data"]
-//    [[OneSignalService sharedInstance] processMessage:userInfo];
-//}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+
+}
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+    if (ably) {
+        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+    }
 }
 
 #pragma mark - Branch methods -

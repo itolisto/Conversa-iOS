@@ -9,6 +9,7 @@
 #import "CategoryViewController.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Colors.h"
 #import "Account.h"
 #import "Constants.h"
@@ -234,7 +235,7 @@
     if (self.loadMore) {
         if (!self.loadingPage && [self.objects count] == indexPath.row + 1) {
             self.loadingPage = YES;
-            [self._mutableObjects addObject:[YapContact init]];
+            [self._mutableObjects addObject:[[YapContact alloc] init]];
             [self.tableView reloadData];
             [self loadObjects];
         }
@@ -254,6 +255,7 @@
         destinationViewController.displayName = business.displayName;
         destinationViewController.conversaID = business.conversaId;
         destinationViewController.enable = YES;
+        [Flurry logEvent:@"user_profile_open" withParameters:@{@"fromCategory": @(YES)}];
     }
 }
 

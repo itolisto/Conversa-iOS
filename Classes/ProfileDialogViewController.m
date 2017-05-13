@@ -9,9 +9,11 @@
 #import "ProfileDialogViewController.h"
 
 #import "Log.h"
+#import "Flurry.h"
 #import "Colors.h"
 #import "AppJobs.h"
 #import "Account.h"
+#import "Utilities.h"
 #import "YapSearch.h"
 #import "Constants.h"
 #import "YapContact.h"
@@ -113,19 +115,6 @@
         
                              self.followers = 0;
                              NSString *header = nil;
-                             NSString *daySpecial = nil;
-                             NSString *website = nil;
-                             bool delivery = NO;//
-                             NSArray *openOn;
-                             NSString *number;
-                             bool multiple = NO;
-                             bool online = NO;
-                             NSString *promo = nil;
-                             NSString *promoTextColor = nil;
-                             NSString *promoBackground = nil;
-                             NSArray *tags;
-                             bool verified = NO;
-                             long since = 0L;
                              bool favorite = NO;
                              int status = 0;
         
@@ -138,59 +127,7 @@
                              } else {
                                  self.followers = 0;
                              }
-        
-                             if ([results objectForKey:@"daySpecial"] && [results objectForKey:@"daySpecial"] != [NSNull null]) {
-                                 daySpecial = [results objectForKey:@"daySpecial"];
-                             }
-        
-                             if ([results objectForKey:@"website"] && [results objectForKey:@"website"] != [NSNull null]) {
-                                 website = [results objectForKey:@"website"];
-                             }
-        
-                             if ([results objectForKey:@"delivery"] && [results objectForKey:@"delivery"] != [NSNull null]) {
-                                 delivery = [[results objectForKey:@"delivery"] boolValue];
-                             }
-        
-                             if ([results objectForKey:@"openOn"] && [results objectForKey:@"openOn"] != [NSNull null]) {
-                                 openOn = [results objectForKey:@"openOn"];
-                             }
-        
-                             if ([results objectForKey:@"number"] && [results objectForKey:@"number"] != [NSNull null]) {
-                                 number = [results objectForKey:@"number"];
-                             }
-        
-                             if ([results objectForKey:@"multiple"] && [results objectForKey:@"multiple"] != [NSNull null]) {
-                                 multiple = [[results objectForKey:@"multiple"] boolValue];
-                             }
-        
-                             if ([results objectForKey:@"online"] && [results objectForKey:@"online"] != [NSNull null]) {
-                                 online = [[results objectForKey:@"online"] boolValue];
-                             }
-        
-                             if ([results objectForKey:@"promo"] && [results objectForKey:@"promo"] != [NSNull null]) {
-                                 promo = [results objectForKey:@"promo"];
-                             }
-        
-                             if ([results objectForKey:@"promoColor"] && [results objectForKey:@"promoColor"] != [NSNull null]) {
-                                 promoTextColor = [results objectForKey:@"promoColor"];
-                             }
-        
-                             if ([results objectForKey:@"promoBack"] && [results objectForKey:@"promoBack"] != [NSNull null]) {
-                                 promoBackground = [results objectForKey:@"promoBack"];
-                             }
-        
-                             if ([results objectForKey:@"tags"] && [results objectForKey:@"tags"] != [NSNull null]) {
-                                 tags = [results objectForKey:@"tags"];
-                             }
-        
-                             if ([results objectForKey:@"verified"] && [results objectForKey:@"verified"] != [NSNull null]) {
-                                 verified = [[results objectForKey:@"verified"] boolValue];
-                             }
-        
-                             if ([results objectForKey:@"since"] && [results objectForKey:@"since"] != [NSNull null]) {
-                                 since = [[results objectForKey:@"since"] longValue];
-                             }
-        
+
                              if ([results objectForKey:@"favorite"] && [results objectForKey:@"favorite"] != [NSNull null]) {
                                  favorite = [[results objectForKey:@"favorite"] boolValue];
                              }
@@ -202,37 +139,6 @@
                              if (header != nil) {
                                  [self.headerImage sd_setImageWithURL:[NSURL URLWithString:header]
                                                      placeholderImage:[UIImage imageNamed:@"im_help_pattern"]];
-                             }
-        
-                             if (promo != nil || promoBackground != nil) {
-                                 //mLlSpecialPromoContainer.setVisibility(View.VISIBLE);
-        
-                                 if (promo != nil) {
-                                     //mRtvSpecialPromo.setVisibility(View.VISIBLE);
-                                     //mSdvSpecialPromo.setVisibility(View.VISIBLE);
-        
-                                     if (promoTextColor != nil) {
-                                         @try {
-                                             //mRtvSpecialPromo.setTextColor(Color.parseColor(promoTextColor));
-                                         } @catch (NSException *exception) {
-                                             //mRtvSpecialPromo.setTextColor(Color.WHITE);
-                                         }
-                                     }
-                                 }
-        
-                                 if (promoBackground != nil) {
-                                     //mSdvSpecialPromo.setVisibility(View.VISIBLE);
-        
-                                     //Uri uri;
-        
-                                     if([promoBackground length]) {
-                                         //uri = Utils.getDefaultImage(this, R.drawable.specialpromo_dropshadow);
-                                     } else {
-                                         //uri = Uri.parse(promoBackground);
-                                     }
-        
-                                     //mSdvSpecialPromo.setImageURI(uri);
-                                 }
                              }
         
                              // Status
@@ -255,54 +161,7 @@
                                  [self changeFavorite:YES];
                              }
 
-                             if (self.followers > 999) {
-                                 NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
-
-                                 formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
-                                 [formatterCurrency setMinimumFractionDigits:1];
-                                 [formatterCurrency setMaximumFractionDigits:1];
-
-                                 NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
-
-                                 self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
-                             } else {
-                                 self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
-                             }
-        
-                             if (website != nil) {
-                                 //self.websiteLabel.text = website;
-                             } else {
-                                 //mltvLink.setText(R.string.profile_no_website_message);
-                                 //self.websiteLabel.text = website;
-                             }
-        
-                             if (number != nil) {
-                                 //self.contactNumberLabel.text = number;
-                             } else {
-                                 //mltvContactNumber.setText(R.string.profile_no_number_message);
-                                 //self.contactNumberLabel.text = number;
-                             }
-        
-                             if (delivery) {
-                                 //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_check));
-                                 //mLtvDelivery.setText(getString(R.string.profile_delivery_yes));
-                             } else {
-                                 //mIvDelivery.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_cancel));
-                                 //mLtvDelivery.setText(getString(R.string.profile_delivery_no));
-                             }
-        
-                             if (multiple) {
-                                 // Multiple locations
-                                 //mRtvLocationDescription.setText(R.string.profile_location_multiple_location);
-                             } else if (online) {
-                                 // Just online
-                                 //mRtvLocationDescription.setText(R.string.profile_location_online_location);
-                                 //mBtnLocation.setVisibility(View.GONE);
-                             } else {
-                                 // One location
-                                 //mRtvLocationDescription.setText(R.string.profile_location_one_location);
-                             }
-        
+                             self.followersLabel.text = numberWithFormat(self.followers);
                          }
                      }
                  }
@@ -334,6 +193,8 @@
     [UIView animateWithDuration:0.20 animations:^{
         baseView.alpha = 1.0;
     }];
+
+    [Flurry logEvent:@"user_profile_view_duration" withParameters:@{@"business": self.businessId} timed:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -342,6 +203,7 @@
         [self.view.window removeGestureRecognizer:self.tapOutsideRecognizer];
         self.tapOutsideRecognizer = nil;
     }
+    [Flurry endTimedEvent:@"user_profile_view_duration" withParameters:nil];
 }
 
 #pragma mark - Action Method -
@@ -424,26 +286,25 @@
     if ([self isSelected]) {
         [AppJobs addFavoriteJob:self.businessId favorite:NO];
         [self changeFavorite:NO];
-        if (self.followers > 0) {
+        if (self.followers > 0)
             self.followers--;
-            if (self.followers > 999) {
-                NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
-
-                formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
-                [formatterCurrency setMinimumFractionDigits:1];
-                [formatterCurrency setMaximumFractionDigits:1];
-
-                NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
-
-                self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
-            } else {
-                self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
-            }
-        }
     } else {
         [AppJobs addFavoriteJob:self.businessId favorite:YES];
         [self changeFavorite:YES];
         self.followers++;
+    }
+
+    if (self.followers > 999) {
+        NSNumberFormatter *formatterCurrency = [[NSNumberFormatter alloc] init];
+
+        formatterCurrency.numberStyle = NSNumberFormatterDecimalStyle;
+        [formatterCurrency setMinimumFractionDigits:1];
+        [formatterCurrency setMaximumFractionDigits:1];
+
+        NSString *newString = [formatterCurrency stringFromNumber:[NSNumber numberWithFloat:(float)(self.followers/1000.0)]];
+
+        self.followersLabel.text = [NSString stringWithFormat:@"%@K", newString];
+    } else {
         self.followersLabel.text = [NSString stringWithFormat:@"%ld", (unsigned long)self.followers];
     }
 

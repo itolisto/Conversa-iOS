@@ -183,7 +183,7 @@
 "no_internet_connection_message" = "Sin conexión a internet";
 
 /* No comment provided by engineer. */
-"profile_share_text" = "Chatea ahora con %1$@, sigue el link %2$@";
+"profile_share_text" = "Chatea ahora con %1$@, sigue el link: %2$@";
 
 /* 
   Localizable.strings
@@ -278,7 +278,7 @@
 "token_session_error" = "Otro dispositivo ha iniciado sesión, este dispositivo cerrará sesión";
 
 /* No comment provided by engineer. */
-"tutorial_message_five" = "Sin llamadas. Sin emails. Sin redes sociales. Solo chat.";
+"tutorial_message_five" = "Sin llamadas. Sin emails. Sin redes sociales. Solo chat. 💬🙌🏼";
 
 /* No comment provided by engineer. */
 "tutorial_message_four" = "Encuentra el negocio en Conversa y empieza a chatear 😁";

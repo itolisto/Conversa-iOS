@@ -623,7 +623,6 @@
 				A55B5D0F1D53C8F300AA576A /* Sources */,
 				A55B5D101D53C8F300AA576A /* Frameworks */,
 				A55B5D111D53C8F300AA576A /* Resources */,
-				A54F51FF1DD5630D008BF9FB /* Fabric */,
 				A59307431E5FB67F00083665 /* Localization BartyCrouch */,
 			);
 			buildRules = (
@@ -732,20 +731,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Conversa/Pods-Conversa-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		A54F51FF1DD5630D008BF9FB /* Fabric */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Fabric;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
 		};
 		A59307431E5FB67F00083665 /* Localization BartyCrouch */ = {
 			isa = PBXShellScriptBuildPhase;
