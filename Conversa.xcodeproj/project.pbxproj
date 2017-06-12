@@ -55,8 +55,6 @@
 		A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906801D6FE7080018D74C /* YapDatabaseObject.m */; };
 		A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906821D6FE7080018D74C /* YapMessage.m */; };
 		A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906841D6FE7080018D74C /* YapSearch.m */; };
-		A53962941D70B83900D557FE /* OneSignalController.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962911D70B83900D557FE /* OneSignalController.m */; };
-		A53962951D70B83900D557FE /* OneSignalService.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962921D70B83900D557FE /* OneSignalService.m */; };
 		A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A54703CA1E2753E30090A073 /* ChatNavBarView.xib */; };
 		A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86F1E109E1800ECC891 /* UIStateButton.m */; };
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
@@ -176,10 +174,6 @@
 		A52906821D6FE7080018D74C /* YapMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapMessage.m; sourceTree = "<group>"; };
 		A52906831D6FE7080018D74C /* YapSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YapSearch.h; sourceTree = "<group>"; };
 		A52906841D6FE7080018D74C /* YapSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapSearch.m; sourceTree = "<group>"; };
-		A53962901D70B83900D557FE /* OneSignalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalController.h; sourceTree = "<group>"; };
-		A53962911D70B83900D557FE /* OneSignalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalController.m; sourceTree = "<group>"; };
-		A53962921D70B83900D557FE /* OneSignalService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneSignalService.m; sourceTree = "<group>"; };
-		A53962931D70B83900D557FE /* OneSignalService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneSignalService.h; sourceTree = "<group>"; };
 		A54703CA1E2753E30090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86E1E109E1800ECC891 /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A547C86F1E109E1800ECC891 /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
@@ -472,10 +466,6 @@
 			children = (
 				A529064C1D6FE7080018D74C /* NotificationPermissions.h */,
 				A529064D1D6FE7080018D74C /* NotificationPermissions.m */,
-				A53962901D70B83900D557FE /* OneSignalController.h */,
-				A53962911D70B83900D557FE /* OneSignalController.m */,
-				A53962931D70B83900D557FE /* OneSignalService.h */,
-				A53962921D70B83900D557FE /* OneSignalService.m */,
 				A529067A1D6FE7080018D74C /* WhisperBridge.swift */,
 			);
 			name = Notification;
@@ -769,7 +759,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
-				A53962951D70B83900D557FE /* OneSignalService.m in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
 				A52906911D6FE7080018D74C /* CategoryViewController.m in Sources */,
@@ -816,7 +805,6 @@
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
 				A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */,
-				A53962941D70B83900D557FE /* OneSignalController.m in Sources */,
 				A52906BF1D6FE7080018D74C /* RegisterViewController.m in Sources */,
 				A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */,
 				A52906981D6FE7080018D74C /* CustomBlockCell.m in Sources */,

@@ -19,7 +19,6 @@
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
 #import "CustomChatCell.h"
-#import "OneSignalService.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
@@ -147,8 +146,8 @@
     } else {
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
-        [[OneSignalService sharedInstance] registerForPushNotifications];
-        //[[OneSignalService sharedInstance] startTags];
+        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [NotificationPermissions canSendNotifications];
     }
 }
 
@@ -195,8 +194,7 @@
     if ([[job objectForKey:@"task"] isEqualToString:@"customerDataJob"]) {
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
-        [[OneSignalService sharedInstance] registerForPushNotifications];
-        [[OneSignalService sharedInstance] startTags];
+        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
     }
 }
 

@@ -20,12 +20,10 @@
 #import "SettingsKeys.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
-#import "OneSignalService.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
 #import <AFNetworking/AFNetworking.h>
-@import Ably;
 @import Parse;
 @import GoogleMaps;
 
@@ -42,7 +40,7 @@
     [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
 
     FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
-                                        withLogLevel:FlurryLogLevelDebug]
+                                        withLogLevel:FlurryLogLevelNone]
                                        withCrashReporting:YES]
                                       withSessionContinueSeconds:10]
                                      withAppVersion:@"1.3.4"];
@@ -63,12 +61,12 @@
 
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+//        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
-//        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://localhost:1337/parse";
+        configuration.applicationId = @"b15c83";
+        configuration.server = @"http://192.168.1.7:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -192,7 +190,14 @@
         }
     }];
 
-    //[[OneSignalService sharedInstance] launchWithOptions:launchOptions];
+    //opened from a push notification when the app is closed
+//    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+//    if (userInfo != nil) {
+//        NSLog(@"PUSH NOTIFICATION->%@",[userInfo objectForKey:@"aps"]);
+//        //write you push handle code here
+//    } else {
+//        NSLog(@"NO PUSH NOTIFICATION");
+//    }
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
@@ -236,10 +241,6 @@
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
-    NSLog(@"\n\n didReceiveLocalNotification: =>\n\n %@", notification);//[@"data"]
-}
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -265,25 +266,90 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Push Notification Methods -
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
+        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
         [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
     }
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    NSLog(@"%s..PUSH",__FUNCTION__);
+    [application setApplicationIconBadgeNumber:20];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+
+    NSLog(@"%s..PUSH WITH INFO=%@",__FUNCTION__,userInfo);
+
+    /**
+     * Dump your code here according to your requirement after receiving push
+     */
+
+    if (application.applicationState == UIApplicationStateActive) {
+        NSLog(@"Active");
+
+        NSString *cancelTitle = @"Close";
+        NSString *showTitle = @"OK";
+        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:cancelTitle
+                                                  otherButtonTitles:showTitle, nil];
+        [alertView show];
+
+    } else if(application.applicationState == UIApplicationStateBackground){
+
+        NSLog(@"Background");
+
+        //app is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
+
+
+        NSString *cancelTitle = @"Close";
+        NSString *showTitle = @"OK";
+        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:cancelTitle
+                                                  otherButtonTitles:showTitle, nil];
+        [alertView show];
+    } else if(application.applicationState == UIApplicationStateInactive) {
+
+        NSLog(@"Inactive");
+        //app is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
+
+
+        NSString *cancelTitle = @"Close";
+        NSString *showTitle = @"OK";
+        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:cancelTitle
+                                                  otherButtonTitles:showTitle, nil];
+        [alertView show];
+        
+    }
+
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
+        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
         [ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
     }
 }
 
-#pragma mark - Branch methods -
+#pragma mark - Branch Methods -
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     // pass the url to the handle deep link call

@@ -1,5 +1,5 @@
 //
-//  CustomSinchService.h
+//  CustomAblyRealtime.h
 //  Conversa
 //
 //  Created by Edgar Gomez on 7/18/16.
@@ -13,10 +13,10 @@
 
 @protocol ConversationListener <NSObject>
 @optional
-    - (void)messageReceived:(YapMessage*)message from:(YapContact*)from;
-    - (void)fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping;
-    // The only status is shown is 'online' and only visible if user enters chat with this user
-    - (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
+- (void)messageReceived:(YapMessage*)message from:(YapContact*)from;
+- (void)fromUser:(NSString*)objectId userIsTyping:(BOOL)isTyping;
+// The only status is shown is 'online' and only visible if user enters chat with this user
+- (void)fromUser:(NSString*)objectId didGoOnline:(BOOL)status; // YES online NO maybe online/maybe not
 @end
 
 @interface CustomAblyRealtime : NSObject <ARTPushRegistererDelegate>
@@ -30,6 +30,8 @@
 - (ARTRealtime*)getAblyRealtime;
 - (void)initAbly;
 - (void)logout;
+
+- (void)subscribeToChannels;
 
 - (NSString *)getPublicConnectionId;
 - (void)onMessage:(NSDictionary *)results;

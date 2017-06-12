@@ -82,6 +82,31 @@
     return self.ably;
 }
 
+- (ARTRealtimeConnectionState)ablyConnectionStatus {
+    if (self.ably == nil) {
+        return ARTRealtimeDisconnected;
+    }
+
+    return self.ably.connection.state;
+}
+
+- (NSString *)getPublicConnectionId {
+    if (self.ably != nil) {
+        return self.ably.connection.key;
+    }
+
+    return nil;
+}
+
+- (void)logout {
+    if (self.ably == nil) {
+        return;
+    }
+
+    [self.ably.push deactivate];
+    [self.ably close];
+}
+
 - (void)subscribeToChannels {
     NSString * channelname = [SettingsKeys getCustomerId];
     if ([channelname length] > 0) {
@@ -126,19 +151,17 @@
         [self onPresenceMessage:message];
     }];
 
+
+//    [channel on:^(ARTChannelStateChange * _Nullable state) {
+//        [self onChannelStateChanged:state.current error:state.reason];
+//    }];
+
     [channel on:^(ARTErrorInfo * _Nullable error) {
         [self onChannelStateChanged:channel.state error:error];
     }];
 }
 
-- (void)logout {
-    if (self.ably == nil) {
-        return;
-    }
-
-    [self.ably.push deactivate];
-    [self.ably close];
-}
+#pragma mark - ARTConnection Methods -
 
 - (void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
     if (status == nil) {
@@ -157,16 +180,12 @@
                 // Change first load
                 self.firstLoad = NO;
             } else {
-                NSString *name = [SettingsKeys getCustomerId];
-
-                if (name) {
-                    NSString * channelname = [@"upbc:" stringByAppendingString:name];
-                    if (![self.ably.channels exists:channelname]) {
-                        [self subscribeToChannels];
-                    } else {
-                        for (ARTRealtimeChannel * channel in self.ably.channels) {
-                            [self reattach:channel];
-                        }
+                NSString * channelname = [@"upbc:" stringByAppendingString:[SettingsKeys getCustomerId]];
+                if (![self.ably.channels exists:channelname]) {
+                    [self subscribeToChannels];
+                } else {
+                    for (ARTRealtimeChannel * channel in self.ably.channels) {
+                        [self reattach:channel];
                     }
                 }
             }
@@ -184,10 +203,72 @@
         case ARTRealtimeClosed:
             break;
         case ARTRealtimeFailed:
-            DDLogError(@"onConnectionStateChgd: Failed --> %@", status.reason);
+            DDLogError(@"onConnectionStateChgd: Failed --> %@", status);
             break;
     }
 }
+
+- (void)onPresenceMessage:(ARTPresenceMessage *)messages {
+    if (messages == nil) {
+        DDLogError(@"onPresenceMessage messages nil");
+        return;
+    }
+
+    if (messages.data) {
+        NSDictionary *data = (NSDictionary*)messages.data;
+        NSString *from = [data valueForKey:@"from"];
+        bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
+        if (from) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
+                [self.delegate fromUser:from userIsTyping:isTyping];
+            }
+        }
+    }
+}
+
+- (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *)reason {
+    if (reason != nil) {
+        DDLogError(@"onChannelStateChanged --> %@", reason.message);
+    }
+}
+
+#pragma mark - ARTPushRegistererDelegate Methods -
+
+- (void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didActivateAblyPush: --> %@", error);
+    } else {
+        DDLogError(@"didActivateAblyPush succeded");
+
+        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+         subscribeDevice:^(ARTErrorInfo *_Nullable error) {
+             // Check error.
+         }];
+
+        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+         subscribeDevice:^(ARTErrorInfo *_Nullable error) {
+             // Check error.
+         }];
+    }
+}
+
+- (void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didDeactivateAblyPush: --> %@", error);
+    } else {
+        DDLogError(@"didDeactivateAblyPush succeded");
+    }
+}
+
+- (void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
+    } else {
+        DDLogError(@"didAblyPushRegistrationFail");
+    }
+}
+
+#pragma mark - Process message Method -
 
 - (void)onMessage:(NSDictionary *)results {
     if ([results valueForKey:@"appAction"]) {
@@ -263,90 +344,7 @@
     }
 }
 
-- (void)onPresenceMessage:(ARTPresenceMessage *)messages {
-    if (messages == nil) {
-        DDLogError(@"onPresenceMessage messages nil");
-        return;
-    }
-
-    if (messages.data) {
-        NSDictionary *data = (NSDictionary*)messages.data;
-        NSString *from = [data valueForKey:@"from"];
-        bool isTyping = [[data valueForKey:@"isTyping"] boolValue];
-        if (from) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(fromUser:userIsTyping:)]) {
-                [self.delegate fromUser:from userIsTyping:isTyping];
-            }
-        }
-    }
-}
-
-- (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *)reason {
-    if (reason != nil) {
-        DDLogError(@"onChannelStateChanged --> %@", reason.message);
-        return;
-    }
-}
-
-- (ARTRealtimeConnectionState)ablyConnectionStatus {
-    if (self.ably == nil) {
-        return ARTRealtimeDisconnected;
-    }
-
-    return self.ably.connection.state;
-}
-
-- (NSString *)getPublicConnectionId {
-    if (self.ably != nil) {
-        return self.ably.connection.key;
-    }
-
-    return nil;
-}
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
-- (void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush: --> %@", error);
-        return;
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-    }
-
-    [[self.ably.channels get:[@"upbc:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
-     subscribeDevice:^(ARTErrorInfo *_Nullable error) {
-         // Check error.
-     }];
-
-    [[self.ably.channels get:[@"upvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
-     subscribeDevice:^(ARTErrorInfo *_Nullable error) {
-         // Check error.
-     }];
-}
-
-- (void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush: --> %@", error);
-        return;
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
-- (void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
-        return;
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail");
-    }
-}
-
-#pragma mark - Process message Method -
-
-- (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact
-{
+- (void)messageId:(NSString*)messageId contactId:(NSString*)contactId messageType:(NSInteger)messageType results:(NSDictionary*)results connection:(YapDatabaseConnection*)connection withContact:(YapContact*)contact {
     __block YapMessage *message = nil;
 
     // Check if message exists
@@ -406,13 +404,13 @@
         }
     }
 
-//    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
-//        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-//        {
-//            [self.delegate messageReceived:message from:contact];
-//            return;
-//        }
-//    }
+    //    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+    //        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+    //        {
+    //            [self.delegate messageReceived:message from:contact];
+    //            return;
+    //        }
+    //    }
 
     [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
      {
@@ -442,17 +440,17 @@
 #pragma mark - Class Methods -
 
 - (void)sendTypingStateOnChannel:(NSString*)channelName isTyping:(BOOL)value {
-    ARTRealtimeChannel *channel = [self.ably.channels get:channelName];
-    if (channel) {
-        [channel.presence updateClient:self.clientId
-                                  data:@{@"isTyping": @(value), @"from": [SettingsKeys getCustomerId]}
-                              callback:^(ARTErrorInfo * _Nullable error)
-        {
-            if (error) {
-                DDLogError(@"Error sending typing state: %@", error);
-            }
-        }];
-    }
+    //    ARTRealtimeChannel *channel = [self.ably.channels get:channelName];
+    //    if (channel) {
+    //        [channel.presence updateClient:self.clientId
+    //                                  data:@{@"isTyping": @(value), @"from": [SettingsKeys getBusinessId]}
+    //                              callback:^(ARTErrorInfo * _Nullable error)
+    //        {
+    //            if (error) {
+    //                DDLogError(@"Error sending typing state: %@", error);
+    //            }
+    //        }];
+    //    }
 }
 
 #pragma mark - Help Methods -
@@ -472,7 +470,7 @@
         UIViewController *lastViewController = [[navigationController viewControllers] lastObject];
         return [self topViewController:lastViewController];
     }
-
+    
     UIViewController *presentedViewController = (UIViewController *)rootViewController.presentedViewController;
     return [self topViewController:presentedViewController];
 }

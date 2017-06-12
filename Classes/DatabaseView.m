@@ -95,7 +95,7 @@ NSString *const BlockedGroup = @"BlockedGroup";
     options.isPersistent = YES;
     // Primary motivation for this is to reduce the overhead when first populating the view
     options.allowedCollections = [[YapWhitelistBlacklist alloc] initWithWhitelist:[NSSet setWithObject:[YapContact collection]]];
-    
+
     YapDatabaseView *databaseView = [[YapDatabaseView alloc] initWithGrouping:viewGrouping
                                                                       sorting:viewSorting
                                                                    versionTag:@"1"
