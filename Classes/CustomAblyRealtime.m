@@ -151,7 +151,6 @@
         [self onPresenceMessage:message];
     }];
 
-
 //    [channel on:^(ARTChannelStateChange * _Nullable state) {
 //        [self onChannelStateChanged:state.current error:state.reason];
 //    }];

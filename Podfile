@@ -10,12 +10,10 @@ target 'Conversa' do
     pod 'Reachability'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
-    #pod 'Parse'
+    # Parse Community Framework
     pod 'Parse'
-    # PushNotifications Service
-    # pod 'OneSignal'
     # Ably Realtime Client Library
-     pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
+    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
     # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher', '~> 2.9.3'
@@ -49,8 +47,6 @@ target 'Conversa' do
     pod 'DGActivityIndicatorView'
     # This library provides an async image downloader with cache support
     pod 'SDWebImage', '4.0.0'
-    # The easiest way to add a UIActivityView to your SDWebImage view
-    # pod 'UIActivityIndicator-for-SDWebImage'
     # A persistent background job queue for iOS.
     pod 'EDQueue'
     # A delightful networking framework for iOS, OS X, watchOS, and tvOS

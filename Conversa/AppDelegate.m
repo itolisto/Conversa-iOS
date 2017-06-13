@@ -43,7 +43,7 @@
                                         withLogLevel:FlurryLogLevelNone]
                                        withCrashReporting:YES]
                                       withSessionContinueSeconds:10]
-                                     withAppVersion:@"1.3.4"];
+                                     withAppVersion:@"1.3.5"];
     
     [Flurry startSession:@"2XVJXDVKP5YBZZ88K6J9" withSessionBuilder:builder];
     
@@ -66,7 +66,7 @@
 //        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
         // To work with localhost
         configuration.applicationId = @"b15c83";
-        configuration.server = @"http://192.168.1.7:1337/parse";
+        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -272,7 +272,7 @@
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
         //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
+        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
     }
 }
 
@@ -345,7 +345,7 @@
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
         //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
     }
 }
 
