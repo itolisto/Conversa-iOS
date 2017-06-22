@@ -263,7 +263,7 @@
 "settings_home_profile_hi" = "Hola";
 
 /* No comment provided by engineer. */
-"settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala.";
+"settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala: ";
 
 /* No comment provided by engineer. */
 "sign_failed_message" = "Correo electrónico y contraseña no coinciden. Por favor verifica los datos";

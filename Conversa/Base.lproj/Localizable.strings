@@ -263,7 +263,7 @@
 "settings_home_profile_hi" = "Hi";
 
 /* No comment provided by engineer. */
-"settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it.";
+"settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it: ";
 
 /* No comment provided by engineer. */
 "sign_failed_message" = "Email and password didn't match any account";

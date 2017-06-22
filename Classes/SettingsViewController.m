@@ -92,7 +92,7 @@
 
 - (void)didSelectShareSetting:(NSIndexPath*)indexPath {
     NSString *textToShare = NSLocalizedString(@"settings_home_share_text", nil);
-    NSURL *myWebsite = [NSURL URLWithString:@"http://www.conversachat.com/"];
+    NSURL *myWebsite = [NSURL URLWithString:@"http://descarga.conversachat.com"];
     
     NSArray *objectsToShare = @[textToShare, myWebsite];
     
