@@ -207,7 +207,7 @@
 "sett_help_dialog_agent_message" = "Retrieving agent information";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "Couldn't find informartion, please try again later";
+"sett_help_dialog_message_error" = "Couldn't find support information, please try again later";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_support_message" = "Retrieving support information";
@@ -266,7 +266,7 @@
 "settings_home_share_text" = "I'm using Conversa and it really works. You can chat directly with thousands of businesses and stores. Follow the link and download it: ";
 
 /* No comment provided by engineer. */
-"sign_failed_message" = "Email and password didn't match any account";
+"sign_failed_message" = "Your email or password is incorrect. Try again.";
 
 /* No comment provided by engineer. */
 "signup_complete_error" = "We couldn't process the request\nin this moment, try again later";

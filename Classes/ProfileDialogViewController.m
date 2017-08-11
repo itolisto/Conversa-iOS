@@ -107,9 +107,7 @@
             id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
                                                         options:0
                                                           error:&error];
-                     if (error) {
-                         DDLogError(@"%@", error);
-                     } else {
+                     if (!error) {
                          if ([object isKindOfClass:[NSDictionary class]]) {
                              NSDictionary *results = object;
         

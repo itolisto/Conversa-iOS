@@ -207,7 +207,7 @@
 "sett_help_dialog_agent_message" = "Buscando información de agente";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "No se pudo encontrar información, por favor intente de nuevo más tarde";
+"sett_help_dialog_message_error" = "No se pudo encontrar información de soporte, por favor intenta de nuevo más tarde";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_support_message" = "Buscando información de soporte";
@@ -266,7 +266,7 @@
 "settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala: ";
 
 /* No comment provided by engineer. */
-"sign_failed_message" = "Correo electrónico y contraseña no coinciden. Por favor verifica los datos";
+"sign_failed_message" = "El correo electrónico o la contraseña es incorrecta. Intenta de nuevo.";
 
 /* No comment provided by engineer. */
 "signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
