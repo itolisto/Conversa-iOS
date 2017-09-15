@@ -214,8 +214,6 @@
 
 - (UIViewController*)defaultNavigationController
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
     Account *account = [Account currentUser];
     BOOL hasAccount = NO;
     
@@ -230,12 +228,17 @@
      * 3. Abrir Identity inspector
      * 4. Propiedad Storyboard ID se escribe nombre
      */
+    UIStoryboard *storyboard;
+
     if (hasAccount) {
+        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
+            storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
             return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
         } else {
+            storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
             return [storyboard instantiateViewControllerWithIdentifier:@"Tutorial"];
         }
     }

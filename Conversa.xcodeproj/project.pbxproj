@@ -60,6 +60,10 @@
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
 		A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D1A1D53C8F300AA576A /* AppDelegate.m */; };
 		A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D251D53C8F300AA576A /* Assets.xcassets */; };
+		A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF21F6B634500C8805F /* Tutorial.storyboard */; };
+		A5698FF91F6B6B4400C8805F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF71F6B6B4400C8805F /* Login.storyboard */; };
+		A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFA1F6B6B6B00C8805F /* Code.storyboard */; };
+		A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFD1F6B73A200C8805F /* gifCode.gif */; };
 		A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */; };
 		A571285F1E5EA44200B80D87 /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A571285E1E5EA44200B80D87 /* Business.m */; };
 		A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */; };
@@ -75,9 +79,14 @@
 		A5BA0CE51E09DC12001044F7 /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA0CE21E09DC12001044F7 /* BaseTableViewController.m */; };
 		A5BA0CE61E09DC12001044F7 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA0CE41E09DC12001044F7 /* BaseViewController.m */; };
 		A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */; };
+		A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C5D7561F6787560058A52D /* UIImage+Gif.swift */; };
 		A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */; };
+		A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */; };
+		A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */; };
+		A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */; };
 		A5D4F9291E6DF2C00078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F9281E6DF2C00078F31C /* HelpViewController.m */; };
 		A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */; };
+		A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +195,10 @@
 		A55B5D251D53C8F300AA576A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55B5D281D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A55B5D2A1D53C8F300AA576A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5698FF31F6B634500C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Tutorial.storyboard; sourceTree = SOURCE_ROOT; };
+		A5698FF81F6B6B4400C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Login.storyboard; sourceTree = SOURCE_ROOT; };
+		A5698FFB1F6B6B6B00C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Code.storyboard; sourceTree = SOURCE_ROOT; };
+		A5698FFD1F6B73A200C8805F /* gifCode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gifCode.gif; sourceTree = "<group>"; };
 		A56C26EA1DED000D00EA700B /* ProfileDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDialogViewController.h; sourceTree = "<group>"; };
 		A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
 		A571285D1E5EA44200B80D87 /* Business.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Business.h; sourceTree = "<group>"; };
@@ -210,13 +223,18 @@
 		A5BA0CE41E09DC12001044F7 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		A5BA423D1DFBBE2000B59A86 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		A5C5D7561F6787560058A52D /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
 		A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBusinessCell.h; sourceTree = "<group>"; };
 		A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBusinessCell.m; sourceTree = "<group>"; };
+		A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
+		A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCodeViewController.swift; sourceTree = "<group>"; };
+		A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateCodeViewController.swift; sourceTree = "<group>"; };
 		A5D4F9271E6DF2C00078F31C /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		A5D4F9281E6DF2C00078F31C /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_notification.mp3; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5F8BC0F1DD59D40008BD50B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		A5FEBDE11DF60801002B8836 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C1EB0991693E08B742146D18 /* Pods_Conversa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Conversa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF14DF4276BD6F9F1BAD2CB /* Pods-Conversa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conversa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Conversa/Pods-Conversa.debug.xcconfig"; sourceTree = "<group>"; };
@@ -259,6 +277,7 @@
 				A5A7DDF21DD5696300E0D242 /* Connection */,
 				A5A7DDF31DD5696B00E0D242 /* Custom */,
 				A539628B1D70AF8E00D557FE /* Database */,
+				A5FB429F1F6C53C50045DFFB /* Dialogs */,
 				A5BA0CE71E09DC1B001044F7 /* Extendables */,
 				A5B6141D1DEFEC3B00C7A4C1 /* Jobs */,
 				A539628C1D70AFAC00D557FE /* Media */,
@@ -316,6 +335,7 @@
 		A539628E1D70B01E00D557FE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				A5D4A4F81F6A9E0D00AA5666 /* Code */,
 				A5E77A641DD56BB80032B7D5 /* Categories */,
 				A5E77A631DD56BB40032B7D5 /* Chats */,
 				A5E77A611DD56BAA0032B7D5 /* Login */,
@@ -332,6 +352,7 @@
 		A539628F1D70B05200D557FE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5F39B831F5F8EE00058E7E3 /* Storyboards */,
 				A54703CA1E2753E30090A073 /* ChatNavBarView.xib */,
 				A52906451D6FE7080018D74C /* MapView.h */,
 				A52906461D6FE7080018D74C /* MapView.m */,
@@ -366,11 +387,10 @@
 				A55B5D191D53C8F300AA576A /* AppDelegate.h */,
 				A55B5D1A1D53C8F300AA576A /* AppDelegate.m */,
 				A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */,
-				A55B5D221D53C8F300AA576A /* Main.storyboard */,
-				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
 				A55B5D251D53C8F300AA576A /* Assets.xcassets */,
 				A55B5D2A1D53C8F300AA576A /* Info.plist */,
 				A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */,
+				A5698FFD1F6B73A200C8805F /* gifCode.gif */,
 				A55B5D161D53C8F300AA576A /* Supporting Files */,
 				A5A7DDF01DD5692600E0D242 /* Strings */,
 			);
@@ -442,6 +462,7 @@
 				A52906531D6FE7080018D74C /* NSNumber+Conversa.m */,
 				A547C86E1E109E1800ECC891 /* UIStateButton.h */,
 				A547C86F1E109E1800ECC891 /* UIStateButton.m */,
+				A5C5D7561F6787560058A52D /* UIImage+Gif.swift */,
 			);
 			name = Custom;
 			sourceTree = "<group>";
@@ -524,6 +545,16 @@
 			name = Extendables;
 			sourceTree = "<group>";
 		};
+		A5D4A4F81F6A9E0D00AA5666 /* Code */ = {
+			isa = PBXGroup;
+			children = (
+				A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */,
+				A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */,
+				A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */,
+			);
+			name = Code;
+			sourceTree = "<group>";
+		};
 		A5E77A5E1DD56B980032B7D5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -598,6 +629,26 @@
 				A52906101D6FE7080018D74C /* CategoryViewController.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		A5F39B831F5F8EE00058E7E3 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				A55B5D221D53C8F300AA576A /* Main.storyboard */,
+				A5698FF71F6B6B4400C8805F /* Login.storyboard */,
+				A5698FF21F6B634500C8805F /* Tutorial.storyboard */,
+				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
+				A5698FFA1F6B6B6B00C8805F /* Code.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		A5FB429F1F6C53C50045DFFB /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */,
+			);
+			name = Dialogs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -678,14 +729,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */,
+				A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */,
 				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
 				A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */,
 				A59307471E5FBAE300083665 /* Localizable.strings in Resources */,
 				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
 				A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */,
+				A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
 				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,
+				A5698FF91F6B6B4400C8805F /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +813,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */,
+				A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */,
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
@@ -766,6 +823,7 @@
 				A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */,
 				A52906AA1D6FE7080018D74C /* LoginHandler.m in Sources */,
 				A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */,
+				A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */,
 				A52906881D6FE7080018D74C /* Audio.m in Sources */,
 				A52906B11D6FE7080018D74C /* NotificationPermissions.m in Sources */,
 				A52906C71D6FE7080018D74C /* Utilities.m in Sources */,
@@ -803,11 +861,13 @@
 				A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */,
 				A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */,
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
+				A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */,
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
 				A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */,
 				A52906BF1D6FE7080018D74C /* RegisterViewController.m in Sources */,
 				A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */,
 				A52906981D6FE7080018D74C /* CustomBlockCell.m in Sources */,
+				A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */,
 				A52906A81D6FE7080018D74C /* Image.m in Sources */,
 				A52906A61D6FE7080018D74C /* DatabaseView.m in Sources */,
 				A52906CC1D6FE7080018D74C /* YapContact.m in Sources */,
@@ -833,6 +893,7 @@
 				A59307481E5FBFB700083665 /* es */,
 			);
 			name = Main.storyboard;
+			path = ../Conversa;
 			sourceTree = "<group>";
 		};
 		A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */ = {
@@ -841,6 +902,31 @@
 				A55B5D281D53C8F300AA576A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = ../Conversa;
+			sourceTree = "<group>";
+		};
+		A5698FF21F6B634500C8805F /* Tutorial.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5698FF31F6B634500C8805F /* Base */,
+			);
+			name = Tutorial.storyboard;
+			sourceTree = "<group>";
+		};
+		A5698FF71F6B6B4400C8805F /* Login.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5698FF81F6B6B4400C8805F /* Base */,
+			);
+			name = Login.storyboard;
+			sourceTree = "<group>";
+		};
+		A5698FFA1F6B6B6B00C8805F /* Code.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5698FFB1F6B6B6B00C8805F /* Base */,
+			);
+			name = Code.storyboard;
 			sourceTree = "<group>";
 		};
 		A59544551E09E340002057B9 /* InfoPlist.strings */ = {

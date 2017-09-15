@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     pod 'Reachability'
+    # Audio SDK
+    pod 'SinchRTC'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -54,4 +56,6 @@ target 'Conversa' do
     pod 'TTTAttributedLabel'
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods.
     pod 'VTAcknowledgementsViewController'
+    # Simple pin code text input with underlined space for characters.
+    pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
 end

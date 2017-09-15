@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>18</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -75,12 +75,16 @@
 	<string>$(PRODUCT_NAME) wants to access camera to capture images</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) want to send your location data to the NSA, nah, just kidding</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to access your microphone to call Support</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) wants to access your photo library to send images</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
+		<string>voip</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
