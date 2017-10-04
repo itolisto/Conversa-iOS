@@ -38,7 +38,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hXk-pE-kL2" userLabel="Get Code Button" customClass="UIStateButton">
-                                <rect key="frame" x="102" y="377" width="170" height="40"/>
+                                <rect key="frame" x="102.5" y="377" width="170" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="170" id="95u-Su-cWY"/>
@@ -46,7 +46,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                <state key="normal" title="GET A CODE">
+                                <state key="normal" title="CONSEGUIR">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -68,7 +68,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0r-2C-Xos" userLabel="Login Button" customClass="UIStateButton">
-                                <rect key="frame" x="102" y="279" width="170" height="40"/>
+                                <rect key="frame" x="102.5" y="279" width="170" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5PI-I0-n9E"/>
@@ -76,7 +76,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                <state key="normal" title="LET'S GO">
+                                <state key="normal" title="INGRESAR">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -97,26 +97,20 @@
                                     <segue destination="dIy-B4-TJc" kind="show" id="Xgh-jF-FOO"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I DON'T HAVE A CODE YET :(" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mBg-TI-0Ia">
-                                <rect key="frame" x="87.5" y="348" width="200" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="jYZ-xe-ipY"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AÚN NO TENGO CÓDIGO :(" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mBg-TI-0Ia">
+                                <rect key="frame" x="109" y="348" width="157.5" height="15"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                 <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I HAVE A CODE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNc-jU-92g">
-                                <rect key="frame" x="87" y="250" width="200" height="15"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="svj-mG-sGh"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TENGO UN CÓDIGO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lNc-jU-92g">
+                                <rect key="frame" x="129.5" y="250" width="116" height="15"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                 <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HAVE YOU ALREADY ENTERED A CODE AND CREATED AN ACCOUNT? TAP HERE" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGU-wN-MXu" customClass="TTTAttributedLabel">
-                                <rect key="frame" x="99" y="624.5" width="177" height="21.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿YA HAS INGRESADO UN CÓDIGO Y CREASTE UNA CUENTA? TAP AQUI" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGU-wN-MXu" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="109.5" y="624.5" width="156.5" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="9"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -171,7 +165,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="caM-Rg-a3v" userLabel="Login Button" customClass="UIStateButton">
-                                <rect key="frame" x="101" y="283" width="172" height="40"/>
+                                <rect key="frame" x="81" y="268" width="213" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="Fqm-IJ-MzG"/>
@@ -179,11 +173,8 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                <state key="normal" title="I'M FEELING LUCKY">
+                                <state key="normal" title="ME SIENTO CON SUERTE">
                                     <color key="titleColor" red="0.023529411760000001" green="0.94901960780000005" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="disabled">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="defaultBorderColor">
@@ -216,11 +207,11 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SSP-Hy-dh4" customClass="PinCodeTextField" customModule="PinCodeTextField">
-                                <rect key="frame" x="67" y="120" width="240" height="128"/>
+                                <rect key="frame" x="67" y="105" width="240" height="128"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="AFE-kb-8gM"/>
-                                    <constraint firstAttribute="width" constant="240" id="wgM-kk-JpT"/>
+                                    <constraint firstAttribute="height" constant="128" id="540-RM-ZOj"/>
+                                    <constraint firstAttribute="width" constant="240" id="wq6-U7-Fpp"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="underlineWidth">
@@ -242,7 +233,7 @@
                                         <real key="value" value="23"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                        <color key="value" red="0.19215686274509802" green="0.19215686274509802" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="value" red="0.40784313729999999" green="0.40784313729999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                         <color key="value" red="0.72941176470000002" green="0.57254901960000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -257,12 +248,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="SSP-Hy-dh4" firstAttribute="top" secondItem="UvB-cr-Yg5" secondAttribute="bottom" constant="85" id="HIE-Wk-VnE"/>
+                            <constraint firstItem="SSP-Hy-dh4" firstAttribute="centerX" secondItem="JZo-Ar-ABz" secondAttribute="centerX" id="Kv4-k1-LlB"/>
                             <constraint firstItem="iKX-zT-ymv" firstAttribute="leading" secondItem="JZo-Ar-ABz" secondAttribute="leadingMargin" id="Nmy-iC-wJb"/>
+                            <constraint firstItem="caM-Rg-a3v" firstAttribute="top" secondItem="SSP-Hy-dh4" secondAttribute="bottom" constant="35" id="SVq-ND-jlT"/>
                             <constraint firstItem="iKX-zT-ymv" firstAttribute="top" secondItem="UvB-cr-Yg5" secondAttribute="bottom" constant="14" id="YFO-3Q-EY7"/>
-                            <constraint firstItem="SSP-Hy-dh4" firstAttribute="top" secondItem="UvB-cr-Yg5" secondAttribute="bottom" constant="100" id="ZfZ-AA-cHS"/>
                             <constraint firstItem="caM-Rg-a3v" firstAttribute="centerX" secondItem="JZo-Ar-ABz" secondAttribute="centerX" id="oBD-KM-fiS"/>
-                            <constraint firstItem="caM-Rg-a3v" firstAttribute="top" secondItem="SSP-Hy-dh4" secondAttribute="bottom" constant="35" id="pVp-qg-4GW"/>
-                            <constraint firstItem="SSP-Hy-dh4" firstAttribute="centerX" secondItem="JZo-Ar-ABz" secondAttribute="centerX" id="rbd-Ys-gId"/>
                         </constraints>
                     </view>
                     <connections>
@@ -287,34 +278,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6iH-R1-Ydb">
-                                <rect key="frame" x="67" y="120" width="240" height="128"/>
+                                <rect key="frame" x="67.5" y="105" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="3W3-Q0-UXS"/>
                                     <constraint firstAttribute="height" constant="128" id="QoA-vd-Nzr"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How do I get a code?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKb-CK-UN4">
-                                <rect key="frame" x="92.5" y="280" width="194.5" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿Cómo obtengo un código?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xKb-CK-UN4">
+                                <rect key="frame" x="60.5" y="265" width="257.5" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get one here:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFx-EQ-TN3">
-                                <rect key="frame" x="137" y="311" width="102" height="19.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Obtén uno aquí:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFx-EQ-TN3">
+                                <rect key="frame" x="127.5" y="296" width="120.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                 <color key="textColor" red="0.40784313729999999" green="0.40784313729999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pGF-hG-88P" userLabel="Login Button" customClass="UIStateButton">
-                                <rect key="frame" x="102" y="348.5" width="170" height="40"/>
+                                <rect key="frame" x="138.5" y="333" width="98" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="L4p-0k-3xj"/>
-                                    <constraint firstAttribute="width" constant="170" id="mQe-c4-FTz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                <state key="normal" title="GET A CODE">
+                                <state key="normal" title="OBTENER">
                                     <color key="titleColor" red="0.023529411760000001" green="0.94901960780000005" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -335,14 +325,14 @@
                                     <action selector="getCodeButtonPressed:" destination="S9r-4L-6HX" eventType="touchUpInside" id="9dQ-Xg-CoK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or share this on FB or TW and don't forget to use the hashtags: #conversachat #codigoconversa" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfs-0f-Yhi" customClass="TTTAttributedLabel">
-                                <rect key="frame" x="83" y="410.5" width="209.5" height="50.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="O comparte esto en FB o TW y no olvides usar los hashtags: #conversachat #codigoconversa" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vfs-0f-Yhi" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="83" y="395" width="209.5" height="50.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Our system will detect your post or tweet and we will send you a code by DM" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sqy-C5-Pf2">
-                                <rect key="frame" x="91" y="483" width="193" height="50.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nuestro sistema detectará tu post o tweet y te enviaremos un código por MD" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sqy-C5-Pf2">
+                                <rect key="frame" x="95" y="468" width="185.5" height="50.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -374,14 +364,14 @@
                             <constraint firstItem="Sqy-C5-Pf2" firstAttribute="centerX" secondItem="gyE-Sm-vAh" secondAttribute="centerX" id="nUa-3O-6mP"/>
                             <constraint firstItem="pGF-hG-88P" firstAttribute="top" secondItem="RFx-EQ-TN3" secondAttribute="bottom" constant="18" id="pTT-wl-aM8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="iBB-qI-ALw" secondAttribute="trailing" id="vEi-Zo-lVz"/>
-                            <constraint firstItem="6iH-R1-Ydb" firstAttribute="top" secondItem="gyE-Sm-vAh" secondAttribute="topMargin" constant="100" id="wXl-BJ-pgA"/>
+                            <constraint firstItem="6iH-R1-Ydb" firstAttribute="top" secondItem="gyE-Sm-vAh" secondAttribute="topMargin" constant="85" id="wXl-BJ-pgA"/>
                             <constraint firstItem="Vfs-0f-Yhi" firstAttribute="centerX" secondItem="gyE-Sm-vAh" secondAttribute="centerX" id="xAo-pe-P7I"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="btnGetCode" destination="pGF-hG-88P" id="eoQ-UJ-vZk"/>
                         <outlet property="ivGif" destination="6iH-R1-Ydb" id="CQh-CA-hKu"/>
-                        <outlet property="lblShare" destination="Vfs-0f-Yhi" id="Pe8-h4-BON"/>
+                        <outlet property="lblShare" destination="Vfs-0f-Yhi" id="eOq-gr-lWa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BFN-h4-1Kp" userLabel="First Responder" sceneMemberID="firstResponder"/>

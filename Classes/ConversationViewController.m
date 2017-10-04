@@ -196,6 +196,26 @@
 
     NSString *customer_id = [SettingsKeys getCustomerId];
     [Flurry logEvent:@"user_chat_duration" withParameters:@{@"user": (customer_id) ? customer_id : @""} timed:YES];
+
+    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
+                       withParameters:@{@"customerId": [SettingsKeys getCustomerId],
+                                        @"businessId": self.buddy.uniqueId,
+                                        @"fromCustomer": @YES}
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+    {
+        if (!error) {
+            NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:0
+                                                                  error:&error];
+
+            if (!error) {
+                [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSDictionary *message = (NSDictionary*)obj;
+                    [YapMessage saveMessageWithDictionary:message block:nil];
+                }];
+            }
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -249,6 +269,24 @@
                             placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
                 }
 
+                // Width constraint
+                [logo addConstraint:[NSLayoutConstraint constraintWithItem:logo
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute: NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:38]];
+
+                // Height constraint
+                [logo addConstraint:[NSLayoutConstraint constraintWithItem:logo
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute: NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:38]];
+
                 logo.layer.cornerRadius = 19;
                 logo.layer.masksToBounds = YES;
                 
@@ -270,7 +308,25 @@
     [self.titleView setText:self.buddy.displayName];
     self.subTitle = (UILabel *)[view viewWithTag:121];
     [self.subTitle setText:self.lastStatus];
-    
+
+    // Width constraint
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                     attribute:NSLayoutAttributeWidth
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:200]];
+
+    // Height constraint
+    [view addConstraint:[NSLayoutConstraint constraintWithItem:view
+                                                     attribute:NSLayoutAttributeHeight
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:nil
+                                                     attribute: NSLayoutAttributeNotAnAttribute
+                                                    multiplier:1
+                                                      constant:38]];
+
     UITapGestureRecognizer *profileTap = [[UITapGestureRecognizer alloc]
                                           initWithTarget:self
                                           action:@selector(goToProfile:)];

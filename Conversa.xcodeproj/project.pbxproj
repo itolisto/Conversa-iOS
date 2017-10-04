@@ -195,6 +195,8 @@
 		A55B5D251D53C8F300AA576A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55B5D281D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A55B5D2A1D53C8F300AA576A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A568DCC91F7C651A00C8BC0D /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Code.storyboard; sourceTree = "<group>"; };
+		A568DCCC1F7C654000C8BC0D /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Tutorial.storyboard; sourceTree = "<group>"; };
 		A5698FF31F6B634500C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Tutorial.storyboard; sourceTree = SOURCE_ROOT; };
 		A5698FF81F6B6B4400C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Login.storyboard; sourceTree = SOURCE_ROOT; };
 		A5698FFB1F6B6B6B00C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Code.storyboard; sourceTree = SOURCE_ROOT; };
@@ -224,6 +226,7 @@
 		A5BA423D1DFBBE2000B59A86 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		A5C5D7561F6787560058A52D /* UIImage+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gif.swift"; sourceTree = "<group>"; };
+		A5CF0E8C1F7F3E6400703A83 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Login.storyboard; sourceTree = "<group>"; };
 		A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBusinessCell.h; sourceTree = "<group>"; };
 		A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBusinessCell.m; sourceTree = "<group>"; };
 		A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
@@ -909,6 +912,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5698FF31F6B634500C8805F /* Base */,
+				A568DCCC1F7C654000C8BC0D /* es */,
 			);
 			name = Tutorial.storyboard;
 			sourceTree = "<group>";
@@ -917,6 +921,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5698FF81F6B6B4400C8805F /* Base */,
+				A5CF0E8C1F7F3E6400703A83 /* es */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
@@ -925,6 +930,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A5698FFB1F6B6B6B00C8805F /* Base */,
+				A568DCC91F7C651A00C8BC0D /* es */,
 			);
 			name = Code.storyboard;
 			sourceTree = "<group>";

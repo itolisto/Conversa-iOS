@@ -12,6 +12,7 @@
 // General
 extern NSString *tutorialAlreadyShown;
 extern NSString *firstCategoriesLoad;
+extern NSString *codeAlreadyValidated;
 // Account settings
 extern NSString *readReceiptsSwitch;
 extern NSString *customerObjectId;
@@ -35,6 +36,8 @@ typedef NS_ENUM(NSUInteger, ConversaGender) {
 // General
 + (void)setTutorialShownSetting:(BOOL)state;
 + (BOOL)getTutorialShownSetting;
++ (void)setCodeValidatedSetting:(BOOL)state;
++ (BOOL)getCodeValidatedSetting;
 
 // Account settings
 + (void)setCustomerId:(NSString*)objectId;

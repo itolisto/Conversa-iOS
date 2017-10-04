@@ -25,4 +25,18 @@
     return kClassBusiness;
 }
 
++ (void)queryForBusiness:(NSString*)businessId block:(BusinessQueryResult)block {
+    PFQuery *query = [Business query];
+    [query whereKey:kBusinessActiveKey equalTo:@(YES)];
+    [query selectKeys:@[kBusinessDisplayNameKey, kBusinessConversaIdKey, kBusinessAvatarKey]];
+    [query getObjectInBackgroundWithId:businessId block:^(PFObject * _Nullable object, NSError * _Nullable error)
+     {
+         if (error) {
+             block(nil, error);
+         } else {
+             block((Business*)object, nil);
+         }
+     }];
+}
+
 @end

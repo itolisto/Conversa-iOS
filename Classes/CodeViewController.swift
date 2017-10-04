@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SafariServices
 import TTTAttributedLabel
 
 class CodeViewController: UIViewController {
@@ -31,20 +30,9 @@ class CodeViewController: UIViewController {
 
         let attrStr = NSMutableAttributedString.init(string: self.lblInfo.text!, attributes: nil)
 
-        let str = NSLocale.preferredLanguages[0]
-        let index = str.index(str.startIndex, offsetBy: 2)
-
-        let language = str.substring(to: index)
         let size = self.lblInfo.text?.characters.count
-        var start, end : NSRange;
-
-        if (language == "es") {
-            start = NSMakeRange(0, size! - 13);
-            end = NSMakeRange(size! - 13, 13);
-        } else {
-            start = NSMakeRange(0, size! - 8);
-            end = NSMakeRange(size! - 8, 8);
-        }
+        let start = NSMakeRange(0, size! - 8)
+        let end = NSMakeRange(size! - 13, 13)
 
         // Normal
         let attributesNormal: [String: Any] = [NSForegroundColorAttributeName: UIColor.lightGray]
@@ -58,7 +46,7 @@ class CodeViewController: UIViewController {
         self.lblInfo.activeLinkAttributes = attributesActive
 
         //let url = NSURL.fileURL(withPath: "https://conversa.typeform.com/to/RRg54U")
-        let url = NSURL(string: "https://conversa.typeform.com/to/RRg54U")! as URL
+        let url = NSURL(string: "https://conversachat.com")! as URL
         
         self.lblInfo.addLink(to: url, with: end)
         self.lblInfo.attributedText = attrStr;
@@ -71,35 +59,14 @@ class CodeViewController: UIViewController {
 extension CodeViewController : TTTAttributedLabelDelegate {
 
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
-        let svc = SFSafariViewController.init(url: url, entersReaderIfAvailable: false)
-        svc.delegate = self;
+        // Present view controller
+        let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
 
-//        if #available(iOS 10.0, *) {
-//            // The color to tint the background of the navigation bar and the toolbar.
-//            svc.preferredBarTintColor = readerMode ? .blue : .orange
-//            // The color to tint the the control buttons on the navigation bar and the toolbar.
-//            svc.preferredControlTintColor = .white
-//        } else {
-//            // Fallback on earlier versions
-//        }
-
-        self.present(svc, animated: true, completion: nil)
+//        let aObjNavi = UINavigationController(rootViewController: vc)
+//        self.present(aObjNavi, animated: true, completion: nil)
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
-}
-
-extension CodeViewController: SFSafariViewControllerDelegate {
-
-    func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
-        //Tells the delegate that the initial URL load completed.
-    }
-
-    func safariViewController(_ controller: SFSafariViewController, activityItemsFor URL: URL, title: String?) -> [UIActivity] {
-        //Tells the delegate that the user tapped an Action button.
-        return []
-    }
-
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        //Tells the delegate that the user dismissed the view.
-    }
 }

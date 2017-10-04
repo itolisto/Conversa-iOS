@@ -66,7 +66,7 @@
         configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
 //        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://localhost:1337/parse";
+//        configuration.server = @"http://192.168.1.9:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -235,11 +235,16 @@
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
-            storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
-            return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
+            if ([SettingsKeys getCodeValidatedSetting]) {
+                storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+                return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
+            } else {
+                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
+                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
+            }
         } else {
             storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
-            return [storyboard instantiateViewControllerWithIdentifier:@"Tutorial"];
+            return [storyboard instantiateViewControllerWithIdentifier:@"TutorialView"];
         }
     }
 }
@@ -271,7 +276,22 @@
 
 #pragma mark - Push Notification Methods -
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"deviceToken: %@", deviceToken);
+    NSData *oldToken = [[NSUserDefaults standardUserDefaults] dataForKey:@"DeviceToken"];
 
+    if (oldToken && [oldToken isEqualToData:deviceToken]) {
+        // registration token hasn't changed - carry on
+        return;
+    }
+
+    [[CustomAblyRealtime sharedInstance] unsubscribeToPushNotification:oldToken];
+    [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
+}
 
 #pragma mark - Branch Methods -
 
@@ -545,6 +565,26 @@
              }];
 
             [downloadTask resume];
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"removeConversationJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            NSError *error;
+            [PFCloud callFunction:@"deleteConversations"
+                   withParameters:@{@"businessId": [data objectForKey:@"businessId"],
+                                    @"customerId": [data objectForKey:@"customerId"],
+                                    @"fromCustomer": @YES}
+                            error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([ParseValidation validateError:error]) {
+                        [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                    }
+                });
+                block(EDQueueResultFail);
+            } else {
+                block(EDQueueResultSuccess);
+            }
         } else {
             block(EDQueueResultCritical);
         }

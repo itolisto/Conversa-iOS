@@ -16,5 +16,6 @@
 + (void)addDownloadAvatarJob:(YapContact*)buddy;
 + (void)addFavoriteJob:(NSString*)businessId favorite:(BOOL)favorite;
 + (void)addDownloadFileJob:(NSString*)messageId url:(NSString*)url messageType:(NSInteger)messageType;
++ (void)addRemoveConversationJob:(NSString*)customerId url:(NSString*)businessId;
 
 @end

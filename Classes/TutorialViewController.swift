@@ -56,8 +56,17 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
     }
 
     @IBAction func homeButtonPressed(_ sender: UIButton) {
-        let storyboard = UIStoryboard.init(name: "Code", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "CodeView")
+        var storyboard : UIStoryboard
+        var vc : UIViewController
+
+        if SettingsKeys.getCodeValidatedSetting() {
+            storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+            vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
+        } else {
+            storyboard = UIStoryboard.init(name: "Code", bundle: nil)
+            vc = storyboard.instantiateViewController(withIdentifier: "CodeView")
+        }
+
         self.present(vc, animated: true, completion: nil)
     }
     

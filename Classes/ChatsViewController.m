@@ -147,6 +147,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
         [NotificationPermissions canSendNotifications];
     }
 }
@@ -173,6 +174,25 @@
                                                           selector:@selector(updateVisibleCells:)
                                                           userInfo:nil
                                                            repeats:YES];
+
+    [PFCloud callFunctionInBackground:@"getLatestConversations"
+                       withParameters:@{@"customerId": [SettingsKeys getCustomerId],
+                                        @"fromCustomer": @YES}
+                                block:^(id  _Nullable object, NSError * _Nullable error)
+    {
+        if (!error) {
+            NSArray *contacts = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+                                                                options:0
+                                                                  error:&error];
+
+            if (!error) {
+                [contacts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSDictionary *business = (NSDictionary*)obj;
+                    [YapContact saveContactWithDictionary:business block:nil];
+                }];
+            }
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -195,6 +215,7 @@
         // Register for push notifications and send tags
         [[CustomAblyRealtime sharedInstance] initAbly];
         [[CustomAblyRealtime sharedInstance] subscribeToChannels];
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceToken"]];
     }
 }
 
@@ -556,6 +577,8 @@
                                                                           handler:^(UITableViewRowAction *action, NSIndexPath *indexPath)
     {
         YapContact *cellBuddy = [self contactForIndexPath:indexPath];
+
+        [AppJobs addRemoveConversationJob:[SettingsKeys getCustomerId] url:cellBuddy.uniqueId];
 
         [[DatabaseManager sharedInstance].newConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction) {
             [cellBuddy removeWithTransaction:transaction];

@@ -12,6 +12,7 @@
 
 // General
 NSString *tutorialAlreadyShown = @"tutorialAlreadyShown";
+NSString *codeAlreadyValidated = @"codeAlreadyValidated";
 
 // Account settings
 NSString *customerObjectId  = @"customerObjectId";
@@ -48,6 +49,17 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 + (BOOL)getTutorialShownSetting {
     NSUserDefaults *defaults = [self getDefaults];
     return [defaults boolForKey:tutorialAlreadyShown];
+}
+
++ (void)setCodeValidatedSetting:(BOOL)state {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setBool:state forKey:codeAlreadyValidated];
+    [defaults synchronize];
+}
+
++ (BOOL)getCodeValidatedSetting {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults boolForKey:codeAlreadyValidated];
 }
 
 #pragma mark - Account settings -

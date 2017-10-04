@@ -177,6 +177,9 @@
 "conversation_unsent_alert_action_view" = "Ver imagen";
 
 /* No comment provided by engineer. */
+"gcvc_alert_share" = "Las anticuadas formas de comunicación con empresas han muerto. Hay un nuevo rey en la ciudad. Conversa llegó para quedarse. Ve de que se trata todo este alboroto. Descarga la app y solicita tu código de acceso. #conversachat http://codigos.conversachat.com";
+
+/* No comment provided by engineer. */
 "mapview_controller_title" = "Mapa";
 
 /* No comment provided by engineer. */
@@ -306,6 +309,21 @@
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Ahora puedes";
+
+/* Validate code error validation */
+"vcvc_alert_subtitle" = "Lo sentimos, el código ingresado no es válido";
+
+/* Validate code error validation button */
+"vcvc_alert_subtitle_button" = "Obtener código válido";
+
+/* Validate code success button */
+"vcvc_alert_success_button" = "Acceder";
+
+/* Validate code success subtitle */
+"vcvc_alert_success_subtitle" = "El código es válido";
+
+/* Validate code success title */
+"vcvc_alert_success_title" = "¡Genial!";
 
 /* No comment provided by engineer. */
 "..." = "";

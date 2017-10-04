@@ -34,13 +34,13 @@
                                     <action selector="closeButtonPressed:" destination="Izd-Dn-AwL" eventType="touchUpInside" id="E4c-xr-gsp"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FORGOT PASSWORD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzZ-1y-Eva">
-                                <rect key="frame" x="108.5" y="49" width="158" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RECUPERAR CONTRASEÑA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzZ-1y-Eva">
+                                <rect key="frame" x="84.5" y="49" width="206.5" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="afX-k0-UtX" customClass="JVFloatLabeledTextField">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="afX-k0-UtX" customClass="JVFloatLabeledTextField">
                                 <rect key="frame" x="23" y="104" width="329" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ehQ-ah-P8r"/>
@@ -72,7 +72,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                <state key="normal" title="RECOVER">
+                                <state key="normal" title="RECUPERAR">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -169,8 +169,8 @@
                                             </mask>
                                         </variation>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHAT LOCAL BUSINESS IN JUST SECONDS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbl-NM-Mnf">
-                                        <rect key="frame" x="75.5" y="159" width="192.5" height="41"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHATEA CON EMPRESAS  LOCALES EN SEGUNDOS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbl-NM-Mnf">
+                                        <rect key="frame" x="68" y="159" width="208" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="7fC-hf-cDQ"/>
                                         </constraints>
@@ -222,7 +222,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                        <state key="normal" title="SIGN UP">
+                                        <state key="normal" title="REGISTRARME">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -240,7 +240,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <segue destination="8cA-rX-ZgL" kind="show" id="9xX-UZ-RgV"/>
+                                            <segue destination="8cA-rX-ZgL" kind="show" id="GKG-Xn-LML"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOw-fW-PVe" userLabel="Boton Ingreso" customClass="UIStateButton">
@@ -252,7 +252,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                         <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                        <state key="normal" title="LOGIN">
+                                        <state key="normal" title="INICIAR SESIÓN">
                                             <color key="titleColor" red="0.023529411764706" green="0.94901960784313699" blue="0.56078431372548998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -275,7 +275,7 @@
                                             </segue>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALREADY HAVE AN ACCOUNT?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpd-vs-cjw">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿YA TENGO UNA CUENTA?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpd-vs-cjw">
                                         <rect key="frame" x="87.5" y="168" width="200" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="Jpr-DE-SkJ"/>
@@ -284,7 +284,7 @@
                                         <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ARE YOU NEW HERE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hh-md-WFT">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿ERES NUEVO AQUÍ?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9hh-md-WFT">
                                         <rect key="frame" x="87.5" y="91" width="200" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="a2J-kM-vS4"/>
@@ -309,8 +309,8 @@
                                     <constraint firstItem="gpd-vs-cjw" firstAttribute="top" secondItem="WWa-IJ-pTd" secondAttribute="bottom" constant="7" id="tqw-xO-3Tt"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOOKING TO SIGN UP YOUR BUSINESS? PRESS HERE" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSh-7B-geu" customClass="TTTAttributedLabel">
-                                <rect key="frame" x="114" y="619.5" width="147.5" height="26.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¿BUSCANDO REGISTRAR TU EMPRESA? PRESIONA AQUÍ" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSh-7B-geu" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="114" y="619.5" width="148.5" height="26.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -367,7 +367,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9w2-oF-t3B" userLabel="Email View">
                                                         <rect key="frame" x="0.0" y="0.0" width="331" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="HYE-05-Dl1" customClass="JVFloatLabeledTextField">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="HYE-05-Dl1" customClass="JVFloatLabeledTextField">
                                                                 <rect key="frame" x="0.0" y="0.0" width="331" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="ebz-g2-wYB"/>
@@ -404,7 +404,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C4U-80-DYf" userLabel="Password View">
                                                         <rect key="frame" x="0.0" y="57" width="331" height="50"/>
                                                         <subviews>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Ukt-pO-Acw" customClass="JVFloatLabeledTextField">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CONTRASEÑA" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Ukt-pO-Acw" customClass="JVFloatLabeledTextField">
                                                                 <rect key="frame" x="0.0" y="0.0" width="331" height="50"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="50" id="4oL-6S-0ED"/>
@@ -446,7 +446,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                         <inset key="contentEdgeInsets" minX="12" minY="7" maxX="12" maxY="7"/>
-                                                        <state key="normal" title="LOGIN">
+                                                        <state key="normal" title="INICIAR SESIÓN">
                                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
@@ -468,12 +468,12 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pcx-e8-8g5">
-                                                        <rect key="frame" x="226" y="107" width="105" height="29"/>
+                                                        <rect key="frame" x="176" y="107" width="155" height="29"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="29" id="Ige-1W-bWh"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                        <state key="normal" title="forgot password?">
+                                                        <state key="normal" title="¿olvidaste tu contraseña?">
                                                             <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
@@ -528,8 +528,8 @@
                                     <action selector="closeButtonPressed:" destination="seM-W7-omm" eventType="touchUpInside" id="9Mm-Ul-MVa"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOGIN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dy0-0T-vWN">
-                                <rect key="frame" x="163" y="49" width="49" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="INICIAR SESIÓN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dy0-0T-vWN">
+                                <rect key="frame" x="128" y="49" width="119" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -579,7 +579,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FWB-wP-8mY" userLabel="EmailView">
                                                 <rect key="frame" x="22" y="108" width="331" height="51"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="g55-XD-GIr" userLabel="Email Text Field" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CORREO ELECTRÓNICO" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="g55-XD-GIr" userLabel="Email Text Field" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="0.0" width="331" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="v5K-h0-HJm"/>
@@ -617,7 +617,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P3y-k6-V04" userLabel="PasswordView">
                                                 <rect key="frame" x="22" y="159" width="331" height="57"/>
                                                 <subviews>
-                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PASSWORD" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cIX-uX-QFD" customClass="JVFloatLabeledTextField">
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="CONTRASEÑA" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cIX-uX-QFD" customClass="JVFloatLabeledTextField">
                                                         <rect key="frame" x="0.0" y="7" width="331" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="v6D-cn-Aj2"/>
@@ -652,7 +652,7 @@
                                                     <constraint firstAttribute="bottom" secondItem="Ahf-7y-VMq" secondAttribute="bottom" id="uPH-73-jfs"/>
                                                 </constraints>
                                             </view>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="YOUR BIRTHDATE" textAlignment="center" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="iCN-IM-3Em">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="FECHA DE NACIMIENTO" textAlignment="center" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="iCN-IM-3Em">
                                                 <rect key="frame" x="22" y="237" width="331" height="30"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -664,8 +664,8 @@
                                                     <constraint firstAttribute="width" constant="170" id="T3N-Pp-tsd"/>
                                                 </constraints>
                                                 <segments>
-                                                    <segment title="FEMALE"/>
-                                                    <segment title="MALE"/>
+                                                    <segment title="MUJER"/>
+                                                    <segment title="HOMBRE"/>
                                                 </segments>
                                                 <color key="tintColor" red="0.023529411764706" green="0.94901960784313699" blue="0.56078431372548998" alpha="1" colorSpace="calibratedRGB"/>
                                             </segmentedControl>
@@ -677,7 +677,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="OEd-Ta-mAN"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
-                                                <state key="normal" title="SIGN UP">
+                                                <state key="normal" title="REGISTRAR">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -698,8 +698,8 @@
                                                     <action selector="registerButtonPressed:" destination="8cA-rX-ZgL" eventType="touchUpInside" id="J59-NU-VLP"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BY SIGNING UP YOU ARE ACCEPTING OUR TERMS AND PRIVACY POLICIES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxx-4P-X2D" customClass="TTTAttributedLabel">
-                                                <rect key="frame" x="90" y="420" width="196" height="26.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AL REGISTRARTE ESTAS ACEPTANDO NUESTROS TÉRMINOS Y POLÍTICAS DE PRIVACIDAD" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxx-4P-X2D" customClass="TTTAttributedLabel">
+                                                <rect key="frame" x="59" y="420" width="258.5" height="26.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                                 <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -748,8 +748,8 @@
                                     <action selector="closeButtonPressed:" destination="8cA-rX-ZgL" eventType="touchUpInside" id="yrk-dL-ie5"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvi-8u-Zes">
-                                <rect key="frame" x="155.5" y="49" width="64" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REGISTRO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvi-8u-Zes">
+                                <rect key="frame" x="148.5" y="49" width="78.5" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>

@@ -8,6 +8,7 @@
 
 #import "YapMessage.h"
 
+#import "AppJobs.h"
 #import "Constants.h"
 #import "YapAccount.h"
 #import "YapContact.h"
@@ -74,6 +75,77 @@ const struct YapMessageEdges YapMessageEdges = {
 - (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction {
     [self deleteMessageReceiver];
     [transaction removeObjectForKey:self.uniqueId inCollection:[[self class] collection]];
+}
+
++ (void)saveMessageWithDictionary:(NSDictionary*)messageDic block:(YapMessageCompletionResult)block {
+    NSInteger messageType = [[messageDic objectForKey:@"messageType"] integerValue];
+
+    YapMessage* message = [[YapMessage alloc] initWithId:[messageDic objectForKey:@"messageId"]];
+    message.delivered = statusReceived;
+    message.buddyUniqueId = [messageDic objectForKey:@"contactId"];
+    message.messageType = messageType;
+    if ([messageDic objectForKey:@"fromConversa"]) {
+        message.fromConversa = [[messageDic objectForKey:@"fromConversa"] boolValue];
+    } else {
+        message.fromConversa = NO;
+    }
+
+    if ([messageDic objectForKey:@"incoming"]) {
+        message.incoming = [[messageDic objectForKey:@"incoming"] boolValue];
+    } else {
+        message.incoming = YES;
+    }
+
+    switch (messageType) {
+        case kMessageTypeText: {
+            message.text = [messageDic objectForKey:@"text"];
+            break;
+        }
+        case kMessageTypeLocation: {
+            CLLocation *location = [[CLLocation alloc]
+                                    initWithLatitude:[[messageDic objectForKey:@"latitude"] doubleValue]
+                                    longitude:[[messageDic objectForKey:@"longitude"] doubleValue]];
+            message.location = location;
+            break;
+        }
+        case kMessageTypeVideo:
+        case kMessageTypeAudio: {
+            message.delivered = statusDownloading;
+            message.bytes = [[messageDic objectForKey:@"size"] floatValue];
+            message.duration = [NSNumber numberWithInteger:[[messageDic objectForKey:@"duration"] integerValue]];
+            message.remoteUrl = [messageDic objectForKey:@"file"];
+
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            break;
+        }
+        case kMessageTypeImage: {
+            message.delivered = statusDownloading;
+            message.bytes = [[messageDic objectForKey:@"size"] floatValue];
+            message.width = [[messageDic objectForKey:@"width"] floatValue];
+            message.height = [[messageDic objectForKey:@"height"] floatValue];
+            message.remoteUrl = [messageDic objectForKey:@"file"];
+            [AppJobs addDownloadFileJob:message.uniqueId url:message.remoteUrl messageType:messageType];
+            break;
+        }
+    }
+
+    //    if (self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)]) {
+    //        if([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+    //        {
+    //            [self.delegate messageReceived:message from:contact];
+    //            return;
+    //        }
+    //    }
+
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+     {
+         [message saveWithTransaction:transaction];
+     } completionBlock:^{
+         if (block != nil) {
+             block(message);
+         }
+     }];
 }
 
 #pragma - mark YapDatabaseRelationshipNode
