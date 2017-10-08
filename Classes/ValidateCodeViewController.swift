@@ -22,9 +22,8 @@ class ValidateCodeViewController: UIViewController {
         self.btnValidate.setTitleColor(Colors.green(), for: .normal)
         self.btnValidate.setBackgroundColor(Colors.green(), for: .highlighted)
         self.btnValidate.setTitleColor(UIColor.white, for: .highlighted)
-        self.btnValidate.setBackgroundColor(UIColor.gray, for: .disabled)
-        self.btnValidate.setTitleColor(UIColor.white, for: .disabled)
-        self.btnValidate.isEnabled = false
+        self.btnValidate.setBackgroundColor(UIColor.groupTableViewBackground, for: .disabled)
+        self.btnValidate.setTitleColor(UIColor.darkGray, for: .disabled)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
             self.pinCodeTextField.becomeFirstResponder()
@@ -42,36 +41,36 @@ class ValidateCodeViewController: UIViewController {
                              withParameters: ["code": pinCodeTextField.text ?? ""])
         { (success: Any?, error: Error?) in
             hudError.hide(animated: true)
-
             if error != nil {
-                _ = SweetAlert().showAlert(
-                    "Oops",
-                    subTitle: NSLocalizedString("vcvc_alert_subtitle", comment: "Validate code error validation"),
-                    style: .error,
-                    buttonTitle: NSLocalizedString("vcvc_alert_subtitle_button", comment: "Validate code error validation button"),
-                    buttonColor: UIColor.red,
-                    action: { (result) in
-                        if result == true {
-                            let storyboard = UIStoryboard.init(name: "Code", bundle: nil)
-                            let vc = storyboard.instantiateViewController(withIdentifier: "GetCodeViewController")
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
-                })
+                self.showCodeError()
             } else {
-                _ = SweetAlert().showAlert(
-                    NSLocalizedString("vcvc_alert_success_title", comment: "Validate code success title"),
-                    subTitle: NSLocalizedString("vcvc_alert_success_subtitle", comment: "Validate code success subtitle"),
-                    style: .success,
-                    buttonTitle: NSLocalizedString("vcvc_alert_success_button", comment: "Validate code success button")
-                ) { (result) in
-                    if result == true {
-                        // Save code is already valid
-                        SettingsKeys.setCodeValidatedSetting(true)
-                        // Present view controller
-                        let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
-                        let vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
-                        self.present(vc, animated: true, completion: nil)
+                var dic : [String:Int]? = nil
+                if let data = (success as! String).data(using: .utf8) {
+                    do {
+                        dic = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Int]
+                    } catch {
+                        print(error.localizedDescription)
                     }
+                }
+
+                if dic == nil || dic!["valid"] == 0 {
+                    self.showCodeError()
+                } else {
+                    _ = SweetAlert().showAlert(
+                        NSLocalizedString("vcvc_alert_success_title", comment: "Validate code success title"),
+                        subTitle: NSLocalizedString("vcvc_alert_success_subtitle", comment: "Validate code success subtitle"),
+                        style: .success,
+                        buttonTitle: NSLocalizedString("vcvc_alert_success_button", comment: "Validate code success button"),
+                        action: { (result) in
+                            if result == true {
+                                // Save code is already valid
+                                SettingsKeys.setCodeValidatedSetting(true)
+                                // Present view controller
+                                let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+                                let vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
+                                self.present(vc, animated: true, completion: nil)
+                            }
+                    })
                 }
             }
         }
@@ -81,6 +80,21 @@ class ValidateCodeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
+    func showCodeError() {
+        _ = SweetAlert().showAlert(
+            "Oops",
+            subTitle: NSLocalizedString("vcvc_alert_subtitle", comment: "Validate code error validation"),
+            style: .error,
+            buttonTitle: NSLocalizedString("vcvc_alert_subtitle_button", comment: "Validate code error validation button"),
+            buttonColor: Colors.red(),
+            action: { (result) in
+                if result == true {
+                    let storyboard = UIStoryboard.init(name: "Code", bundle: nil)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "GetCodeViewController")
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+        })
+    }
 }
 
 extension ValidateCodeViewController : PinCodeTextFieldDelegate {

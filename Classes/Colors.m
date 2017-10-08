@@ -50,6 +50,11 @@
     return [UIColor colorWithRed:10.0f/255.0f green:123.0f/255.0f blue:246.0f/255.0f alpha:1.0];
 }
 
++ (UIColor*)red {
+    // red: #df5142
+    return [UIColor colorWithRed:223.0f/255.0f green:81.0f/255.0f blue:66.0f/255.0f alpha:1.0];
+}
+
 + (UIColor*)searchBar {
     // white: #EDEEEE
     return [UIColor colorWithRed:237.0f/255.0f green:238.0f/255.0f blue:238.0f/255.0f alpha:1.0];

@@ -20,6 +20,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _defaultBorderColor = [UIColor clearColor];
+        _disableBorderColor = [UIColor clearColor];
         _selectedBorderColor = [UIColor clearColor];
         _borderRadius = 0.0f;
         _borderWidth = 0.0f;
@@ -32,6 +33,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _defaultBorderColor = [UIColor clearColor];
+        _disableBorderColor = [UIColor clearColor];
         _selectedBorderColor = [UIColor clearColor];
         _borderRadius = 0.0f;
         _borderWidth = 0.0f;
@@ -47,7 +49,13 @@
             [[self layer] setBorderWidth:_borderWidth];
             [[self layer] setCornerRadius:_borderRadius];
             [[self layer] setMasksToBounds:YES];
-            [[self layer] setBorderColor:_defaultBorderColor.CGColor];
+
+            if (self.enabled) {
+                [[self layer] setBorderColor:_defaultBorderColor.CGColor];
+            } else {
+                [[self layer] setBorderColor:_disableBorderColor.CGColor];
+            }
+
             _initialized = YES;
         }
     }
@@ -70,6 +78,21 @@
             [[self layer] setBorderColor:_selectedBorderColor.CGColor];
         } else {
             [[self layer] setBorderColor:_defaultBorderColor.CGColor];
+        }
+    }
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    if (_borderWidth > 0) {
+        if (enabled) {
+            if (self.highlighted) {
+                [[self layer] setBorderColor:_selectedBorderColor.CGColor];
+            } else {
+                [[self layer] setBorderColor:_defaultBorderColor.CGColor];
+            }
+        } else {
+            [[self layer] setBorderColor:_disableBorderColor.CGColor];
         }
     }
 }

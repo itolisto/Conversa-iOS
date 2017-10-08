@@ -66,21 +66,18 @@
 }
 
 - (void)initAbly {
-    PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-42c67520-a6a4-4bb0-a054-809e202a2332"
-                                                                     subscribeKey:@"sub-c-48b216f4-4131-11e5-8ea0-0619f8945a4f"];
-    configuration.uuid = self.clientId;
-    self.ably = [PubNub clientWithConfiguration:configuration];
-    //self.ably.filterExpression = [NSString stringWithFormat:@"(senderID!=’%@’)", self.clientId];
-    [self.ably addListener:self];
+    SKYContainer *container = [SKYContainer defaultContainer];
+    [container configAddress:@"https://your-endpoint.skygeario.com/"]; //Your server endpoint
+    [container configureWithAPIKey:@"SKYGEAR_API_KEY"]; //Your Skygear API Key
 }
 
-- (PubNub*)getAblyRealtime {
+- (SKYContainer*)getAblyRealtime {
     return self.ably;
 }
 
 - (NSString *)getPublicConnectionId {
     if (self.ably != nil) {
-        return self.ably.uuid;
+        return self.clientId;
     }
 
     return nil;
@@ -91,11 +88,22 @@
         return;
     }
 
-    [self.ably unsubscribe];
+    [self.ably.pubsub unsubscribe:[@"upvt_" stringByAppendingString:[SettingsKeys getCustomerId]]];
 }
 
 - (void)subscribeToChannels {
-    [self.ably subscribeToChannels:[self getChannels] withPresence:NO];
+    [self.ably.pubsub subscribeTo:[@"upvt_" stringByAppendingString:[SettingsKeys getCustomerId]] handler:^(NSDictionary *info)
+    {
+        NSError *error;
+        NSDictionary *results = (NSDictionary *)info;
+
+        NSDictionary *messages = [NSJSONSerialization JSONObjectWithData:[[results objectForKey:@"message"] dataUsingEncoding:NSUTF8StringEncoding]
+                                                                 options:0
+                                                                   error:&error];
+        if (!error) {
+            [self onMessage:messages];
+        }
+    }];
 }
 
 - (void)subscribeToPushNotifications:(NSData *)devicePushToken {
@@ -103,40 +111,19 @@
         return;
     }
 
-    [self.ably addPushNotificationsOnChannels:[self getChannels]
-                            withDevicePushToken:devicePushToken
-                                  andCompletion:^(PNAcknowledgmentStatus *status)
-    {
-        if (!status.isError) {
 
-            // Handle successful push notification enabling on passed channels.
-        }
-        else {
-
-            /**
-             Handle modification error. Check 'category' property
-             to find out possible reason because of which request did fail.
-             Review 'errorData' property (which has PNErrorData data type) of status
-             object to get additional information about issue.
-
-             Request can be resent using: [status retry];
-             */
-            [status retry];
-        }
-    }];
 }
 
 - (void)unsubscribeToPushNotification:(NSData *)deviceToken {
-    [self.ably addPushNotificationsOnChannels:[self getChannels]
-                          withDevicePushToken:deviceToken andCompletion:^(PNAcknowledgmentStatus *status)
-    {
-        NSLog(@"status: %@", status);
-        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"DeviceToken"];
-        // Check whether request successfully completed or not.
-        // if (status.isError) // Handle modification error.
-        //     Check 'category' property to find out possible issue because
-        //     of which request did fail. Request can be resent using: [status retry];
-     }];
+//    [self.ably unregisterDeviceCompletionHandler:^(NSString *deviceID, NSError *error) {
+//        if (error != nil) {
+//            NSLog(@"Cannot unregister device");
+//            return;
+//        }
+//        [container logoutWithCompletionHandler:^(SKYUser *user, NSError *error) {
+//            // handle logout result
+//        }];
+//    }];
 }
 
 - (NSArray<NSString*>*)getChannels {
@@ -149,26 +136,6 @@
 
 #pragma mark - ARTConnection Methods -
 
-// Handle new message from one of channels on which client has been subscribed.
-- (void)client:(PubNub *)client didReceiveMessage:(PNMessageResult *)message {
-    NSError *error;
-    NSDictionary *results = (NSDictionary *)message.data.message;
-
-    NSDictionary *messages = [NSJSONSerialization JSONObjectWithData:[[results objectForKey:@"message"] dataUsingEncoding:NSUTF8StringEncoding]
-                                                             options:0
-                                                               error:&error];
-    if (!error) {
-        [self onMessage:messages];
-    }
-}
-
-// New presence event handling.
-- (void)client:(PubNub *)client didReceivePresenceEvent:(PNPresenceEventResult *)event {
-}
-
-// Handle subscription status change.
-- (void)client:(PubNub *)client didReceiveStatus:(PNStatus *)status {
-}
 
 #pragma mark - Process message Method -
 

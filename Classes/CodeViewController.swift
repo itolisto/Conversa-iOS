@@ -32,7 +32,7 @@ class CodeViewController: UIViewController {
 
         let size = self.lblInfo.text?.characters.count
         let start = NSMakeRange(0, size! - 8)
-        let end = NSMakeRange(size! - 13, 13)
+        let end = NSMakeRange(size! - 8, 8)
 
         // Normal
         let attributesNormal: [String: Any] = [NSForegroundColorAttributeName: UIColor.lightGray]
