@@ -8,6 +8,9 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     pod 'Reachability'
+    # Ably Realtime Client Library
+    pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push-spec-activationstatemachine'
+    # pod 'Ably', :git => 'https://github.com/ably/ably-ios.git', :branch => 'push'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -52,8 +55,6 @@ target 'Conversa' do
     pod 'VTAcknowledgementsViewController'
     # Simple pin code text input with underlined space for characters.
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
-    # Skygear
-    pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
     # Crashes log
     pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end
