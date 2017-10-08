@@ -273,7 +273,7 @@
              // Check error.
          }];
 
-        [[self.ably.channels get:[@"bpvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
+        [[self.ably.channels get:[@"upvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
          subscribeDevice:^(ARTErrorInfo *_Nullable error)
          {
              // Check error.
