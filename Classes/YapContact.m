@@ -10,6 +10,7 @@
 
 @import YapDatabase;
 #import "Account.h"
+#import "Business.h"
 #import "Constants.h"
 #import "YapMessage.h"
 #import "YapAccount.h"
@@ -27,6 +28,65 @@ const struct YapContactEdges YapContactEdges = {
 };
 
 @implementation YapContact
+
++ (void)saveContactWithBusiness:(Business*)business block:(CompletionResult)block {
+    YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:business.objectId];
+    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.displayName = business.displayName;
+    newBuddy.conversaId = business.conversaID;
+
+    @try {
+        if (business.avatar) {
+            newBuddy.avatarThumbFileId = [business.avatar url];
+        } else {
+            newBuddy.avatarThumbFileId = @"";
+        }
+    } @catch (NSException *exception) {
+        newBuddy.avatarThumbFileId = @"";
+    } @catch (id exception) {
+        newBuddy.avatarThumbFileId = @"";
+    }
+
+    newBuddy.composingMessageString = @"";
+    newBuddy.blocked = NO;
+    newBuddy.mute = NO;
+    newBuddy.lastMessageDate = [NSDate date];
+
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+        [newBuddy saveWithTransaction:transaction];
+    } completionBlock:^{
+        if (block != nil) {
+            block(newBuddy);
+        }
+    }];
+}
+
++ (void)saveContactWithDictionary:(NSDictionary*)business block:(CompletionResult)block {
+    YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:business[@"id"]];
+    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.displayName = business[@"dn"];
+    newBuddy.conversaId = business[@"cid"];
+    if (business[@"av"]) {
+        newBuddy.avatarThumbFileId = business[@"av"];
+    } else {
+        newBuddy.avatarThumbFileId = @"";
+    }
+
+    newBuddy.composingMessageString = @"";
+    newBuddy.blocked = NO;
+    newBuddy.mute = NO;
+    newBuddy.lastMessageDate = [NSDate date];
+
+    YapDatabaseConnection *connection = [[DatabaseManager sharedInstance] newConnection];
+    [connection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction) {
+        [newBuddy saveWithTransaction:transaction];
+    } completionBlock:^{
+        if (block != nil) {
+            block(newBuddy);
+        }
+    }];
+}
 
 - (void)removeWithTransaction:(YapDatabaseReadWriteTransaction *)transaction {
     // Remove avatar

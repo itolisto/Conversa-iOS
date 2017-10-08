@@ -107,9 +107,7 @@
             id object = [NSJSONSerialization JSONObjectWithData:[result dataUsingEncoding:NSUTF8StringEncoding]
                                                         options:0
                                                           error:&error];
-                     if (error) {
-                         DDLogError(@"%@", error);
-                     } else {
+                     if (!error) {
                          if ([object isKindOfClass:[NSDictionary class]]) {
                              NSDictionary *results = object;
         
@@ -316,7 +314,7 @@
 
     NSString *textToShare = [NSString stringWithFormat:NSLocalizedString(@"profile_share_text", nil), self.displayName, link];
 
-    NSArray *objectsToShare = @[textToShare, link];
+    NSArray *objectsToShare = @[textToShare];
 
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
 

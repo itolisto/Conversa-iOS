@@ -177,6 +177,9 @@
 "conversation_unsent_alert_action_view" = "Ver imagen";
 
 /* No comment provided by engineer. */
+"gcvc_alert_share" = "Las anticuadas formas de comunicación con empresas han muerto. Hay un nuevo rey en la ciudad. Conversa llegó para quedarse. Ve de que se trata todo este alboroto. Descarga la app y solicita tu código de acceso. #conversachat http://codigos.conversachat.com";
+
+/* No comment provided by engineer. */
 "mapview_controller_title" = "Mapa";
 
 /* No comment provided by engineer. */
@@ -207,7 +210,7 @@
 "sett_help_dialog_agent_message" = "Buscando información de agente";
 
 /* No comment provided by engineer. */
-"sett_help_dialog_message_error" = "No se pudo encontrar información, por favor intente de nuevo más tarde";
+"sett_help_dialog_message_error" = "No se pudo encontrar información de soporte, por favor intenta de nuevo más tarde";
 
 /* No comment provided by engineer. */
 "sett_help_dialog_support_message" = "Buscando información de soporte";
@@ -263,10 +266,10 @@
 "settings_home_profile_hi" = "Hola";
 
 /* No comment provided by engineer. */
-"settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala.";
+"settings_home_share_text" = "Estoy usando Conversa y realmente funciona. Puedes chatear directamente con miles de negocios y tiendas. Sigue el link y descargala: ";
 
 /* No comment provided by engineer. */
-"sign_failed_message" = "Correo electrónico y contraseña no coinciden. Por favor verifica los datos";
+"sign_failed_message" = "El correo electrónico o la contraseña es incorrecta. Intenta de nuevo.";
 
 /* No comment provided by engineer. */
 "signup_complete_error" = "No pudimos procesar tu petición en\neste momento, intenta de nuevo más tarde";
@@ -306,6 +309,21 @@
 
 /* No comment provided by engineer. */
 "tutorial_title_two" = "Ahora puedes";
+
+/* Validate code error validation */
+"vcvc_alert_subtitle" = "Lo sentimos, el código ingresado no es válido";
+
+/* Validate code error validation button */
+"vcvc_alert_subtitle_button" = "Obtener código válido";
+
+/* Validate code success button */
+"vcvc_alert_success_button" = "Acceder";
+
+/* Validate code success subtitle */
+"vcvc_alert_success_subtitle" = "El código es válido";
+
+/* Validate code success title */
+"vcvc_alert_success_title" = "¡Genial!";
 
 /* No comment provided by engineer. */
 "..." = "";

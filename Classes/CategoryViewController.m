@@ -46,6 +46,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     

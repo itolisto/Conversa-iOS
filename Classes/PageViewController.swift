@@ -14,9 +14,8 @@ class PageViewController : UIPageViewController {
         super.viewDidLoad()
         let pageControl = UIPageControl.appearance(whenContainedInInstancesOf: [PageViewController.self])
 
-        pageControl.pageIndicatorTintColor = UIColor.init(colorLiteralRed: 55.0/255.0, green: 255.0/255.0, blue: 119.0/255.0, alpha: 0.4)
-
-        pageControl.currentPageIndicatorTintColor = UIColor.init(colorLiteralRed: 55.0/255.0, green: 255.0/255.0, blue: 119.0/255.0, alpha: 1.0)
+        pageControl.pageIndicatorTintColor = UIColor(red: 55.0/255.0, green: 255.0/255.0, blue: 119.0/255.0, alpha: 0.4)
+        pageControl.currentPageIndicatorTintColor = UIColor(red: 55.0/255.0, green: 255.0/255.0, blue: 119.0/255.0, alpha: 1.0)
     }
 
 }

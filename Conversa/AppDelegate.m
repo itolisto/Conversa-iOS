@@ -23,6 +23,7 @@
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
+#import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -37,7 +38,7 @@
     //[Appirater setAppId:@"464200063"];
     
     // Set Google Maps
-    [GMSServices provideAPIKey:@"AIzaSyDnp-8x1YyMNjhmi4R7O3foOcdkfMa4cNs"];
+    [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
 
     FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
                                         withLogLevel:FlurryLogLevelNone]
@@ -63,7 +64,7 @@
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
 //        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
 //        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"http://ec2-52-71-125-28.compute-1.amazonaws.com:1337/parse";
+//        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
         configuration.applicationId = @"b15c83";
         configuration.server = @"http://localhost:1337/parse";
@@ -198,6 +199,25 @@
 //    } else {
 //        NSLog(@"NO PUSH NOTIFICATION");
 //    }
+    [[[SKYContainer defaultContainer] push] registerDeviceCompletionHandler:^(NSString *deviceID, NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register device: %@", error);
+            return;
+        }
+
+        // Anything you want to do in the callback can be added here
+    }];
+
+    // This will prompt the user for permission to send remote notification
+    [application registerForRemoteNotifications];
+
+    NSError *error = nil;
+    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
+    SentryClient.sharedClient = client;
+    [SentryClient.sharedClient startCrashHandlerWithError:&error];
+    if (nil != error) {
+        NSLog(@"%@", error);
+    }
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
@@ -214,8 +234,6 @@
 
 - (UIViewController*)defaultNavigationController
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
     Account *account = [Account currentUser];
     BOOL hasAccount = NO;
     
@@ -230,13 +248,23 @@
      * 3. Abrir Identity inspector
      * 4. Propiedad Storyboard ID se escribe nombre
      */
+    UIStoryboard *storyboard;
+
     if (hasAccount) {
+        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
-            return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
+            if ([SettingsKeys getCodeValidatedSetting]) {
+                storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+                return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
+            } else {
+                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
+                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
+            }
         } else {
-            return [storyboard instantiateViewControllerWithIdentifier:@"Tutorial"];
+            storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
+            return [storyboard instantiateViewControllerWithIdentifier:@"TutorialView"];
         }
     }
 }
@@ -268,85 +296,29 @@
 
 #pragma mark - Push Notification Methods -
 
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
-    }
-}
-
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSLog(@"%s..PUSH",__FUNCTION__);
-    [application setApplicationIconBadgeNumber:20];
-    completionHandler(UIBackgroundFetchResultNewData);
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-    NSLog(@"%s..PUSH WITH INFO=%@",__FUNCTION__,userInfo);
-
-    /**
-     * Dump your code here according to your requirement after receiving push
-     */
-
-    if (application.applicationState == UIApplicationStateActive) {
-        NSLog(@"Active");
-
-        NSString *cancelTitle = @"Close";
-        NSString *showTitle = @"OK";
-        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
-                                                            message:message
-                                                           delegate:self
-                                                  cancelButtonTitle:cancelTitle
-                                                  otherButtonTitles:showTitle, nil];
-        [alertView show];
-
-    } else if(application.applicationState == UIApplicationStateBackground){
-
-        NSLog(@"Background");
-
-        //app is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
-
-
-        NSString *cancelTitle = @"Close";
-        NSString *showTitle = @"OK";
-        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
-                                                            message:message
-                                                           delegate:self
-                                                  cancelButtonTitle:cancelTitle
-                                                  otherButtonTitles:showTitle, nil];
-        [alertView show];
-    } else if(application.applicationState == UIApplicationStateInactive) {
-
-        NSLog(@"Inactive");
-        //app is in background, if content-available key of your notification is set to 1, poll to your backend to retrieve data and update your interface here
-
-
-        NSString *cancelTitle = @"Close";
-        NSString *showTitle = @"OK";
-        NSString *message = [[userInfo valueForKey:@"aps"] valueForKey:@"alert"];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message Received"
-                                                            message:message
-                                                           delegate:self
-                                                  cancelButtonTitle:cancelTitle
-                                                  otherButtonTitles:showTitle, nil];
-        [alertView show];
-        
-    }
-
-    completionHandler(UIBackgroundFetchResultNewData);
+    NSLog(@"Registered for Push notifications with token: %@", deviceToken.description);
+    [[[SKYContainer defaultContainer] push] registerRemoteNotificationDeviceToken:deviceToken completionHandler:^(NSString *deviceID, NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register device token: %@", error);
+            return;
+        }
+    }];
+//    NSLog(@"deviceToken: %@", deviceToken);
+//    NSData *oldToken = [[NSUserDefaults standardUserDefaults] dataForKey:@"DeviceToken"];
+//
+//    if (oldToken && [oldToken isEqualToData:deviceToken]) {
+//        // registration token hasn't changed - carry on
+//        return;
+//    }
+//
+//    [[CustomAblyRealtime sharedInstance] unsubscribeToPushNotification:oldToken];
+//    [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
-    }
+    NSLog(@"%s with error: %@", __PRETTY_FUNCTION__, error);
 }
 
 #pragma mark - Branch Methods -
@@ -621,6 +593,26 @@
              }];
 
             [downloadTask resume];
+        } else if ([[job objectForKey:@"task"] isEqualToString:@"removeConversationJob"]) {
+            NSDictionary *data = [job objectForKey:@"data"];
+
+            NSError *error;
+            [PFCloud callFunction:@"deleteConversations"
+                   withParameters:@{@"businessId": [data objectForKey:@"businessId"],
+                                    @"customerId": [data objectForKey:@"customerId"],
+                                    @"fromCustomer": @YES}
+                            error:&error];
+
+            if (error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([ParseValidation validateError:error]) {
+                        [ParseValidation _handleInvalidSessionTokenError:[self topViewController]];
+                    }
+                });
+                block(EDQueueResultFail);
+            } else {
+                block(EDQueueResultSuccess);
+            }
         } else {
             block(EDQueueResultCritical);
         }

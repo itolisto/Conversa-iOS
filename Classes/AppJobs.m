@@ -53,4 +53,10 @@
                                       forTask:@"downloadFileJob"];
 }
 
++ (void)addRemoveConversationJob:(NSString*)customerId url:(NSString*)businessId {
+    [[EDQueue sharedInstance] enqueueWithData:@{@"customerId" : customerId,
+                                                @"businessId" : businessId}
+                                      forTask:@"removeConversationJob"];
+}
+
 @end
