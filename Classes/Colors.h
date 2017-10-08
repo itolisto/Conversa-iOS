@@ -18,6 +18,7 @@
 + (UIColor*)black;
 + (UIColor*)white;
 + (UIColor*)blue;
++ (UIColor*)red;
 + (UIColor*)searchBar;
 
 + (UIColor*)profileOnline;

@@ -23,6 +23,7 @@
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "ConversationViewController.h"
+#import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -61,12 +62,12 @@
 
     // Initialize Parse.
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-        configuration.server = @"https://api.conversachat.com/parse";
+//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+//        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
-//        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://192.168.1.9:1337/parse";
+        configuration.applicationId = @"b15c83";
+        configuration.server = @"http://localhost:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -198,6 +199,14 @@
 //    } else {
 //        NSLog(@"NO PUSH NOTIFICATION");
 //    }
+
+    NSError *error = nil;
+    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
+    SentryClient.sharedClient = client;
+    [SentryClient.sharedClient startCrashHandlerWithError:&error];
+    if (nil != error) {
+        NSLog(@"%@", error);
+    }
 
     // Define controller to take action
     UIViewController *rootViewController = nil;

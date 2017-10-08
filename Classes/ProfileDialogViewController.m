@@ -314,7 +314,7 @@
 
     NSString *textToShare = [NSString stringWithFormat:NSLocalizedString(@"profile_share_text", nil), self.displayName, link];
 
-    NSArray *objectsToShare = @[textToShare, link];
+    NSArray *objectsToShare = @[textToShare];
 
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
 

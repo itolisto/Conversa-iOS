@@ -12,6 +12,7 @@
 
 - (void)setBackgroundColor:(UIColor *)image forState:(UIControlState)state;
 
+@property (nonatomic) IBInspectable UIColor *disableBorderColor;
 @property (nonatomic) IBInspectable UIColor *selectedBorderColor;
 @property (nonatomic) IBInspectable UIColor *defaultBorderColor;
 @property (nonatomic) IBInspectable CGFloat borderRadius;

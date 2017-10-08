@@ -8,8 +8,6 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     pod 'Reachability'
-    # Audio SDK
-    pod 'SinchRTC'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -22,8 +20,6 @@ target 'Conversa' do
     pod 'GoogleMaps'
     # Latest on develop
     pod 'JSQMessagesViewController', :git => 'https://github.com/itolisto/JSQMessagesViewController.git', :branch => 'release_7.3'
-    # A fancy Obj-C wrapper for Cocoa System Sound Services
-    # pod 'JSQSystemSoundPlayer'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
@@ -60,4 +56,6 @@ target 'Conversa' do
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
     # Skygear
     pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
+    # Crashes log
+    pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end
