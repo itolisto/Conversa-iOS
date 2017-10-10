@@ -108,8 +108,8 @@
                                   andCompletion:^(PNAcknowledgmentStatus *status)
     {
         if (!status.isError) {
-
             // Handle successful push notification enabling on passed channels.
+            [[NSUserDefaults standardUserDefaults] setObject:devicePushToken forKey:@"DeviceToken"];
         }
         else {
 
@@ -127,16 +127,28 @@
 }
 
 - (void)unsubscribeToPushNotification:(NSData *)deviceToken {
-    [self.ably addPushNotificationsOnChannels:[self getChannels]
-                          withDevicePushToken:deviceToken andCompletion:^(PNAcknowledgmentStatus *status)
-    {
-        NSLog(@"status: %@", status);
-        [[NSUserDefaults standardUserDefaults] setObject:deviceToken forKey:@"DeviceToken"];
-        // Check whether request successfully completed or not.
-        // if (status.isError) // Handle modification error.
-        //     Check 'category' property to find out possible issue because
-        //     of which request did fail. Request can be resent using: [status retry];
-     }];
+    [self.ably removeAllPushNotificationsFromDeviceWithPushToken:deviceToken                                                andCompletion:^(PNAcknowledgmentStatus *status) {
+
+        if (!status.isError) {
+
+            /**
+             Handle successful push notification disabling for all channels associated with
+             specified device push token.
+             */
+        }
+        else {
+
+            /**
+             Handle modification error. Check 'category' property
+             to find out possible reason because of which request did fail.
+             Review 'errorData' property (which has PNErrorData data type) of status
+             object to get additional information about issue.
+
+             Request can be resent using: [status retry];
+             */
+            [status retry];
+        }
+    }];
 }
 
 - (NSArray<NSString*>*)getChannels {
@@ -147,7 +159,7 @@
              ];
 }
 
-#pragma mark - ARTConnection Methods -
+#pragma mark - didReceiveMessage Methods -
 
 // Handle new message from one of channels on which client has been subscribed.
 - (void)client:(PubNub *)client didReceiveMessage:(PNMessageResult *)message {

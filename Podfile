@@ -54,8 +54,6 @@ target 'Conversa' do
     pod 'VTAcknowledgementsViewController'
     # Simple pin code text input with underlined space for characters.
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
-    # Skygear
-    pod 'SKYKit', :git => 'https://github.com/SkygearIO/skygear-SDK-iOS.git'
     # Crashes log
     pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end
