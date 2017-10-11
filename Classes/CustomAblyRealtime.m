@@ -109,7 +109,7 @@
 
 - (void)subscribeToChannels {
     NSString * channelname = [SettingsKeys getCustomerId];
-    if ([channelname length] > 0) {
+    if (channelname && [channelname length] > 0) {
         for (int i = 0; i < 2; i++) {
                 ARTRealtimeChannel * channel;
                 NSString * channelname;
@@ -127,24 +127,26 @@
     }
 }
 
-- (void)subscribeToPushNotifications:(NSData *)devicePushToken {
-    if (devicePushToken == nil) {
-        return;
+- (void)subscribeToPushNotifications {
+    NSString * channelname = [SettingsKeys getCustomerId];
+    if (channelname && [channelname length] > 0) {
+        [[self.ably.channels get:[@"upbc:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+        {
+            if (error) {
+                NSLog(@"Public channel subscribe error");
+            }
+        }];
+        [[self.ably.channels get:[@"upvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
+        {
+            if (error) {
+                NSLog(@"Private channel subscribe error");
+            }
+        }];
     }
-
-
 }
 
-- (void)unsubscribeToPushNotification:(NSData *)deviceToken {
-//    [self.ably unregisterDeviceCompletionHandler:^(NSString *deviceID, NSError *error) {
-//        if (error != nil) {
-//            NSLog(@"Cannot unregister device");
-//            return;
-//        }
-//        [container logoutWithCompletionHandler:^(SKYUser *user, NSError *error) {
-//            // handle logout result
-//        }];
-//    }];
+- (void)unsubscribeToPushNotification {
+
 }
 
 -(void)reattach:(ARTRealtimeChannel *)channel {
@@ -171,10 +173,6 @@
         [self onPresenceMessage:message];
     }];
 
-    //    [channel on:^(ARTChannelStateChange * _Nullable state) {
-    //        [self onChannelStateChanged:state.current error:state.reason];
-    //    }];
-
     [channel on:^(ARTErrorInfo * _Nullable error) {
         [self onChannelStateChanged:channel.state error:error];
     }];
@@ -183,8 +181,8 @@
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getCustomerId];
     return @[
-             [@"upbc_" stringByAppendingString:channelname],
-             [@"upvt_" stringByAppendingString:channelname]
+             [@"upbc:" stringByAppendingString:channelname],
+             [@"upvt:" stringByAppendingString:channelname]
              ];
 }
 
@@ -267,17 +265,7 @@
     } else {
         DDLogError(@"didActivateAblyPush succeded");
 
-        [[self.ably.channels get:[@"bpbc:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             // Check error.
-         }];
-
-        [[self.ably.channels get:[@"upvt:" stringByAppendingString:[SettingsKeys getCustomerId]]].push
-         subscribeDevice:^(ARTErrorInfo *_Nullable error)
-         {
-             // Check error.
-         }];
+        [self subscribeToPushNotifications];
     }
 }
 

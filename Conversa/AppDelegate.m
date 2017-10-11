@@ -289,16 +289,14 @@
 {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-        //[ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:ably.rest];
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:[ably rest]];
     }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-        //[ARTPush didFailToRegisterForRemoteNotificationsWithError:error rest:ably.rest];
+        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
     }
 }
 
