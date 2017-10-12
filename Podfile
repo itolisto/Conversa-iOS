@@ -54,6 +54,4 @@ target 'Conversa' do
     pod 'VTAcknowledgementsViewController'
     # Simple pin code text input with underlined space for characters.
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
-    # Crashes log
-    pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end

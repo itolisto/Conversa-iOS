@@ -173,9 +173,9 @@
         [self onPresenceMessage:message];
     }];
 
-    [channel on:^(ARTErrorInfo * _Nullable error) {
-        [self onChannelStateChanged:channel.state error:error];
-    }];
+//    [channel on:^(ARTErrorInfo * _Nullable error) {
+//        [self onChannelStateChanged:channel.state error:error];
+//    }];
 }
 
 - (NSArray<NSString*>*)getChannels {
