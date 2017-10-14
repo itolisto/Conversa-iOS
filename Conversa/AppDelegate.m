@@ -22,6 +22,7 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 #import <Sentry/Sentry.h>
 #import <AFNetworking/AFNetworking.h>
@@ -96,6 +97,16 @@
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
+
+    [NotificationPermissions canSendNotifications];
+
+    NSError *error = nil;
+    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
+    SentryClient.sharedClient = client;
+    [SentryClient.sharedClient startCrashHandlerWithError:&error];
+    if (nil != error) {
+        NSLog(@"%@", error);
+    }
 
     Branch *branch = [Branch getInstance];
     [branch disableCookieBasedMatching];
@@ -190,23 +201,6 @@
             }
         }
     }];
-
-    //opened from a push notification when the app is closed
-//    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-//    if (userInfo != nil) {
-//        NSLog(@"PUSH NOTIFICATION->%@",[userInfo objectForKey:@"aps"]);
-//        //write you push handle code here
-//    } else {
-//        NSLog(@"NO PUSH NOTIFICATION");
-//    }
-
-    NSError *error = nil;
-    SentryClient *client = [[SentryClient alloc] initWithDsn:@"https://2c748d4c10d348b3b841794021f9e54d:53f4a74d20fb4b9c8686ca4ee113541e@sentry.io/226687" didFailWithError:&error];
-    SentryClient.sharedClient = client;
-    [SentryClient.sharedClient startCrashHandlerWithError:&error];
-    if (nil != error) {
-        NSLog(@"%@", error);
-    }
 
     // Define controller to take action
     UIViewController *rootViewController = nil;
