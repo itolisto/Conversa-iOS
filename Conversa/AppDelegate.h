@@ -7,10 +7,11 @@
 //
 
 @import UIKit;
-@import UserNotifications;
+
+@import Ably;
 #import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, ARTPushRegistererDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

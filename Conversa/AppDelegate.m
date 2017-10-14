@@ -22,6 +22,7 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
+#import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
@@ -66,7 +67,7 @@
 //        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
         configuration.applicationId = @"b15c83";
-        configuration.server = @"http://localhost:1337/parse";
+        configuration.server = @"http://192.168.1.6:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -95,6 +96,8 @@
     // Set Appirater settings
     [Appirater setOpenInAppStore:NO];
     [Appirater appLaunched:YES];
+
+    [[CustomAblyRealtime sharedInstance] initAbly];
 
     Branch *branch = [Branch getInstance];
     [branch disableCookieBasedMatching];
@@ -190,15 +193,6 @@
         }
     }];
 
-    //opened from a push notification when the app is closed
-//    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-//    if (userInfo != nil) {
-//        NSLog(@"PUSH NOTIFICATION->%@",[userInfo objectForKey:@"aps"]);
-//        //write you push handle code here
-//    } else {
-//        NSLog(@"NO PUSH NOTIFICATION");
-//    }
-
     // Define controller to take action
     UIViewController *rootViewController = nil;
     rootViewController = [self defaultNavigationController];
@@ -208,6 +202,8 @@
     [self.window makeKeyAndVisible];
     // The number to display as the app’s icon badge.
     application.applicationIconBadgeNumber = 0;
+
+    [NotificationPermissions canSendNotifications];
 
     return YES;
 }
@@ -276,18 +272,51 @@
 
 #pragma mark - Push Notification Methods -
 
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"\n\n %@ \n\n", userInfo);
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken rest:[ably rest]];
+        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken succeded");
+        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
     }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
     if (ably) {
+        DDLogError(@"didFailToRegisterForRemoteNotificationsWithError");
         [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+    }
+}
+
+#pragma mark - ARTPushRegistererDelegate Methods -
+
+-(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didActivateAblyPush fail: --> %@", error);
+    } else {
+        DDLogError(@"didActivateAblyPush succeded");
+        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+    }
+}
+
+-(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
+    } else {
+        DDLogError(@"didDeactivateAblyPush succeded");
+    }
+}
+
+-(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+    if (error) {
+        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
+    } else {
+        DDLogError(@"didAblyPushRegistrationFail succeded");
     }
 }
 

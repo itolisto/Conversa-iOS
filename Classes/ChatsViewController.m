@@ -19,7 +19,6 @@
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
 #import "CustomChatCell.h"
-#import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
 #import <Parse/Parse.h>
@@ -135,7 +134,7 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"EDQueueJobDidSucceed"
                                                object:nil];
-    
+
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
     v.backgroundColor = [UIColor clearColor];
@@ -144,11 +143,7 @@
     if ([SettingsKeys getCustomerId] == nil || [[SettingsKeys getCustomerId] length] == 0) {
         [AppJobs addCustomerDataJob];
     } else {
-        // Register for push notifications and send tags
-        [[CustomAblyRealtime sharedInstance] initAbly];
-        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
-        [NotificationPermissions canSendNotifications];
+        [[CustomAblyRealtime sharedInstance] listen];
     }
 }
 
@@ -212,10 +207,7 @@
     NSDictionary *job = [notification valueForKey:@"object"];
 
     if ([[job objectForKey:@"task"] isEqualToString:@"customerDataJob"]) {
-        // Register for push notifications and send tags
-        [[CustomAblyRealtime sharedInstance] initAbly];
-        [[CustomAblyRealtime sharedInstance] subscribeToChannels];
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+        [[CustomAblyRealtime sharedInstance] listen];
     }
 }
 

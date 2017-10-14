@@ -249,7 +249,7 @@
                                  [Account logOut];
                                  //
                                  [view dismissViewControllerAnimated:YES completion:nil];
-                                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
                                  UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
                                  [self presentViewController:viewController animated:YES completion:nil];
                              }];

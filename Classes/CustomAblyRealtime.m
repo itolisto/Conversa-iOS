@@ -72,10 +72,13 @@
     artoptions.echoMessages = NO;
     artoptions.clientId = self.clientId;
     self.ably = [[ARTRealtime alloc] initWithOptions:artoptions];
+    [self.ably.push activate];
+}
+
+- (void)listen {
     [self.ably.connection on:^(ARTConnectionStateChange * _Nullable status) {
         [self onConnectionStateChanged:status];
     }];
-    [self.ably.push activate];
 }
 
 - (ARTRealtime*)getAblyRealtime {
@@ -134,19 +137,23 @@
         {
             if (error) {
                 NSLog(@"Public channel subscribe error");
+            } else {
+                NSLog(@"Public channel subscribe success");
             }
         }];
         [[self.ably.channels get:[@"upvt:" stringByAppendingString:channelname]].push subscribeDevice:^(ARTErrorInfo *_Nullable error)
         {
             if (error) {
                 NSLog(@"Private channel subscribe error");
+            } else {
+                NSLog(@"Private channel subscribe success");
             }
         }];
     }
 }
 
 - (void)unsubscribeToPushNotification {
-
+    
 }
 
 -(void)reattach:(ARTRealtimeChannel *)channel {
@@ -173,9 +180,9 @@
         [self onPresenceMessage:message];
     }];
 
-//    [channel on:^(ARTErrorInfo * _Nullable error) {
-//        [self onChannelStateChanged:channel.state error:error];
-//    }];
+    [channel on:^(ARTChannelStateChange * _Nullable state) {
+        [self onChannelStateChanged:state.current error:state.reason];
+    }];
 }
 
 - (NSArray<NSString*>*)getChannels {
@@ -254,34 +261,6 @@
 - (void)onChannelStateChanged:(ARTRealtimeChannelState)state error:(ARTErrorInfo *)reason {
     if (reason != nil) {
         DDLogError(@"onChannelStateChanged --> %@", reason.message);
-    }
-}
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
--(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-
-        [self subscribeToPushNotifications];
-    }
-}
-
--(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
--(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail");
     }
 }
 
