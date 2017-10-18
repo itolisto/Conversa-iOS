@@ -69,6 +69,8 @@
     PNConfiguration *configuration = [PNConfiguration configurationWithPublishKey:@"pub-c-42c67520-a6a4-4bb0-a054-809e202a2332"
                                                                      subscribeKey:@"sub-c-48b216f4-4131-11e5-8ea0-0619f8945a4f"];
     configuration.uuid = self.clientId;
+    //configuration.shouldStripMobilePayload = NO;
+    [configuration shouldStripMobilePayload];
     self.ably = [PubNub clientWithConfiguration:configuration];
     //self.ably.filterExpression = [NSString stringWithFormat:@"(senderID!=’%@’)", self.clientId];
     [self.ably addListener:self];
@@ -153,10 +155,10 @@
 
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getCustomerId];
-    return @[
+    return (channelname) ? @[
              [@"upbc_" stringByAppendingString:channelname],
              [@"upvt_" stringByAppendingString:channelname]
-             ];
+             ] : @[];
 }
 
 #pragma mark - didReceiveMessage Methods -

@@ -34,7 +34,7 @@
                          handler:^(UIAlertAction * action) {
                              [Account logOut];
                              [view dismissViewControllerAnimated:YES completion:nil];
-                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
                              UIViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
                              [UIApplication sharedApplication].delegate.window.rootViewController = viewController;
                              [[UIApplication sharedApplication].delegate.window makeKeyAndVisible];

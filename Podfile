@@ -8,6 +8,8 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     pod 'Reachability'
+    # Push notifications engagement
+    pod 'Taplytics'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK'
     # Parse Community Framework
@@ -24,8 +26,6 @@ target 'Conversa' do
     pod 'Whisper'
     # A clone of UIImagePickerController with multiple selection support.
     pod 'OHQBImagePicker'
-    # Report a bug; bug reports will be sent directly to your email address!
-    pod 'Buglife'
     # Branch is the most robust deep linking platform for your mobile app.
     pod 'Branch'
     # UITextField subclass with floating labels
@@ -54,6 +54,4 @@ target 'Conversa' do
     pod 'VTAcknowledgementsViewController'
     # Simple pin code text input with underlined space for characters.
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
-    # Crashes log
-    pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '3.8.3'
 end
