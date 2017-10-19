@@ -24,6 +24,8 @@
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
+#import <HockeySDK/HockeySDK.h>
+#import <Taplytics/Taplytics.h>
 #import <AFNetworking/AFNetworking.h>
 @import Parse;
 @import GoogleMaps;
@@ -44,9 +46,15 @@
                                         withLogLevel:FlurryLogLevelNone]
                                        withCrashReporting:YES]
                                       withSessionContinueSeconds:10]
-                                     withAppVersion:@"1.3.5"];
+                                     withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
     
-    [Flurry startSession:@"2XVJXDVKP5YBZZ88K6J9" withSessionBuilder:builder];
+    [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
+
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+
+    [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
     
     [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
     [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
@@ -66,8 +74,8 @@
 //        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
 //        configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
-        configuration.applicationId = @"b15c83";
-        configuration.server = @"http://192.168.1.6:1337/parse";
+//        configuration.applicationId = @"b15c83";
+//        configuration.server = @"http://192.168.1.6:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -98,6 +106,8 @@
     [Appirater appLaunched:YES];
 
     [[CustomAblyRealtime sharedInstance] initAbly];
+
+    [NotificationPermissions canSendNotifications];
 
     Branch *branch = [Branch getInstance];
     [branch disableCookieBasedMatching];
@@ -318,6 +328,36 @@
     } else {
         DDLogError(@"didAblyPushRegistrationFail succeded");
     }
+}
+
+#pragma mark - Taplytics Methods -
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return NO;
+}
+
+// Method will be called if the app is open when it recieves the push notification
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // "userInfo" will give you the notification information
+}
+
+// Method will be called when the app recieves a push notification
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // "userInfo" will give you the notification information
+    completionHandler(UIBackgroundFetchResultNoData);
+}
+
+// Method will be called if the app is open when it recieves the push notification
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler{
+    // "notification.request.content.userInfo" will give you the notification information
+    completionHandler(UNNotificationPresentationOptionBadge);
+}
+
+// Method will be called if the user opens the push notification
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    // "response.notification.request.content.userInfo" will give you the notification information
+    completionHandler();
 }
 
 #pragma mark - Branch Methods -

@@ -187,13 +187,13 @@
 
 - (NSArray<NSString*>*)getChannels {
     NSString * channelname = [SettingsKeys getCustomerId];
-    return @[
+    return (channelname) ? @[
              [@"upbc:" stringByAppendingString:channelname],
              [@"upvt:" stringByAppendingString:channelname]
-             ];
+             ] : @[];
 }
 
-#pragma mark - ARTConnection Methods -
+#pragma mark - didReceiveMessage Methods -
 
 -(void)onConnectionStateChanged:(ARTConnectionStateChange *) status {
     if (status == nil) {
