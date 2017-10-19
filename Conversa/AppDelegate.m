@@ -282,10 +282,6 @@
 
 #pragma mark - Push Notification Methods -
 
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"\n\n %@ \n\n", userInfo);
-}
-
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
