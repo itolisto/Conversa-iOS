@@ -279,12 +279,7 @@
 
 - (void)doRegister {
     Account *user = [Account object];
-
-    NSArray *emailPieces = [self.emailTextField.text componentsSeparatedByString: @"@"];
-    NSString *username = [emailPieces objectAtIndex: 0];
-    NSString *domain = [[[emailPieces objectAtIndex: 1] componentsSeparatedByString:@"."] objectAtIndex:0];
-
-    user.username = [username stringByAppendingString:domain];
+    user.username = self.emailTextField.text;
     user.email = self.emailTextField.text;
     user.password = self.passwordTextField.text;
     // Extra fields
