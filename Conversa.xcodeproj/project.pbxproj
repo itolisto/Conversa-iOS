@@ -55,11 +55,11 @@
 		A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906801D6FE7080018D74C /* YapDatabaseObject.m */; };
 		A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906821D6FE7080018D74C /* YapMessage.m */; };
 		A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906841D6FE7080018D74C /* YapSearch.m */; };
+		A54154E61FA1BF2000753012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54154E51FA1BF2000753012 /* Assets.xcassets */; };
 		A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A54703CA1E2753E30090A073 /* ChatNavBarView.xib */; };
 		A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86F1E109E1800ECC891 /* UIStateButton.m */; };
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
 		A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D1A1D53C8F300AA576A /* AppDelegate.m */; };
-		A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D251D53C8F300AA576A /* Assets.xcassets */; };
 		A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF21F6B634500C8805F /* Tutorial.storyboard */; };
 		A5698FF91F6B6B4400C8805F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF71F6B6B4400C8805F /* Login.storyboard */; };
 		A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFA1F6B6B6B00C8805F /* Code.storyboard */; };
@@ -211,6 +211,7 @@
 		A52906821D6FE7080018D74C /* YapMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapMessage.m; sourceTree = "<group>"; };
 		A52906831D6FE7080018D74C /* YapSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YapSearch.h; sourceTree = "<group>"; };
 		A52906841D6FE7080018D74C /* YapSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapSearch.m; sourceTree = "<group>"; };
+		A54154E51FA1BF2000753012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A54703CA1E2753E30090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86E1E109E1800ECC891 /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A547C86F1E109E1800ECC891 /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
@@ -220,7 +221,6 @@
 		A55B5D191D53C8F300AA576A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A55B5D1A1D53C8F300AA576A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A55B5D231D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A55B5D251D53C8F300AA576A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A55B5D281D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A55B5D2A1D53C8F300AA576A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A568DCC91F7C651A00C8BC0D /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Code.storyboard; sourceTree = "<group>"; };
@@ -432,7 +432,7 @@
 				A55B5D191D53C8F300AA576A /* AppDelegate.h */,
 				A55B5D1A1D53C8F300AA576A /* AppDelegate.m */,
 				A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */,
-				A55B5D251D53C8F300AA576A /* Assets.xcassets */,
+				A54154E51FA1BF2000753012 /* Assets.xcassets */,
 				A55B5D2A1D53C8F300AA576A /* Info.plist */,
 				A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */,
 				A5698FFD1F6B73A200C8805F /* gifCode.gif */,
@@ -825,9 +825,9 @@
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
 				A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */,
 				A59307471E5FBAE300083665 /* Localizable.strings in Resources */,
+				A54154E61FA1BF2000753012 /* Assets.xcassets in Resources */,
 				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
 				A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */,
-				A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */,
 				A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
 				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,

@@ -13,5 +13,6 @@
 @interface CategoryViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSString *categoryId;
+@property (nonatomic, assign) BOOL custom;
 
 @end

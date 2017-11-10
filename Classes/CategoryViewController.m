@@ -46,8 +46,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
-    self.extendedLayoutIncludesOpaqueBars = YES;
+//    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+//    self.extendedLayoutIncludesOpaqueBars = YES;
+//    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    if (@available(iOS 11.0, *)) {
+//        [self.searchController.searchBar.heightAnchor constraintLessThanOrEqualToConstant: 48].active = YES;
+//    }
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -66,8 +71,6 @@
                                              70.0f,
                                              70.0f);
     [self.loadingView addSubview:self.activityIndicatorView];
-
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
@@ -92,7 +95,7 @@
     }
 
     [PFCloud callFunctionInBackground:@"getCategoryBusinesses"
-                       withParameters:@{@"page": @(self.page), @"categoryId": self.categoryId}
+                       withParameters:@{@"page": @(self.page), @"categoryId": self.categoryId, @"custom": @(self.custom)}
                                 block:^(NSString *json, NSError *error)
      {
          if (self.page == 0) {

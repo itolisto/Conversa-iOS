@@ -19,6 +19,7 @@
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
 #import "CustomChatCell.h"
+#import "MBProgressHUD.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
@@ -454,7 +455,12 @@
 #pragma mark - Navigation Method -
 
 - (IBAction)startBrowsingPressed:(UIButton *)sender {
-    [self.tabBarController setSelectedIndex:1];
+    //[self.tabBarController setSelectedIndex:1];
+    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
+    hudError.mode = MBProgressHUDModeIndeterminate;
+    [self.view addSubview:hudError];
+//    hudError.label.text = NSLocalizedString(@"common_field_required", nil);
+    [hudError showAnimated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -497,6 +503,9 @@
                 break;
             }
         }
+
+        // UpdateBadge after having mark as read a conversation
+        [self updateBadge];
     } else if ([[notification name] isEqualToString:UPDATE_CHATS_NOTIFICATION_NAME]) {
         // Reload data with boolean flag
         self.reloadData = YES;

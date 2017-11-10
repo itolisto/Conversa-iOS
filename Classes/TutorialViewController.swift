@@ -27,7 +27,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
             NSLocalizedString("tutorial_title_five", comment: "")
         )
         
-        self.pageImages = NSArray(objects: "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one", "im_tutorial_one")
+        self.pageImages = NSArray(objects: "im_tutorial_1", "im_tutorial_2", "im_tutorial_3", "im_tutorial_4", "im_tutorial_5")
         
         self.pageInfos = NSArray(objects:
             NSLocalizedString("tutorial_message_one", comment: ""),
@@ -59,13 +59,13 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         var storyboard : UIStoryboard
         var vc : UIViewController
 
-        if SettingsKeys.getCodeValidatedSetting() {
+        //if SettingsKeys.getCodeValidatedSetting() {
             storyboard = UIStoryboard.init(name: "Login", bundle: nil)
             vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
-        } else {
-            storyboard = UIStoryboard.init(name: "Code", bundle: nil)
-            vc = storyboard.instantiateViewController(withIdentifier: "CodeView")
-        }
+        //} else {
+        //    storyboard = UIStoryboard.init(name: "Code", bundle: nil)
+        //    vc = storyboard.instantiateViewController(withIdentifier: "CodeView")
+        //}
 
         self.present(vc, animated: true, completion: nil)
     }

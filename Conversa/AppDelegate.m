@@ -75,7 +75,7 @@
         configuration.server = @"https://api.conversachat.com/parse";
         // To work with localhost
 //        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://192.168.1.6:1337/parse";
+//        configuration.server = @"http://192.168.1.15:1337/parse";
     }]];
     
 #if TARGET_IPHONE_SIMULATOR
@@ -237,13 +237,13 @@
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
-            if ([SettingsKeys getCodeValidatedSetting]) {
+//            if ([SettingsKeys getCodeValidatedSetting]) {
                 storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
                 return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
-            } else {
-                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
-                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
-            }
+//            } else {
+//                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
+//                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
+//            }
         } else {
             storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
             return [storyboard instantiateViewControllerWithIdentifier:@"TutorialView"];

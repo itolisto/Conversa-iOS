@@ -123,7 +123,6 @@
 
              Request can be resent using: [status retry];
              */
-            [status retry];
         }
     }];
 }
@@ -148,7 +147,6 @@
 
              Request can be resent using: [status retry];
              */
-            [status retry];
         }
     }];
 }
@@ -300,22 +298,22 @@
             contact.lastMessageDate = message.date;
             [contact saveWithTransaction:transaction];
         } completionBlock:^{
-            if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+//            if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
                 if(self.delegate && [self.delegate respondsToSelector:@selector(messageReceived:from:)])
                 {
                     [self.delegate messageReceived:message from:contact];
                     return;
                 }
-            } else {
-                // We are not active, so use a local notification instead
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.alertAction = @"Ver";
-                localNotification.soundName = UILocalNotificationDefaultSoundName;
-                localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
-                localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
-                localNotification.userInfo = @{@"contact":contact.uniqueId};
-                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-            }
+//            } else {
+//                // We are not active, so use a local notification instead
+//                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+//                localNotification.alertAction = @"Ver";
+//                localNotification.soundName = UILocalNotificationDefaultSoundName;
+//                localNotification.applicationIconBadgeNumber = localNotification.applicationIconBadgeNumber + 1;
+//                localNotification.alertBody = [NSString stringWithFormat:@"%@: %@",contact.displayName,message.text];
+//                localNotification.userInfo = @{@"contact":contact.uniqueId};
+//                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+//            }
         }];
     }];
 }

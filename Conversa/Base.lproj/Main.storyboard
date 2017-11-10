@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -382,7 +382,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NDK-zA-Qse">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="275"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="im_help_pattern" translatesAutoresizingMaskIntoConstraints="NO" id="Gpg-F5-J2n">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="im_help_pattern" translatesAutoresizingMaskIntoConstraints="NO" id="Gpg-F5-J2n">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="275"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Ky-fd-Vkc">
@@ -1423,7 +1423,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="30" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PEN-TI-UPb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="30" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PEN-TI-UPb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1626,7 +1626,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="49Y-tD-0HP"/>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="Nye-LD-GYa">
+                    <navigationItem key="navigationItem" id="Nye-LD-GYa">
                         <barButtonItem key="backBarButtonItem" title=" " id="f7t-yH-dXm"/>
                     </navigationItem>
                     <connections>
@@ -1779,7 +1779,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yXA-22-VwE" userLabel="Header View">
                                                 <rect key="frame" x="0.0" y="0.0" width="282" height="155"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="im_help_pattern" translatesAutoresizingMaskIntoConstraints="NO" id="oUN-2L-beX">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="im_help_pattern" translatesAutoresizingMaskIntoConstraints="NO" id="oUN-2L-beX">
                                                         <rect key="frame" x="0.0" y="0.0" width="282" height="155"/>
                                                     </imageView>
                                                 </subviews>
