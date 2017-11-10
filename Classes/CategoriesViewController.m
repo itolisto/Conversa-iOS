@@ -170,6 +170,7 @@
                              categoryReg.objectId = [category objectForKey:@"ob"];
                              categoryReg.name = [category objectForKey:@"na"];
                              categoryReg.avatarUrl = [category objectForKey:@"th"];
+                             categoryReg.custom = ([category objectForKey:@"cs"]) ? YES : NO;
 
                              [categoriesInSection addObject:categoryReg];
                          }
@@ -340,9 +341,14 @@
         CustomCategoryCell *cell = sender;
         nCategory *bs = cell.category;
         destinationViewController.navigationItem.title = [bs getName];
+        if (@available(iOS 11.0, *)) {
+            destinationViewController.navigationController.navigationBar.prefersLargeTitles = NO;
+            destinationViewController.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+        }
         [Flurry logEvent:@"user_category_selected" withParameters:@{@"category":[bs getObjectId]}];
         // Pass any objects to the view controller here, like...
         [destinationViewController setCategoryId:bs.objectId];
+        [destinationViewController setCustom:bs.custom];
     }
 }
 

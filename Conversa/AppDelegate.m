@@ -241,13 +241,13 @@
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
         if([SettingsKeys getTutorialShownSetting]) {
-            if ([SettingsKeys getCodeValidatedSetting]) {
+//            if ([SettingsKeys getCodeValidatedSetting]) {
                 storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
                 return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
-            } else {
-                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
-                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
-            }
+//            } else {
+//                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
+//                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
+//            }
         } else {
             storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
             return [storyboard instantiateViewControllerWithIdentifier:@"TutorialView"];

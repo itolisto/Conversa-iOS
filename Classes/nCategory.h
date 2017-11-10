@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic, getter=getObjectId) NSString *objectId;
 @property (strong, nonatomic, getter=getName) NSString *name;
+@property (assign, nonatomic, getter=isCustom) BOOL custom;
 @property (strong, nonatomic, getter=getAvatarUrl) NSString *avatarUrl;
 @property (assign, nonatomic, getter=getRemoveDividerMargin) BOOL removeDividerMargin;
 
