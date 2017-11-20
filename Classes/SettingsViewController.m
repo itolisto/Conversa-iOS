@@ -31,8 +31,10 @@
 
     if ([SettingsKeys getGender] == Female) {
         self.avatarImage.image = [UIImage imageNamed:@"ic_person_female"];
-    } else {
+    } else if ([SettingsKeys getGender] == Male) {
         self.avatarImage.image = [UIImage imageNamed:@"ic_person"];
+    } else {
+        self.avatarImage.image = [UIImage imageNamed:@"ic_person_unisex"];
     }
 
     // Welcome

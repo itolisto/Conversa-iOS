@@ -284,7 +284,11 @@
     user.password = self.passwordTextField.text;
     // Extra fields
     user[kUserTypeKey] = @(1);
-    user[kUserCustomerBirthdayKey] = @(self.birthdayTimestamp);
+    if (self.birthdayTimestamp) {
+        user[kUserCustomerBirthdayKey] = @(self.birthdayTimestamp);
+    } else {
+        user[kUserCustomerBirthdayKey] = @(3661000);
+    }
     user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
