@@ -659,13 +659,14 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                             </textField>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="K5c-pu-Cir">
-                                                <rect key="frame" x="102.5" y="293" width="170" height="29"/>
+                                                <rect key="frame" x="52.5" y="293" width="270" height="29"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="170" id="T3N-Pp-tsd"/>
+                                                    <constraint firstAttribute="width" constant="270" id="T3N-Pp-tsd"/>
                                                 </constraints>
                                                 <segments>
                                                     <segment title="MUJER"/>
                                                     <segment title="HOMBRE"/>
+                                                    <segment title="AHORA NO"/>
                                                 </segments>
                                                 <color key="tintColor" red="0.023529411764706" green="0.94901960784313699" blue="0.56078431372548998" alpha="1" colorSpace="calibratedRGB"/>
                                             </segmentedControl>
