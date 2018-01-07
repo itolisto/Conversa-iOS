@@ -32,6 +32,7 @@ typedef void (^CompletionResult)(YapContact* contact);
 @property (nonatomic, strong) NSDate *lastMessageDate;
 @property (nonatomic, assign) BOOL blocked;
 @property (nonatomic, assign) BOOL mute;
+@property (assign, nonatomic) BOOL fixed;
 
 + (NSDictionary*) saveContactWithParseBusiness:(YapContact *)business
                                  andConnection:(YapDatabaseConnection*)editingConnection

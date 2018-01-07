@@ -11,6 +11,9 @@
 "category_results_error" = "Uphs, please try again";
 
 /* No comment provided by engineer. */
+"chat_agent_cell" = "Chat with a Conversa Agent";
+
+/* No comment provided by engineer. */
 "chat_searchbar_placeholder" = "Search in your chats";
 
 /* No comment provided by engineer. */
@@ -175,6 +178,9 @@
 
 /* No comment provided by engineer. */
 "conversation_unsent_alert_action_view" = "View image";
+
+/* No comment provided by engineer. */
+"didnt_find_cell" = "Didn't find what you were looking for?";
 
 /* No comment provided by engineer. */
 "gcvc_alert_share" = "The old ways to contact business are now dead. There's a new king in town. Conversa is here to stay. See what all this buzz is about. Download the app and get your early access code. #conversachat http://codigos.conversachat.com";

@@ -36,6 +36,9 @@
     self.unreadMessage.layer.cornerRadius   = self.unreadMessage.frame.size.width / 2;
     self.avatarImageView.layer.masksToBounds = YES;
     self.unreadMessage.layer.masksToBounds = YES;
+    self.avatarImageView.layer.masksToBounds = YES;
+    self.avatarImageView.layer.borderWidth = 1;
+    self.avatarImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 - (void)configureCellWith:(YapContact *)business {

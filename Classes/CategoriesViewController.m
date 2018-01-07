@@ -16,6 +16,7 @@
 #import "nHeaderTitle.h"
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
+#import "Conversa-Swift.h"
 #import "ParseValidation.h"
 #import "CustomCategoryCell.h"
 #import "SearchViewController.h"
@@ -31,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UIView *noConnectionView;
 @property (weak, nonatomic) IBOutlet UIStateButton *retryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *bbiFavs;
 
 @end
 
@@ -108,6 +110,27 @@
         self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
         self.navigationController.navigationBar.tintColor = [Colors white];
     }
+
+//    if (self.elissa == nil) {
+//        ElissaConfiguration *elissaConfig = [ElissaConfiguration new];
+//        elissaConfig.message = @"Find your favorites here";
+//        elissaConfig.image = [UIImage imageNamed:@"heartIcon"];
+//        elissaConfig.font = [UIFont systemFontOfSize:17];
+//        elissaConfig.textColor = [UIColor redColor];
+//        elissaConfig.backgroundColor = [UIColor greenColor];
+//        elissaConfig.arrowOffset = 60.0;
+//
+//        self.elissa = [[self view] showElissaFromSourceView:self.searchController.searchBar configuration:elissaConfig onTouchHandler:^{
+//            [self.elissa removeFromSuperview];
+//            self.elissa = nil;
+//        }];
+//    }
+//    [[GuideViewsManager sharedInstance] showWithText:@"89fadslkjafds21"
+//                                           direction:3
+//                                            maxWidth:200.0
+//                                              inview:self.view
+//                                                from:self.searchController.searchBar.frame
+//                                            duration:0];
 }
 
 - (IBAction)retryButtonPressed:(UIStateButton *)sender {
@@ -333,6 +356,19 @@
 }
 
 #pragma mark - Navigation Method -
+
+- (IBAction)goToFavsPressed:(UIBarButtonItem *)sender {
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Favoritevt" bundle:nil];
+//    UINavigationController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"FavoritesNV"];
+//    UIViewController *rootViewController = [[viewController viewControllers] lastObject];
+//    FavoritesViewController *presentViewController = (FavoritesViewController*)rootViewController;
+//    [self.navigationController pushViewController:presentViewController animated:YES];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Favoritevt" bundle:nil];
+    FavoritesViewController *rootViewController = (FavoritesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"FavoritesVC"];
+    rootViewController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:rootViewController animated:YES];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"GoToSelectedCategory"]) {

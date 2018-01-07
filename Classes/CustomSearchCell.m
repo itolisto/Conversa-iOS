@@ -19,6 +19,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _photoImageView.layer.cornerRadius = _photoImageView.frame.size.width / 2;
+    _photoImageView.layer.masksToBounds = YES;
+    _photoImageView.layer.borderWidth = 1;
+    _photoImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 - (void)configureCellWith:(Business *)business {
@@ -41,26 +44,6 @@
     self.displayNameLabel.text = business.displayName;
     [self.conversaIdLabel sizeToFit];
 }
-
-//- (void)configureCellWith:(Business *)business withAvatar:(NSString *)avatar {
-//    self.business = business;
-//    self.avatarUrl = avatar;
-//
-//    if (avatar) {
-//        if ([avatar length]) {
-//            [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:avatar]
-//                                   placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
-//        } else {
-//            self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
-//        }
-//    } else {
-//        self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];
-//    }
-//
-//    self.conversaIdLabel.text = [@"@" stringByAppendingString:business.conversaID];
-//    self.displayNameLabel.text = business.displayName;
-//    [self.conversaIdLabel sizeToFit];
-//}
 
 - (void)configureCellWithYap:(YapSearch *)yapbusiness {
     self.yapbusiness = yapbusiness;

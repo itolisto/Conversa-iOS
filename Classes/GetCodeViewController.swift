@@ -31,7 +31,7 @@ class GetCodeViewController: UIViewController {
         let index = str.index(str.startIndex, offsetBy: 2)
 
         let language = str.substring(to: index)
-        let size = self.lblShare.text?.characters.count
+        let size = self.lblShare.text?.count
 
         var start, startThis, normalOne, normalTwo : NSRange;
 
@@ -48,11 +48,11 @@ class GetCodeViewController: UIViewController {
         }
 
         // Normal
-        let attributesNormal: [String: Any] = [NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)]
+        let attributesNormal: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
         attrStr.setAttributes(attributesNormal, range: normalOne)
         attrStr.setAttributes(attributesNormal, range: normalTwo)
         // Green
-        let attributesGreen: [String: Any] = [NSForegroundColorAttributeName: Colors.green(), NSFontAttributeName: UIFont.systemFont(ofSize: 14.0, weight: UIFontWeightLight)]
+        let attributesGreen: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: Colors.green(), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
         attrStr.setAttributes(attributesGreen, range: start)
         attrStr.setAttributes(attributesGreen, range: startThis)
 

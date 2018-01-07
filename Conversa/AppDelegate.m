@@ -18,15 +18,19 @@
 #import "YapContact.h"
 #import "YapMessage.h"
 #import "SettingsKeys.h"
+#import "Conversa-Swift.h"
 #import "ParseValidation.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
+#import <Fabric/Fabric.h>
 #import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
+#import <Crashlytics/Crashlytics.h>
 #import <AFNetworking/AFNetworking.h>
+
 @import Parse;
 @import GoogleMaps;
 
@@ -37,183 +41,192 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //[Appirater setAppId:@"464200063"];
-    
-    // Set Google Maps
-    [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
+//    UIViewController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"LaunchScreen"];
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    self.window.rootViewController = rootViewController;
+//    [self.window makeKeyAndVisible];
 
-    FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
-                                        withLogLevel:FlurryLogLevelNone]
-                                       withCrashReporting:YES]
-                                      withSessionContinueSeconds:10]
-                                     withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
-    
-    [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
+//    [SPLaunchAnimation asTwitterForLaunchScreenName:@"LaunchScreen" numberLogoAsSubview:0 withComplection:^{
+        //[Appirater setAppId:@"464200063"];
 
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+        [Fabric with:@[[Crashlytics class]]];
 
-    [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
-    
-    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
-    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
-    
-    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
-    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
-    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
-    [DDLog addLogger:fileLogger];
-    
-    // Register subclassing for using as Parse objects
-    [Account registerSubclass];
-    [Business registerSubclass];
+        // Set Google Maps
+        [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
 
-    // Initialize Parse.
-    [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-//        configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-//        configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//        configuration.server = @"https://api.conversachat.com/parse";
-        // To work with localhost
-//        configuration.applicationId = @"b15c83";
-//        configuration.server = @"http://192.168.1.6:1337/parse";
-    }]];
-    
+        FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+                                            withLogLevel:FlurryLogLevelNone]
+                                           withCrashReporting:YES]
+                                          withSessionContinueSeconds:10]
+                                         withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+
+        [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
+
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
+        [[BITHockeyManager sharedHockeyManager] startManager];
+        [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+
+        [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
+
+        [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+        [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+
+        DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+        fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+        [DDLog addLogger:fileLogger];
+
+        // Register subclassing for using as Parse objects
+        [Account registerSubclass];
+        [Business registerSubclass];
+
+        // Initialize Parse.
+        [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+//                    configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+//                    configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+//                    configuration.server = @"https://api.conversachat.com/parse";
+            // To work with localhost
+            configuration.applicationId = @"b15c83";
+            configuration.server = @"http://localhost:1337/parse";
+        }]];
+
 #if TARGET_IPHONE_SIMULATOR
-    NSLog(@"Home directory: %@",NSHomeDirectory());
+        NSLog(@"Home directory: %@",NSHomeDirectory());
 #endif
-    
-    if (![DatabaseManager existsYapDatabase]) {
-        /*
-         * First Launch
-         * Create password and save to keychain
-         */
-        NSString *newPassword = @"123456789";//[PasswordGenerator passwordWithLength:DefaultPasswordLength];
-        NSError *error = nil;
-        [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
-        
-        if (error) {
-            DDLogError(@"Password Error: %@",error);
-        }
-        
-        // Default settings
-        [SettingsKeys setTutorialShownSetting:NO];
-    }
-        
-    [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
 
-    // Set Appirater settings
-    [Appirater setOpenInAppStore:NO];
-    [Appirater appLaunched:YES];
+        if (![DatabaseManager existsYapDatabase]) {
+            /*
+             * First Launch
+             * Create password and save to keychain
+             */
+            NSString *newPassword = @"123456789";//[PasswordGenerator passwordWithLength:DefaultPasswordLength];
+            NSError *error = nil;
+            [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
 
-    [[CustomAblyRealtime sharedInstance] initAbly];
-
-    [NotificationPermissions canSendNotifications];
-
-    Branch *branch = [Branch getInstance];
-    [branch disableCookieBasedMatching];
-    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-        if (!error && params) {
-            Account *account = [Account currentUser];
-
-            if (account == nil) {
-                return;
+            if (error) {
+                DDLogError(@"Password Error: %@",error);
             }
 
-            if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == true)
-            {
-                if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES)
+            // Default settings
+            [SettingsKeys setTutorialShownSetting:NO];
+        }
+
+        [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
+
+        // Set Appirater settings
+        [Appirater setOpenInAppStore:NO];
+        [Appirater appLaunched:YES];
+
+        [[CustomAblyRealtime sharedInstance] initAbly];
+
+        [NotificationPermissions canSendNotifications];
+
+        Branch *branch = [Branch getInstance];
+        [branch disableCookieBasedMatching];
+        [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+            if (!error && params) {
+                Account *account = [Account currentUser];
+
+                if (account == nil) {
+                    return;
+                }
+
+                if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == true)
                 {
-                    if ([params objectForKey:@"goConversa"])
+                    if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES)
                     {
-                        NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
-                        [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
-                        [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
-                        [branchInfo setObject:[params objectForKey:@"conversaId"] forKey:@"conversaId"];
+                        if ([params objectForKey:@"goConversa"])
+                        {
+                            NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
+                            [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
+                            [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
+                            [branchInfo setObject:[params objectForKey:@"conversaId"] forKey:@"conversaId"];
 
-                        if ([params objectForKey:@"avatar"]) {
-                            [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
-                        }
-                        // Define controller to take action
-                        __block YapContact *bs = nil;
+                            if ([params objectForKey:@"avatar"]) {
+                                [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                            }
+                            // Define controller to take action
+                            __block YapContact *bs = nil;
 
-                        [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                            bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
-                        }];
+                            [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                                bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
+                            }];
 
-                        // Get reference to the destination view controller
-                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
+                            // Get reference to the destination view controller
+                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                            ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
 
-                        // Pass any objects to the view controller here, like...
-                        if (bs) {
-                            [destinationViewController initWithBuddy:bs];
-                        } else {
-                            YapContact *business = [[YapContact alloc] initWithUniqueId:[branchInfo objectForKey:@"objectId"]];
-                            business.displayName = [branchInfo objectForKey:@"name"];
-                            business.conversaId = [branchInfo objectForKey:@"conversaid"];
-                            [destinationViewController initWithBusiness:business
-                                                          withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
-                        }
+                            // Pass any objects to the view controller here, like...
+                            if (bs) {
+                                [destinationViewController initWithBuddy:bs];
+                            } else {
+                                YapContact *business = [[YapContact alloc] initWithUniqueId:[branchInfo objectForKey:@"objectId"]];
+                                business.displayName = [branchInfo objectForKey:@"name"];
+                                business.conversaId = [branchInfo objectForKey:@"conversaid"];
+                                [destinationViewController initWithBusiness:business
+                                                              withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
+                            }
 
-                        UIViewController *controller = [self topViewController];
+                            UIViewController *controller = [self topViewController];
 
-                        if (controller) {
-                            if ([controller isKindOfClass:[ConversationViewController class]]) {
-                                // DO NOTHING
-                            } else if ([controller isKindOfClass:[UITabBarController class]]) {
-                                UITabBarController *tbcontroller = (UITabBarController*)controller;
-                                UIViewController *scontroller = [tbcontroller selectedViewController];
+                            if (controller) {
+                                if ([controller isKindOfClass:[ConversationViewController class]]) {
+                                    // DO NOTHING
+                                } else if ([controller isKindOfClass:[UITabBarController class]]) {
+                                    UITabBarController *tbcontroller = (UITabBarController*)controller;
+                                    UIViewController *scontroller = [tbcontroller selectedViewController];
 
-                                if ([scontroller isKindOfClass:[UINavigationController class]]) {
-                                    UINavigationController *navcontroller = (UINavigationController*)scontroller;
+                                    if ([scontroller isKindOfClass:[UINavigationController class]]) {
+                                        UINavigationController *navcontroller = (UINavigationController*)scontroller;
 
-                                    if (navcontroller.isNavigationBarHidden) {
-                                        navcontroller.navigationBarHidden = NO;
+                                        if (navcontroller.isNavigationBarHidden) {
+                                            navcontroller.navigationBarHidden = NO;
+                                        }
+
+                                        [navcontroller pushViewController:destinationViewController
+                                                                 animated:YES];
+                                    } else {
+                                        // scontroller is a uiviewcontroller
+                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scontroller];
+
+                                        [navController pushViewController:destinationViewController
+                                                                 animated:YES];
                                     }
-
+                                } else if ([controller isKindOfClass:[UINavigationController class]]) {
+                                    UINavigationController *navcontroller = (UINavigationController*)controller;
                                     [navcontroller pushViewController:destinationViewController
                                                              animated:YES];
                                 } else {
-                                    // scontroller is a uiviewcontroller
-                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scontroller];
+                                    if (controller.navigationController) {
+                                        [controller.navigationController pushViewController:destinationViewController
+                                                                                   animated:YES];
+                                    } else {
+                                        // Create UINavigationController if not exists
+                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 
-                                    [navController pushViewController:destinationViewController
-                                                             animated:YES];
-                                }
-                            } else if ([controller isKindOfClass:[UINavigationController class]]) {
-                                UINavigationController *navcontroller = (UINavigationController*)controller;
-                                [navcontroller pushViewController:destinationViewController
-                                                         animated:YES];
-                            } else {
-                                if (controller.navigationController) {
-                                    [controller.navigationController pushViewController:destinationViewController
-                                                                               animated:YES];
-                                } else {
-                                    // Create UINavigationController if not exists
-                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-
-                                    [navController pushViewController:destinationViewController
-                                                             animated:YES];
+                                        [navController pushViewController:destinationViewController
+                                                                 animated:YES];
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }];
-
-    // Define controller to take action
-    UIViewController *rootViewController = nil;
-    rootViewController = [self defaultNavigationController];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = rootViewController;
-    // Make the receiver the main window and displays it in front of other windows
-    [self.window makeKeyAndVisible];
-    // The number to display as the app’s icon badge.
-    application.applicationIconBadgeNumber = 0;
-
-    [NotificationPermissions canSendNotifications];
+        }];
+        
+        // Define controller to take action
+        UIViewController *rootViewController = nil;
+        rootViewController = [self defaultNavigationController];
+        //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window.rootViewController = rootViewController;
+        // Make the receiver the main window and displays it in front of other windows
+        [self.window makeKeyAndVisible];
+        // The number to display as the app’s icon badge.
+        application.applicationIconBadgeNumber = 0;
+        [NotificationPermissions canSendNotifications];
+//    } onWindow:self.window];
 
     return YES;
 }

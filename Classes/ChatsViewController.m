@@ -18,8 +18,8 @@
 #import "DatabaseView.h"
 #import "SettingsKeys.h"
 #import "UIStateButton.h"
-#import "CustomChatCell.h"
 #import "MBProgressHUD.h"
+#import "CustomChatCell.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
 
@@ -27,6 +27,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <YapDatabase/YapDatabaseView.h>
 #import <YapDatabase/YapDatabaseSearchQueue.h>
+
+#import "Conversa-Swift.h"
 
 @interface ChatsViewController ()
 
@@ -190,6 +192,18 @@
             }
         }
     }];
+
+//    ElissaConfiguration *elissaConfig = [ElissaConfiguration new];
+//    elissaConfig.message = @"Find your favorites here";
+//    elissaConfig.image = [UIImage imageNamed:@"heartIcon"];
+//    elissaConfig.font = [UIFont systemFontOfSize:17];
+//    elissaConfig.textColor = [UIColor redColor];
+//    elissaConfig.backgroundColor = [UIColor greenColor];
+//
+//    [self showElissaFromTabbarAt:1 configuration:elissaConfig onTouchHandler:^{
+//        [Elissa dismiss];
+//    }];
+//    [[GuideViewsManager sharedInstance] showWithText:@"afdsf" direction:2 maxWidth:200.0 inview:[self view] from:self.toolbarItems[1].customView.frame duration:0];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

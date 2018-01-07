@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		22958087C107A764F2D850F4 /* Pods_Conversa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1EB0991693E08B742146D18 /* Pods_Conversa.framework */; };
+		A516547D1FCCE36500ABCB28 /* SPLaunchAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516547C1FCCE36500ABCB28 /* SPLaunchAnimation.swift */; };
+		A51654801FD0BD3C00ABCB28 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516547F1FD0BD3C00ABCB28 /* FavoritesViewController.swift */; };
+		A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */; };
+		A51654891FD0CF6500ABCB28 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51654881FD0CF6500ABCB28 /* Favorite.swift */; };
+		A516548B1FD0CFE200ABCB28 /* FavoriteSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516548A1FD0CFE200ABCB28 /* FavoriteSearchResults.swift */; };
+		A516548D1FD102F400ABCB28 /* Favoritevt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */; };
 		A52906851D6FE7080018D74C /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905F81D6FE7080018D74C /* AboutViewController.m */; };
 		A52906861D6FE7080018D74C /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905FA1D6FE7080018D74C /* Account.m */; };
 		A52906871D6FE7080018D74C /* AccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905FC1D6FE7080018D74C /* AccountSettingsViewController.m */; };
@@ -120,6 +126,12 @@
 /* Begin PBXFileReference section */
 		889B71B8015672A28D2B9B53 /* Pods-Conversa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conversa.release.xcconfig"; path = "Pods/Target Support Files/Pods-Conversa/Pods-Conversa.release.xcconfig"; sourceTree = "<group>"; };
 		A51441B21DE6268E00DD4373 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A516547C1FCCE36500ABCB28 /* SPLaunchAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPLaunchAnimation.swift; sourceTree = "<group>"; };
+		A516547F1FD0BD3C00ABCB28 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionCell.swift; sourceTree = "<group>"; };
+		A51654881FD0CF6500ABCB28 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		A516548A1FD0CFE200ABCB28 /* FavoriteSearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSearchResults.swift; sourceTree = "<group>"; };
+		A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Favoritevt.storyboard; path = Conversa/Favoritevt.storyboard; sourceTree = SOURCE_ROOT; };
 		A52905F71D6FE7080018D74C /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		A52905F81D6FE7080018D74C /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		A52905F91D6FE7080018D74C /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -313,6 +325,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A516547E1FD0BCF000ABCB28 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				A516547F1FD0BD3C00ABCB28 /* FavoritesViewController.swift */,
+			);
+			name = Favorites;
+			sourceTree = "<group>";
+		};
 		A52905F61D6FE7080018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +401,7 @@
 				A5D4A4F81F6A9E0D00AA5666 /* Code */,
 				A5E77A641DD56BB80032B7D5 /* Categories */,
 				A5E77A631DD56BB40032B7D5 /* Chats */,
+				A516547E1FD0BCF000ABCB28 /* Favorites */,
 				A5E77A611DD56BAA0032B7D5 /* Login */,
 				A5E77A601DD56BA20032B7D5 /* Profile */,
 				A5E77A5F1DD56B9D0032B7D5 /* Search */,
@@ -457,6 +478,8 @@
 				A59F4CE71DD7AB7D005491B2 /* nHeaderTitle.m */,
 				A59F4CE91DD7B144005491B2 /* nCategory.h */,
 				A59F4CEA1DD7B144005491B2 /* nCategory.m */,
+				A51654881FD0CF6500ABCB28 /* Favorite.swift */,
+				A516548A1FD0CFE200ABCB28 /* FavoriteSearchResults.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -485,6 +508,7 @@
 				A59F4CE31DD78AE2005491B2 /* CustomCategoryHeaderCell.m */,
 				A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */,
 				A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */,
+				A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -549,6 +573,7 @@
 				A529066B1D6FE7080018D74C /* SettingsKeys.m */,
 				A52906741D6FE7080018D74C /* Utilities.h */,
 				A52906751D6FE7080018D74C /* Utilities.m */,
+				A516547C1FCCE36500ABCB28 /* SPLaunchAnimation.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -703,6 +728,7 @@
 				A5698FF21F6B634500C8805F /* Tutorial.storyboard */,
 				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
 				A5698FFA1F6B6B6B00C8805F /* Code.storyboard */,
+				A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -730,6 +756,7 @@
 				A55B5D111D53C8F300AA576A /* Resources */,
 				A59307431E5FB67F00083665 /* Localization BartyCrouch */,
 				A5D81D9B1F971AE30004A561 /* Embed App Extensions */,
+				A59F07B81FEEF51400B2F0D7 /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -820,6 +847,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */,
+				A516548D1FD102F400ABCB28 /* Favoritevt.storyboard in Resources */,
 				A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */,
 				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
@@ -828,7 +856,6 @@
 				A54154E61FA1BF2000753012 /* Assets.xcassets in Resources */,
 				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
 				A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */,
-				A55B5D261D53C8F300AA576A /* Assets.xcassets in Resources */,
 				A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
 				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,
@@ -960,6 +987,20 @@
 			shellPath = /bin/sh;
 			shellScript = "if which bartycrouch > /dev/null; then\n    # Incrementally update all Storyboards/XIBs strings files\n    bartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n    # Add new keys to Localizable.strings files from NSLocalizedString in code\n    bartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/Conversa\" -a -s\nelse\n    echo \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
+		A59F07B81FEEF51400B2F0D7 /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+		};
 		CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -990,6 +1031,7 @@
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
+				A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */,
 				A52906911D6FE7080018D74C /* CategoryViewController.m in Sources */,
 				A52906CB1D6FE7080018D74C /* YapAccount.m in Sources */,
 				A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */,
@@ -997,6 +1039,7 @@
 				A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */,
 				A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */,
 				A52906881D6FE7080018D74C /* Audio.m in Sources */,
+				A516547D1FCCE36500ABCB28 /* SPLaunchAnimation.swift in Sources */,
 				A52906B11D6FE7080018D74C /* NotificationPermissions.m in Sources */,
 				A52906C71D6FE7080018D74C /* Utilities.m in Sources */,
 				A52906C91D6FE7080018D74C /* VideoMediaItem.m in Sources */,
@@ -1005,6 +1048,7 @@
 				A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */,
 				A59F4CE11DD786FA005491B2 /* ParseValidation.m in Sources */,
 				A52906CA1D6FE7080018D74C /* WhisperBridge.swift in Sources */,
+				A516548B1FD0CFE200ABCB28 /* FavoriteSearchResults.swift in Sources */,
 				A52906A91D6FE7080018D74C /* Incoming.m in Sources */,
 				A52906C81D6FE7080018D74C /* Video.m in Sources */,
 				A529068E1D6FE7080018D74C /* Camera.m in Sources */,
@@ -1027,10 +1071,12 @@
 				A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */,
 				A52906901D6FE7080018D74C /* CategoriesViewController.m in Sources */,
 				A52906941D6FE7080018D74C /* Colors.m in Sources */,
+				A51654801FD0BD3C00ABCB28 /* FavoritesViewController.swift in Sources */,
 				A52906991D6FE7080018D74C /* CustomCategoryCell.m in Sources */,
 				A52906871D6FE7080018D74C /* AccountSettingsViewController.m in Sources */,
 				A52906B61D6FE7080018D74C /* PhotoMediaItem.m in Sources */,
 				A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */,
+				A51654891FD0CF6500ABCB28 /* Favorite.swift in Sources */,
 				A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */,
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
 				A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */,
@@ -1186,6 +1232,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -1236,7 +1283,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FEF14DF4276BD6F9F1BAD2CB /* Pods-Conversa.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
@@ -1244,6 +1291,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1257,7 +1305,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\"";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1267,13 +1315,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 889B71B8015672A28D2B9B53 /* Pods-Conversa.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1286,7 +1336,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\"";
 			};
 			name = Release;

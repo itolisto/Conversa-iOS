@@ -140,10 +140,16 @@
                          newBuddy.displayName = [business valueForKey:@"dn"];
                          newBuddy.conversaId = [business valueForKey:@"cn"];
 
-                         if ([business valueForKey:@"av"]) {
-                             newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
+                         if ([business valueForKey:@"fx"]) {
+                             newBuddy.fixed = YES;
+                             [businesses insertObject:newBuddy atIndex:0];
+                         } else {
+                             if ([business valueForKey:@"av"]) {
+                                 newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
+                             }
+                             
+                             [businesses addObject:newBuddy];
                          }
-                         [businesses addObject:newBuddy];
                      }
 
                      if (size < 20) {

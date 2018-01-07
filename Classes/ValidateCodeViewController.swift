@@ -100,7 +100,7 @@ class ValidateCodeViewController: UIViewController {
 extension ValidateCodeViewController : PinCodeTextFieldDelegate {
 
     func textFieldValueChanged(_ textField: PinCodeTextField) {
-        if ((textField.text?.characters.count)! < 6) {
+        if ((textField.text?.count)! < 6) {
             self.btnValidate.isEnabled = false
         } else {
             self.btnValidate.isEnabled = true

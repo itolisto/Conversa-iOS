@@ -11,6 +11,9 @@
 "category_results_error" = "Uphs, por favor intenta de nuevo";
 
 /* No comment provided by engineer. */
+"chat_agent_cell" = "Chatea con un Agente Conversa";
+
+/* No comment provided by engineer. */
 "chat_searchbar_placeholder" = "Busca en tus chats";
 
 /* No comment provided by engineer. */
@@ -175,6 +178,9 @@
 
 /* No comment provided by engineer. */
 "conversation_unsent_alert_action_view" = "Ver imagen";
+
+/* No comment provided by engineer. */
+"didnt_find_cell" = "¿No encontraste lo que buscabas?";
 
 /* No comment provided by engineer. */
 "gcvc_alert_share" = "Las anticuadas formas de comunicación con empresas han muerto. Hay un nuevo rey en la ciudad. Conversa llegó para quedarse. Ve de que se trata todo este alboroto. Descarga la app y solicita tu código de acceso. #conversachat http://codigos.conversachat.com";
