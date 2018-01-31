@@ -49,6 +49,7 @@
     } else {
         MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
         hudError.mode = MBProgressHUDModeText;
+        [hudError.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
         [self.view addSubview:hudError];
 
         if ([text isEqualToString:@""]) {

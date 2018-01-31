@@ -13,7 +13,6 @@
 		A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */; };
 		A51654891FD0CF6500ABCB28 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51654881FD0CF6500ABCB28 /* Favorite.swift */; };
 		A516548B1FD0CFE200ABCB28 /* FavoriteSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516548A1FD0CFE200ABCB28 /* FavoriteSearchResults.swift */; };
-		A516548D1FD102F400ABCB28 /* Favoritevt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */; };
 		A52906851D6FE7080018D74C /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905F81D6FE7080018D74C /* AboutViewController.m */; };
 		A52906861D6FE7080018D74C /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905FA1D6FE7080018D74C /* Account.m */; };
 		A52906871D6FE7080018D74C /* AccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52905FC1D6FE7080018D74C /* AccountSettingsViewController.m */; };
@@ -72,6 +71,8 @@
 		A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFD1F6B73A200C8805F /* gifCode.gif */; };
 		A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */; };
 		A571285F1E5EA44200B80D87 /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A571285E1E5EA44200B80D87 /* Business.m */; };
+		A5774C122005E639004B3E4D /* Favoritevt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5774C142005E639004B3E4D /* Favoritevt.storyboard */; };
+		A5774C182005EB1D004B3E4D /* CustomFixedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5774C172005EB1D004B3E4D /* CustomFixedCell.swift */; };
 		A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */; };
 		A59307441E5FBAE300083665 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D221D53C8F300AA576A /* Main.storyboard */; };
 		A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */; };
@@ -131,7 +132,7 @@
 		A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionCell.swift; sourceTree = "<group>"; };
 		A51654881FD0CF6500ABCB28 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		A516548A1FD0CFE200ABCB28 /* FavoriteSearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSearchResults.swift; sourceTree = "<group>"; };
-		A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Favoritevt.storyboard; path = Conversa/Favoritevt.storyboard; sourceTree = SOURCE_ROOT; };
+		A52124B8200929FF001352BF /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Favoritevt.strings; sourceTree = "<group>"; };
 		A52905F71D6FE7080018D74C /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		A52905F81D6FE7080018D74C /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		A52905F91D6FE7080018D74C /* Account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Account.h; sourceTree = "<group>"; };
@@ -245,6 +246,8 @@
 		A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
 		A571285D1E5EA44200B80D87 /* Business.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Business.h; sourceTree = "<group>"; };
 		A571285E1E5EA44200B80D87 /* Business.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Business.m; sourceTree = "<group>"; };
+		A5774C152005E63C004B3E4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Favoritevt.storyboard; sourceTree = "<group>"; };
+		A5774C172005EB1D004B3E4D /* CustomFixedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFixedCell.swift; sourceTree = "<group>"; };
 		A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		A59307481E5FBFB700083665 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A59544541E09E340002057B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -502,6 +505,7 @@
 				A52906201D6FE7080018D74C /* CustomCategoryCell.m */,
 				A52906231D6FE7080018D74C /* CustomChatCell.h */,
 				A52906241D6FE7080018D74C /* CustomChatCell.m */,
+				A5774C172005EB1D004B3E4D /* CustomFixedCell.swift */,
 				A52906311D6FE7080018D74C /* CustomSearchCell.h */,
 				A52906321D6FE7080018D74C /* CustomSearchCell.m */,
 				A59F4CE21DD78AE2005491B2 /* CustomCategoryHeaderCell.h */,
@@ -728,7 +732,7 @@
 				A5698FF21F6B634500C8805F /* Tutorial.storyboard */,
 				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
 				A5698FFA1F6B6B6B00C8805F /* Code.storyboard */,
-				A516548C1FD102F400ABCB28 /* Favoritevt.storyboard */,
+				A5774C142005E639004B3E4D /* Favoritevt.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -847,7 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */,
-				A516548D1FD102F400ABCB28 /* Favoritevt.storyboard in Resources */,
+				A5774C122005E639004B3E4D /* Favoritevt.storyboard in Resources */,
 				A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */,
 				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
@@ -928,6 +932,7 @@
 				"${BUILT_PRODUCTS_DIR}/ULID/ULID.framework",
 				"${BUILT_PRODUCTS_DIR}/VTAcknowledgementsViewController/VTAcknowledgementsViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Whisper/Whisper.framework",
+				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/YapDatabase/YapDatabase.framework",
 				"${BUILT_PRODUCTS_DIR}/msgpack/msgpack.framework",
 				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
@@ -964,6 +969,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ULID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VTAcknowledgementsViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whisper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YapDatabase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/msgpack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
@@ -1067,6 +1073,7 @@
 				A52906971D6FE7080018D74C /* ConversationViewController.m in Sources */,
 				A52906861D6FE7080018D74C /* Account.m in Sources */,
 				A529069B1D6FE7080018D74C /* CustomChatCell.m in Sources */,
+				A5774C182005EB1D004B3E4D /* CustomFixedCell.swift in Sources */,
 				A52906AB1D6FE7080018D74C /* LoginViewController.m in Sources */,
 				A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */,
 				A52906901D6FE7080018D74C /* CategoriesViewController.m in Sources */,
@@ -1165,6 +1172,16 @@
 			);
 			name = Code.storyboard;
 			sourceTree = "<group>";
+		};
+		A5774C142005E639004B3E4D /* Favoritevt.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5774C152005E63C004B3E4D /* Base */,
+				A52124B8200929FF001352BF /* es */,
+			);
+			name = Favoritevt.storyboard;
+			path = Conversa;
+			sourceTree = SOURCE_ROOT;
 		};
 		A59544551E09E340002057B9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;

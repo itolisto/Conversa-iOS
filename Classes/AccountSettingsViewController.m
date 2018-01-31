@@ -133,6 +133,7 @@
                                              MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                                              hud.mode = MBProgressHUDModeCustomView;
                                              hud.square = YES;
+                                             [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
                                              UIImage *image;
 
                                              if (error) {
@@ -170,6 +171,7 @@
             {
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
                 hud.mode = MBProgressHUDModeCustomView;
+                [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
                 hud.square = YES;
                 UIImage *image;
 

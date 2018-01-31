@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIView *searchView;
 @property (weak, nonatomic) IBOutlet UIView *noConnectionView;
 @property (weak, nonatomic) IBOutlet UIStateButton *retryButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *bbiFavs;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *bbiFavs;
 
 @end
 
@@ -42,6 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.searchView.hidden = YES;
 
     self.tableView.delegate = self;
@@ -58,23 +59,34 @@
     [self.tableView addSubview:self.refreshControl];
 
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+
+    self.searchController.searchBar.showsScopeBar = NO;
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
     // If we are using this same view controller to present the results
     // dimming it out wouldn't make sense.  Should set probably only set
     // this to yes if using another controller to display the search results.
     self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.searchBar.showsScopeBar = NO;
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.placeholder = NSLocalizedString(@"categories_searchbar_placeholder", nil);
+
     // Sets this view controller as presenting view controller for the search interface
     self.definesPresentationContext = YES;
-    // Set SearchBar into NavigationBar
-    self.tableView.tableHeaderView = nil;
+
+    // Set SearchBar into NavigationBar if iOS 11
+    if (@available(iOS 11.0, *)) {
+        self.searchController.obscuresBackgroundDuringPresentation = NO;
+        self.navigationItem.searchController = self.searchController;
+    } else {
+        self.tableView.tableHeaderView = nil;
+        self.navigationItem.titleView = self.searchController.searchBar;
+
+        // By default the navigation bar hides when presenting the
+        // search interface.  Obviously we don't want this to happen if
+        // our search bar is inside the navigation bar.
+        self.searchController.hidesNavigationBarDuringPresentation = false;
+    }
+
     [self.searchController.searchBar sizeToFit];
-    self.navigationItem.titleView = self.searchController.searchBar;
-    // By default the navigation bar hides when presenting the
-    // search interface.  Obviously we don't want this to happen if
-    // our search bar is inside the navigation bar.
-    self.searchController.hidesNavigationBarDuringPresentation = false;
+    self.navigationController.view.backgroundColor = [Colors greenNavbar];
 
     // Add retry button properties
     [self.retryButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
@@ -321,6 +333,8 @@
                 }
             }
         }
+//        [self.navigationController.navigationItem setRightBarButtonItems:nil animated:YES];
+        
         self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
         self.navigationController.navigationBar.tintColor = [Colors black];
         [searchBar setShowsCancelButton:YES animated:YES];
@@ -340,6 +354,7 @@
                 }
             }
         }
+//        [self.navigationController.navigationItem setRightBarButtonItems:@[self.bbiFavs] animated:YES];
         self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
         self.navigationController.navigationBar.tintColor = [Colors white];
         [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
@@ -358,12 +373,6 @@
 #pragma mark - Navigation Method -
 
 - (IBAction)goToFavsPressed:(UIBarButtonItem *)sender {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Favoritevt" bundle:nil];
-//    UINavigationController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"FavoritesNV"];
-//    UIViewController *rootViewController = [[viewController viewControllers] lastObject];
-//    FavoritesViewController *presentViewController = (FavoritesViewController*)rootViewController;
-//    [self.navigationController pushViewController:presentViewController animated:YES];
-
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Favoritevt" bundle:nil];
     FavoritesViewController *rootViewController = (FavoritesViewController*)[storyboard instantiateViewControllerWithIdentifier:@"FavoritesVC"];
     rootViewController.hidesBottomBarWhenPushed = YES;

@@ -463,12 +463,7 @@
 #pragma mark - Navigation Method -
 
 - (IBAction)startBrowsingPressed:(UIButton *)sender {
-    //[self.tabBarController setSelectedIndex:1];
-    MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
-    hudError.mode = MBProgressHUDModeIndeterminate;
-    [self.view addSubview:hudError];
-//    hudError.label.text = NSLocalizedString(@"common_field_required", nil);
-    [hudError showAnimated:YES];
+    [self.tabBarController setSelectedIndex:1];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

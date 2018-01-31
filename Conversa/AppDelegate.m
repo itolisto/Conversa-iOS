@@ -83,12 +83,12 @@
 
         // Initialize Parse.
         [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-//                    configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-//                    configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-//                    configuration.server = @"https://api.conversachat.com/parse";
+            configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
+            configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
+            configuration.server = @"https://api.conversachat.com/parse";
             // To work with localhost
-            configuration.applicationId = @"b15c83";
-            configuration.server = @"http://localhost:1337/parse";
+//            configuration.applicationId = @"b15c83";
+//            configuration.server = @"http://localhost:1337/parse";
         }]];
 
 #if TARGET_IPHONE_SIMULATOR

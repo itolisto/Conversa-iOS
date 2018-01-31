@@ -20,7 +20,7 @@
     [super awakeFromNib];
     _photoImageView.layer.cornerRadius = _photoImageView.frame.size.width / 2;
     _photoImageView.layer.masksToBounds = YES;
-    _photoImageView.layer.borderWidth = 1;
+    _photoImageView.layer.borderWidth = 0.7;
     _photoImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 

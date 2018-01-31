@@ -207,6 +207,7 @@
         } else {
             MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
             hudError.mode = MBProgressHUDModeText;
+            [hudError.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
             [self.view addSubview:hudError];
 
             if ([text isEqualToString:@""]) {
@@ -230,6 +231,7 @@
         if ([text isEqualToString:@""]) {
             MBProgressHUD *hudError = [[MBProgressHUD alloc] initWithView:self.view];
             hudError.mode = MBProgressHUDModeText;
+            [hudError.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
             [self.view addSubview:hudError];
             hudError.label.text = NSLocalizedString(@"common_field_required", nil);
             [hudError showAnimated:YES];

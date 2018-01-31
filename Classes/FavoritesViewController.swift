@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoritesViewController : UICollectionViewController {
+class FavoritesViewController : UIViewController {
 
     // MARK: - Properties
     fileprivate let reuseIdentifier = "favoriteCollectionCell"
@@ -20,9 +20,17 @@ class FavoritesViewController : UICollectionViewController {
     fileprivate var searchMode: Bool! = false
     fileprivate var searchController: UISearchController!
     fileprivate var skip : Int = 0
+    
+    @IBOutlet weak var mvNoFavorites: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var mbBrowse: UIStateButton!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
 
         self.searchController = UISearchController(searchResultsController: nil)
         // If we are using this same view controller to present the results
@@ -43,26 +51,23 @@ class FavoritesViewController : UICollectionViewController {
         self.searchController.hidesNavigationBarDuringPresentation = true
 
         Favorite.getFavorites(customerId: SettingsKeys.getCustomerId(), skip: skip) { (results, error) in
-            //activityIndicator.removeFromSuperview()
+//            activityIndicator.removeFromSuperview()
 
-            if let error = error {
-                // 2
-                print("Error searching : \(error)")
+            if error != nil {
                 return
             }
 
             if let results = results {
-                // 3
-                print("Found \(results.searchResults.count) matching \(results.searchTerm)")
                 self.searches.insert(results, at: 0)
-
-                // 4
                 self.collectionView?.reloadData()
             }
 
             self.skip += 1
         }
-
+    }
+    
+    @IBAction func startBrowsingPressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
 
 }
@@ -77,9 +82,9 @@ private extension FavoritesViewController {
 }
 
 // MARK: UICollectionViewDelegate Methods
-extension FavoritesViewController  {
+extension FavoritesViewController : UICollectionViewDelegate {
 
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let business = favoriteForIndexPath(indexPath: indexPath)
 
         // Present view controller
@@ -100,18 +105,18 @@ extension FavoritesViewController  {
 }
 
 // MARK: UICollectionViewDataSource Methods
-extension FavoritesViewController  {
+extension FavoritesViewController : UICollectionViewDataSource {
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    override func collectionView(_ collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return searches.count > 0 ? searches[section].searchResults.count : 0
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! FavoriteCollectionCell
 
@@ -175,7 +180,6 @@ extension FavoritesViewController : UISearchBarDelegate {
 // MARK: Search delegate
 extension FavoritesViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // 1
 //        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 //        textField.addSubview(activityIndicator)
 //        activityIndicator.frame = textField.bounds
@@ -184,26 +188,28 @@ extension FavoritesViewController : UITextFieldDelegate {
         Favorite.getFavorites(customerId: SettingsKeys.getCustomerId(), skip: skip) { (results, error) in
             //activityIndicator.removeFromSuperview()
 
-            if let error = error {
-                // 2
-                print("Error searching : \(error)")
+            if error != nil {
                 return
             }
 
             if let results = results {
-                // 3
-                print("Found \(results.searchResults.count) matching \(results.searchTerm)")
                 self.searches.insert(results, at: 0)
-
-                // 4
                 self.collectionView?.reloadData()
+            }
+
+            if self.skip == 0 {
+                let size = results!.searchResults.count
+
+                if size > 0 {
+                    self.mvNoFavorites.isHidden = true
+                }
             }
 
             self.skip += 1
         }
 
-        textField.text = nil
-        textField.resignFirstResponder()
+//        textField.text = nil
+//        textField.resignFirstResponder()
         return true
     }
 }

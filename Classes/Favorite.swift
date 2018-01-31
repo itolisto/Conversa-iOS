@@ -42,22 +42,22 @@ class Favorite {
                         return
                     }
 
-                    var flickrPhotos = [Favorite]()
+                    var favorites = [Favorite]()
 
-                    for photoObject in resultsDictionary {
+                    for favoriteObject in resultsDictionary {
 
-                        guard let objectId = photoObject["oj"] as! String!,
-                            let name = photoObject["dn"] as! String!,
-                            let avatarUrl = photoObject["av"] as! String! else {
+                        guard let objectId = favoriteObject["oj"] as! String!,
+                            let name = favoriteObject["dn"] as! String!,
+                            let avatarUrl = favoriteObject["av"] as! String! else {
                                 break
                         }
 
-                        let flickrPhoto = Favorite(objectId: objectId, name: name, avatarUrl: avatarUrl)
-                        flickrPhotos.append(flickrPhoto)
+                        let favorite = Favorite(objectId: objectId, name: name, avatarUrl: avatarUrl)
+                        favorites.append(favorite)
                     }
 
                     OperationQueue.main.addOperation({
-                        completion(FavoriteSearchResults(searchTerm: "", searchResults: flickrPhotos), nil)
+                        completion(FavoriteSearchResults(searchTerm: "", searchResults: favorites), nil)
                     })
                 } catch _ {
                     completion(nil, nil)

@@ -73,7 +73,7 @@
 - (void)callForId:(NSString*)purpose {
     self.hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     self.hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-    //self.hud.square = YES;
+    [self.hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     if ([purpose isEqualToString:@"1"]) {
         self.hud.label.text = NSLocalizedString(@"sett_help_dialog_support_message", nil);
     } else {
@@ -215,7 +215,7 @@
 - (void)showError {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     hud.mode = MBProgressHUDModeText;
-    //hud.square = YES;
+    [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     hud.detailsLabel.text = NSLocalizedString(@"sett_help_dialog_message_error", nil);
     [hud hideAnimated:YES afterDelay:2.f];
 }

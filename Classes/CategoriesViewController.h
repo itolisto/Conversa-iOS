@@ -30,6 +30,5 @@
 @property (nonatomic, assign) BOOL searchMode;
 
 @property (strong, nonatomic, nonnull) UISearchController *searchController;
-@property (weak, nonatomic, nullable) IBOutlet UISearchBar *searchBar;
 
 @end

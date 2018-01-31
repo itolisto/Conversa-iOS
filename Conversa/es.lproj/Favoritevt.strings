@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Start to explore and find your favorites businesses"; ObjectID = "6PH-RH-QLj"; */
+"6PH-RH-QLj.text" = "Empieza a explorar y encuentra tus empresas favoritas";
+
+/* Class = "UIButton"; normalTitle = "Start browsing"; ObjectID = "Gm0-si-L7x"; */
+"Gm0-si-L7x.normalTitle" = "Empiezar a navegar";
+
+/* Class = "UINavigationItem"; title = "My favorites"; ObjectID = "XNs-aM-R3g"; */
+"XNs-aM-R3g.title" = "Mis favoritos";
+
+/* Class = "UILabel"; text = "Labelfadsfasdfasdfasdfads dfafasdsfasd"; ObjectID = "apl-zf-Dm0"; */
+"apl-zf-Dm0.text" = "Labelfadsfasdfasdfasdfads dfafasdsfasd";
+
+/* Class = "UILabel"; text = "You don't have favorites yet"; ObjectID = "gUv-4j-NW9"; */
+"gUv-4j-NW9.text" = "Aún no tienes favoritos :(";

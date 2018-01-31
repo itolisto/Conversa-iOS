@@ -61,4 +61,6 @@ target 'Conversa' do
     # The most powerful, yet lightest weight crash reporting solution.
     pod 'Fabric'
     pod 'Crashlytics'
+    # Awesome fully customize search view like Pinterest written in Swift 4 + Realm support!
+    pod 'YNSearch', :git => 'https://github.com/younatics/YNSearch.git', :branch => 'swift4'
 end

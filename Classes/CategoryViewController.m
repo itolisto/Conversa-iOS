@@ -14,6 +14,7 @@
 #import "Account.h"
 #import "Constants.h"
 #import "Utilities.h"
+#import "Conversa-Swift.h"
 #import "ParseValidation.h"
 #import "CustomBusinessCell.h"
 #import "ConversationViewController.h"
@@ -28,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *emptyView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *emptyInfoLabel;
+@property (weak, nonatomic) IBOutlet UIView *loadingContainer;
 
 @property (strong, nonatomic) DGActivityIndicatorView *activityIndicatorView;
 @property (strong, nonatomic) NSMutableArray<YapContact *> *_mutableObjects;
@@ -65,12 +67,10 @@
     self.tableView.hidden = YES;
     self.emptyView.hidden = YES;
 
+    // Create and add loading subview
     self.activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeThreeDots tintColor:[UIColor greenColor] size:50.0f];
-    self.activityIndicatorView.frame = CGRectMake((self.loadingView.frame.size.width/2) - 35,
-                                             (self.loadingView.frame.size.height/2) - 35,
-                                             70.0f,
-                                             70.0f);
-    [self.loadingView addSubview:self.activityIndicatorView];
+    self.activityIndicatorView.frame = CGRectMake(0, 0, 70.0f, 70.0f);
+    [self.loadingContainer addSubview:self.activityIndicatorView];
     
     // Remove extra lines
     UIView *v = [[UIView alloc] init];
@@ -223,17 +223,34 @@
         }
     }
 
-    CellIdentifier = @"CustomBusinessCell";
-    CustomBusinessCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (indexPath.row == 0) {
+        CellIdentifier = @"CustomFixedCell";
+        CustomFixedCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-    if (cell == nil) {
-        cell = [[CustomBusinessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[CustomFixedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+
+        // Configure the cell
+        [cell configureCellWithTitle:NSLocalizedString(@"didnt_find_cell", nil)
+                         description:NSLocalizedString(@"chat_agent_cell", nil)
+                            business:[self objectAtIndexPath:indexPath]
+         ];
+
+        return cell;
+    } else {
+        CellIdentifier = @"CustomBusinessCell";
+        CustomBusinessCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
+        if (cell == nil) {
+            cell = [[CustomBusinessCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+
+        // Configure the cell
+        [cell configureCellWith:[self objectAtIndexPath:indexPath]];
+
+        return cell;
     }
-
-    // Configure the cell
-    [cell configureCellWith:[self objectAtIndexPath:indexPath]];
-
-    return cell;
 }
 
 #pragma mark - UITableViewDelegate Methods -
@@ -261,7 +278,12 @@
         // Get reference to the destination view controller
         ProfileDialogViewController *destinationViewController = [segue destinationViewController];
         // Pass any objects to the view controller here, like...
-        YapContact *business = ((CustomBusinessCell*)sender).business;
+        YapContact *business;
+        if ([sender isKindOfClass:[CustomBusinessCell class]]) {
+            business = ((CustomBusinessCell*)sender).business;
+        } else {
+            business = ((CustomFixedCell*)sender).business;
+        }
         destinationViewController.objectId = business.uniqueId;
         destinationViewController.avatarUrl = business.avatarThumbFileId;
         destinationViewController.displayName = business.displayName;

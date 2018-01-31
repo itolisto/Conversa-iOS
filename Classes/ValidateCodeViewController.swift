@@ -36,6 +36,7 @@ class ValidateCodeViewController: UIViewController {
     @IBAction func validateButtonPressed(_ sender: UIStateButton) {
         let hudError : MBProgressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         hudError.mode = MBProgressHUDMode.indeterminate;
+        hudError.button.removeTarget(nil, action: nil, for: .allEvents)
 
         PFCloud.callFunction(inBackground: "validateConversaCode",
                              withParameters: ["code": pinCodeTextField.text ?? ""])

@@ -37,7 +37,7 @@
     self.avatarImageView.layer.masksToBounds = YES;
     self.unreadMessage.layer.masksToBounds = YES;
     self.avatarImageView.layer.masksToBounds = YES;
-    self.avatarImageView.layer.borderWidth = 1;
+    self.avatarImageView.layer.borderWidth = 0.7;
     self.avatarImageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
