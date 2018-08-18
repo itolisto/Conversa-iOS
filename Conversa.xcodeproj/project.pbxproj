@@ -88,6 +88,16 @@
 		A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */; };
 		A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C5D7561F6787560058A52D /* UIImage+Gif.swift */; };
 		A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */; };
+		A5D2867F2127FBAC001BDFCF /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286752127FBAC001BDFCF /* Extension.swift */; };
+		A5D286802127FBAC001BDFCF /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286762127FBAC001BDFCF /* RequestProtocol.swift */; };
+		A5D286812127FBAC001BDFCF /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286772127FBAC001BDFCF /* Operations.swift */; };
+		A5D286822127FBAC001BDFCF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286782127FBAC001BDFCF /* Commons.swift */; };
+		A5D286832127FBAC001BDFCF /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286792127FBAC001BDFCF /* ServiceConfig.swift */; };
+		A5D286842127FBAC001BDFCF /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867A2127FBAC001BDFCF /* Service.swift */; };
+		A5D286852127FBAC001BDFCF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867B2127FBAC001BDFCF /* Request.swift */; };
+		A5D286862127FBAC001BDFCF /* ResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */; };
+		A5D286872127FBAC001BDFCF /* OperationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */; };
+		A5D286882127FBAC001BDFCF /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */; };
 		A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */; };
 		A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */; };
 		A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */; };
@@ -272,6 +282,16 @@
 		A5CF0E8C1F7F3E6400703A83 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Login.storyboard; sourceTree = "<group>"; };
 		A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBusinessCell.h; sourceTree = "<group>"; };
 		A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBusinessCell.m; sourceTree = "<group>"; };
+		A5D286752127FBAC001BDFCF /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		A5D286762127FBAC001BDFCF /* RequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		A5D286772127FBAC001BDFCF /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		A5D286782127FBAC001BDFCF /* Commons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		A5D286792127FBAC001BDFCF /* ServiceConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
+		A5D2867A2127FBAC001BDFCF /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		A5D2867B2127FBAC001BDFCF /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseProtocol.swift; sourceTree = "<group>"; };
+		A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationProtocol.swift; sourceTree = "<group>"; };
+		A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
 		A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCodeViewController.swift; sourceTree = "<group>"; };
 		A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateCodeViewController.swift; sourceTree = "<group>"; };
@@ -328,6 +348,23 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A514D34A2127FB0800517002 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				A5D286782127FBAC001BDFCF /* Commons.swift */,
+				A5D286752127FBAC001BDFCF /* Extension.swift */,
+				A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */,
+				A5D286772127FBAC001BDFCF /* Operations.swift */,
+				A5D2867B2127FBAC001BDFCF /* Request.swift */,
+				A5D286762127FBAC001BDFCF /* RequestProtocol.swift */,
+				A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */,
+				A5D2867A2127FBAC001BDFCF /* Service.swift */,
+				A5D286792127FBAC001BDFCF /* ServiceConfig.swift */,
+				A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
 		A516547E1FD0BCF000ABCB28 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +376,7 @@
 		A52905F61D6FE7080018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A514D34A2127FB0800517002 /* Networking */,
 				A5A7DDF11DD5695C00E0D242 /* Cells */,
 				A5A7DDF21DD5696300E0D242 /* Connection */,
 				A5A7DDF31DD5696B00E0D242 /* Custom */,
@@ -904,6 +942,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Conversa/Pods-Conversa-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Ably/Ably.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Appirater/Appirater.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Buglife/Buglife.framework",
@@ -916,6 +955,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
 				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework",
@@ -930,7 +970,9 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
 				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/ULID/ULID.framework",
 				"${BUILT_PRODUCTS_DIR}/VTAcknowledgementsViewController/VTAcknowledgementsViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Whisper/Whisper.framework",
 				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
@@ -943,6 +985,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ably.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Appirater.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Buglife.framework",
@@ -955,6 +998,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JVFloatLabeledTextField.framework",
@@ -969,7 +1013,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ULID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VTAcknowledgementsViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whisper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
@@ -1009,7 +1055,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 		CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1039,6 +1085,7 @@
 				A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */,
 				A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */,
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
+				A5D286872127FBAC001BDFCF /* OperationProtocol.swift in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
 				A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */,
@@ -1053,6 +1100,7 @@
 				A52906B11D6FE7080018D74C /* NotificationPermissions.m in Sources */,
 				A52906C71D6FE7080018D74C /* Utilities.m in Sources */,
 				A52906C91D6FE7080018D74C /* VideoMediaItem.m in Sources */,
+				A5D286852127FBAC001BDFCF /* Request.swift in Sources */,
 				A52906851D6FE7080018D74C /* AboutViewController.m in Sources */,
 				A52906AD1D6FE7080018D74C /* MapView.m in Sources */,
 				A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */,
@@ -1073,16 +1121,20 @@
 				A5BA0CE51E09DC12001044F7 /* BaseTableViewController.m in Sources */,
 				A59F4CE41DD78AE2005491B2 /* CustomCategoryHeaderCell.m in Sources */,
 				A52906C01D6FE7080018D74C /* SearchViewController.m in Sources */,
+				A5D286832127FBAC001BDFCF /* ServiceConfig.swift in Sources */,
 				A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */,
 				A52906971D6FE7080018D74C /* ConversationViewController.m in Sources */,
 				A52906861D6FE7080018D74C /* Account.m in Sources */,
 				A529069B1D6FE7080018D74C /* CustomChatCell.m in Sources */,
+				A5D286882127FBAC001BDFCF /* ServiceProtocol.swift in Sources */,
 				A5774C182005EB1D004B3E4D /* CustomFixedCell.swift in Sources */,
+				A5D286822127FBAC001BDFCF /* Commons.swift in Sources */,
 				A52906AB1D6FE7080018D74C /* LoginViewController.m in Sources */,
 				A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */,
 				A52906901D6FE7080018D74C /* CategoriesViewController.m in Sources */,
 				A52906941D6FE7080018D74C /* Colors.m in Sources */,
 				A51654801FD0BD3C00ABCB28 /* FavoritesViewController.swift in Sources */,
+				A5D286812127FBAC001BDFCF /* Operations.swift in Sources */,
 				A52906991D6FE7080018D74C /* CustomCategoryCell.m in Sources */,
 				A52906871D6FE7080018D74C /* AccountSettingsViewController.m in Sources */,
 				A52906B61D6FE7080018D74C /* PhotoMediaItem.m in Sources */,
@@ -1090,6 +1142,7 @@
 				A51654891FD0CF6500ABCB28 /* Favorite.swift in Sources */,
 				A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */,
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
+				A5D286802127FBAC001BDFCF /* RequestProtocol.swift in Sources */,
 				A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */,
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
 				A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */,
@@ -1100,8 +1153,10 @@
 				A52906A81D6FE7080018D74C /* Image.m in Sources */,
 				A52906A61D6FE7080018D74C /* DatabaseView.m in Sources */,
 				A52906CC1D6FE7080018D74C /* YapContact.m in Sources */,
+				A5D286842127FBAC001BDFCF /* Service.swift in Sources */,
 				A52906BE1D6FE7080018D74C /* RecoverViewController.m in Sources */,
 				A52906931D6FE7080018D74C /* ChatsViewController.m in Sources */,
+				A5D286862127FBAC001BDFCF /* ResponseProtocol.swift in Sources */,
 				A55B5D181D53C8F300AA576A /* main.m in Sources */,
 				A59F4CEB1DD7B144005491B2 /* nCategory.m in Sources */,
 				A52906A21D6FE7080018D74C /* CustomSearchCell.m in Sources */,
@@ -1109,6 +1164,7 @@
 				A52906B41D6FE7080018D74C /* NSNumber+Conversa.m in Sources */,
 				A52906A51D6FE7080018D74C /* DatabaseManager.m in Sources */,
 				A52906951D6FE7080018D74C /* Constants.m in Sources */,
+				A5D2867F2127FBAC001BDFCF /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1362,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_NAME = ConversaDebug;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
@@ -1314,11 +1371,13 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				ENVIRONMENT_NAME = Debug;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = Conversa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1338,6 +1397,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_NAME = Conversa;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CODE_SIGN_ENTITLEMENTS = Conversa/Conversa.entitlements;
@@ -1346,11 +1406,13 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
+				ENVIRONMENT_NAME = Release;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
 				GCC_OPTIMIZATION_LEVEL = s;
+				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = Conversa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

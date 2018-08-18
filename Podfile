@@ -55,8 +55,8 @@ target 'Conversa' do
     # Simple pin code text input with underlined space for characters.
     pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
     # The most powerful, yet lightest weight crash reporting solution.
-    pod 'Fabric'
-    pod 'Crashlytics'
+    pod 'Fabric', '~> 1.7.11'
+    pod 'Crashlytics', '~> 3.10.7'
     # Awesome fully customize search view like Pinterest written in Swift 4 + Realm support!
     pod 'YNSearch', '2.3.1'
     # Firebase libraries
@@ -67,6 +67,12 @@ target 'Conversa' do
     pod 'Firebase/Storage'
     # OneSignal
     pod 'OneSignal', '>= 2.6.2', '< 3.0'
+
+
+    # Networking
+    pod 'SwiftyJSON', '~> 4.0'
+    pod 'HydraAsync'
+    pod 'Alamofire', '~> 4.5'
 end
 
 #target 'OneSignalNotificationServiceExtension' do
