@@ -29,9 +29,8 @@
 #import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
 #import <Crashlytics/Crashlytics.h>
-#import <AFNetworking/AFNetworking.h>
 
-@import Parse;
+@import Firebase;
 @import GoogleMaps;
 
 @interface AppDelegate ()
@@ -41,192 +40,178 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
-//    UIViewController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"LaunchScreen"];
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    self.window.rootViewController = rootViewController;
-//    [self.window makeKeyAndVisible];
+    NSDate *startDate = [NSDate date];
 
-//    [SPLaunchAnimation asTwitterForLaunchScreenName:@"LaunchScreen" numberLogoAsSubview:0 withComplection:^{
-        //[Appirater setAppId:@"464200063"];
+    //[Appirater setAppId:@"464200063"];
 
-        [Fabric with:@[[Crashlytics class]]];
+    // Set Google Maps
+    [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
 
-        // Set Google Maps
-        [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
+    FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
+                                        withLogLevel:FlurryLogLevelNone]
+                                       withCrashReporting:YES]
+                                      withSessionContinueSeconds:10]
+                                     withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 
-        FlurrySessionBuilder* builder = [[[[[FlurrySessionBuilder new]
-                                            withLogLevel:FlurryLogLevelNone]
-                                           withCrashReporting:YES]
-                                          withSessionContinueSeconds:10]
-                                         withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
 
-        [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
+    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
+    [[BITHockeyManager sharedHockeyManager] startManager];
+    [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
-        [[BITHockeyManager sharedHockeyManager] startManager];
-        [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
+    [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
 
-        [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
+    [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
 
-        [DDLog addLogger:[DDTTYLogger sharedInstance]]; // TTY = Xcode console
-        [DDLog addLogger:[DDASLLogger sharedInstance]]; // ASL = Apple System Logs
+    DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
+    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+    fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
+    [DDLog addLogger:fileLogger];
 
-        DDFileLogger *fileLogger = [[DDFileLogger alloc] init]; // File Logger
-        fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
-        fileLogger.logFileManager.maximumNumberOfLogFiles = 7;
-        [DDLog addLogger:fileLogger];
-
-        // Register subclassing for using as Parse objects
-        [Account registerSubclass];
-        [Business registerSubclass];
-
-        // Initialize Parse.
-        [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-            configuration.applicationId = @"szLKzjFz66asK9SngeFKnTyN2V596EGNuMTC7YyF4tkFudvY72";
-            configuration.clientKey = @"CMTFwQPd2wJFXfEQztpapGHFjP5nLZdtZr7gsHKxuFhA9waMgw1";
-            configuration.server = @"https://api.conversachat.com/parse";
-            // To work with localhost
-//            configuration.applicationId = @"b15c83";
-//            configuration.server = @"http://localhost:1337/parse";
-        }]];
+    // Initialize Firebase
+    [FIRApp configure];
 
 #if TARGET_IPHONE_SIMULATOR
-        NSLog(@"Home directory: %@",NSHomeDirectory());
+    NSLog(@"Home directory: %@",NSHomeDirectory());
 #endif
 
-        if (![DatabaseManager existsYapDatabase]) {
-            /*
-             * First Launch
-             * Create password and save to keychain
-             */
-            NSString *newPassword = @"123456789";//[PasswordGenerator passwordWithLength:DefaultPasswordLength];
-            NSError *error = nil;
-            [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
+    if (![DatabaseManager existsYapDatabase]) {
+        /*
+         * First Launch
+         * Create password and save to keychain
+         */
+        NSString *newPassword = @"123456789";//[PasswordGenerator passwordWithLength:DefaultPasswordLength];
+        NSError *error = nil;
+        [[DatabaseManager sharedInstance] setDatabasePassphrase:newPassword remember:YES error:&error];
 
-            if (error) {
-                DDLogError(@"Password Error: %@",error);
-            }
-
-            // Default settings
-            [SettingsKeys setTutorialShownSetting:NO];
+        if (error) {
+            DDLogError(@"Password Error: %@",error);
         }
 
-        [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
+        // Default settings
+        [SettingsKeys setTutorialShownSetting:NO];
+    }
 
-        // Set Appirater settings
-        [Appirater setOpenInAppStore:NO];
-        [Appirater appLaunched:YES];
+    [[DatabaseManager sharedInstance] setupDatabaseWithName:kYapDatabaseName];
+    [[CustomAblyRealtime sharedInstance] initAbly];
 
-        [[CustomAblyRealtime sharedInstance] initAbly];
+    Branch *branch = [Branch getInstance];
+    [branch disableCookieBasedMatching];
+    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+        if (!error && params) {
+            Account *account = [Account currentUser];
 
-        [NotificationPermissions canSendNotifications];
+            if (account == nil) {
+                return;
+            }
 
-        Branch *branch = [Branch getInstance];
-        [branch disableCookieBasedMatching];
-        [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-            if (!error && params) {
-                Account *account = [Account currentUser];
-
-                if (account == nil) {
-                    return;
-                }
-
-                if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == true)
+            if ([params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] && [[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == true)
+            {
+                if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES)
                 {
-                    if ([[params objectForKey:BRANCH_INIT_KEY_CLICKED_BRANCH_LINK] boolValue] == YES)
+                    if ([params objectForKey:@"goConversa"])
                     {
-                        if ([params objectForKey:@"goConversa"])
-                        {
-                            NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
-                            [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
-                            [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
-                            [branchInfo setObject:[params objectForKey:@"conversaId"] forKey:@"conversaId"];
+                        NSMutableDictionary *branchInfo = [NSMutableDictionary dictionaryWithCapacity:4];
+                        [branchInfo setObject:[params objectForKey:@"objectId"] forKey:@"objectId"];
+                        [branchInfo setObject:[params objectForKey:@"name"] forKey:@"name"];
+                        [branchInfo setObject:[params objectForKey:@"conversaId"] forKey:@"conversaId"];
 
-                            if ([params objectForKey:@"avatar"]) {
-                                [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
-                            }
-                            // Define controller to take action
-                            __block YapContact *bs = nil;
+                        if ([params objectForKey:@"avatar"]) {
+                            [branchInfo setObject:[params objectForKey:@"avatar"] forKey:@"avatar"];
+                        }
+                        // Define controller to take action
+                        __block YapContact *bs = nil;
 
-                            [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                                bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
-                            }];
+                        [[DatabaseManager sharedInstance].newConnection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+                            bs = [transaction objectForKey:[branchInfo objectForKey:@"objectId"] inCollection:[YapContact collection]];
+                        }];
 
-                            // Get reference to the destination view controller
-                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                            ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
+                        // Get reference to the destination view controller
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                        ConversationViewController *destinationViewController = [storyboard instantiateViewControllerWithIdentifier:@"conversationViewController"];
 
-                            // Pass any objects to the view controller here, like...
-                            if (bs) {
-                                [destinationViewController initWithBuddy:bs];
-                            } else {
-                                YapContact *business = [[YapContact alloc] initWithUniqueId:[branchInfo objectForKey:@"objectId"]];
-                                business.displayName = [branchInfo objectForKey:@"name"];
-                                business.conversaId = [branchInfo objectForKey:@"conversaid"];
-                                [destinationViewController initWithBusiness:business
-                                                              withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
-                            }
+                        // Pass any objects to the view controller here, like...
+                        if (bs) {
+                            [destinationViewController initWithBuddy:bs];
+                        } else {
+                            YapContact *business = [[YapContact alloc] initWithUniqueId:[branchInfo objectForKey:@"objectId"]];
+                            business.displayName = [branchInfo objectForKey:@"name"];
+                            business.conversaId = [branchInfo objectForKey:@"conversaid"];
+                            [destinationViewController initWithBusiness:business
+                                                          withAvatarUrl:[branchInfo objectForKey:@"avatar"]];
+                        }
 
-                            UIViewController *controller = [self topViewController];
+                        UIViewController *controller = [self topViewController];
 
-                            if (controller) {
-                                if ([controller isKindOfClass:[ConversationViewController class]]) {
-                                    // DO NOTHING
-                                } else if ([controller isKindOfClass:[UITabBarController class]]) {
-                                    UITabBarController *tbcontroller = (UITabBarController*)controller;
-                                    UIViewController *scontroller = [tbcontroller selectedViewController];
+                        if (controller) {
+                            if ([controller isKindOfClass:[ConversationViewController class]]) {
+                                // DO NOTHING
+                            } else if ([controller isKindOfClass:[UITabBarController class]]) {
+                                UITabBarController *tbcontroller = (UITabBarController*)controller;
+                                UIViewController *scontroller = [tbcontroller selectedViewController];
 
-                                    if ([scontroller isKindOfClass:[UINavigationController class]]) {
-                                        UINavigationController *navcontroller = (UINavigationController*)scontroller;
+                                if ([scontroller isKindOfClass:[UINavigationController class]]) {
+                                    UINavigationController *navcontroller = (UINavigationController*)scontroller;
 
-                                        if (navcontroller.isNavigationBarHidden) {
-                                            navcontroller.navigationBarHidden = NO;
-                                        }
-
-                                        [navcontroller pushViewController:destinationViewController
-                                                                 animated:YES];
-                                    } else {
-                                        // scontroller is a uiviewcontroller
-                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scontroller];
-
-                                        [navController pushViewController:destinationViewController
-                                                                 animated:YES];
+                                    if (navcontroller.isNavigationBarHidden) {
+                                        navcontroller.navigationBarHidden = NO;
                                     }
-                                } else if ([controller isKindOfClass:[UINavigationController class]]) {
-                                    UINavigationController *navcontroller = (UINavigationController*)controller;
+
                                     [navcontroller pushViewController:destinationViewController
                                                              animated:YES];
                                 } else {
-                                    if (controller.navigationController) {
-                                        [controller.navigationController pushViewController:destinationViewController
-                                                                                   animated:YES];
-                                    } else {
-                                        // Create UINavigationController if not exists
-                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+                                    // scontroller is a uiviewcontroller
+                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scontroller];
 
-                                        [navController pushViewController:destinationViewController
-                                                                 animated:YES];
-                                    }
+                                    [navController pushViewController:destinationViewController
+                                                             animated:YES];
+                                }
+                            } else if ([controller isKindOfClass:[UINavigationController class]]) {
+                                UINavigationController *navcontroller = (UINavigationController*)controller;
+                                [navcontroller pushViewController:destinationViewController
+                                                         animated:YES];
+                            } else {
+                                if (controller.navigationController) {
+                                    [controller.navigationController pushViewController:destinationViewController
+                                                                               animated:YES];
+                                } else {
+                                    // Create UINavigationController if not exists
+                                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+
+                                    [navController pushViewController:destinationViewController
+                                                             animated:YES];
                                 }
                             }
                         }
                     }
                 }
             }
-        }];
-        
-        // Define controller to take action
-        UIViewController *rootViewController = nil;
-        rootViewController = [self defaultNavigationController];
-        //self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.window.rootViewController = rootViewController;
-        // Make the receiver the main window and displays it in front of other windows
-        [self.window makeKeyAndVisible];
-        // The number to display as the app’s icon badge.
-        application.applicationIconBadgeNumber = 0;
-        [NotificationPermissions canSendNotifications];
-//    } onWindow:self.window];
+        }
+    }];
+
+    // Define controller to take action
+    UIViewController *rootViewController = nil;
+    rootViewController = [self defaultNavigationController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = rootViewController;
+    // Make the receiver the main window and displays it in front of other windows
+    [self.window makeKeyAndVisible];
+    // The number to display as the app’s icon badge.
+    application.applicationIconBadgeNumber = 0;
+
+//    [NotificationPermissions canSendNotifications];
+
+    // Set Appirater settings
+    [Appirater setDaysUntilPrompt:7];
+    [Appirater setUsesUntilPrompt:5];
+    [Appirater setSignificantEventsUntilPrompt:-1];
+    [Appirater setTimeBeforeReminding:2];
+    // Make sure you set to NO to ensure the request is not shown every time the app is launched
+    [Appirater setDebug:YES];
+    [Appirater appLaunched:YES];
+
+    NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);
 
     return YES;
 }
@@ -253,14 +238,9 @@
         storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         return [storyboard instantiateViewControllerWithIdentifier:@"HomeView"];
     } else {
-        if([SettingsKeys getTutorialShownSetting]) {
-//            if ([SettingsKeys getCodeValidatedSetting]) {
-                storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-                return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
-//            } else {
-//                storyboard = [UIStoryboard storyboardWithName:@"Code" bundle:nil];
-//                return [storyboard instantiateViewControllerWithIdentifier:@"CodeView"];
-//            }
+        if ([SettingsKeys getTutorialShownSetting]) {
+            storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+            return [storyboard instantiateViewControllerWithIdentifier:@"LoginView"];
         } else {
             storyboard = [UIStoryboard storyboardWithName:@"Tutorial" bundle:nil];
             return [storyboard instantiateViewControllerWithIdentifier:@"TutorialView"];
@@ -293,51 +273,51 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark - Push Notification Methods -
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken succeded");
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-    }
-}
-
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        DDLogError(@"didFailToRegisterForRemoteNotificationsWithError");
-        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-    }
-}
-
-#pragma mark - ARTPushRegistererDelegate Methods -
-
--(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
-    }
-}
-
--(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
--(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail succeded");
-    }
-}
+//#pragma mark - Push Notification Methods -
+//
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+//{
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken succeded");
+//        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
+//    }
+//}
+//
+//- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        DDLogError(@"didFailToRegisterForRemoteNotificationsWithError");
+//        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+//    }
+//}
+//
+//#pragma mark - ARTPushRegistererDelegate Methods -
+//
+//-(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didActivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didActivateAblyPush succeded");
+//        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+//    }
+//}
+//
+//-(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didDeactivateAblyPush succeded");
+//    }
+//}
+//
+//-(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didAblyPushRegistrationFail succeded");
+//    }
+//}
 
 #pragma mark - Taplytics Methods -
 
@@ -410,7 +390,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     @try {
         if ([[job objectForKey:@"task"] isEqualToString:@"customerDataJob"]) {
             NSError *error;
-            NSString *jsonData = [PFCloud callFunction:@"getCustomerId" withParameters:@{} error:&error];
+            // TODO: Replace with networking layer
+            NSString *jsonData = @"";//[PFCloud callFunction:@"getCustomerId" withParameters:@{} error:&error];
 
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -456,19 +437,19 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
             NSError *error;
             NSNumber *result;
-
-            if ([data objectForKey:@"favorite"]) {
-                result = [PFCloud callFunction:@"setCustomerFavorite"
-                                withParameters:@{@"businessId": [data objectForKey:@"business"],
-                                                 @"customerId": [SettingsKeys getCustomerId],
-                                                 @"favorite": @YES}
-                                         error:&error];
-            } else {
-                result = [PFCloud callFunction:@"setCustomerFavorite"
-                                withParameters:@{@"businessId": [data objectForKey:@"business"],
-                                                 @"customerId": [SettingsKeys getCustomerId]}
-                                         error:&error];
-            }
+            // TODO: Replace with networking layer
+//            if ([data objectForKey:@"favorite"]) {
+//                result = [PFCloud callFunction:@"setCustomerFavorite"
+//                                withParameters:@{@"businessId": [data objectForKey:@"business"],
+//                                                 @"customerId": [SettingsKeys getCustomerId],
+//                                                 @"favorite": @YES}
+//                                         error:&error];
+//            } else {
+//                result = [PFCloud callFunction:@"setCustomerFavorite"
+//                                withParameters:@{@"businessId": [data objectForKey:@"business"],
+//                                                 @"customerId": [SettingsKeys getCustomerId]}
+//                                         error:&error];
+//            }
 
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -485,171 +466,172 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
             NSString *businessId = [data objectForKey:@"businessId"];
             NSString *url = [data objectForKey:@"url"];
-
-            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-            NSURL *URL = [NSURL URLWithString:url];
-            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-            NSURLSessionDownloadTask *downloadTask =
-            [manager downloadTaskWithRequest:request
-                                    progress:nil
-                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
-             {
-                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
-                 [savePath appendString:kMessageMediaAvatarLocation];
-                 // Create if not already created
-                 [[NSFileManager defaultManager] createDirectory:[savePath copy]];
-                 // Continue with filename
-                 [savePath appendString:@"/"];
-                 // Add requested save path
-                 [savePath appendString:businessId];
-                 [savePath appendString:@"_avatar.jpg"];
-
-                 return [[NSURL alloc] initFileURLWithPath:savePath];
-             }
-                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
-             {
-                 DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
-                 if (error) {
-                     DDLogError(@"downloadAvatarJob error: %@", error);
-                     block(EDQueueResultCritical);
-                 } else {
-                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
-                     __block YapContact *contact = nil;
-
-                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                         contact = [YapContact fetchObjectWithUniqueID:businessId transaction:transaction];
-                     }];
-
-                     if (contact == nil) {
-                         // Delete file if contact not exists
-                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
-                                                                         error:nil];
-                     }
-
-                     block(EDQueueResultSuccess);
-                 }
-             }];
-
-            [downloadTask resume];
+            // TODO: Replace with networking layer
+//            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+//            NSURL *URL = [NSURL URLWithString:url];
+//            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+//
+//            NSURLSessionDownloadTask *downloadTask =
+//            [manager downloadTaskWithRequest:request
+//                                    progress:nil
+//                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+//             {
+//                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+//                 [savePath appendString:kMessageMediaAvatarLocation];
+//                 // Create if not already created
+//                 [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+//                 // Continue with filename
+//                 [savePath appendString:@"/"];
+//                 // Add requested save path
+//                 [savePath appendString:businessId];
+//                 [savePath appendString:@"_avatar.jpg"];
+//
+//                 return [[NSURL alloc] initFileURLWithPath:savePath];
+//             }
+//                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+//             {
+//                 DDLogInfo(@"downloadAvatarJob downloaded to: %@", filePath);
+//                 if (error) {
+//                     DDLogError(@"downloadAvatarJob error: %@", error);
+//                     block(EDQueueResultCritical);
+//                 } else {
+//                     YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+//                     __block YapContact *contact = nil;
+//
+//                     [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+//                         contact = [YapContact fetchObjectWithUniqueID:businessId transaction:transaction];
+//                     }];
+//
+//                     if (contact == nil) {
+//                         // Delete file if contact not exists
+//                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+//                                                                         error:nil];
+//                     }
+//
+//                     block(EDQueueResultSuccess);
+//                 }
+//             }];
+//
+//            [downloadTask resume];
         } else if ([[job objectForKey:@"task"] isEqualToString:@"downloadFileJob"]) {
             NSDictionary *data = [job objectForKey:@"data"];
 
             NSString *messageId = [data objectForKey:@"messageId"];
             NSString *url = [data objectForKey:@"url"];
             NSInteger messageType = [[data objectForKey:@"type"] integerValue];
-
-            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-            NSURL *URL = [NSURL URLWithString:url];
-            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-
-            NSURLSessionDownloadTask *downloadTask =
-            [manager downloadTaskWithRequest:request
-                                    progress:nil
-                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
-             {
-                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
-
-                 switch (messageType) {
-                     case kMessageTypeImage: {
-                         [savePath appendString:kMessageMediaImageLocation];
-                         // Create if not already created
-                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
-                         // Continue with filename
-                         [savePath appendString:@"/"];
-                         // Add requested save path
-                         [savePath appendString:messageId];
-                         [savePath appendString:@".jpg"];
-                         break;
-                     }
-                     case kMessageTypeAudio: {
-                         [savePath appendString:kMessageMediaAudioLocation];
-                         // Create if not already created
-                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
-                         // Continue with filename
-                         [savePath appendString:@"/"];
-                         // Add requested save path
-                         [savePath appendString:messageId];
-                         [savePath appendString:@".mp3"];
-                         break;
-                     }
-                     default: {
-                         [savePath appendString:kMessageMediaVideoLocation];
-                         // Create if not already created
-                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
-                         // Continue with filename
-                         [savePath appendString:@"/"];
-                         // Add requested save path
-                         [savePath appendString:messageId];
-                         [savePath appendString:@".mp4"];
-                         break;
-                     }
-                 }
-
-                 return [[NSURL alloc] initFileURLWithPath:savePath];
-             }
-                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
-             {
-                 DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
-                 YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
-                 __block YapMessage *message = nil;
-
-                 [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
-                     message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
-                 }];
-
-                 if (message == nil) {
-                     // Delete file if message not exists
-                     [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
-                                                                     error:nil];
-                 } else {
-                     if (error) {
-                         DDLogError(@"downloadFileJob error: %@", error);
-                         message.delivered = statusParseError;
-                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
-                                                                         error:nil];
-                     } else {
-                         message.delivered = statusReceived;
-                         switch (messageType) {
-                             case kMessageTypeImage: {
-                                 message.filename = [messageId stringByAppendingString:@".jpg"];
-                                 break;
-                             }
-                             case kMessageTypeAudio: {
-                                 message.filename = [messageId stringByAppendingString:@".mp3"];
-                                 break;
-                             }
-                             default: {
-                                 message.filename = [messageId stringByAppendingString:@".mp4"];
-                                 break;
-                             }
-                         }
-                     }
-
-                     [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                      {
-                          [message saveWithTransaction:transaction];
-                          // Make a YapDatabaseModifiedNotification to update
-                          NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
-                          transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
-                      }];
-                 }
-                 
-                 block(EDQueueResultSuccess);
-             }];
-
-            [downloadTask resume];
+            // TODO: Replace with networking layer
+//            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+//            NSURL *URL = [NSURL URLWithString:url];
+//            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+//
+//            NSURLSessionDownloadTask *downloadTask =
+//            [manager downloadTaskWithRequest:request
+//                                    progress:nil
+//                                 destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response)
+//             {
+//                 NSMutableString *savePath = [[NSMutableString alloc] initWithFormat:@"%@", [[NSFileManager defaultManager] applicationLibraryDirectory].path];
+//
+//                 switch (messageType) {
+//                     case kMessageTypeImage: {
+//                         [savePath appendString:kMessageMediaImageLocation];
+//                         // Create if not already created
+//                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+//                         // Continue with filename
+//                         [savePath appendString:@"/"];
+//                         // Add requested save path
+//                         [savePath appendString:messageId];
+//                         [savePath appendString:@".jpg"];
+//                         break;
+//                     }
+//                     case kMessageTypeAudio: {
+//                         [savePath appendString:kMessageMediaAudioLocation];
+//                         // Create if not already created
+//                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+//                         // Continue with filename
+//                         [savePath appendString:@"/"];
+//                         // Add requested save path
+//                         [savePath appendString:messageId];
+//                         [savePath appendString:@".mp3"];
+//                         break;
+//                     }
+//                     default: {
+//                         [savePath appendString:kMessageMediaVideoLocation];
+//                         // Create if not already created
+//                         [[NSFileManager defaultManager] createDirectory:[savePath copy]];
+//                         // Continue with filename
+//                         [savePath appendString:@"/"];
+//                         // Add requested save path
+//                         [savePath appendString:messageId];
+//                         [savePath appendString:@".mp4"];
+//                         break;
+//                     }
+//                 }
+//
+//                 return [[NSURL alloc] initFileURLWithPath:savePath];
+//             }
+//                           completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error)
+//             {
+//                 DDLogInfo(@"downloadFileJob downloaded to: %@", filePath);
+//                 YapDatabaseConnection *connection = [DatabaseManager sharedInstance].newConnection;
+//                 __block YapMessage *message = nil;
+//
+//                 [connection readWithBlock:^(YapDatabaseReadTransaction * _Nonnull transaction) {
+//                     message = [YapMessage fetchObjectWithUniqueID:messageId transaction:transaction];
+//                 }];
+//
+//                 if (message == nil) {
+//                     // Delete file if message not exists
+//                     [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+//                                                                     error:nil];
+//                 } else {
+//                     if (error) {
+//                         DDLogError(@"downloadFileJob error: %@", error);
+//                         message.delivered = statusParseError;
+//                         [[NSFileManager defaultManager] deleteDataInDirectory:[filePath absoluteString]
+//                                                                         error:nil];
+//                     } else {
+//                         message.delivered = statusReceived;
+//                         switch (messageType) {
+//                             case kMessageTypeImage: {
+//                                 message.filename = [messageId stringByAppendingString:@".jpg"];
+//                                 break;
+//                             }
+//                             case kMessageTypeAudio: {
+//                                 message.filename = [messageId stringByAppendingString:@".mp3"];
+//                                 break;
+//                             }
+//                             default: {
+//                                 message.filename = [messageId stringByAppendingString:@".mp4"];
+//                                 break;
+//                             }
+//                         }
+//                     }
+//
+//                     [connection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//                      {
+//                          [message saveWithTransaction:transaction];
+//                          // Make a YapDatabaseModifiedNotification to update
+//                          NSDictionary *transactionExtendedInfo = @{YapDatabaseModifiedNotificationUpdate: @TRUE};
+//                          transaction.yapDatabaseModifiedNotificationCustomObject = transactionExtendedInfo;
+//                      }];
+//                 }
+//
+//                 block(EDQueueResultSuccess);
+//             }];
+//
+//            [downloadTask resume];
         } else if ([[job objectForKey:@"task"] isEqualToString:@"removeConversationJob"]) {
             NSDictionary *data = [job objectForKey:@"data"];
 
             NSError *error;
-            [PFCloud callFunction:@"deleteConversations"
-                   withParameters:@{@"businessId": [data objectForKey:@"businessId"],
-                                    @"customerId": [data objectForKey:@"customerId"],
-                                    @"fromCustomer": @YES}
-                            error:&error];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunction:@"deleteConversations"
+//                   withParameters:@{@"businessId": [data objectForKey:@"businessId"],
+//                                    @"customerId": [data objectForKey:@"customerId"],
+//                                    @"fromCustomer": @YES}
+//                            error:&error];
 
             if (error) {
                 dispatch_async(dispatch_get_main_queue(), ^{

@@ -37,44 +37,44 @@ class ValidateCodeViewController: UIViewController {
         let hudError : MBProgressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         hudError.mode = MBProgressHUDMode.indeterminate;
         hudError.button.removeTarget(nil, action: nil, for: .allEvents)
-
-        PFCloud.callFunction(inBackground: "validateConversaCode",
-                             withParameters: ["code": pinCodeTextField.text ?? ""])
-        { (success: Any?, error: Error?) in
-            hudError.hide(animated: true)
-            if error != nil {
-                self.showCodeError()
-            } else {
-                var dic : [String:Int]? = nil
-                if let data = (success as! String).data(using: .utf8) {
-                    do {
-                        dic = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Int]
-                    } catch {
-                        print(error.localizedDescription)
-                    }
-                }
-
-                if dic == nil || dic!["valid"] == 0 {
-                    self.showCodeError()
-                } else {
-                    _ = SweetAlert().showAlert(
-                        NSLocalizedString("vcvc_alert_success_title", comment: "Validate code success title"),
-                        subTitle: NSLocalizedString("vcvc_alert_success_subtitle", comment: "Validate code success subtitle"),
-                        style: .success,
-                        buttonTitle: NSLocalizedString("vcvc_alert_success_button", comment: "Validate code success button"),
-                        action: { (result) in
-                            if result == true {
-                                // Save code is already valid
-                                SettingsKeys.setCodeValidatedSetting(true)
-                                // Present view controller
-                                let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
-                                let vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
-                                self.present(vc, animated: true, completion: nil)
-                            }
-                    })
-                }
-            }
-        }
+        // TODO: Replace with networking layer
+//        PFCloud.callFunction(inBackground: "validateConversaCode",
+//                             withParameters: ["code": pinCodeTextField.text ?? ""])
+//        { (success: Any?, error: Error?) in
+//            hudError.hide(animated: true)
+//            if error != nil {
+//                self.showCodeError()
+//            } else {
+//                var dic : [String:Int]? = nil
+//                if let data = (success as! String).data(using: .utf8) {
+//                    do {
+//                        dic = try JSONSerialization.jsonObject(with: data, options: []) as? [String:Int]
+//                    } catch {
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//
+//                if dic == nil || dic!["valid"] == 0 {
+//                    self.showCodeError()
+//                } else {
+//                    _ = SweetAlert().showAlert(
+//                        NSLocalizedString("vcvc_alert_success_title", comment: "Validate code success title"),
+//                        subTitle: NSLocalizedString("vcvc_alert_success_subtitle", comment: "Validate code success subtitle"),
+//                        style: .success,
+//                        buttonTitle: NSLocalizedString("vcvc_alert_success_button", comment: "Validate code success button"),
+//                        action: { (result) in
+//                            if result == true {
+//                                // Save code is already valid
+//                                SettingsKeys.setCodeValidatedSetting(true)
+//                                // Present view controller
+//                                let storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+//                                let vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
+//                                self.present(vc, animated: true, completion: nil)
+//                            }
+//                    })
+//                }
+//            }
+//        }
     }
 
     @IBAction func backButtonPressed(_ sender: UIButton) {

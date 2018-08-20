@@ -16,7 +16,6 @@
 #import "SettingsKeys.h"
 #import "DatabaseManager.h"
 #import "ParseValidation.h"
-#import <Parse/Parse.h>
 #import <CommonCrypto/CommonDigest.h>
 
 @interface CustomAblyRealtime ()
@@ -415,29 +414,17 @@
         [parameters setValue:channelName forKey:@"channelName"];
         [parameters setValue:@(1) forKey:@"fromCustomer"];
     }
-
-    [PFCloud callFunctionInBackground:@"sendPresenceMessage"
-                       withParameters:parameters
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-     {
-         if (error) {
-             if ([ParseValidation validateError:error]) {
-                 //[ParseValidation _handleInvalidSessionTokenError:nil];
-             }
-         }
-     }];
-
-    //    ARTRealtimeChannel *channel = [self.ably.channels get:channelName];
-    //    if (channel) {
-    //        [channel.presence updateClient:self.clientId
-    //                                  data:@{@"isTyping": @(value), @"from": [SettingsKeys getBusinessId]}
-    //                              callback:^(ARTErrorInfo * _Nullable error)
-    //        {
-    //            if (error) {
-    //                DDLogError(@"Error sending typing state: %@", error);
-    //            }
-    //        }];
-    //    }
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"sendPresenceMessage"
+//                       withParameters:parameters
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//     {
+//         if (error) {
+//             if ([ParseValidation validateError:error]) {
+//                 //[ParseValidation _handleInvalidSessionTokenError:nil];
+//             }
+//         }
+//     }];
 }
 
 #pragma mark - Help Methods -

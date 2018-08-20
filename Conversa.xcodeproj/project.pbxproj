@@ -67,7 +67,6 @@
 		A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D1A1D53C8F300AA576A /* AppDelegate.m */; };
 		A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF21F6B634500C8805F /* Tutorial.storyboard */; };
 		A5698FF91F6B6B4400C8805F /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FF71F6B6B4400C8805F /* Login.storyboard */; };
-		A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFA1F6B6B6B00C8805F /* Code.storyboard */; };
 		A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */ = {isa = PBXBuildFile; fileRef = A5698FFD1F6B73A200C8805F /* gifCode.gif */; };
 		A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */; };
 		A571285F1E5EA44200B80D87 /* Business.m in Sources */ = {isa = PBXBuildFile; fileRef = A571285E1E5EA44200B80D87 /* Business.m */; };
@@ -107,6 +106,7 @@
 		A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D861F96DAF70004A561 /* HockeySDKResources.bundle */; };
 		A5D81D931F971AE30004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81D921F971AE30004A561 /* NotificationService.swift */; };
 		A5D81D971F971AE30004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81D901F971AE30004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A5E58379212A90A300DFC35B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5E58378212A90A200DFC35B /* GoogleService-Info.plist */; };
 		A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -246,11 +246,9 @@
 		A55B5D231D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A55B5D281D53C8F300AA576A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A55B5D2A1D53C8F300AA576A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A568DCC91F7C651A00C8BC0D /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Code.storyboard; sourceTree = "<group>"; };
 		A568DCCC1F7C654000C8BC0D /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Tutorial.storyboard; sourceTree = "<group>"; };
 		A5698FF31F6B634500C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Tutorial.storyboard; sourceTree = SOURCE_ROOT; };
 		A5698FF81F6B6B4400C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Login.storyboard; sourceTree = SOURCE_ROOT; };
-		A5698FFB1F6B6B6B00C8805F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Conversa/Base.lproj/Code.storyboard; sourceTree = SOURCE_ROOT; };
 		A5698FFD1F6B73A200C8805F /* gifCode.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gifCode.gif; sourceTree = "<group>"; };
 		A56C26EA1DED000D00EA700B /* ProfileDialogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDialogViewController.h; sourceTree = "<group>"; };
 		A56C26EB1DED000D00EA700B /* ProfileDialogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDialogViewController.m; sourceTree = "<group>"; };
@@ -303,6 +301,7 @@
 		A5D81D901F971AE30004A561 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D81D921F971AE30004A561 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		A5D81D941F971AE30004A561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5E58378212A90A200DFC35B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5F8BC0F1DD59D40008BD50B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
@@ -388,7 +387,7 @@
 				A5A7DDF41DD5698000E0D242 /* MediaItems */,
 				A59F4CE51DD7AB65005491B2 /* Model */,
 				A5A7DDF51DD5698B00E0D242 /* Notification */,
-				A539628D1D70AFDD00D557FE /* Parse */,
+				A539628D1D70AFDD00D557FE /* Firebase */,
 				A5A7DDF61DD5699600E0D242 /* Utils */,
 				A539628E1D70B01E00D557FE /* ViewControllers */,
 				A539628F1D70B05200D557FE /* Views */,
@@ -423,7 +422,7 @@
 			name = Media;
 			sourceTree = "<group>";
 		};
-		A539628D1D70AFDD00D557FE /* Parse */ = {
+		A539628D1D70AFDD00D557FE /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
 				A52905F91D6FE7080018D74C /* Account.h */,
@@ -433,7 +432,7 @@
 				A59F4CDF1DD786FA005491B2 /* ParseValidation.h */,
 				A59F4CE01DD786FA005491B2 /* ParseValidation.m */,
 			);
-			name = Parse;
+			name = Firebase;
 			sourceTree = "<group>";
 		};
 		A539628E1D70B01E00D557FE /* ViewControllers */ = {
@@ -498,6 +497,7 @@
 				A55B5D2A1D53C8F300AA576A /* Info.plist */,
 				A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */,
 				A5698FFD1F6B73A200C8805F /* gifCode.gif */,
+				A5E58378212A90A200DFC35B /* GoogleService-Info.plist */,
 				A55B5D161D53C8F300AA576A /* Supporting Files */,
 				A5A7DDF01DD5692600E0D242 /* Strings */,
 			);
@@ -769,7 +769,6 @@
 				A5698FF71F6B6B4400C8805F /* Login.storyboard */,
 				A5698FF21F6B634500C8805F /* Tutorial.storyboard */,
 				A55B5D271D53C8F300AA576A /* LaunchScreen.storyboard */,
-				A5698FFA1F6B6B6B00C8805F /* Code.storyboard */,
 				A5774C142005E639004B3E4D /* Favoritevt.storyboard */,
 			);
 			name = Storyboards;
@@ -798,7 +797,7 @@
 				A55B5D111D53C8F300AA576A /* Resources */,
 				A59307431E5FB67F00083665 /* Localization BartyCrouch */,
 				A5D81D9B1F971AE30004A561 /* Embed App Extensions */,
-				A59F07B81FEEF51400B2F0D7 /* Fabric */,
+				A5E583772128C04100DFC35B /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -890,7 +889,7 @@
 			files = (
 				A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */,
 				A5774C122005E639004B3E4D /* Favoritevt.storyboard in Resources */,
-				A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */,
+				A5E58379212A90A300DFC35B /* GoogleService-Info.plist in Resources */,
 				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
 				A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */,
@@ -940,7 +939,6 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Conversa/Pods-Conversa-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/Ably/Ably.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Appirater/Appirater.framework",
@@ -958,6 +956,7 @@
 				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
 				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/JVFloatLabeledTextField/JVFloatLabeledTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/KSCrashAblyFork/KSCrashAblyFork.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
@@ -983,7 +982,6 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ably.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Appirater.framework",
@@ -1001,6 +999,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JVFloatLabeledTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KSCrashAblyFork.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
@@ -1043,7 +1042,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if which bartycrouch > /dev/null; then\n    # Incrementally update all Storyboards/XIBs strings files\n    bartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n    # Add new keys to Localizable.strings files from NSLocalizedString in code\n    bartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/Conversa\" -a -s\nelse\n    echo \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
 		};
-		A59F07B81FEEF51400B2F0D7 /* Fabric */ = {
+		A5E583772128C04100DFC35B /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1224,15 +1223,6 @@
 			name = Login.storyboard;
 			sourceTree = "<group>";
 		};
-		A5698FFA1F6B6B6B00C8805F /* Code.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A5698FFB1F6B6B6B00C8805F /* Base */,
-				A568DCC91F7C651A00C8BC0D /* es */,
-			);
-			name = Code.storyboard;
-			sourceTree = "<group>";
-		};
 		A5774C142005E639004B3E4D /* Favoritevt.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1376,6 +1366,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = Conversa/Info.plist;
@@ -1411,6 +1402,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
 				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				HOST_NAME = "https://us-central1-luminous-inferno-3905.cloudfunctions.net/api";
 				INFOPLIST_FILE = Conversa/Info.plist;

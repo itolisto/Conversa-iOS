@@ -59,13 +59,8 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         var storyboard : UIStoryboard
         var vc : UIViewController
 
-        //if SettingsKeys.getCodeValidatedSetting() {
-            storyboard = UIStoryboard.init(name: "Login", bundle: nil)
-            vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
-        //} else {
-        //    storyboard = UIStoryboard.init(name: "Code", bundle: nil)
-        //    vc = storyboard.instantiateViewController(withIdentifier: "CodeView")
-        //}
+        storyboard = UIStoryboard.init(name: "Login", bundle: nil)
+        vc = storyboard.instantiateViewController(withIdentifier: "LoginView")
 
         self.present(vc, animated: true, completion: nil)
     }

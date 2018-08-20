@@ -56,6 +56,7 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <JSQSystemSoundPlayer/JSQSystemSoundPlayer.h>
 
 #import "Conversa-Swift.h"
 
@@ -196,26 +197,26 @@
 
     NSString *customer_id = [SettingsKeys getCustomerId];
     [Flurry logEvent:@"user_chat_duration" withParameters:@{@"user": (customer_id) ? customer_id : @""} timed:YES];
-
-    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
-                       withParameters:@{@"customerId": [SettingsKeys getCustomerId],
-                                        @"businessId": self.buddy.uniqueId,
-                                        @"fromCustomer": @YES}
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-    {
-        if (!error) {
-            NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
-                                                                options:0
-                                                                  error:&error];
-
-            if (!error) {
-                [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    NSDictionary *message = (NSDictionary*)obj;
-                    [YapMessage saveMessageWithDictionary:message block:nil];
-                }];
-            }
-        }
-    }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getLatestMessagesByConversation"
+//                       withParameters:@{@"customerId": [SettingsKeys getCustomerId],
+//                                        @"businessId": self.buddy.uniqueId,
+//                                        @"fromCustomer": @YES}
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//    {
+//        if (!error) {
+//            NSArray *messages = [NSJSONSerialization JSONObjectWithData:[object dataUsingEncoding:NSUTF8StringEncoding]
+//                                                                options:0
+//                                                                  error:&error];
+//
+//            if (!error) {
+//                [messages enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    NSDictionary *message = (NSDictionary*)obj;
+//                    [YapMessage saveMessageWithDictionary:message block:nil];
+//                }];
+//            }
+//        }
+//    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -369,74 +370,75 @@
 }
 
 - (void)loadStatus {
-    [PFCloud callFunctionInBackground:@"getBusinessLastStatus"
-                       withParameters:@{@"businessId":self.buddy.uniqueId}
-                                block:^(id  _Nullable object, NSError * _Nullable error)
-     {
-         if(error) {
-             if ([ParseValidation validateError:error]) {
-                 self.visible = NO;
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             }
-         } else {
-             double last = [object doubleValue];
-             double now = [[NSDate date] timeIntervalSince1970] * 1000;
-
-             if (last <= now) {
-                 long diff = now - last;
-                 long diffm = diff / (1000 * 60);
-
-                 if (diffm < 63) {
-                     if (diffm <= 3) {
-                         self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
-                     } else {
-                         diffm = diffm - 3;
-                         if (diffm == 1) {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_minute", nil)];
-                         } else {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffm], NSLocalizedString(@"conversation_active_minutes", nil)];
-                         }
-                     }
-                 } else {
-                     diff = diff - (3 * 60 * 1000);
-                     long diffh = diff / (1000 * 60 * 60);
-                     long diffd = diff / (1000 * 60 * 60 * 24);
-                     long diffw = diff / (1000 * 60 * 60 * 24 * 7);
-
-                     if (diffh < 24) {
-                         if (diffh == 1) {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_hour", nil)];
-                         } else {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffh], NSLocalizedString(@"conversation_active_hours", nil)];
-                         }
-                     } else if (diffd < 31) {
-                         if (diffd == 1) {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_day", nil)];
-                         } else {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffd], NSLocalizedString(@"conversation_active_days", nil)];
-                         }
-                     } else if (diffw < 52) {
-                         if (diffw == 1) {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_week", nil)];
-                         } else {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_weeks", nil)];
-                         }
-                     } else {
-                         diffw = diffw / 52;
-                         if (diffw == 1) {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_year", nil)];
-                         } else {
-                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_years", nil)];
-                         }
-                     }
-                 }
-             }
-
-             if (!self.typingFlag) {
-                 [self.subTitle setText:self.lastStatus];
-             }
-         }
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"getBusinessLastStatus"
+//                       withParameters:@{@"businessId":self.buddy.uniqueId}
+//                                block:^(id  _Nullable object, NSError * _Nullable error)
+//     {
+//         if(error) {
+//             if ([ParseValidation validateError:error]) {
+//                 self.visible = NO;
+//                 [ParseValidation _handleInvalidSessionTokenError:self];
+//             }
+//         } else {
+//             double last = [object doubleValue];
+//             double now = [[NSDate date] timeIntervalSince1970] * 1000;
+//
+//             if (last <= now) {
+//                 long diff = now - last;
+//                 long diffm = diff / (1000 * 60);
+//
+//                 if (diffm < 63) {
+//                     if (diffm <= 3) {
+//                         self.lastStatus = NSLocalizedString(@"conversation_active_message_now", nil);
+//                     } else {
+//                         diffm = diffm - 3;
+//                         if (diffm == 1) {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_minute", nil)];
+//                         } else {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffm], NSLocalizedString(@"conversation_active_minutes", nil)];
+//                         }
+//                     }
+//                 } else {
+//                     diff = diff - (3 * 60 * 1000);
+//                     long diffh = diff / (1000 * 60 * 60);
+//                     long diffd = diff / (1000 * 60 * 60 * 24);
+//                     long diffw = diff / (1000 * 60 * 60 * 24 * 7);
+//
+//                     if (diffh < 24) {
+//                         if (diffh == 1) {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_hour", nil)];
+//                         } else {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffh], NSLocalizedString(@"conversation_active_hours", nil)];
+//                         }
+//                     } else if (diffd < 31) {
+//                         if (diffd == 1) {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_day", nil)];
+//                         } else {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffd], NSLocalizedString(@"conversation_active_days", nil)];
+//                         }
+//                     } else if (diffw < 52) {
+//                         if (diffw == 1) {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_week", nil)];
+//                         } else {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_weeks", nil)];
+//                         }
+//                     } else {
+//                         diffw = diffw / 52;
+//                         if (diffw == 1) {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%d", 1], NSLocalizedString(@"conversation_active_year", nil)];
+//                         } else {
+//                             self.lastStatus = [NSString stringWithFormat:NSLocalizedString(@"conversation_active_message", nil), [NSString stringWithFormat:@"%ld", diffw], NSLocalizedString(@"conversation_active_years", nil)];
+//                         }
+//                     }
+//                 }
+//             }
+//
+//             if (!self.typingFlag) {
+//                 [self.subTitle setText:self.lastStatus];
+//             }
+//         }
+//     }];
 }
 
 - (void)setupMessageMapping {
@@ -1338,40 +1340,41 @@
 - (void)sendLocation {
     if([NotificationPermissions checkPermissions:self]) {
         __weak typeof(self)weakSelf = self;
-        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
-            typeof(weakSelf)sSelf = weakSelf;
-            if (error == nil) {
-                if (sSelf) {
-                    YapMessage *message = [self newYapMessageType:kMessageTypeLocation
-                                                           values:@{MESSAGE_LATI_KEY:[NSNumber numberWithDouble:geoPoint.latitude],
-                                                                    MESSAGE_LONG_KEY:[NSNumber numberWithDouble:geoPoint.longitude]}
-                                                         incoming:NO];
-                    message.transferProgress = 100;
-                    [sSelf sendWithYapMessage:message isLastMessage:YES withPFFile:nil];
-                }
-            } else {
-                if (sSelf) {
-                    UIAlertController* view = [UIAlertController
-                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
-                                               message:nil
-                                               preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction* ok = [UIAlertAction
-                                         actionWithTitle:@"Ok"
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action) {
-                                             [view dismissViewControllerAnimated:YES completion:nil];
-                                         }];
-                    
-                    [view addAction:ok];
-                    [weakSelf presentViewController:view animated:YES completion:nil];
-                }
-            }
-        }];
+        // TODO: Replace with networking layer
+//        [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+//            typeof(weakSelf)sSelf = weakSelf;
+//            if (error == nil) {
+//                if (sSelf) {
+//                    YapMessage *message = [self newYapMessageType:kMessageTypeLocation
+//                                                           values:@{MESSAGE_LATI_KEY:[NSNumber numberWithDouble:geoPoint.latitude],
+//                                                                    MESSAGE_LONG_KEY:[NSNumber numberWithDouble:geoPoint.longitude]}
+//                                                         incoming:NO];
+//                    message.transferProgress = 100;
+//                    [sSelf sendWithYapMessage:message isLastMessage:YES withPFFile:nil];
+//                }
+//            } else {
+//                if (sSelf) {
+//                    UIAlertController* view = [UIAlertController
+//                                               alertControllerWithTitle:NSLocalizedString(@"conversation_alert_action_location_title", nil)
+//                                               message:nil
+//                                               preferredStyle:UIAlertControllerStyleAlert];
+//
+//                    UIAlertAction* ok = [UIAlertAction
+//                                         actionWithTitle:@"Ok"
+//                                         style:UIAlertActionStyleDefault
+//                                         handler:^(UIAlertAction * action) {
+//                                             [view dismissViewControllerAnimated:YES completion:nil];
+//                                         }];
+//
+//                    [view addAction:ok];
+//                    [weakSelf presentViewController:view animated:YES completion:nil];
+//                }
+//            }
+//        }];
     }
 }
 
-- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)isLastMessage withPFFile:(PFFile *)file
+- (void)sendWithYapMessage:(YapMessage *)yapMessage isLastMessage:(BOOL)isLastMessage withPFFile:(NSString *)file
 {
     YapMessage *message = [yapMessage copy];
     
@@ -1420,31 +1423,31 @@
                     break;
                 }
             }
-
-            [PFCloud callFunctionInBackground:@"sendUserMessage"
-                               withParameters:messageNSD
-                                        block:^(id  _Nullable object, NSError * _Nullable error)
-             {
-                 if(error) {
-                     if ([ParseValidation validateError:error]) {
-                         self.visible = NO;
-                         [ParseValidation _handleInvalidSessionTokenError:self];
-                         return;
-                     } else {
-                         DDLogError(@"Message sent error: %@", error.localizedDescription);
-                         message.delivered = statusParseError;
-                         message.error = error.localizedDescription;
-                     }
-                 } else {
-                     message.delivered = statusAllDelivered;
-                     message.error = nil;
-                 }
-
-                 [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-                  {
-                      [message saveWithTransaction:transaction];
-                  }];
-             }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"sendUserMessage"
+//                               withParameters:messageNSD
+//                                        block:^(id  _Nullable object, NSError * _Nullable error)
+//             {
+//                 if(error) {
+//                     if ([ParseValidation validateError:error]) {
+//                         self.visible = NO;
+//                         [ParseValidation _handleInvalidSessionTokenError:self];
+//                         return;
+//                     } else {
+//                         DDLogError(@"Message sent error: %@", error.localizedDescription);
+//                         message.delivered = statusParseError;
+//                         message.error = error.localizedDescription;
+//                     }
+//                 } else {
+//                     message.delivered = statusAllDelivered;
+//                     message.error = nil;
+//                 }
+//
+//                 [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//                  {
+//                      [message saveWithTransaction:transaction];
+//                  }];
+//             }];
         }
 
         if (!self.checkIfAlreadyAdded) {
@@ -1537,29 +1540,30 @@
     }];
     
     // Try to upload message
-    PFFile *filePicture = [PFFile fileWithName:imageName data:imageData];
-    [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error == nil) {
-            message.transferProgress = 100;
-            [self sendWithYapMessage:message isLastMessage:YES withPFFile:filePicture];
-        } else {
-            // Couldn't send image
-            message.delivered = statusParseError;
-            message.transferProgress = 0;
-            message.error = error.localizedDescription;
-            
-            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction)
-             {
-                 [message saveWithTransaction:transaction];
-             }];
-        }
-    } progressBlock:^(int percentDone) {
-        message.transferProgress = percentDone;
-        [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
-         {
-             [message saveWithTransaction:transaction];
-         }];
-    }];
+    // TODO: Replace with Firebase
+//    PFFile *filePicture = [PFFile fileWithName:imageName data:imageData];
+//    [filePicture saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        if (error == nil) {
+//            message.transferProgress = 100;
+//            [self sendWithYapMessage:message isLastMessage:YES withPFFile:filePicture];
+//        } else {
+//            // Couldn't send image
+//            message.delivered = statusParseError;
+//            message.transferProgress = 0;
+//            message.error = error.localizedDescription;
+//            
+//            [self.editingDatabaseConnection asyncReadWriteWithBlock:^(YapDatabaseReadWriteTransaction *transaction)
+//             {
+//                 [message saveWithTransaction:transaction];
+//             }];
+//        }
+//    } progressBlock:^(int percentDone) {
+//        message.transferProgress = percentDone;
+//        [self.editingDatabaseConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * _Nonnull transaction)
+//         {
+//             [message saveWithTransaction:transaction];
+//         }];
+//    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -1724,12 +1728,14 @@
                     [self.subTitle setText:self.lastStatus];
                     [self finishReceivingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        // TODO: Replace with sound
+//                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        // TODO: Replace with sound
+//                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }

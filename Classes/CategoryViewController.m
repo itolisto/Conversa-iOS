@@ -20,7 +20,6 @@
 #import "ConversationViewController.h"
 #import "ProfileDialogViewController.h"
 
-#import <Parse/Parse.h>
 #import <DGActivityIndicatorView/DGActivityIndicatorView.h>
 
 @interface CategoryViewController()
@@ -94,88 +93,88 @@
         [self.activityIndicatorView startAnimating];
     }
 
-    [PFCloud callFunctionInBackground:@"getCategoryBusinesses"
-                       withParameters:@{@"page": @(self.page), @"categoryId": self.categoryId, @"custom": @(self.custom)}
-                                block:^(NSString *json, NSError *error)
-     {
-         if (self.page == 0) {
-             [self.activityIndicatorView stopAnimating];
-             self.loadingView.hidden = YES;
-         }
-
-         if (self.loadingPage) {
-             self.loadingPage = NO;
-             [self._mutableObjects removeLastObject];
-         }
-
-         if (error) {
-             if ([ParseValidation validateError:error]) {
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             } else {
-                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
-                 self.emptyView.hidden = NO;
-                 self.loadMore = NO;
-             }
-         } else {
-             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&error];
-
-             if (error) {
-                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
-                 self.emptyView.hidden = NO;
-                 self.loadMore = NO;
-             } else {
-                 NSUInteger size = [results count];
-
-                 if (size > 0) {
-                     NSMutableArray <YapContact*> *businesses = [NSMutableArray arrayWithCapacity:size];
-
-                     for (int i = 0; i < size; i++) {
-                         NSDictionary *business = [results objectAtIndex:i];
-
-                         YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:[business valueForKey:@"ob"]];
-                         newBuddy.accountUniqueId = [Account currentUser].objectId;
-                         newBuddy.displayName = [business valueForKey:@"dn"];
-                         newBuddy.conversaId = [business valueForKey:@"cn"];
-
-                         if ([business valueForKey:@"fx"]) {
-                             newBuddy.fixed = YES;
-                             [businesses insertObject:newBuddy atIndex:0];
-                         } else {
-                             if ([business valueForKey:@"av"]) {
-                                 newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
-                             }
-                             
-                             [businesses addObject:newBuddy];
-                         }
-                     }
-
-                     if (size < 20) {
-                         self.loadMore = NO;
-                     }
-
-                     [self._mutableObjects addObjectsFromArray:businesses];
-
-                     if (self.page == 0) {
-                         self.tableView.hidden = NO;
-                         self.emptyView.hidden = YES;
-                     }
-                 } else {
-                     if (self.page == 0) {
-                         self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
-                         self.emptyView.hidden = NO;
-                     }
-                     self.loadMore = NO;
-                 }
-                 
-                 self.page++;
-             }
-         }
-         
-         [self.tableView reloadData];
-     }];
+//    [PFCloud callFunctionInBackground:@"getCategoryBusinesses"
+//                       withParameters:@{@"page": @(self.page), @"categoryId": self.categoryId, @"custom": @(self.custom)}
+//                                block:^(NSString *json, NSError *error)
+//     {
+//         if (self.page == 0) {
+//             [self.activityIndicatorView stopAnimating];
+//             self.loadingView.hidden = YES;
+//         }
+//
+//         if (self.loadingPage) {
+//             self.loadingPage = NO;
+//             [self._mutableObjects removeLastObject];
+//         }
+//
+//         if (error) {
+//             if ([ParseValidation validateError:error]) {
+//                 [ParseValidation _handleInvalidSessionTokenError:self];
+//             } else {
+//                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+//                 self.emptyView.hidden = NO;
+//                 self.loadMore = NO;
+//             }
+//         } else {
+//             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+//             NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+//                                                                options:NSJSONReadingMutableContainers
+//                                                                  error:&error];
+//
+//             if (error) {
+//                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+//                 self.emptyView.hidden = NO;
+//                 self.loadMore = NO;
+//             } else {
+//                 NSUInteger size = [results count];
+//
+//                 if (size > 0) {
+//                     NSMutableArray <YapContact*> *businesses = [NSMutableArray arrayWithCapacity:size];
+//
+//                     for (int i = 0; i < size; i++) {
+//                         NSDictionary *business = [results objectAtIndex:i];
+//
+//                         YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:[business valueForKey:@"ob"]];
+//                         newBuddy.accountUniqueId = [Account currentUser].objectId;
+//                         newBuddy.displayName = [business valueForKey:@"dn"];
+//                         newBuddy.conversaId = [business valueForKey:@"cn"];
+//
+//                         if ([business valueForKey:@"fx"]) {
+//                             newBuddy.fixed = YES;
+//                             [businesses insertObject:newBuddy atIndex:0];
+//                         } else {
+//                             if ([business valueForKey:@"av"]) {
+//                                 newBuddy.avatarThumbFileId = [business valueForKey:@"av"];
+//                             }
+//                             
+//                             [businesses addObject:newBuddy];
+//                         }
+//                     }
+//
+//                     if (size < 20) {
+//                         self.loadMore = NO;
+//                     }
+//
+//                     [self._mutableObjects addObjectsFromArray:businesses];
+//
+//                     if (self.page == 0) {
+//                         self.tableView.hidden = NO;
+//                         self.emptyView.hidden = YES;
+//                     }
+//                 } else {
+//                     if (self.page == 0) {
+//                         self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
+//                         self.emptyView.hidden = NO;
+//                     }
+//                     self.loadMore = NO;
+//                 }
+//                 
+//                 self.page++;
+//             }
+//         }
+//         
+//         [self.tableView reloadData];
+//     }];
 }
 
 - (YapContact *)objectAtIndexPath:(NSIndexPath *)indexPath {

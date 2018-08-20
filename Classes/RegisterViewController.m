@@ -280,33 +280,34 @@
 }
 
 - (void)doRegister {
-    Account *user = [Account object];
-    user.username = self.emailTextField.text;
-    user.email = self.emailTextField.text;
-    user.password = self.passwordTextField.text;
-    // Extra fields
-    user[kUserTypeKey] = @(1);
-    if (self.birthdayTimestamp) {
-        user[kUserCustomerBirthdayKey] = @(self.birthdayTimestamp);
-    } else {
-        user[kUserCustomerBirthdayKey] = @(3661000);
-    }
-    user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
-
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (error) {
-            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
-                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
-            } else {
-                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
-            }
-        } else {
-            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
-        }
-    }];
+    // TODO: Replace with networking layer
+//    Account *user = [Account object];
+//    user.username = self.emailTextField.text;
+//    user.email = self.emailTextField.text;
+//    user.password = self.passwordTextField.text;
+//    // Extra fields
+//    user[kUserTypeKey] = @(1);
+//    if (self.birthdayTimestamp) {
+//        user[kUserCustomerBirthdayKey] = @(self.birthdayTimestamp);
+//    } else {
+//        user[kUserCustomerBirthdayKey] = @(3661000);
+//    }
+//    user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
+//
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//
+//    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        if (error) {
+//            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
+//                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
+//            } else {
+//                [self showErrorMessage:NSLocalizedString(@"signup_complete_error", nil)];
+//            }
+//        } else {
+//            [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];
+//        }
+//    }];
 }
 
 - (void)showErrorMessage:(NSString*)message {

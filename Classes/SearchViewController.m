@@ -200,81 +200,81 @@
 
 - (void)searchBusiness {
     [self.activityIndicatorView startAnimating];
-    
-    [PFCloud callFunctionInBackground:@"searchBusiness"
-                       withParameters:@{@"search": self.searchWith, @"skip": @(self.page), @"id": @(self.searchId)}
-                                block:^(NSString *json, NSError *error)
-     {
-         if (self.page == 0) {
-             [self.activityIndicatorView stopAnimating];
-             self.loadingView.hidden = YES;
-         }
-
-         if (self.loadingPage) {
-             self.loadingPage = NO;
-             [self._mutableObjects removeLastObject];
-         }
-
-         if (error) {
-             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
-             self.emptyView.hidden = NO;
-             self.tableView.hidden = YES;
-             if ([ParseValidation validateError:error]) {
-                 [ParseValidation _handleInvalidSessionTokenError:self];
-             }
-         } else {
-             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                     options:NSJSONReadingMutableContainers
-                                                                       error:&error];
-
-             if (error) {
-                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
-                 self.emptyView.hidden = NO;
-                 self.tableView.hidden = YES;
-                 [self._mutableObjects removeAllObjects];
-             } else {
-                 if ([[jsonDic objectForKey:@"id"] unsignedIntegerValue] == self.searchId) {
-                     NSArray *results = [jsonDic valueForKeyPath:@"results"];
-                     NSUInteger size = [results count];
-
-                     for (int i = 0; i < size; i++) {
-                         NSDictionary *object = [results objectAtIndex:i];
-                         YapSearch *newSearch = [[YapSearch alloc] initWithUniqueId:[object objectForKey:@"oj"]];
-                         newSearch.accountUniqueId = [Account currentUser].objectId;
-                         newSearch.conversaId = [object objectForKey:@"id"];
-                         newSearch.displayName = [object objectForKey:@"dn"];
-                         newSearch.avatarUrl = [object objectForKey:@"av"];
-                         newSearch.searchDate = [NSDate date];
-                         [self._mutableObjects addObject:newSearch];
-                     }
-
-                     if (size > 0) {
-
-                         if (size < 20) {
-                             self.loadMore = NO;
-                         }
-
-                         if (self.page == 0) {
-                             self.emptyView.hidden = YES;
-                             self.tableView.hidden = NO;
-                         }
-                     } else {
-                         if (self.page == 0) {
-                             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
-                             self.emptyView.hidden = NO;
-                             self.tableView.hidden = YES;
-                         }
-                         self.loadMore = NO;
-                     }
-
-                     self.page++;
-                 }
-             }
-         }
-
-         [self.tableView reloadData];
-     }];
+    // TODO: Replace with networking layer
+//    [PFCloud callFunctionInBackground:@"searchBusiness"
+//                       withParameters:@{@"search": self.searchWith, @"skip": @(self.page), @"id": @(self.searchId)}
+//                                block:^(NSString *json, NSError *error)
+//     {
+//         if (self.page == 0) {
+//             [self.activityIndicatorView stopAnimating];
+//             self.loadingView.hidden = YES;
+//         }
+//
+//         if (self.loadingPage) {
+//             self.loadingPage = NO;
+//             [self._mutableObjects removeLastObject];
+//         }
+//
+//         if (error) {
+//             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+//             self.emptyView.hidden = NO;
+//             self.tableView.hidden = YES;
+//             if ([ParseValidation validateError:error]) {
+//                 [ParseValidation _handleInvalidSessionTokenError:self];
+//             }
+//         } else {
+//             NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+//             NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:objectData
+//                                                                     options:NSJSONReadingMutableContainers
+//                                                                       error:&error];
+//
+//             if (error) {
+//                 self.emptyInfoLabel.text = NSLocalizedString(@"category_results_error", nil);
+//                 self.emptyView.hidden = NO;
+//                 self.tableView.hidden = YES;
+//                 [self._mutableObjects removeAllObjects];
+//             } else {
+//                 if ([[jsonDic objectForKey:@"id"] unsignedIntegerValue] == self.searchId) {
+//                     NSArray *results = [jsonDic valueForKeyPath:@"results"];
+//                     NSUInteger size = [results count];
+//
+//                     for (int i = 0; i < size; i++) {
+//                         NSDictionary *object = [results objectAtIndex:i];
+//                         YapSearch *newSearch = [[YapSearch alloc] initWithUniqueId:[object objectForKey:@"oj"]];
+//                         newSearch.accountUniqueId = [Account currentUser].objectId;
+//                         newSearch.conversaId = [object objectForKey:@"id"];
+//                         newSearch.displayName = [object objectForKey:@"dn"];
+//                         newSearch.avatarUrl = [object objectForKey:@"av"];
+//                         newSearch.searchDate = [NSDate date];
+//                         [self._mutableObjects addObject:newSearch];
+//                     }
+//
+//                     if (size > 0) {
+//
+//                         if (size < 20) {
+//                             self.loadMore = NO;
+//                         }
+//
+//                         if (self.page == 0) {
+//                             self.emptyView.hidden = YES;
+//                             self.tableView.hidden = NO;
+//                         }
+//                     } else {
+//                         if (self.page == 0) {
+//                             self.emptyInfoLabel.text = NSLocalizedString(@"category_results_empty", nil);
+//                             self.emptyView.hidden = NO;
+//                             self.tableView.hidden = YES;
+//                         }
+//                         self.loadMore = NO;
+//                     }
+//
+//                     self.page++;
+//                 }
+//             }
+//         }
+//
+//         [self.tableView reloadData];
+//     }];
 }
 
 - (NSArray<__kindof YapSearch *> *)objects {

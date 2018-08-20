@@ -37,7 +37,7 @@ const struct YapContactEdges YapContactEdges = {
 
     @try {
         if (business.avatar) {
-            newBuddy.avatarThumbFileId = [business.avatar url];
+            newBuddy.avatarThumbFileId = business.avatar;
         } else {
             newBuddy.avatarThumbFileId = @"";
         }

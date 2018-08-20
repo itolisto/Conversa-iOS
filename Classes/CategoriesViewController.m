@@ -23,8 +23,6 @@
 #import "CategoryViewController.h"
 #import "CustomCategoryHeaderCell.h"
 
-#import <Parse/Parse.h>
-
 @interface CategoriesViewController ()
 
 @property (strong, nonatomic) NSMutableArray<nHeaderTitle *> *_headers;
@@ -164,61 +162,62 @@
             language = @"en"; // Set to default language
         }
 
-        [PFCloud callFunctionInBackground:@"getCategories"
-                           withParameters:@{@"language": language}
-                                    block:^(NSString *json, NSError *error)
-         {
-             if (error) {
-                 [self.refreshControl endRefreshing];
-                 if ([ParseValidation validateError:error]) {
-                     [ParseValidation _handleInvalidSessionTokenError:self];
-                 }
-             } else {
-                 [self._dictionary removeAllObjects];
-                 [self._headers removeAllObjects];
-
-                 NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
-                 NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
-                                                                    options:NSJSONReadingMutableContainers
-                                                                      error:&error];
-                 if (error) {
-                     // Show error
-                     [self.refreshControl endRefreshing];
-                 } else {
-                     NSUInteger size = [results count];
-
-                     for (int i = 0; i < size; i++) {
-                         NSDictionary *object = [results objectAtIndex:i];
-
-                         nHeaderTitle *title = [[nHeaderTitle alloc] init];
-                         title.headerName = [object objectForKey:@"tn"];
-                         [self._headers addObject:title];
-
-                         NSArray *categories = [object objectForKey:@"cat"];
-                         NSMutableArray *categoriesInSection = [NSMutableArray arrayWithCapacity:2];
-                         NSUInteger categoriesSize = [categories count];
-
-                         for (int h = 0; h < categoriesSize; h++) {
-                             NSDictionary *category = [categories objectAtIndex:h];
-
-                             nCategory *categoryReg = [[nCategory alloc] init];
-                             categoryReg.objectId = [category objectForKey:@"ob"];
-                             categoryReg.name = [category objectForKey:@"na"];
-                             categoryReg.avatarUrl = [category objectForKey:@"th"];
-                             categoryReg.custom = ([category objectForKey:@"cs"]) ? YES : NO;
-
-                             [categoriesInSection addObject:categoryReg];
-                         }
-                         
-                         [self._dictionary setObject:categoriesInSection
-                                              forKey:[NSNumber numberWithInt:i]];
-                     }
-                     
-                     [self.refreshControl endRefreshing];
-                     [self.tableView reloadData];
-                 }
-             }
-         }];
+        // TODO: Replace with networking layer
+//        [PFCloud callFunctionInBackground:@"getCategories"
+//                           withParameters:@{@"language": language}
+//                                    block:^(NSString *json, NSError *error)
+//         {
+//             if (error) {
+//                 [self.refreshControl endRefreshing];
+//                 if ([ParseValidation validateError:error]) {
+//                     [ParseValidation _handleInvalidSessionTokenError:self];
+//                 }
+//             } else {
+//                 [self._dictionary removeAllObjects];
+//                 [self._headers removeAllObjects];
+//
+//                 NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
+//                 NSArray *results = [NSJSONSerialization JSONObjectWithData:objectData
+//                                                                    options:NSJSONReadingMutableContainers
+//                                                                      error:&error];
+//                 if (error) {
+//                     // Show error
+//                     [self.refreshControl endRefreshing];
+//                 } else {
+//                     NSUInteger size = [results count];
+//
+//                     for (int i = 0; i < size; i++) {
+//                         NSDictionary *object = [results objectAtIndex:i];
+//
+//                         nHeaderTitle *title = [[nHeaderTitle alloc] init];
+//                         title.headerName = [object objectForKey:@"tn"];
+//                         [self._headers addObject:title];
+//
+//                         NSArray *categories = [object objectForKey:@"cat"];
+//                         NSMutableArray *categoriesInSection = [NSMutableArray arrayWithCapacity:2];
+//                         NSUInteger categoriesSize = [categories count];
+//
+//                         for (int h = 0; h < categoriesSize; h++) {
+//                             NSDictionary *category = [categories objectAtIndex:h];
+//
+//                             nCategory *categoryReg = [[nCategory alloc] init];
+//                             categoryReg.objectId = [category objectForKey:@"ob"];
+//                             categoryReg.name = [category objectForKey:@"na"];
+//                             categoryReg.avatarUrl = [category objectForKey:@"th"];
+//                             categoryReg.custom = ([category objectForKey:@"cs"]) ? YES : NO;
+//
+//                             [categoriesInSection addObject:categoryReg];
+//                         }
+//                         
+//                         [self._dictionary setObject:categoriesInSection
+//                                              forKey:[NSNumber numberWithInt:i]];
+//                     }
+//                     
+//                     [self.refreshControl endRefreshing];
+//                     [self.tableView reloadData];
+//                 }
+//             }
+//         }];
     }
 }
 

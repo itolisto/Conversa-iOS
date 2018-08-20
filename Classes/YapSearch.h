@@ -7,7 +7,7 @@
 //
 
 @import UIKit;
-#import <Parse/Parse.h>
+
 #import "YapDatabaseObject.h"
 #import <YapDatabase/YapDatabaseRelationshipNode.h>
 

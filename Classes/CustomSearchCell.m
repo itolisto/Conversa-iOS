@@ -29,7 +29,7 @@
 
     @try {
         if (business.avatar) {
-            [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:[business.avatar url]]
+            [self.photoImageView sd_setImageWithURL:[NSURL URLWithString:business.avatar]
                                    placeholderImage:[UIImage imageNamed:@"ic_business_default"]];
         } else {
             self.photoImageView.image = [UIImage imageNamed:@"ic_business_default"];

@@ -15,7 +15,6 @@
 #import "YapContact.h"
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
-#import <Parse/Parse.h>
 
 @interface CustomChatCell ()
 

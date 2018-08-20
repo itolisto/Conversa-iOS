@@ -18,7 +18,6 @@
 #import "DatabaseManager.h"
 #import "NSFileManager+Conversa.h"
 
-#import <Parse/Parse.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 
 @interface AccountSettingsViewController ()
@@ -126,29 +125,30 @@
                                      actionWithTitle:NSLocalizedString(@"settings_account_alert_password_action_change", nil)
                                      style:UIAlertActionStyleDestructive
                                      handler:^(UIAlertAction * action) {
-                                         Account *user = [Account currentUser];
-                                         user.password = self.passwordTextField.text;
-                                         self.passwordTextField.text = @"";
-                                         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                                             hud.mode = MBProgressHUDModeCustomView;
-                                             hud.square = YES;
-                                             [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-                                             UIImage *image;
-
-                                             if (error) {
-                                                 // Show notification
-                                                 image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_not_changed", nil);
-                                             } else {
-                                                 // Show notification
-                                                 image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_changed", nil);
-                                             }
-                                             
-                                             hud.customView = [[UIImageView alloc] initWithImage:image];
-                                             [hud hideAnimated:YES afterDelay:2.f];
-                                         }];
+                                         // TODO: Replace with networking layer
+//                                         Account *user = [Account currentUser];
+//                                         user.password = self.passwordTextField.text;
+//                                         self.passwordTextField.text = @"";
+//                                         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                                             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                                             hud.mode = MBProgressHUDModeCustomView;
+//                                             hud.square = YES;
+//                                             [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+//                                             UIImage *image;
+//
+//                                             if (error) {
+//                                                 // Show notification
+//                                                 image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_not_changed", nil);
+//                                             } else {
+//                                                 // Show notification
+//                                                 image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                                                 hud.label.text = NSLocalizedString(@"settings_account_alert_password_changed", nil);
+//                                             }
+//
+//                                             hud.customView = [[UIImageView alloc] initWithImage:image];
+//                                             [hud hideAnimated:YES afterDelay:2.f];
+//                                         }];
                                      }];
         UIAlertAction* cancel = [UIAlertAction
                                  actionWithTitle:NSLocalizedString(@"common_action_cancel", nil)
@@ -164,33 +164,33 @@
     } else {
         if (![textField.text isEqualToString:[SettingsKeys getDisplayName]]) {
             NSString *temp = textField.text;
-
-            [PFCloud callFunctionInBackground:@"updateCustomerName"
-                               withParameters:@{@"displayName" : temp, @"customerId" : [SettingsKeys getCustomerId]}
-                                        block:^(id  _Nullable object, NSError * _Nullable error)
-            {
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                hud.mode = MBProgressHUDModeCustomView;
-                [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-                hud.square = YES;
-                UIImage *image;
-
-                if (error) {
-                    self.displayNameTextField.text = [SettingsKeys getDisplayName];
-                    // Show notification
-                    image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
-                } else {
-                    // Change displayName
-                    [SettingsKeys setDisplayName:temp];
-                    // Show notification
-                    image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
-                }
-
-                hud.customView = [[UIImageView alloc] initWithImage:image];
-                [hud hideAnimated:YES afterDelay:2.f];
-            }];
+            // TODO: Replace with networking layer
+//            [PFCloud callFunctionInBackground:@"updateCustomerName"
+//                               withParameters:@{@"displayName" : temp, @"customerId" : [SettingsKeys getCustomerId]}
+//                                        block:^(id  _Nullable object, NSError * _Nullable error)
+//            {
+//                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//                hud.mode = MBProgressHUDModeCustomView;
+//                [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+//                hud.square = YES;
+//                UIImage *image;
+//
+//                if (error) {
+//                    self.displayNameTextField.text = [SettingsKeys getDisplayName];
+//                    // Show notification
+//                    image = [[UIImage imageNamed:@"ic_warning"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_not_changed", nil);
+//                } else {
+//                    // Change displayName
+//                    [SettingsKeys setDisplayName:temp];
+//                    // Show notification
+//                    image = [[UIImage imageNamed:@"ic_checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//                    hud.label.text = NSLocalizedString(@"settings_account_alert_displayname_changed", nil);
+//                }
+//
+//                hud.customView = [[UIImageView alloc] initWithImage:image];
+//                [hud hideAnimated:YES afterDelay:2.f];
+//            }];
         }
     }
     
