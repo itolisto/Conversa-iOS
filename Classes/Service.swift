@@ -30,7 +30,8 @@ import SwiftyJSON
 import Hydra
 
 /// Service is a concrete implementation of the ServiceProtocol
-public class Service: ServiceProtocol {
+@objcMembers
+public class Service: NSObject, ServiceProtocol {
 
 	/// Configuration
 	public var configuration: ServiceConfig
@@ -45,7 +46,11 @@ public class Service: ServiceProtocol {
 		self.configuration = configuration
 		self.headers = self.configuration.headers // fillup with initial headers
 	}
-	
+
+    public static func create() -> Service {
+        return Service(ServiceConfig.appConfig()!)
+    }
+
 	/// Execute a request and return a promise with the response
 	///
 	/// - Parameters:

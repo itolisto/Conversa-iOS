@@ -92,8 +92,10 @@
 	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
-	<key>Endpoint</key>
+	<key>endpoint</key>
 	<dict>
+        <key>base</key>
+        <string>https://us-central1-luminous-inferno-3905.cloudfunctions.net/api/</string>
 		<key>url</key>
 		<string>$(HOST_NAME)</string>
 		<key>name</key>
