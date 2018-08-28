@@ -121,6 +121,7 @@
 		A5F2FE9A21350850004742E3 /* SetCustomerFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8C21350850004742E3 /* SetCustomerFavorite.swift */; };
 		A5F2FE9B21350850004742E3 /* GetCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8D21350850004742E3 /* GetCategories.swift */; };
 		A5F2FE9C21350850004742E3 /* GetCategoryBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8E21350850004742E3 /* GetCategoryBusiness.swift */; };
+		A5F2FE9E21351B5A004742E3 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */; };
 		A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -330,6 +331,7 @@
 		A5F2FE8C21350850004742E3 /* SetCustomerFavorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetCustomerFavorite.swift; sourceTree = "<group>"; };
 		A5F2FE8D21350850004742E3 /* GetCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCategories.swift; sourceTree = "<group>"; };
 		A5F2FE8E21350850004742E3 /* GetCategoryBusiness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCategoryBusiness.swift; sourceTree = "<group>"; };
+		A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5F8BC0F1DD59D40008BD50B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				A5D2867A2127FBAC001BDFCF /* Service.swift */,
 				A5D286792127FBAC001BDFCF /* ServiceConfig.swift */,
 				A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */,
+				A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
@@ -1158,6 +1161,7 @@
 				A52906851D6FE7080018D74C /* AboutViewController.m in Sources */,
 				A52906AD1D6FE7080018D74C /* MapView.m in Sources */,
 				A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */,
+				A5F2FE9E21351B5A004742E3 /* NetworkingManager.swift in Sources */,
 				A59F4CE11DD786FA005491B2 /* ParseValidation.m in Sources */,
 				A52906CA1D6FE7080018D74C /* WhisperBridge.swift in Sources */,
 				A516548B1FD0CFE200ABCB28 /* FavoriteSearchResults.swift in Sources */,

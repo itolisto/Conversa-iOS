@@ -225,7 +225,9 @@
     if (account) {
         hasAccount = YES;
     }
-    
+
+    [NetworkingManager searchBusiness];
+
     /**
      * Proceso para nombrar controladores en Storyboard
      * 1. Seleccionar Storyboard
