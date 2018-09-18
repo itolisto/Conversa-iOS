@@ -203,6 +203,16 @@
 
 //    [NotificationPermissions canSendNotifications];
 
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
+
     // Set Appirater settings
     [Appirater setDaysUntilPrompt:7];
     [Appirater setUsesUntilPrompt:5];
@@ -225,8 +235,6 @@
     if (account) {
         hasAccount = YES;
     }
-
-    [NetworkingManager searchBusiness];
 
     /**
      * Proceso para nombrar controladores en Storyboard

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="s5P-Qc-ixq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="s5P-Qc-ixq">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -2212,7 +2212,7 @@
         <image name="ic_close_profile" width="50" height="50"/>
         <image name="ic_fav_not" width="66" height="66"/>
         <image name="ic_heart" width="25" height="25"/>
-        <image name="ic_no_chats" width="339" height="296"/>
+        <image name="ic_no_chats" width="170" height="170"/>
         <image name="ic_no_conection" width="341" height="341"/>
         <image name="ic_person_female" width="170" height="170"/>
         <image name="ic_sad_face" width="170" height="170"/>
@@ -2221,12 +2221,12 @@
         <image name="im_help_pattern" width="250" height="250"/>
         <image name="im_logo" width="170" height="170"/>
         <image name="im_logo_text" width="500" height="166"/>
-        <image name="tab_chat_active" width="28" height="28"/>
-        <image name="tab_chat_inactive" width="28" height="28"/>
-        <image name="tab_explore_active" width="28" height="28"/>
-        <image name="tab_explore_inactive" width="28" height="28"/>
-        <image name="tab_settings_active" width="28" height="28"/>
-        <image name="tab_settings_inactive" width="28" height="28"/>
+        <image name="tab_chat_active" width="27" height="27"/>
+        <image name="tab_chat_inactive" width="27" height="27"/>
+        <image name="tab_explore_active" width="27" height="27"/>
+        <image name="tab_explore_inactive" width="27" height="27"/>
+        <image name="tab_settings_active" width="27" height="27"/>
+        <image name="tab_settings_inactive" width="27" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="9Zj-mD-1sj"/>

@@ -61,7 +61,7 @@
     self.tableView.dataSource = self;
 
     // Set Conversa logo into NavigationBar
-    UIImage* logoImage = [UIImage imageNamed:@"im_logo_text_white"];
+    UIImage* logoImage = [UIImage imageNamed:@"im_logo_text"];
     UIImageView* view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     view.contentMode = UIViewContentModeScaleAspectFit;
     view.image = logoImage;
@@ -69,10 +69,10 @@
 
     // Add button properties
     // Add login button properties
-    [self.startBrowsingButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];
-    [self.startBrowsingButton setTitleColor:[Colors green] forState:UIControlStateNormal];
-    [self.startBrowsingButton setBackgroundColor:[Colors green] forState:UIControlStateHighlighted];
-    [self.startBrowsingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [self.startBrowsingButton setBackgroundColor:[Colors green] forState:UIControlStateNormal];
+    [self.startBrowsingButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.startBrowsingButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateHighlighted];
+    [self.startBrowsingButton setTitleColor:[Colors green] forState:UIControlStateHighlighted];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     // If we are using this same view controller to present the results
@@ -153,7 +153,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+//    self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
     [self updateBadge];
 
     if (self.reloadData) {

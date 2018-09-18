@@ -94,8 +94,8 @@
 	<string>UIStatusBarStyleLightContent</string>
 	<key>endpoint</key>
 	<dict>
-        <key>base</key>
-        <string>https://us-central1-luminous-inferno-3905.cloudfunctions.net/api/</string>
+		<key>base</key>
+		<string>https://a6g4f8twwl.execute-api.us-east-1.amazonaws.com/latest/api/</string>
 		<key>url</key>
 		<string>$(HOST_NAME)</string>
 		<key>name</key>
@@ -108,5 +108,16 @@
 		<key>test</key>
 		<string>key_test_jlh0fVE5OwrAI8P2yVGwRagmttb6Hahk</string>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Inter-UI-Black.otf</string>
+		<string>Inter-UI-BlackItalic.otf</string>
+		<string>Inter-UI-Bold.otf</string>
+		<string>Inter-UI-BoldItalic.otf</string>
+		<string>Inter-UI-Medium.otf</string>
+		<string>Inter-UI-MediumItalic.otf</string>
+		<string>Inter-UI-Regular.otf</string>
+		<string>Inter-UI-RegularItalic.otf</string>
+	</array>
 </dict>
 </plist>
