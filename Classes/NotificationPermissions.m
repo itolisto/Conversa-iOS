@@ -53,8 +53,7 @@
         [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
             switch (settings.authorizationStatus) {
                     // This means we have not yet asked for notification permissions
-                case UNAuthorizationStatusNotDetermined:
-                {
+                case UNAuthorizationStatusNotDetermined: {
                     [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
                         // You might want to remove this, or handle errors differently in production
                         //NSAssert(error == nil, @"There should be no error");
@@ -64,20 +63,18 @@
                             });
                         }
                     }];
-                }
                     break;
+                }
                     // We are already authorized, so no need to ask
-                case UNAuthorizationStatusAuthorized:
-                {
+                case UNAuthorizationStatusAuthorized: {
                     // Just try and register for remote notifications
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [[UIApplication sharedApplication] registerForRemoteNotifications];
                     });
-                }
                     break;
+                }
                     // We are denied User Notifications
-                case UNAuthorizationStatusDenied:
-                {
+                case UNAuthorizationStatusDenied: {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         // Possibly display something to the user
                         UIAlertController *useNotificationsController = [UIAlertController alertControllerWithTitle:@"Turn on notifications" message:@"This app needs notifications turned on for the best user experience" preferredStyle:UIAlertControllerStyleAlert];
@@ -90,8 +87,23 @@
                         [((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController presentViewController:useNotificationsController animated:true completion:nil];
                         NSLog(@"We cannot use notifications because the user has denied permissions");
                     });
-                }
                     break;
+                }
+                case UNAuthorizationStatusProvisional: {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Possibly display something to the user
+                        UIAlertController *useNotificationsController = [UIAlertController alertControllerWithTitle:@"Turn on notifications" message:@"This app needs notifications turned on for the best user experience" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *goToSettingsAction = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+
+                        }];
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+                        [useNotificationsController addAction:goToSettingsAction];
+                        [useNotificationsController addAction:cancelAction];
+                        [((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController presentViewController:useNotificationsController animated:true completion:nil];
+                        NSLog(@"We cannot use notifications because is status is provisional");
+                    });
+                    break;
+                }
             }
         }];
     } else if ((systemVersion < 10) || (systemVersion >= 8)) {

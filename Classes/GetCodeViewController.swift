@@ -25,34 +25,36 @@ class GetCodeViewController: UIViewController {
         self.btnGetCode.setBackgroundColor(Colors.green(), for: .highlighted)
         self.btnGetCode.setTitleColor(UIColor.white, for: .highlighted)
 
-        let attrStr = NSMutableAttributedString.init(string: self.lblShare.text!, attributes: nil)
+        let text = self.lblShare.text as? String ?? ""
+
+        let attrStr = NSMutableAttributedString.init(string: text, attributes: nil)
 
         let str = NSLocale.preferredLanguages[0]
         let index = str.index(str.startIndex, offsetBy: 2)
 
-        let language = str.substring(to: index)
-        let size = self.lblShare.text?.count
+        let language = String(str[..<index])
+        let size = text.count
 
         var start, startThis, normalOne, normalTwo : NSRange;
 
-        start = NSMakeRange(size! - 29, 29);
+        start = NSMakeRange(size - 29, 29);
 
         if (language == "es") {
-            normalOne = NSMakeRange(0, 10);
-            normalTwo = NSMakeRange(16, size! - 29);
-            startThis = NSMakeRange(11, 4);
+            normalOne = NSMakeRange(0, 10)
+            normalTwo = NSMakeRange(16, size - 29)
+            startThis = NSMakeRange(11, 4)
         } else {
-            normalOne = NSMakeRange(0, 8);
-            normalTwo = NSMakeRange(14, size! - 29);
-            startThis = NSMakeRange(9, 4);
+            normalOne = NSMakeRange(0, 8)
+            normalTwo = NSMakeRange(14, size - 29)
+            startThis = NSMakeRange(9, 4)
         }
 
         // Normal
-        let attributesNormal: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
+        let attributesNormal: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
         attrStr.setAttributes(attributesNormal, range: normalOne)
         attrStr.setAttributes(attributesNormal, range: normalTwo)
         // Green
-        let attributesGreen: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: Colors.green(), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
+        let attributesGreen: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: Colors.green(), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0, weight: UIFont.Weight.light)]
         attrStr.setAttributes(attributesGreen, range: start)
         attrStr.setAttributes(attributesGreen, range: startThis)
 
@@ -90,13 +92,13 @@ extension GetCodeViewController : TTTAttributedLabelDelegate {
 
         let activityVC : UIActivityViewController = UIActivityViewController.init(activityItems: objectsToShare, applicationActivities: nil)
 
-        let excludeActivities = [UIActivityType.airDrop,
-                                 UIActivityType.print,
-                                 UIActivityType.assignToContact,
-                                 UIActivityType.saveToCameraRoll,
-                                 UIActivityType.addToReadingList,
-                                 UIActivityType.postToFlickr,
-                                 UIActivityType.postToVimeo]
+        let excludeActivities = [UIActivity.ActivityType.airDrop,
+                                 UIActivity.ActivityType.print,
+                                 UIActivity.ActivityType.assignToContact,
+                                 UIActivity.ActivityType.saveToCameraRoll,
+                                 UIActivity.ActivityType.addToReadingList,
+                                 UIActivity.ActivityType.postToFlickr,
+                                 UIActivity.ActivityType.postToVimeo]
 
         activityVC.excludedActivityTypes = excludeActivities;
 

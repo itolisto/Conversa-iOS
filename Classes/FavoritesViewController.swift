@@ -50,20 +50,20 @@ class FavoritesViewController : UIViewController {
         // our search bar is inside the navigation bar.
         self.searchController.hidesNavigationBarDuringPresentation = true
 
-        Favorite.getFavorites(customerId: SettingsKeys.getCustomerId(), skip: skip) { (results, error) in
-//            activityIndicator.removeFromSuperview()
-
-            if error != nil {
-                return
-            }
-
-            if let results = results {
-                self.searches.insert(results, at: 0)
-                self.collectionView?.reloadData()
-            }
-
-            self.skip += 1
-        }
+//        Favorite.getFavorites(customerId: SettingsKeys.getCustomerId(), skip: skip) { (results, error) in
+////            activityIndicator.removeFromSuperview()
+//
+//            if error != nil {
+//                return
+//            }
+//
+//            if let results = results {
+//                self.searches.insert(results, at: 0)
+//                self.collectionView?.reloadData()
+//            }
+//
+//            self.skip += 1
+//        }
     }
     
     @IBAction func startBrowsingPressed(_ sender: Any) {

@@ -37,7 +37,7 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
             NSLocalizedString("tutorial_message_five", comment: "")
         )
 
-        self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as! UIPageViewController
+        self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? UIPageViewController
         self.pageViewController.dataSource = self
 
         let startVC = self.viewControllerAtIndex(0) as ContentViewController
@@ -48,11 +48,11 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         self.pageViewController.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.size.height)
         //self.pageViewController.view.backgroundColor = UIColor(red: 0.22, green: 1.00, blue: 0.47, alpha: 1.0)
         
-        self.addChildViewController(self.pageViewController)
+        self.addChild(self.pageViewController)
         self.view.addSubview(self.pageViewController.view)
-        self.pageViewController.didMove(toParentViewController: self)
+        self.pageViewController.didMove(toParent: self)
         
-        self.view.bringSubview(toFront: self.homeButton)
+        self.view.bringSubviewToFront(self.homeButton)
     }
 
     @IBAction func homeButtonPressed(_ sender: UIButton) {
@@ -73,9 +73,9 @@ class TutorialViewController: UIViewController, UIPageViewControllerDataSource {
         
         let vc: ContentViewController = self.storyboard?.instantiateViewController(withIdentifier: "ContentViewController") as! ContentViewController
         
-        vc.imageFile = self.pageImages[index] as! String
-        vc.titleText = self.pageTitles[index] as! String
-        vc.infoText  = self.pageInfos[index] as! String
+        vc.imageFile = self.pageImages[index] as? String
+        vc.titleText = self.pageTitles[index] as? String
+        vc.infoText  = self.pageInfos[index] as? String
         vc.pageIndex = index
         
         return vc

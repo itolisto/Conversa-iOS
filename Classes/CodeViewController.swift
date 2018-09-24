@@ -28,21 +28,23 @@ class CodeViewController: UIViewController {
         self.btnGetCode.setBackgroundColor(Colors.green(), for: .highlighted)
         self.btnGetCode.setTitleColor(UIColor.white, for: .highlighted)
 
-        let attrStr = NSMutableAttributedString.init(string: self.lblInfo.text!, attributes: nil)
+        let text = self.lblInfo.text as? String ?? ""
 
-        let size = self.lblInfo.text?.count
-        let start = NSMakeRange(0, size! - 8)
-        let end = NSMakeRange(size! - 8, 8)
+        let attrStr = NSMutableAttributedString.init(string: text, attributes: nil)
+
+        let size = text.count
+        let start = NSMakeRange(0, size - 8)
+        let end = NSMakeRange(size - 8, 8)
 
         // Normal
-        let attributesNormal: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
+        let attributesNormal: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         attrStr.setAttributes(attributesNormal, range: start)
         // Green
         //[UIColor colorWithRed:6.0f/255.0f green:242.0f/255.0f blue:143.0f/255.0f alpha:1.0]
-        let attributesGreen: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.green]
+        let attributesGreen: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.green]
         attrStr.setAttributes(attributesGreen, range: end)
         // Active
-        let attributesActive: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: UIColor.lightGray]
+        let attributesActive: [NSAttributedString.Key: Any] = [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         self.lblInfo.activeLinkAttributes = attributesActive
 
         //let url = NSURL.fileURL(withPath: "https://conversa.typeform.com/to/RRg54U")

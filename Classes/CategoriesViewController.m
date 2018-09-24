@@ -65,26 +65,17 @@
     // dimming it out wouldn't make sense.  Should set probably only set
     // this to yes if using another controller to display the search results.
     self.searchController.dimsBackgroundDuringPresentation = NO;
+    // By default the navigation bar hides when presenting the
+    // search interface.  Obviously we don't want this to happen if
+    // our search bar is inside the navigation bar.
+    self.searchController.hidesNavigationBarDuringPresentation = false;
 
     // Sets this view controller as presenting view controller for the search interface
     self.definesPresentationContext = YES;
-
-    // Set SearchBar into NavigationBar if iOS 11
-    if (@available(iOS 11.0, *)) {
-        self.searchController.obscuresBackgroundDuringPresentation = NO;
-        self.navigationItem.searchController = self.searchController;
-    } else {
-        self.tableView.tableHeaderView = nil;
-        self.navigationItem.titleView = self.searchController.searchBar;
-
-        // By default the navigation bar hides when presenting the
-        // search interface.  Obviously we don't want this to happen if
-        // our search bar is inside the navigation bar.
-        self.searchController.hidesNavigationBarDuringPresentation = false;
-    }
-
     [self.searchController.searchBar sizeToFit];
-    self.navigationController.view.backgroundColor = [Colors greenNavbar];
+
+    self.navigationItem.titleView = self.searchController.searchBar;
+    //self.navigationController.view.backgroundColor = [Colors greenNavbar];
 
     // Add retry button properties
     [self.retryButton setBackgroundColor:[UIColor clearColor] forState:UIControlStateNormal];

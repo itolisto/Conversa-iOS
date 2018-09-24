@@ -16,7 +16,7 @@ typedef void (^BusinessQueryResult)(Business *_Nullable object, NSError *_Nullab
 
 + (void)queryForBusiness:(NSString* _Nonnull)businessId block:(BusinessQueryResult _Nonnull)block;
 
-@property (nonatomic, strong) NSString *objectId;
+@property (nonatomic, strong) NSString * _Nonnull objectId;
 @property (nonatomic, strong) NSString * _Nonnull conversaID;
 @property (nonatomic, strong) NSString * _Nonnull displayName;
 @property (nonatomic, strong) NSString * _Nullable avatar;
