@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSString *objectId;
 @property (nonatomic, strong) NSString *email;
 
-+ (Account*)currentUser;
++ (FIRUser*)currentUser;
 + (void)logOut;
 
 @end

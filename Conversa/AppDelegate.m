@@ -234,11 +234,14 @@
 
 - (UIViewController*)defaultNavigationController
 {
-    Account *account = [Account currentUser];
+    FIRUser *account = [Account currentUser];
     BOOL hasAccount = NO;
     
     if (account) {
         hasAccount = YES;
+        [account getIDTokenWithCompletion:^(NSString * _Nullable token, NSError * _Nullable error) {
+            
+        }];
     }
 
     /**
