@@ -8,9 +8,10 @@
 
 @import UIKit;
 @class Account;
+@class FIRUser;
 
 @interface LoginHandler : NSObject
 
-+ (void) proccessLoginForAccount:(Account *)account fromViewController:(UIViewController*)controller;
++ (void) proccessLoginForAccount:(FIRUser *)account fromViewController:(UIViewController*)controller;
 
 @end

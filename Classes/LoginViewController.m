@@ -187,13 +187,14 @@
 #pragma mark - Login Methods -
 
 - (void)doLogin {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [[FIRAuth auth] signInWithEmail:self.emailTextField.text
                            password:self.passwordTextField.text
                          completion:^(FIRAuthDataResult * _Nullable authResult,
                                       NSError * _Nullable error)
     {
-         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [hud hideAnimated:YES];
          if (error == nil) {
              // Successful login
              [LoginHandler proccessLoginForAccount:[Account currentUser] fromViewController:self];

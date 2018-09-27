@@ -294,10 +294,11 @@
 //    }
 //    user[kUserCustomerGenderKey] = @([self.genderControl selectedSegmentIndex]);
 //
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud.button removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
 //
 //    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [hud hideAnimated:YES];
 //        if (error) {
 //            if (error.code == kPFErrorUserEmailTaken || error.code == kPFErrorUsernameTaken) {
 //                [self showErrorMessage:NSLocalizedString(@"signup_email_error", nil)];
