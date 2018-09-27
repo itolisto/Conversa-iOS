@@ -254,7 +254,7 @@
         [destinationViewController initWithBuddy:bs];
     } else {
         YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:self.objectId];
-        newBuddy.accountUniqueId = [Account currentUser].objectId;
+        newBuddy.accountUniqueId = [Account currentUser].uid;
         newBuddy.displayName = self.displayName;
         newBuddy.conversaId = self.conversaID;
         newBuddy.avatarThumbFileId = self.avatarUrl;
@@ -352,7 +352,7 @@
             [destinationViewController initWithBuddy:bs];
         } else {
             YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:self.objectId];
-            newBuddy.accountUniqueId = [Account currentUser].objectId;
+            newBuddy.accountUniqueId = [Account currentUser].uid;
             newBuddy.displayName = self.displayName;
             newBuddy.conversaId = self.conversaID;
             newBuddy.avatarThumbFileId = self.avatarUrl;

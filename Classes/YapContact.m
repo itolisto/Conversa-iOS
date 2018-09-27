@@ -31,7 +31,7 @@ const struct YapContactEdges YapContactEdges = {
 
 + (void)saveContactWithBusiness:(Business*)business block:(CompletionResult)block {
     YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:business.objectId];
-    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.accountUniqueId = [Account currentUser].uid;
     newBuddy.displayName = business.displayName;
     newBuddy.conversaId = business.conversaID;
 
@@ -64,7 +64,7 @@ const struct YapContactEdges YapContactEdges = {
 
 + (void)saveContactWithDictionary:(NSDictionary*)business block:(CompletionResult)block {
     YapContact *newBuddy = [[YapContact alloc] initWithUniqueId:business[@"id"]];
-    newBuddy.accountUniqueId = [Account currentUser].objectId;
+    newBuddy.accountUniqueId = [Account currentUser].uid;
     newBuddy.displayName = business[@"dn"];
     newBuddy.conversaId = business[@"cid"];
     if (business[@"av"]) {

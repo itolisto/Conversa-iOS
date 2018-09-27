@@ -13,8 +13,6 @@
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
 
-@import Firebase;
-
 @implementation Account
 
 + (FIRUser*)currentUser {

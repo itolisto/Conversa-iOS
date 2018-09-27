@@ -154,9 +154,9 @@
         }
 
         // TODO: Replace with networking layer
-        [NetworkingManager getCategoriesWithLanguage:language completion:^(NSString * _Nonnull response) {
-            NSLog(response);
-        }];
+//        [NetworkingManager getCategoriesWithLanguage:language completion:^(NSString * _Nonnull response) {
+//            NSLog(response);
+//        }];
 
 //        [PFCloud callFunctionInBackground:@"getCategories"
 //                           withParameters:@{@"language": language}

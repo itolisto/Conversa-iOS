@@ -9,6 +9,8 @@
 
 @import Foundation;
 
+@import Firebase;
+
 @interface Account : NSObject
 
 @property (nonatomic, strong) NSString *objectId;
