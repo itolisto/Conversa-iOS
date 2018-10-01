@@ -20,7 +20,7 @@ target 'Conversa' do
     # Great way to make loading spinners in your application look nicer
     pod 'DGActivityIndicatorView', '2.1.1'
     # A persistent background job queue for iOS.
-    pod 'EDQueue', '0.7.1'
+    pod 'SwiftQueue', '2.3.0'
     # The most powerful, yet lightest weight crash reporting solution.
     pod 'Fabric', '1.7.11'
     # Firebase libraries
