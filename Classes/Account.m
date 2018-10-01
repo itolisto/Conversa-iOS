@@ -8,7 +8,6 @@
 
 #import "Account.h"
 
-#import "EDQueue.h"
 #import "YapAccount.h"
 #import "DatabaseManager.h"
 #import "CustomAblyRealtime.h"
@@ -27,7 +26,7 @@
     }];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [[EDQueue sharedInstance] empty];
+    //[[EDQueue sharedInstance] empty];
     NSError *signOutError;
     BOOL status = [[FIRAuth auth] signOut:&signOutError];
 }

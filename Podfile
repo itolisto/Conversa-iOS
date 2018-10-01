@@ -64,7 +64,7 @@ target 'Conversa' do
     # Ready to use “Acknowledgements”/“Licenses” view controller for CocoaPods.
     pod 'VTAcknowledgementsViewController', '1.5'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
-    pod 'Whisper', '6.0.2'
+    pod 'Whisper', :git => 'https://github.com/itolisto/Whisper.git', :branch => 'master'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher', '3.1.1'
 end

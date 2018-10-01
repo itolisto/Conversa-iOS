@@ -10,9 +10,8 @@
 
 @import Ably;
 @import UserNotifications;
-#import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, UNUserNotificationCenterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
