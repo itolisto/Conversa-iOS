@@ -8,9 +8,7 @@ inhibit_all_warnings!
 
 target 'Conversa' do
     # Ably Realtime Client Library
-    pod 'Ably', '1.1.0'
-    #
-    pod 'Alamofire', '4.7.3'
+    pod 'Ably', '1.1.1'
     # For app reviews
     pod 'Appirater', '2.3.1'
     # Branch is the most robust deep linking platform for your mobile app.
@@ -26,17 +24,15 @@ target 'Conversa' do
     # The most powerful, yet lightest weight crash reporting solution.
     pod 'Fabric', '1.7.11'
     # Firebase libraries
-    pod 'Firebase/Auth', '5.0.4'
-    pod 'Firebase/Core', '5.1.4'
-    pod 'Firebase/Messaging', '3.1.2'
-    pod 'Firebase/Performance', '2.1.2'
-    pod 'Firebase/Storage', '3.0.2'
+    pod 'Firebase/Messaging'
+    pod 'Firebase/Performance'
+    pod 'Firebase/Storage'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Core'
     # Analytics Pod
     pod 'Flurry-iOS-SDK/FlurrySDK', '9.1.0'
     # Google Maps for iOS
     pod 'GoogleMaps', '2.7.0'
-    #
-    pod 'HydraAsync', '1.2.1'
     # ARC support, swipe-to-dismiss, image progress and more
     pod 'IDMPhotoBrowser', '1.10.2'
     # Latest on develop
@@ -61,8 +57,6 @@ target 'Conversa' do
     pod 'SAMKeychain', '1.5.3'
     # This library provides an async image downloader with cache support
     pod 'SDWebImage', '~> 4.0'
-    # Networking
-    pod 'SwiftyJSON', '4.1.0'
     # A drop-in replacement for UILabel that supports attributes, data detectors, links, and more
     pod 'TTTAttributedLabel', '2.0.0'
     # Push notifications engagement
@@ -71,8 +65,6 @@ target 'Conversa' do
     pod 'VTAcknowledgementsViewController', '1.5'
     # Whisper is a component that will make the task of display messages and in-app notifications simple
     pod 'Whisper', '6.0.2'
-    # Awesome fully customize search view like Pinterest written in Swift 4 + Realm support!
-    pod 'YNSearch', '2.3.1'
     # YapDatabase is a "key/value store and MUCH MORE" built atop sqlite for iOS & Mac
     pod 'YapDatabase/SQLCipher', '3.1.1'
 end

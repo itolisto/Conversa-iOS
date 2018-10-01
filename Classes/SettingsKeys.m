@@ -20,6 +20,8 @@ NSString *customerDisplayName  = @"customerDisplayName";
 NSString *customerGender  = @"customerGender";
 NSString *customerBirthday  = @"customerBirthday";
 NSString *readReceiptsSwitch  = @"readReceiptsSwitch";
+NSString *customerTokenId  = @"customerTokenId";
+NSString *customerTokenStatus  = @"customerTokenStatus";
 
 // Notifications settings
 NSString *inAppSoundSwitch    = @"inAppSoundSwitch";
@@ -125,6 +127,28 @@ NSString *receiveSoundSwitch  = @"receiveSoundSwitch";
 + (BOOL)getAccountReadSetting {
     NSUserDefaults *defaults = [self getDefaults];
     return [defaults boolForKey:readReceiptsSwitch];
+}
+
++ (void)setCustomerToken:(NSString*)objectId {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setObject:objectId forKey:customerTokenId];
+    [defaults synchronize];
+}
+
++ (NSString*)getCustomerToken {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults stringForKey:customerTokenId];
+}
+
++ (void)setCustomerTokenStatus:(BOOL)status {
+    NSUserDefaults *defaults = [self getDefaults];
+    [defaults setBool:status forKey:customerTokenStatus];
+    [defaults synchronize];
+}
+
++ (BOOL)getCustomerTokenStatus {
+    NSUserDefaults *defaults = [self getDefaults];
+    return [defaults boolForKey:customerTokenStatus];
 }
 
 #pragma mark - Notifications settings -

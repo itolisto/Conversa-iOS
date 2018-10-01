@@ -19,6 +19,8 @@ extern NSString *customerObjectId;
 extern NSString *customerDisplayName;
 extern NSString *customerGender;
 extern NSString *customerBirthday;
+extern NSString *customerTokenId;
+extern NSString *customerTokenStatus;
 // Notifications settings
 extern NSString *inAppSoundSwitch;
 extern NSString *inAppPreviewSwitch;
@@ -50,6 +52,10 @@ typedef NS_ENUM(NSUInteger, ConversaGender) {
 + (NSUInteger)getBirthday;
 + (void)setAccountReadSetting:(BOOL)state;
 + (BOOL)getAccountReadSetting;
++ (void)setCustomerToken:(NSString*)objectId;
++ (NSString*)getCustomerToken;
++ (void)setCustomerTokenStatus:(BOOL)status;
++ (BOOL)getCustomerTokenStatus;
 
 // Notifications settings
 + (void)setNotificationSound:(BOOL)state inApp:(BOOL)inApp;

@@ -87,16 +87,6 @@
 		A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BA423E1DFBBE2000B59A86 /* HomeViewController.m */; };
 		A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C5D7561F6787560058A52D /* UIImage+Gif.swift */; };
 		A5D10A491DF2437000DB9EDF /* CustomBusinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */; };
-		A5D2867F2127FBAC001BDFCF /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286752127FBAC001BDFCF /* Extension.swift */; };
-		A5D286802127FBAC001BDFCF /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286762127FBAC001BDFCF /* RequestProtocol.swift */; };
-		A5D286812127FBAC001BDFCF /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286772127FBAC001BDFCF /* Operations.swift */; };
-		A5D286822127FBAC001BDFCF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286782127FBAC001BDFCF /* Commons.swift */; };
-		A5D286832127FBAC001BDFCF /* ServiceConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D286792127FBAC001BDFCF /* ServiceConfig.swift */; };
-		A5D286842127FBAC001BDFCF /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867A2127FBAC001BDFCF /* Service.swift */; };
-		A5D286852127FBAC001BDFCF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867B2127FBAC001BDFCF /* Request.swift */; };
-		A5D286862127FBAC001BDFCF /* ResponseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */; };
-		A5D286872127FBAC001BDFCF /* OperationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */; };
-		A5D286882127FBAC001BDFCF /* ServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */; };
 		A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */; };
 		A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */; };
 		A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */; };
@@ -106,6 +96,7 @@
 		A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D861F96DAF70004A561 /* HockeySDKResources.bundle */; };
 		A5D81D931F971AE30004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81D921F971AE30004A561 /* NotificationService.swift */; };
 		A5D81D971F971AE30004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81D901F971AE30004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A5DDA88221620E3400E0F9A6 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DDA88121620E3400E0F9A6 /* LoadingViewController.swift */; };
 		A5E58379212A90A300DFC35B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5E58378212A90A200DFC35B /* GoogleService-Info.plist */; };
 		A5F22C8B214DC83100278633 /* Inter-UI-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5F22C83214DC83000278633 /* Inter-UI-Regular.otf */; };
 		A5F22C8C214DC83100278633 /* Inter-UI-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5F22C84214DC83000278633 /* Inter-UI-Black.otf */; };
@@ -115,21 +106,6 @@
 		A5F22C90214DC83100278633 /* Inter-UI-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5F22C88214DC83100278633 /* Inter-UI-MediumItalic.otf */; };
 		A5F22C91214DC83100278633 /* Inter-UI-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5F22C89214DC83100278633 /* Inter-UI-Medium.otf */; };
 		A5F22C92214DC83100278633 /* Inter-UI-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = A5F22C8A214DC83100278633 /* Inter-UI-BlackItalic.otf */; };
-		A5F2FE8F21350850004742E3 /* GetBusinessLastStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE812135084E004742E3 /* GetBusinessLastStatus.swift */; };
-		A5F2FE9021350850004742E3 /* GetConversaAccountId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE822135084F004742E3 /* GetConversaAccountId.swift */; };
-		A5F2FE9121350850004742E3 /* GetBusinessProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE832135084F004742E3 /* GetBusinessProfile.swift */; };
-		A5F2FE9221350850004742E3 /* SendPresenceMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE842135084F004742E3 /* SendPresenceMessage.swift */; };
-		A5F2FE9321350850004742E3 /* SendUserMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE852135084F004742E3 /* SendUserMessage.swift */; };
-		A5F2FE9421350850004742E3 /* SearchBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE862135084F004742E3 /* SearchBusiness.swift */; };
-		A5F2FE9521350850004742E3 /* UpdateCustomerName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE872135084F004742E3 /* UpdateCustomerName.swift */; };
-		A5F2FE9621350850004742E3 /* GetCustomerId.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8821350850004742E3 /* GetCustomerId.swift */; };
-		A5F2FE9721350850004742E3 /* GetCustomerFavs.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8921350850004742E3 /* GetCustomerFavs.swift */; };
-		A5F2FE9821350850004742E3 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8A21350850004742E3 /* SignUp.swift */; };
-		A5F2FE9921350850004742E3 /* GetConversaAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8B21350850004742E3 /* GetConversaAccount.swift */; };
-		A5F2FE9A21350850004742E3 /* SetCustomerFavorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8C21350850004742E3 /* SetCustomerFavorite.swift */; };
-		A5F2FE9B21350850004742E3 /* GetCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8D21350850004742E3 /* GetCategories.swift */; };
-		A5F2FE9C21350850004742E3 /* GetCategoryBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE8E21350850004742E3 /* GetCategoryBusiness.swift */; };
-		A5F2FE9E21351B5A004742E3 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */; };
 		A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -303,16 +279,6 @@
 		A5CF0E8C1F7F3E6400703A83 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = ../Conversa/es.lproj/Login.storyboard; sourceTree = "<group>"; };
 		A5D10A471DF2437000DB9EDF /* CustomBusinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBusinessCell.h; sourceTree = "<group>"; };
 		A5D10A481DF2437000DB9EDF /* CustomBusinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBusinessCell.m; sourceTree = "<group>"; };
-		A5D286752127FBAC001BDFCF /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
-		A5D286762127FBAC001BDFCF /* RequestProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
-		A5D286772127FBAC001BDFCF /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
-		A5D286782127FBAC001BDFCF /* Commons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
-		A5D286792127FBAC001BDFCF /* ServiceConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfig.swift; sourceTree = "<group>"; };
-		A5D2867A2127FBAC001BDFCF /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		A5D2867B2127FBAC001BDFCF /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
-		A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseProtocol.swift; sourceTree = "<group>"; };
-		A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationProtocol.swift; sourceTree = "<group>"; };
-		A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceProtocol.swift; sourceTree = "<group>"; };
 		A5D4A4F91F6A9E5200AA5666 /* CodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
 		A5D4A4FB1F6A9E6E00AA5666 /* GetCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCodeViewController.swift; sourceTree = "<group>"; };
 		A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateCodeViewController.swift; sourceTree = "<group>"; };
@@ -324,6 +290,8 @@
 		A5D81D901F971AE30004A561 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D81D921F971AE30004A561 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		A5D81D941F971AE30004A561 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5DDA8802161F97800E0F9A6 /* NotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationService.entitlements; sourceTree = "<group>"; };
+		A5DDA88121620E3400E0F9A6 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		A5E58378212A90A200DFC35B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A5F22C83214DC83000278633 /* Inter-UI-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Regular.otf"; sourceTree = "<group>"; };
 		A5F22C84214DC83000278633 /* Inter-UI-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.otf"; sourceTree = "<group>"; };
@@ -333,21 +301,6 @@
 		A5F22C88214DC83100278633 /* Inter-UI-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.otf"; sourceTree = "<group>"; };
 		A5F22C89214DC83100278633 /* Inter-UI-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Medium.otf"; sourceTree = "<group>"; };
 		A5F22C8A214DC83100278633 /* Inter-UI-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BlackItalic.otf"; sourceTree = "<group>"; };
-		A5F2FE812135084E004742E3 /* GetBusinessLastStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessLastStatus.swift; sourceTree = "<group>"; };
-		A5F2FE822135084F004742E3 /* GetConversaAccountId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetConversaAccountId.swift; sourceTree = "<group>"; };
-		A5F2FE832135084F004742E3 /* GetBusinessProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBusinessProfile.swift; sourceTree = "<group>"; };
-		A5F2FE842135084F004742E3 /* SendPresenceMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendPresenceMessage.swift; sourceTree = "<group>"; };
-		A5F2FE852135084F004742E3 /* SendUserMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendUserMessage.swift; sourceTree = "<group>"; };
-		A5F2FE862135084F004742E3 /* SearchBusiness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBusiness.swift; sourceTree = "<group>"; };
-		A5F2FE872135084F004742E3 /* UpdateCustomerName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateCustomerName.swift; sourceTree = "<group>"; };
-		A5F2FE8821350850004742E3 /* GetCustomerId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCustomerId.swift; sourceTree = "<group>"; };
-		A5F2FE8921350850004742E3 /* GetCustomerFavs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCustomerFavs.swift; sourceTree = "<group>"; };
-		A5F2FE8A21350850004742E3 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
-		A5F2FE8B21350850004742E3 /* GetConversaAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetConversaAccount.swift; sourceTree = "<group>"; };
-		A5F2FE8C21350850004742E3 /* SetCustomerFavorite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetCustomerFavorite.swift; sourceTree = "<group>"; };
-		A5F2FE8D21350850004742E3 /* GetCategories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCategories.swift; sourceTree = "<group>"; };
-		A5F2FE8E21350850004742E3 /* GetCategoryBusiness.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCategoryBusiness.swift; sourceTree = "<group>"; };
-		A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conversa-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5F8BC0F1DD59D40008BD50B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
@@ -393,25 +346,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		A514D34A2127FB0800517002 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				A5F2FE8021350841004742E3 /* Requests */,
-				A5D286782127FBAC001BDFCF /* Commons.swift */,
-				A5D286752127FBAC001BDFCF /* Extension.swift */,
-				A5D2867D2127FBAC001BDFCF /* OperationProtocol.swift */,
-				A5D286772127FBAC001BDFCF /* Operations.swift */,
-				A5D2867B2127FBAC001BDFCF /* Request.swift */,
-				A5D286762127FBAC001BDFCF /* RequestProtocol.swift */,
-				A5D2867C2127FBAC001BDFCF /* ResponseProtocol.swift */,
-				A5D2867A2127FBAC001BDFCF /* Service.swift */,
-				A5D286792127FBAC001BDFCF /* ServiceConfig.swift */,
-				A5D2867E2127FBAC001BDFCF /* ServiceProtocol.swift */,
-				A5F2FE9D21351B5A004742E3 /* NetworkingManager.swift */,
-			);
-			name = Networking;
-			sourceTree = "<group>";
-		};
 		A516547E1FD0BCF000ABCB28 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,7 +357,6 @@
 		A52905F61D6FE7080018D74C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				A514D34A2127FB0800517002 /* Networking */,
 				A5A7DDF11DD5695C00E0D242 /* Cells */,
 				A5A7DDF21DD5696300E0D242 /* Connection */,
 				A5A7DDF31DD5696B00E0D242 /* Custom */,
@@ -730,6 +663,7 @@
 		A5D81D911F971AE30004A561 /* NotificationService */ = {
 			isa = PBXGroup;
 			children = (
+				A5DDA8802161F97800E0F9A6 /* NotificationService.entitlements */,
 				A5D81D921F971AE30004A561 /* NotificationService.swift */,
 				A5D81D941F971AE30004A561 /* Info.plist */,
 			);
@@ -786,6 +720,7 @@
 				A52906651D6FE7080018D74C /* RecoverViewController.m */,
 				A52906661D6FE7080018D74C /* RegisterViewController.h */,
 				A52906671D6FE7080018D74C /* RegisterViewController.m */,
+				A5DDA88121620E3400E0F9A6 /* LoadingViewController.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -825,27 +760,6 @@
 				A5F22C87214DC83100278633 /* Inter-UI-RegularItalic.otf */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		A5F2FE8021350841004742E3 /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				A5F2FE812135084E004742E3 /* GetBusinessLastStatus.swift */,
-				A5F2FE832135084F004742E3 /* GetBusinessProfile.swift */,
-				A5F2FE8D21350850004742E3 /* GetCategories.swift */,
-				A5F2FE8E21350850004742E3 /* GetCategoryBusiness.swift */,
-				A5F2FE8B21350850004742E3 /* GetConversaAccount.swift */,
-				A5F2FE822135084F004742E3 /* GetConversaAccountId.swift */,
-				A5F2FE8921350850004742E3 /* GetCustomerFavs.swift */,
-				A5F2FE8821350850004742E3 /* GetCustomerId.swift */,
-				A5F2FE862135084F004742E3 /* SearchBusiness.swift */,
-				A5F2FE842135084F004742E3 /* SendPresenceMessage.swift */,
-				A5F2FE852135084F004742E3 /* SendUserMessage.swift */,
-				A5F2FE8C21350850004742E3 /* SetCustomerFavorite.swift */,
-				A5F2FE8A21350850004742E3 /* SignUp.swift */,
-				A5F2FE872135084F004742E3 /* UpdateCustomerName.swift */,
-			);
-			path = Requests;
 			sourceTree = "<group>";
 		};
 		A5F39B831F5F8EE00058E7E3 /* Storyboards */ = {
@@ -947,6 +861,14 @@
 						DevelopmentTeam = K5WP7YH5E4;
 						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -1035,7 +957,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Conversa/Pods-Conversa-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Ably/Ably.framework",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Appirater/Appirater.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Buglife/Buglife.framework",
@@ -1048,7 +969,6 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
 				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQMessagesViewController/JSQMessagesViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
@@ -1063,13 +983,11 @@
 				"${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLCipher/SQLCipher.framework",
-				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SocketRocketAblyFork/SocketRocketAblyFork.framework",
 				"${BUILT_PRODUCTS_DIR}/TTTAttributedLabel/TTTAttributedLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/ULID/ULID.framework",
 				"${BUILT_PRODUCTS_DIR}/VTAcknowledgementsViewController/VTAcknowledgementsViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Whisper/Whisper.framework",
-				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/YapDatabase/YapDatabase.framework",
 				"${BUILT_PRODUCTS_DIR}/msgpack/msgpack.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -1078,7 +996,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ably.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Appirater.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Buglife.framework",
@@ -1091,7 +1008,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQMessagesViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
@@ -1106,13 +1022,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SAMKeychain.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLCipher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocketAblyFork.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TTTAttributedLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ULID.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VTAcknowledgementsViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Whisper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YapDatabase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/msgpack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -1179,9 +1093,6 @@
 				A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */,
 				A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */,
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
-				A5F2FE9521350850004742E3 /* UpdateCustomerName.swift in Sources */,
-				A5F2FE9221350850004742E3 /* SendPresenceMessage.swift in Sources */,
-				A5D286872127FBAC001BDFCF /* OperationProtocol.swift in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
 				A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */,
@@ -1192,18 +1103,13 @@
 				A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */,
 				A5D4A4FA1F6A9E5200AA5666 /* CodeViewController.swift in Sources */,
 				A52906881D6FE7080018D74C /* Audio.m in Sources */,
-				A5F2FE8F21350850004742E3 /* GetBusinessLastStatus.swift in Sources */,
 				A516547D1FCCE36500ABCB28 /* SPLaunchAnimation.swift in Sources */,
 				A52906B11D6FE7080018D74C /* NotificationPermissions.m in Sources */,
 				A52906C71D6FE7080018D74C /* Utilities.m in Sources */,
-				A5F2FE9B21350850004742E3 /* GetCategories.swift in Sources */,
 				A52906C91D6FE7080018D74C /* VideoMediaItem.m in Sources */,
-				A5D286852127FBAC001BDFCF /* Request.swift in Sources */,
-				A5F2FE9821350850004742E3 /* SignUp.swift in Sources */,
 				A52906851D6FE7080018D74C /* AboutViewController.m in Sources */,
 				A52906AD1D6FE7080018D74C /* MapView.m in Sources */,
 				A56C26EC1DED000D00EA700B /* ProfileDialogViewController.m in Sources */,
-				A5F2FE9E21351B5A004742E3 /* NetworkingManager.swift in Sources */,
 				A59F4CE11DD786FA005491B2 /* ParseValidation.m in Sources */,
 				A52906CA1D6FE7080018D74C /* WhisperBridge.swift in Sources */,
 				A516548B1FD0CFE200ABCB28 /* FavoriteSearchResults.swift in Sources */,
@@ -1211,36 +1117,27 @@
 				A52906C81D6FE7080018D74C /* Video.m in Sources */,
 				A529068E1D6FE7080018D74C /* Camera.m in Sources */,
 				A52906A41D6FE7080018D74C /* CustomAblyRealtime.m in Sources */,
-				A5F2FE9A21350850004742E3 /* SetCustomerFavorite.swift in Sources */,
 				A5B614201DEFEC6300C7A4C1 /* AppJobs.m in Sources */,
 				A5BA0CE61E09DC12001044F7 /* BaseViewController.m in Sources */,
-				A5F2FE9721350850004742E3 /* GetCustomerFavs.swift in Sources */,
 				A52906C21D6FE7080018D74C /* SettingsViewController.m in Sources */,
 				A5D4F9291E6DF2C00078F31C /* HelpViewController.m in Sources */,
+				A5DDA88221620E3400E0F9A6 /* LoadingViewController.swift in Sources */,
 				A571285F1E5EA44200B80D87 /* Business.m in Sources */,
 				A52906921D6FE7080018D74C /* ChatSettingsViewController.m in Sources */,
 				A59F4CE81DD7AB7D005491B2 /* nHeaderTitle.m in Sources */,
 				A5BA0CE51E09DC12001044F7 /* BaseTableViewController.m in Sources */,
-				A5F2FE9121350850004742E3 /* GetBusinessProfile.swift in Sources */,
 				A59F4CE41DD78AE2005491B2 /* CustomCategoryHeaderCell.m in Sources */,
 				A52906C01D6FE7080018D74C /* SearchViewController.m in Sources */,
-				A5D286832127FBAC001BDFCF /* ServiceConfig.swift in Sources */,
 				A5BA423F1DFBBE2000B59A86 /* HomeViewController.m in Sources */,
 				A52906971D6FE7080018D74C /* ConversationViewController.m in Sources */,
 				A52906861D6FE7080018D74C /* Account.m in Sources */,
-				A5F2FE9321350850004742E3 /* SendUserMessage.swift in Sources */,
 				A529069B1D6FE7080018D74C /* CustomChatCell.m in Sources */,
-				A5D286882127FBAC001BDFCF /* ServiceProtocol.swift in Sources */,
 				A5774C182005EB1D004B3E4D /* CustomFixedCell.swift in Sources */,
-				A5F2FE9921350850004742E3 /* GetConversaAccount.swift in Sources */,
-				A5D286822127FBAC001BDFCF /* Commons.swift in Sources */,
-				A5F2FE9C21350850004742E3 /* GetCategoryBusiness.swift in Sources */,
 				A52906AB1D6FE7080018D74C /* LoginViewController.m in Sources */,
 				A55B5D1B1D53C8F300AA576A /* AppDelegate.m in Sources */,
 				A52906901D6FE7080018D74C /* CategoriesViewController.m in Sources */,
 				A52906941D6FE7080018D74C /* Colors.m in Sources */,
 				A51654801FD0BD3C00ABCB28 /* FavoritesViewController.swift in Sources */,
-				A5D286812127FBAC001BDFCF /* Operations.swift in Sources */,
 				A52906991D6FE7080018D74C /* CustomCategoryCell.m in Sources */,
 				A52906871D6FE7080018D74C /* AccountSettingsViewController.m in Sources */,
 				A52906B61D6FE7080018D74C /* PhotoMediaItem.m in Sources */,
@@ -1248,7 +1145,6 @@
 				A51654891FD0CF6500ABCB28 /* Favorite.swift in Sources */,
 				A52906B31D6FE7080018D74C /* NSFileManager+Conversa.m in Sources */,
 				A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */,
-				A5D286802127FBAC001BDFCF /* RequestProtocol.swift in Sources */,
 				A5C5D7571F6787560058A52D /* UIImage+Gif.swift in Sources */,
 				A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */,
 				A57CAE5B1E8C35D50025D0A4 /* PageViewController.swift in Sources */,
@@ -1256,24 +1152,18 @@
 				A52906B21D6FE7080018D74C /* NotificationsViewController.m in Sources */,
 				A52906981D6FE7080018D74C /* CustomBlockCell.m in Sources */,
 				A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */,
-				A5F2FE9021350850004742E3 /* GetConversaAccountId.swift in Sources */,
 				A52906A81D6FE7080018D74C /* Image.m in Sources */,
 				A52906A61D6FE7080018D74C /* DatabaseView.m in Sources */,
 				A52906CC1D6FE7080018D74C /* YapContact.m in Sources */,
-				A5D286842127FBAC001BDFCF /* Service.swift in Sources */,
-				A5F2FE9621350850004742E3 /* GetCustomerId.swift in Sources */,
 				A52906BE1D6FE7080018D74C /* RecoverViewController.m in Sources */,
 				A52906931D6FE7080018D74C /* ChatsViewController.m in Sources */,
-				A5D286862127FBAC001BDFCF /* ResponseProtocol.swift in Sources */,
 				A55B5D181D53C8F300AA576A /* main.m in Sources */,
 				A59F4CEB1DD7B144005491B2 /* nCategory.m in Sources */,
 				A52906A21D6FE7080018D74C /* CustomSearchCell.m in Sources */,
 				A52906C61D6FE7080018D74C /* TutorialViewController.swift in Sources */,
 				A52906B41D6FE7080018D74C /* NSNumber+Conversa.m in Sources */,
-				A5F2FE9421350850004742E3 /* SearchBusiness.swift in Sources */,
 				A52906A51D6FE7080018D74C /* DatabaseManager.m in Sources */,
 				A52906951D6FE7080018D74C /* Constants.m in Sources */,
-				A5D2867F2127FBAC001BDFCF /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

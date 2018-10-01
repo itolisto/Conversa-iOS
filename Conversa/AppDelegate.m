@@ -45,10 +45,18 @@
 
     //[Appirater setAppId:@"464200063"];
 
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+    CGRect rect = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 0.10f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [UIColor blackColor].CGColor);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    [[UINavigationBar appearance] setShadowImage:image];
     [UITabBar appearance].layer.borderWidth = 0.0f;
     [[UITabBar appearance] setBackgroundImage:[UIImage new]];
-    [[UITabBar appearance] setShadowImage:[UIImage new]];
+    [[UITabBar appearance] setShadowImage:image];
 
     // Set Google Maps
     [GMSServices provideAPIKey:@"AIzaSyDTnyTCdEcU1Tr1VA-_SqXgDsCPR3dWYTI"];
@@ -106,7 +114,7 @@
     [branch disableCookieBasedMatching];
     [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
         if (!error && params) {
-            Account *account = [Account currentUser];
+            FIRUser *account = [Account currentUser];
 
             if (account == nil) {
                 return;
@@ -224,8 +232,8 @@
     [Appirater setSignificantEventsUntilPrompt:-1];
     [Appirater setTimeBeforeReminding:2];
     // Make sure you set to NO to ensure the request is not shown every time the app is launched
-    [Appirater setDebug:YES];
-    [Appirater appLaunched:YES];
+    //[Appirater setDebug:YES];
+    //[Appirater appLaunched:YES];
 
     NSLog(@"[AppDelegate] didFinishLaunchingWithOptions: Done in %.0fms", [[NSDate date] timeIntervalSinceDate:startDate] * 1000);
 
@@ -290,12 +298,6 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-#pragma mark - Server Configuration Methods -
-
-- (Service*)getServerConfiguration {
-    return [Service create];
 }
 
 #pragma mark - Push Notification Methods -

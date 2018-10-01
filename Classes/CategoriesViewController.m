@@ -99,18 +99,29 @@
 
     self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
 
+    // Change UISearchBar color
+    for (UIView *subView in self.searchController.searchBar.subviews) {
+        for(id field in subView.subviews){
+            if ([field isKindOfClass:[UITextField class]]) {
+                UITextField *textField = (UITextField *)field;
+                [textField setBackgroundColor:[Colors searchBar]];
+                break;
+            }
+        }
+    }
+
     [self loadObjects];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (self.searchMode) {
-        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
-        self.navigationController.navigationBar.tintColor = [Colors black];
-    } else {
-        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
-        self.navigationController.navigationBar.tintColor = [Colors white];
-    }
+//    if (self.searchMode) {
+//        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
+//        self.navigationController.navigationBar.tintColor = [Colors black];
+//    } else {
+//        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+//        self.navigationController.navigationBar.tintColor = [Colors white];
+//    }
 
 //    if (self.elissa == nil) {
 //        ElissaConfiguration *elissaConfig = [ElissaConfiguration new];
@@ -318,19 +329,19 @@
     if (!self.searchMode) {
         self.searchMode = YES;
         self.searchView.hidden = NO;
-        for (UIView *subView in searchBar.subviews) {
-            for(id field in subView.subviews){
-                if ([field isKindOfClass:[UITextField class]]) {
-                    UITextField *textField = (UITextField *)field;
-                    [textField setBackgroundColor:[Colors searchBar]];
-                    break;
-                }
-            }
-        }
+//        for (UIView *subView in searchBar.subviews) {
+//            for(id field in subView.subviews){
+//                if ([field isKindOfClass:[UITextField class]]) {
+//                    UITextField *textField = (UITextField *)field;
+//                    [textField setBackgroundColor:[Colors searchBar]];
+//                    break;
+//                }
+//            }
+//        }
 //        [self.navigationController.navigationItem setRightBarButtonItems:nil animated:YES];
         
-        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
-        self.navigationController.navigationBar.tintColor = [Colors black];
+//        self.navigationController.navigationBar.barTintColor = [Colors whiteNavbar];
+//        self.navigationController.navigationBar.tintColor = [Colors black];
         [searchBar setShowsCancelButton:YES animated:YES];
     }
 }
@@ -339,18 +350,18 @@
     if (self.searchMode) {
         self.searchMode = NO;
         self.searchView.hidden = YES;
-        for (UIView *subView in searchBar.subviews) {
-            for(id field in subView.subviews){
-                if ([field isKindOfClass:[UITextField class]]) {
-                    UITextField *textField = (UITextField *)field;
-                    [textField setBackgroundColor:[UIColor whiteColor]];
-                    break;
-                }
-            }
-        }
+//        for (UIView *subView in searchBar.subviews) {
+//            for(id field in subView.subviews){
+//                if ([field isKindOfClass:[UITextField class]]) {
+//                    UITextField *textField = (UITextField *)field;
+//                    [textField setBackgroundColor:[UIColor whiteColor]];
+//                    break;
+//                }
+//            }
+//        }
 //        [self.navigationController.navigationItem setRightBarButtonItems:@[self.bbiFavs] animated:YES];
-        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
-        self.navigationController.navigationBar.tintColor = [Colors white];
+//        self.navigationController.navigationBar.barTintColor = [Colors greenNavbar];
+//        self.navigationController.navigationBar.tintColor = [Colors white];
         [[NSNotificationCenter defaultCenter] postNotificationName:SEARCH_NOTIFICATION_NAME
                                                             object:nil
                                                           userInfo:@{SEARCH_NOTIFICATION_DIC_KEY: @""}];
