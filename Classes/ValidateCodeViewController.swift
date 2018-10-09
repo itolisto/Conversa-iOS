@@ -8,12 +8,12 @@
 
 import UIKit
 import MBProgressHUD
-import PinCodeTextField
+//import PinCodeTextField
 
 class ValidateCodeViewController: UIViewController {
 
     @IBOutlet weak var btnValidate: UIStateButton!
-    @IBOutlet weak var pinCodeTextField: PinCodeTextField!
+//    @IBOutlet weak var pinCodeTextField: PinCodeTextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +25,12 @@ class ValidateCodeViewController: UIViewController {
         self.btnValidate.setBackgroundColor(UIColor.groupTableViewBackground, for: .disabled)
         self.btnValidate.setTitleColor(UIColor.darkGray, for: .disabled)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-            self.pinCodeTextField.becomeFirstResponder()
-        }
-
-        pinCodeTextField.delegate = self
-        pinCodeTextField.keyboardType = .numberPad
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+//            self.pinCodeTextField.becomeFirstResponder()
+//        }
+//
+//        pinCodeTextField.delegate = self
+//        pinCodeTextField.keyboardType = .numberPad
     }
 
     @IBAction func validateButtonPressed(_ sender: UIStateButton) {
@@ -39,7 +39,7 @@ class ValidateCodeViewController: UIViewController {
         hudError.button.removeTarget(nil, action: nil, for: .allEvents)
 
         PFCloud.callFunction(inBackground: "validateConversaCode",
-                             withParameters: ["code": pinCodeTextField.text ?? ""])
+                             withParameters: ["code": ""])
         { (success: Any?, error: Error?) in
             hudError.hide(animated: true)
             if error != nil {
@@ -98,24 +98,24 @@ class ValidateCodeViewController: UIViewController {
     }
 }
 
-extension ValidateCodeViewController : PinCodeTextFieldDelegate {
-
-    func textFieldValueChanged(_ textField: PinCodeTextField) {
-        if ((textField.text?.count)! < 6) {
-            self.btnValidate.isEnabled = false
-        } else {
-            self.btnValidate.isEnabled = true
-        }
-    }
-
-    func textFieldDidEndEditing(_ textField: PinCodeTextField) {
-        // called when pinCodeTextField did end editing
-        self.btnValidate.isEnabled = true
-    }
-
-    func textFieldShouldReturn(_ textField: PinCodeTextField) -> Bool {
-        // called when 'return' key pressed. return false to ignore.
-        return true
-    }
-
-}
+//extension ValidateCodeViewController : PinCodeTextFieldDelegate {
+//
+//    func textFieldValueChanged(_ textField: PinCodeTextField) {
+//        if ((textField.text?.count)! < 6) {
+//            self.btnValidate.isEnabled = false
+//        } else {
+//            self.btnValidate.isEnabled = true
+//        }
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: PinCodeTextField) {
+//        // called when pinCodeTextField did end editing
+//        self.btnValidate.isEnabled = true
+//    }
+//
+//    func textFieldShouldReturn(_ textField: PinCodeTextField) -> Bool {
+//        // called when 'return' key pressed. return false to ignore.
+//        return true
+//    }
+//
+//}

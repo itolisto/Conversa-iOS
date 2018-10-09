@@ -12,8 +12,8 @@
 @import UserNotifications;
 #import "EDQueue.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, ARTPushRegistererDelegate, UNUserNotificationCenterDelegate>
-
+@interface AppDelegate : UIResponder <UIApplicationDelegate, EDQueueDelegate, UNUserNotificationCenterDelegate>
+    //ARTPushRegistererDelegate
 @property (strong, nonatomic) UIWindow *window;
 
 @end

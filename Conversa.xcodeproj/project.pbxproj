@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		22958087C107A764F2D850F4 /* Pods_Conversa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1EB0991693E08B742146D18 /* Pods_Conversa.framework */; };
+		4642552A216C291900390A2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46425529216C291900390A2E /* Assets.xcassets */; };
+		46425536216C294D00390A2E /* Inter-UI-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4642552E216C294C00390A2E /* Inter-UI-RegularItalic.otf */; };
+		46425537216C294D00390A2E /* Inter-UI-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4642552F216C294C00390A2E /* Inter-UI-BoldItalic.otf */; };
+		46425538216C294D00390A2E /* Inter-UI-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425530216C294C00390A2E /* Inter-UI-Bold.otf */; };
+		46425539216C294D00390A2E /* Inter-UI-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425531216C294C00390A2E /* Inter-UI-MediumItalic.otf */; };
+		4642553A216C294D00390A2E /* Inter-UI-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425532216C294D00390A2E /* Inter-UI-BlackItalic.otf */; };
+		4642553B216C294D00390A2E /* Inter-UI-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425533216C294D00390A2E /* Inter-UI-Medium.otf */; };
+		4642553C216C294D00390A2E /* Inter-UI-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425534216C294D00390A2E /* Inter-UI-Regular.otf */; };
+		4642553D216C294D00390A2E /* Inter-UI-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 46425535216C294D00390A2E /* Inter-UI-Black.otf */; };
+		4642553E216C321D00390A2E /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906101D6FE7080018D74C /* CategoryViewController.m */; };
 		A516547D1FCCE36500ABCB28 /* SPLaunchAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516547C1FCCE36500ABCB28 /* SPLaunchAnimation.swift */; };
 		A51654801FD0BD3C00ABCB28 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A516547F1FD0BD3C00ABCB28 /* FavoritesViewController.swift */; };
 		A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51654861FD0BFA500ABCB28 /* FavoriteCollectionCell.swift */; };
@@ -20,7 +30,6 @@
 		A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906001D6FE7080018D74C /* AudioMediaItem.m */; };
 		A529068E1D6FE7080018D74C /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = A529060A1D6FE7080018D74C /* Camera.m */; };
 		A52906901D6FE7080018D74C /* CategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A529060E1D6FE7080018D74C /* CategoriesViewController.m */; };
-		A52906911D6FE7080018D74C /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906101D6FE7080018D74C /* CategoryViewController.m */; };
 		A52906921D6FE7080018D74C /* ChatSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906121D6FE7080018D74C /* ChatSettingsViewController.m */; };
 		A52906931D6FE7080018D74C /* ChatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906141D6FE7080018D74C /* ChatsViewController.m */; };
 		A52906941D6FE7080018D74C /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906161D6FE7080018D74C /* Colors.m */; };
@@ -60,7 +69,6 @@
 		A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906801D6FE7080018D74C /* YapDatabaseObject.m */; };
 		A52906CE1D6FE7080018D74C /* YapMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906821D6FE7080018D74C /* YapMessage.m */; };
 		A52906CF1D6FE7080018D74C /* YapSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = A52906841D6FE7080018D74C /* YapSearch.m */; };
-		A54154E61FA1BF2000753012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A54154E51FA1BF2000753012 /* Assets.xcassets */; };
 		A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A54703CA1E2753E30090A073 /* ChatNavBarView.xib */; };
 		A547C8701E109E1800ECC891 /* UIStateButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A547C86F1E109E1800ECC891 /* UIStateButton.m */; };
 		A55B5D181D53C8F300AA576A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A55B5D171D53C8F300AA576A /* main.m */; };
@@ -93,8 +101,6 @@
 		A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D4A4FD1F6A9E8100AA5666 /* ValidateCodeViewController.swift */; };
 		A5D4F9291E6DF2C00078F31C /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D4F9281E6DF2C00078F31C /* HelpViewController.m */; };
 		A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */; };
-		A5D81D871F9700E50004A561 /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D81D851F96DAF70004A561 /* HockeySDK.framework */; };
-		A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A5D81D861F96DAF70004A561 /* HockeySDKResources.bundle */; };
 		A5D81D931F971AE30004A561 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D81D921F971AE30004A561 /* NotificationService.swift */; };
 		A5D81D971F971AE30004A561 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5D81D901F971AE30004A561 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A5FB42A11F6C53EC0045DFFB /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB42A01F6C53EC0045DFFB /* SweetAlert.swift */; };
@@ -125,6 +131,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		46425529216C291900390A2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4642552E216C294C00390A2E /* Inter-UI-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-RegularItalic.otf"; sourceTree = "<group>"; };
+		4642552F216C294C00390A2E /* Inter-UI-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BoldItalic.otf"; sourceTree = "<group>"; };
+		46425530216C294C00390A2E /* Inter-UI-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Bold.otf"; sourceTree = "<group>"; };
+		46425531216C294C00390A2E /* Inter-UI-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-MediumItalic.otf"; sourceTree = "<group>"; };
+		46425532216C294D00390A2E /* Inter-UI-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-BlackItalic.otf"; sourceTree = "<group>"; };
+		46425533216C294D00390A2E /* Inter-UI-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Medium.otf"; sourceTree = "<group>"; };
+		46425534216C294D00390A2E /* Inter-UI-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Regular.otf"; sourceTree = "<group>"; };
+		46425535216C294D00390A2E /* Inter-UI-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-UI-Black.otf"; sourceTree = "<group>"; };
 		889B71B8015672A28D2B9B53 /* Pods-Conversa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Conversa.release.xcconfig"; path = "Pods/Target Support Files/Pods-Conversa/Pods-Conversa.release.xcconfig"; sourceTree = "<group>"; };
 		A51441B21DE6268E00DD4373 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A516547C1FCCE36500ABCB28 /* SPLaunchAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPLaunchAnimation.swift; sourceTree = "<group>"; };
@@ -224,7 +239,6 @@
 		A52906821D6FE7080018D74C /* YapMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapMessage.m; sourceTree = "<group>"; };
 		A52906831D6FE7080018D74C /* YapSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YapSearch.h; sourceTree = "<group>"; };
 		A52906841D6FE7080018D74C /* YapSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YapSearch.m; sourceTree = "<group>"; };
-		A54154E51FA1BF2000753012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A54703CA1E2753E30090A073 /* ChatNavBarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatNavBarView.xib; sourceTree = "<group>"; };
 		A547C86E1E109E1800ECC891 /* UIStateButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIStateButton.h; sourceTree = "<group>"; };
 		A547C86F1E109E1800ECC891 /* UIStateButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIStateButton.m; sourceTree = "<group>"; };
@@ -249,7 +263,6 @@
 		A5774C152005E63C004B3E4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Favoritevt.storyboard; sourceTree = "<group>"; };
 		A5774C172005EB1D004B3E4D /* CustomFixedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFixedCell.swift; sourceTree = "<group>"; };
 		A57CAE5A1E8C35D50025D0A4 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
-		A59307481E5FBFB700083665 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = es; path = es.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A59544541E09E340002057B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A59544561E09E342002057B9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A59F4CDF1DD786FA005491B2 /* ParseValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseValidation.h; sourceTree = "<group>"; };
@@ -295,7 +308,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5D81D871F9700E50004A561 /* HockeySDK.framework in Frameworks */,
 				22958087C107A764F2D850F4 /* Pods_Conversa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +329,21 @@
 				C1EB0991693E08B742146D18 /* Pods_Conversa.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4642552D216C293F00390A2E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				46425535216C294D00390A2E /* Inter-UI-Black.otf */,
+				46425532216C294D00390A2E /* Inter-UI-BlackItalic.otf */,
+				46425530216C294C00390A2E /* Inter-UI-Bold.otf */,
+				4642552F216C294C00390A2E /* Inter-UI-BoldItalic.otf */,
+				46425533216C294D00390A2E /* Inter-UI-Medium.otf */,
+				46425531216C294C00390A2E /* Inter-UI-MediumItalic.otf */,
+				46425534216C294D00390A2E /* Inter-UI-Regular.otf */,
+				4642552E216C294C00390A2E /* Inter-UI-RegularItalic.otf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		4A3B691DFDC9721D6C11C833 /* Pods */ = {
@@ -433,6 +460,7 @@
 			children = (
 				A52905F61D6FE7080018D74C /* Classes */,
 				A55B5D151D53C8F300AA576A /* Conversa */,
+				4642552D216C293F00390A2E /* Resources */,
 				A5D81D911F971AE30004A561 /* NotificationService */,
 				A55B5D141D53C8F300AA576A /* Products */,
 				4A3B691DFDC9721D6C11C833 /* Pods */,
@@ -456,10 +484,10 @@
 				A55B5D191D53C8F300AA576A /* AppDelegate.h */,
 				A55B5D1A1D53C8F300AA576A /* AppDelegate.m */,
 				A5F78A8C1D6FF51000A3ADD8 /* Conversa-Bridging-Header.h */,
-				A54154E51FA1BF2000753012 /* Assets.xcassets */,
 				A55B5D2A1D53C8F300AA576A /* Info.plist */,
 				A5D5F3C11E1656E3006F7885 /* sound_notification.mp3 */,
 				A5698FFD1F6B73A200C8805F /* gifCode.gif */,
+				46425529216C291900390A2E /* Assets.xcassets */,
 				A55B5D161D53C8F300AA576A /* Supporting Files */,
 				A5A7DDF01DD5692600E0D242 /* Strings */,
 			);
@@ -850,20 +878,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4642553D216C294D00390A2E /* Inter-UI-Black.otf in Resources */,
 				A5698FF41F6B634500C8805F /* Tutorial.storyboard in Resources */,
 				A5774C122005E639004B3E4D /* Favoritevt.storyboard in Resources */,
+				46425538216C294D00390A2E /* Inter-UI-Bold.otf in Resources */,
 				A5698FFC1F6B6B6B00C8805F /* Code.storyboard in Resources */,
 				A59307441E5FBAE300083665 /* Main.storyboard in Resources */,
+				4642553B216C294D00390A2E /* Inter-UI-Medium.otf in Resources */,
+				46425539216C294D00390A2E /* Inter-UI-MediumItalic.otf in Resources */,
+				4642552A216C291900390A2E /* Assets.xcassets in Resources */,
 				A59307451E5FBAE300083665 /* LaunchScreen.storyboard in Resources */,
 				A59307461E5FBAE300083665 /* InfoPlist.strings in Resources */,
+				46425536216C294D00390A2E /* Inter-UI-RegularItalic.otf in Resources */,
 				A59307471E5FBAE300083665 /* Localizable.strings in Resources */,
-				A54154E61FA1BF2000753012 /* Assets.xcassets in Resources */,
+				4642553A216C294D00390A2E /* Inter-UI-BlackItalic.otf in Resources */,
 				A54703CB1E2753E30090A073 /* ChatNavBarView.xib in Resources */,
-				A5D81D891F9701060004A561 /* HockeySDKResources.bundle in Resources */,
+				4642553C216C294D00390A2E /* Inter-UI-Regular.otf in Resources */,
 				A5698FFE1F6B73A200C8805F /* gifCode.gif in Resources */,
 				A52906AE1D6FE7080018D74C /* MapView.xib in Resources */,
 				A5D5F3C21E1656E3006F7885 /* sound_notification.mp3 in Resources */,
 				A5698FF91F6B6B4400C8805F /* Login.storyboard in Resources */,
+				46425537216C294D00390A2E /* Inter-UI-BoldItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,7 +958,6 @@
 				"${BUILT_PRODUCTS_DIR}/Mantle/Mantle.framework",
 				"${BUILT_PRODUCTS_DIR}/OHQBImagePicker/OHQBImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/Parse/Parse.framework",
-				"${BUILT_PRODUCTS_DIR}/PinCodeTextField/PinCodeTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/Reachability/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SAMKeychain/SAMKeychain.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -960,7 +994,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mantle.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OHQBImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinCodeTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SAMKeychain.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -991,7 +1024,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which bartycrouch > /dev/null; then\n    # Incrementally update all Storyboards/XIBs strings files\n    bartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n    # Add new keys to Localizable.strings files from NSLocalizedString in code\n    bartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/Conversa\" -a -s\nelse\n    echo \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi";
+			shellScript = "if which bartycrouch > /dev/null; then\n    # Incrementally update all Storyboards/XIBs strings files\n    bartycrouch interfaces -p \"$PROJECT_DIR/Classes\"\n    # Add new keys to Localizable.strings files from NSLocalizedString in code\n    bartycrouch code -p \"$PROJECT_DIR/Classes\" -l \"$PROJECT_DIR/Conversa\" -a -s\nelse\n    echo \"warning: BartyCrouch not installed, download it from https://github.com/Flinesoft/BartyCrouch\"\nfi\n";
 		};
 		A59F07B81FEEF51400B2F0D7 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1005,7 +1038,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 617c5ff8d2055123134c25a4b496d078123ef1da acd30b9815f90645e328cf824aae7e4605bd0daefd1bda53d49ebdad806b89a1\n";
 		};
 		CA47D9CC57967D9C50FB242A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1032,13 +1065,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4642553E216C321D00390A2E /* CategoryViewController.m in Sources */,
 				A5D4A4FE1F6A9E8100AA5666 /* ValidateCodeViewController.swift in Sources */,
 				A5D4A4FC1F6A9E6E00AA5666 /* GetCodeViewController.swift in Sources */,
 				A52906C11D6FE7080018D74C /* SettingsKeys.m in Sources */,
 				A52906961D6FE7080018D74C /* ContentViewController.swift in Sources */,
 				A52906891D6FE7080018D74C /* AudioMediaItem.m in Sources */,
 				A51654871FD0BFA500ABCB28 /* FavoriteCollectionCell.swift in Sources */,
-				A52906911D6FE7080018D74C /* CategoryViewController.m in Sources */,
 				A52906CB1D6FE7080018D74C /* YapAccount.m in Sources */,
 				A52906CD1D6FE7080018D74C /* YapDatabaseObject.m in Sources */,
 				A52906AA1D6FE7080018D74C /* LoginHandler.m in Sources */,
@@ -1131,7 +1164,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				A55B5D231D53C8F300AA576A /* Base */,
-				A59307481E5FBFB700083665 /* es */,
 			);
 			name = Main.storyboard;
 			path = ../Conversa;
@@ -1233,7 +1265,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1281,7 +1313,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1310,10 +1342,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Conversa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1322,7 +1351,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\"";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1342,10 +1371,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = K5WP7YH5E4;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/HockeySDK-iOS/HockeySDK.embeddedframework",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = Conversa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1353,7 +1379,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversa;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Conversa/Conversa-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(PROJECT_DIR)/Classes\" \"${PODS_ROOT}/Headers/Public\" \"${PODS_ROOT}/Headers/Public/Buglife\" \"${PODS_ROOT}/Headers/Public/Crashlytics\" \"${PODS_ROOT}/Headers/Public/Fabric\" \"${PODS_ROOT}/Headers/Public/GoogleMaps\"";
 			};
 			name = Release;
@@ -1386,7 +1412,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1416,7 +1442,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ee.app.conversa.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

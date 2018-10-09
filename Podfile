@@ -48,7 +48,7 @@ target 'Conversa' do
     # OneSignal
     pod 'OneSignal', '2.8.8'
     # Simple pin code text input with underlined space for characters.
-    pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
+    # pod 'PinCodeTextField', :git => "https://github.com/tkach/PinCodeTextField"
     #
     pod 'Reachability', '3.2'
     # Simple Objective-C wrapper for the keychain that works on Mac and iOS

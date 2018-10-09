@@ -25,8 +25,8 @@
 #import "NSFileManager+Conversa.h"
 #import "NotificationPermissions.h"
 #import "ConversationViewController.h"
+
 #import <Fabric/Fabric.h>
-#import <HockeySDK/HockeySDK.h>
 #import <Taplytics/Taplytics.h>
 #import <Crashlytics/Crashlytics.h>
 #import <AFNetworking/AFNetworking.h>
@@ -62,10 +62,6 @@
                                          withAppVersion:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
 
         [Flurry startSession:@"YZZTYPJ7FPZWXT2CJZVQ" withSessionBuilder:builder];
-
-        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"6c4c622531124498b180d7faab50093f"];
-        [[BITHockeyManager sharedHockeyManager] startManager];
-        [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
 
         [Taplytics startTaplyticsAPIKey:@"1a214e395c9db615a2cf2819a576bd9f17372ca5"];
 
@@ -297,47 +293,47 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken succeded");
-        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
-    }
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        DDLogError(@"didRegisterForRemoteNotificationsWithDeviceToken succeded");
+//        [ARTPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken realtime:ably];
+//    }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
-    if (ably) {
-        DDLogError(@"didFailToRegisterForRemoteNotificationsWithError");
-        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
-    }
+//    ARTRealtime *ably = [[CustomAblyRealtime sharedInstance] getAblyRealtime];
+//    if (ably) {
+//        DDLogError(@"didFailToRegisterForRemoteNotificationsWithError");
+//        [ARTPush didFailToRegisterForRemoteNotificationsWithError:error realtime:ably];
+//    }
 }
 
-#pragma mark - ARTPushRegistererDelegate Methods -
-
--(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didActivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didActivateAblyPush succeded");
-        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
-    }
-}
-
--(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
-    } else {
-        DDLogError(@"didDeactivateAblyPush succeded");
-    }
-}
-
--(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
-    if (error) {
-        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
-    } else {
-        DDLogError(@"didAblyPushRegistrationFail succeded");
-    }
-}
+//#pragma mark - ARTPushRegistererDelegate Methods -
+//
+//-(void)didActivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didActivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didActivateAblyPush succeded");
+//        [[CustomAblyRealtime sharedInstance] subscribeToPushNotifications];
+//    }
+//}
+//
+//-(void)didDeactivateAblyPush:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didDeactivateAblyPush fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didDeactivateAblyPush succeded");
+//    }
+//}
+//
+//-(void)didAblyPushRegistrationFail:(nullable ARTErrorInfo *)error {
+//    if (error) {
+//        DDLogError(@"didAblyPushRegistrationFail fail: --> %@", error);
+//    } else {
+//        DDLogError(@"didAblyPushRegistrationFail succeded");
+//    }
+//}
 
 #pragma mark - Taplytics Methods -
 
@@ -378,7 +374,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
     BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
     return handledByBranch;
 }

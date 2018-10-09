@@ -107,9 +107,9 @@ public extension SPLaunchAnimation {
         let startTime = CACurrentMediaTime() + delay
         scaleAnimation.beginTime = startTime
         scaleAnimation.isRemovedOnCompletion = false
-        scaleAnimation.fillMode = kCAFillModeForwards
+        scaleAnimation.fillMode = CAMediaTimingFillMode.forwards
         scaleAnimation.timingFunctions = [
-            CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut),
+            CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut),
             self.scalingToFrontTimingFunction
         ]
         rootViewController.view.layer.mask?.add(scaleAnimation, forKey: "maskScaleAnimation")
@@ -209,9 +209,9 @@ public extension SPLaunchAnimation {
         let startTime = CACurrentMediaTime() + delay
         scaleAnimation.beginTime = startTime
         scaleAnimation.isRemovedOnCompletion = false
-        scaleAnimation.fillMode = kCAFillModeForwards
+        scaleAnimation.fillMode = CAMediaTimingFillMode.forwards
         scaleAnimation.timingFunctions = [
-            CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut),
+            CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut),
             self.scalingToFrontTimingFunction
         ]
         rootViewController.view.layer.mask?.add(scaleAnimation, forKey: "maskScaleAnimation")

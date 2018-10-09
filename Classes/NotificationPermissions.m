@@ -92,6 +92,21 @@
                     });
                 }
                     break;
+                case UNAuthorizationStatusProvisional: {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Possibly display something to the user
+                        UIAlertController *useNotificationsController = [UIAlertController alertControllerWithTitle:@"Turn on notifications" message:@"This app needs notifications turned on for the best user experience" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction *goToSettingsAction = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            
+                        }];
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+                        [useNotificationsController addAction:goToSettingsAction];
+                        [useNotificationsController addAction:cancelAction];
+                        [((AppDelegate*)[UIApplication sharedApplication].delegate).window.rootViewController presentViewController:useNotificationsController animated:true completion:nil];
+                        NSLog(@"We cannot use notifications because is status is provisional");
+                    });
+                }
+                    break;
             }
         }];
     } else if ((systemVersion < 10) || (systemVersion >= 8)) {

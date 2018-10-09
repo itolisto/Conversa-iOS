@@ -56,6 +56,7 @@
 #import <YapDatabase/YapDatabaseView.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <JSQSystemSoundPlayer/JSQSystemSoundPlayer.h>
 
 #import "Conversa-Swift.h"
 
@@ -1724,12 +1725,14 @@
                     [self.subTitle setText:self.lastStatus];
                     [self finishReceivingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:YES]) {
-                        [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
+                        // TODO: Replace with sound
+                        //[JSQSystemSoundPlayer jsq_playMessageReceivedSound];
                     }
                 } else {
                     [self finishSendingMessage];
                     if ([SettingsKeys getMessageSoundIncoming:NO]) {
-                        [JSQSystemSoundPlayer jsq_playMessageSentSound];
+                        // TODO: Replace with sound
+                        //[JSQSystemSoundPlayer jsq_playMessageSentSound];
                     }
                 }
             }
